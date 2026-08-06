@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AMAC Circular Economy Tracker</title>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+</head>
+<body class="bg-gradient-to-b from-[#eaf7ee] via-white to-white text-neutral-900 min-h-screen">
+    <div class="h-1.5 w-full bg-gradient-to-r from-[#0f7a3d] via-[#1a9650] to-[#c98500]"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        @if (session('status'))
+            <div class="mb-6 rounded-lg bg-[#0f7a3d]/10 border border-[#0f7a3d]/30 text-[#0b5c2e] text-sm px-4 py-3">
+                {{ session('status') }}
+            </div>
+        @endif
+
+        {{-- Hero banner --}}
+        <header class="relative mb-8 rounded-2xl bg-gradient-to-br from-[#0f7a3d] via-[#177a44] to-[#c98500] shadow-xl shadow-[#0f7a3d]/20 px-6 py-7 sm:px-8 sm:py-8 overflow-hidden">
+            <div class="absolute -top-16 -right-10 w-64 h-64 rounded-full bg-white/10 blur-2xl"></div>
+            <div class="absolute -bottom-20 left-1/3 w-72 h-72 rounded-full bg-[#c98500]/20 blur-3xl"></div>
+
+            <div class="relative flex flex-col sm:flex-row items-center gap-6">
+                <div class="w-14 h-14 shrink-0 rounded-2xl bg-white/15 ring-1 ring-white/30 flex items-center justify-center backdrop-blur-sm">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" class="w-7 h-7">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5M16.5 3.5a3 3 0 0 1 3 3v1M20.5 9.5v3a3 3 0 0 1-3 3M13.5 20.5h-3a3 3 0 0 1-3-3v-1" />
+                    </svg>
+                </div>
+
+                <div class="flex-1 text-center sm:text-left">
+                    <h1 class="text-xl sm:text-2xl font-semibold text-white">AMAC Circular Economy Tracker</h1>
+                    <p class="text-sm text-white/85 mt-1 max-w-2xl">
+                        Recyclable materials collected from ministries, counties and commissions.
+                    </p>
+                </div>
+
+                <a href="{{ route('collections.create') }}" class="shrink-0 inline-flex items-center gap-2 px-5 py-3 rounded-lg bg-white text-[#0b5c2e] text-sm font-semibold hover:bg-white/90 transition-colors shadow-sm">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                    </svg>
+                    New Collection
+                </a>
+            </div>
+        </header>
+
+        {{-- Stat cards --}}
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+            <x-stat-tile label="Total Submissions" icon="document" tone="green" :value="number_format($totalSubmissions)" />
+            <x-stat-tile label="Total Weight Collected" icon="scale" tone="gold" :value="number_format($totalKg, 1).' kg'" />
+            <x-stat-tile label="This Month" icon="calendar" tone="green" :value="number_format($thisMonthKg, 1).' kg'" />
+            <x-stat-tile label="Participating Entities" icon="building" tone="gold" :value="number_format($entityCount)" />
+        </div>
+
+        {{-- Breakdown by material --}}
+        <section class="mb-8 bg-white border border-neutral-200 rounded-xl p-5 shadow-sm">
+            <h2 class="text-sm font-semibold uppercase tracking-wide mb-4 border-l-4 border-[#0f7a3d] pl-3 text-neutral-600">
+                Collected by Material Type
+            </h2>
+            @if ($byMaterial->isEmpty() || $byMaterial->sum('kg') == 0)
+                <p class="text-sm text-neutral-400">No collections recorded yet.</p>
+            @else
+                <div class="space-y-3">
+                    @php $maxKg = $byMaterial->max('kg'); @endphp
+                    @foreach ($byMaterial as $row)
+                        <x-material-bar :label="$row['label']" :kg="$row['kg']" :max-kg="$maxKg" />
+                    @endforeach
+                </div>
+            @endif
+        </section>
+
+        {{-- Breakdown by entity --}}
+        <section class="mb-8 bg-white border border-neutral-200 rounded-xl overflow-hidden shadow-sm">
+            <h2 class="text-sm font-semibold uppercase tracking-wide mt-5 mb-4 border-l-4 border-[#c98500] pl-3 text-neutral-600 mx-5">
+                Top Contributing Entities
+            </h2>
+            <table class="w-full text-sm">
+                <thead class="bg-[#f7edd6] text-left text-neutral-600">
+                    <tr>
+                        <th class="px-5 py-2 font-medium">Ministry / County / Commission</th>
+                        <th class="px-5 py-2 font-medium text-right">Submissions</th>
+                        <th class="px-5 py-2 font-medium text-right">Total Kg</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-neutral-100">
+                    @forelse ($byEntity as $row)
+                        <tr class="hover:bg-neutral-50 transition-colors">
+                            <td class="px-5 py-2.5 font-medium">{{ $row->entity_name }}</td>
+                            <td class="px-5 py-2.5 text-right tabular-nums text-neutral-500">{{ number_format($row->submissions) }}</td>
+                            <td class="px-5 py-2.5 text-right tabular-nums font-medium">{{ number_format($row->total_kg, 1) }}</td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="3" class="px-5 py-8 text-center text-neutral-400">No collections recorded yet.</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </section>
+
+        {{-- Recent submissions --}}
+        <section>
+            <h2 class="text-sm font-semibold uppercase tracking-wide mb-3 border-l-4 border-[#0f7a3d] pl-3 text-neutral-600">
+                Recent Submissions ({{ number_format($recent->total()) }})
+            </h2>
+            <div class="bg-white border border-neutral-200 rounded-xl overflow-hidden shadow-sm overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead class="bg-[#0f7a3d]/5 text-left text-neutral-500">
+                        <tr>
+                            <th class="px-4 py-2 font-medium">Entity</th>
+                            <th class="px-4 py-2 font-medium">Contact</th>
+                            <th class="px-4 py-2 font-medium text-right">Total Kg</th>
+                            <th class="px-4 py-2 font-medium">Date</th>
+                            <th class="px-4 py-2 font-medium">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-neutral-100">
+                        @forelse ($recent as $collection)
+                            <tr class="hover:bg-neutral-50 transition-colors">
+                                <td class="px-4 py-3 font-medium max-w-xs">
+                                    <div class="line-clamp-2">{{ $collection->entity_name }}</div>
+                                </td>
+                                <td class="px-4 py-3 whitespace-nowrap text-neutral-500">{{ $collection->contact_person_name }}</td>
+                                <td class="px-4 py-3 text-right tabular-nums whitespace-nowrap font-medium">{{ number_format($collection->totalKg(), 1) }}</td>
+                                <td class="px-4 py-3 whitespace-nowrap text-neutral-500">{{ $collection->collection_date->format('d M Y') }}</td>
+                                <td class="px-4 py-3 whitespace-nowrap">
+                                    <a href="{{ route('collections.show', $collection) }}" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-md bg-[#0f7a3d]/10 text-[#0b5c2e] text-xs font-medium hover:bg-[#0f7a3d]/20 transition-colors">
+                                        View
+                                    </a>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="5" class="px-4 py-8 text-center text-neutral-400">No collections recorded yet.</td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="mt-4">
+                {{ $recent->links() }}
+            </div>
+        </section>
+    </div>
+</body>
+</html>
