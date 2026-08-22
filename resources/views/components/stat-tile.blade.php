@@ -2,9 +2,10 @@
 
 @php
     $tones = [
-        'green' => ['icon' => 'bg-[#0f7a3d]/10 text-[#0f7a3d]', 'border' => 'border-t-[#0f7a3d]'],
-        'gold' => ['icon' => 'bg-[#c98500]/15 text-[#8a5a00]', 'border' => 'border-t-[#c98500]'],
-        'slate' => ['icon' => 'bg-neutral-200/60 text-neutral-500', 'border' => 'border-t-neutral-300'],
+        'green' => ['grad' => 'from-[#0f7a3d] to-[#0a5228]', 'glow' => 'rgba(15,122,61,.35)'],
+        'gold' => ['grad' => 'from-[#c98500] to-[#7a5100]', 'glow' => 'rgba(201,133,0,.35)'],
+        'teal' => ['grad' => 'from-[#0093b3] to-[#00566b]', 'glow' => 'rgba(0,147,179,.35)'],
+        'violet' => ['grad' => 'from-[#7a4fa0] to-[#4f3268]', 'glow' => 'rgba(122,79,160,.35)'],
     ];
     $style = $tones[$tone] ?? $tones['green'];
 
@@ -23,28 +24,32 @@
 <{{ $tag }}
     @if ($href) href="{{ $href }}" @endif
     @class([
-        'group relative block rounded-xl border border-neutral-200 border-t-4 bg-white p-4 shadow-sm transition-all',
-        $style['border'],
-        'hover:shadow-md hover:-translate-y-0.5' => $href,
+        'group relative block overflow-hidden rounded-2xl bg-gradient-to-br p-5 shadow-lg transition-all',
+        $style['grad'],
+        'hover:-translate-y-1' => $href,
     ])
+    style="box-shadow: 0 16px 32px -14px {{ $style['glow'] }}"
 >
-    <div class="flex items-center justify-between">
+    <div class="absolute -top-8 -right-8 w-28 h-28 rounded-full bg-white/10 blur-2xl"></div>
+    <div class="absolute -bottom-10 -left-6 w-24 h-24 rounded-full bg-white/5 blur-2xl"></div>
+
+    <div class="relative flex items-center justify-between">
         <div class="flex items-center gap-3">
-            <div class="w-9 h-9 shrink-0 rounded-lg flex items-center justify-center {{ $style['icon'] }}">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="w-5 h-5">
+            <div class="w-9 h-9 shrink-0 rounded-lg bg-white/15 ring-1 ring-white/25 backdrop-blur-sm flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" class="w-5 h-5">
                     {!! $icons !!}
                 </svg>
             </div>
-            <p class="text-sm text-neutral-500">{{ $label }}</p>
+            <p class="text-sm text-white/85">{{ $label }}</p>
         </div>
         @if ($href)
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4 text-neutral-300 group-hover:text-neutral-500 transition-colors shrink-0">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4 text-white/50 group-hover:text-white/80 transition-colors shrink-0">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
             </svg>
         @endif
     </div>
-    <p class="mt-3 text-2xl font-semibold text-neutral-900 tabular-nums">{{ $value }}</p>
+    <p class="relative mt-3 text-2xl font-semibold text-white tabular-nums">{{ $value }}</p>
     @if ($hint)
-        <p class="mt-1 text-xs text-neutral-400">{{ $hint }}</p>
+        <p class="relative mt-1 text-xs text-white/60">{{ $hint }}</p>
     @endif
 </{{ $tag }}>

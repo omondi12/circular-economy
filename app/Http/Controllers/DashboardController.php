@@ -25,6 +25,7 @@ class DashboardController extends Controller
 
         $byMaterial = collect(Collection::MATERIALS)
             ->map(fn (string $label, string $column) => [
+                'key' => $column,
                 'label' => $label,
                 'kg' => (float) Collection::sum($column),
             ])

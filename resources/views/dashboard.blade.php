@@ -60,13 +60,13 @@
                 :href="route('materials.index')"
             />
             <x-stat-tile
-                label="This Month" icon="calendar" tone="green"
+                label="This Month" icon="calendar" tone="teal"
                 :value="number_format($thisMonthKg, 1).' kg'"
                 hint="Tap to see this month's submissions"
                 :href="$monthRangeHref"
             />
             <x-stat-tile
-                label="Participating Entities" icon="building" tone="gold"
+                label="Participating Entities" icon="building" tone="violet"
                 :value="number_format($entityCount)"
                 hint="Tap to see every entity"
                 :href="route('entities.index')"
@@ -74,26 +74,30 @@
         </div>
 
         {{-- Breakdown by material --}}
-        <section class="mb-8 bg-white border border-neutral-200 rounded-xl p-5 shadow-sm">
-            <div class="flex items-center justify-between mb-4">
-                <h2 class="text-sm font-semibold uppercase tracking-wide border-l-4 border-[#0f7a3d] pl-3 text-neutral-600">
-                    Collected by Material Type
-                </h2>
-                <a href="{{ route('materials.index') }}" class="text-xs font-medium text-[#0f7a3d] hover:text-[#0b5c2e] transition-colors">
-                    View full breakdown &rarr;
-                </a>
-            </div>
-            @if ($byMaterial->isEmpty() || $byMaterial->sum('kg') == 0)
-                <p class="text-sm text-neutral-400">No collections recorded yet.</p>
-            @else
-                <div class="space-y-3">
-                    @php $maxKg = $byMaterial->max('kg'); @endphp
-                    @foreach ($byMaterial as $row)
-                        <x-material-bar :label="$row['label']" :kg="$row['kg']" :max-kg="$maxKg" />
-                    @endforeach
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-8">
+            <x-material-breakdown-chart :materials="$byMaterial" :total="$byMaterial->sum('kg')" />
+
+            <section class="bg-white border border-neutral-200 rounded-xl p-5 shadow-sm">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-sm font-semibold uppercase tracking-wide border-l-4 border-[#0f7a3d] pl-3 text-neutral-600">
+                        Ranked by Weight
+                    </h2>
+                    <a href="{{ route('materials.index') }}" class="text-xs font-medium text-[#0f7a3d] hover:text-[#0b5c2e] transition-colors">
+                        View full breakdown &rarr;
+                    </a>
                 </div>
-            @endif
-        </section>
+                @if ($byMaterial->isEmpty() || $byMaterial->sum('kg') == 0)
+                    <p class="text-sm text-neutral-400">No collections recorded yet.</p>
+                @else
+                    <div class="space-y-3">
+                        @php $maxKg = $byMaterial->max('kg'); @endphp
+                        @foreach ($byMaterial as $row)
+                            <x-material-bar :label="$row['label']" :kg="$row['kg']" :max-kg="$maxKg" />
+                        @endforeach
+                    </div>
+                @endif
+            </section>
+        </div>
 
         {{-- Breakdown by entity --}}
         <section class="mb-8 bg-white border border-neutral-200 rounded-xl overflow-hidden shadow-sm">
