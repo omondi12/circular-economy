@@ -1,4 +1,4 @@
-@props(['label', 'value', 'hint' => null, 'icon' => 'scale', 'tone' => 'green'])
+@props(['label', 'value', 'hint' => null, 'icon' => 'scale', 'tone' => 'green', 'href' => null])
 
 @php
     $tones = [
@@ -16,17 +16,35 @@
     ][$icon] ?? '';
 @endphp
 
-<div class="rounded-xl border border-neutral-200 border-t-4 {{ $style['border'] }} bg-white p-4 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all">
-    <div class="flex items-center gap-3">
-        <div class="w-9 h-9 shrink-0 rounded-lg flex items-center justify-center {{ $style['icon'] }}">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="w-5 h-5">
-                {!! $icons !!}
-            </svg>
+@php
+    $tag = $href ? 'a' : 'div';
+@endphp
+
+<{{ $tag }}
+    @if ($href) href="{{ $href }}" @endif
+    @class([
+        'group relative block rounded-xl border border-neutral-200 border-t-4 bg-white p-4 shadow-sm transition-all',
+        $style['border'],
+        'hover:shadow-md hover:-translate-y-0.5' => $href,
+    ])
+>
+    <div class="flex items-center justify-between">
+        <div class="flex items-center gap-3">
+            <div class="w-9 h-9 shrink-0 rounded-lg flex items-center justify-center {{ $style['icon'] }}">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="w-5 h-5">
+                    {!! $icons !!}
+                </svg>
+            </div>
+            <p class="text-sm text-neutral-500">{{ $label }}</p>
         </div>
-        <p class="text-sm text-neutral-500">{{ $label }}</p>
+        @if ($href)
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4 text-neutral-300 group-hover:text-neutral-500 transition-colors shrink-0">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+        @endif
     </div>
     <p class="mt-3 text-2xl font-semibold text-neutral-900 tabular-nums">{{ $value }}</p>
     @if ($hint)
         <p class="mt-1 text-xs text-neutral-400">{{ $hint }}</p>
     @endif
-</div>
+</{{ $tag }}>

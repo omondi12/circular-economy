@@ -47,17 +47,42 @@
 
         {{-- Stat cards --}}
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-            <x-stat-tile label="Total Submissions" icon="document" tone="green" :value="number_format($totalSubmissions)" />
-            <x-stat-tile label="Total Weight Collected" icon="scale" tone="gold" :value="number_format($totalKg, 1).' kg'" />
-            <x-stat-tile label="This Month" icon="calendar" tone="green" :value="number_format($thisMonthKg, 1).' kg'" />
-            <x-stat-tile label="Participating Entities" icon="building" tone="gold" :value="number_format($entityCount)" />
+            <x-stat-tile
+                label="Total Submissions" icon="document" tone="green"
+                :value="number_format($totalSubmissions)"
+                hint="Tap to search or filter"
+                :href="route('collections.index')"
+            />
+            <x-stat-tile
+                label="Total Weight Collected" icon="scale" tone="gold"
+                :value="number_format($totalKg, 1).' kg'"
+                hint="Tap for the material breakdown"
+                :href="route('materials.index')"
+            />
+            <x-stat-tile
+                label="This Month" icon="calendar" tone="green"
+                :value="number_format($thisMonthKg, 1).' kg'"
+                hint="Tap to see this month's submissions"
+                :href="$monthRangeHref"
+            />
+            <x-stat-tile
+                label="Participating Entities" icon="building" tone="gold"
+                :value="number_format($entityCount)"
+                hint="Tap to see every entity"
+                :href="route('entities.index')"
+            />
         </div>
 
         {{-- Breakdown by material --}}
         <section class="mb-8 bg-white border border-neutral-200 rounded-xl p-5 shadow-sm">
-            <h2 class="text-sm font-semibold uppercase tracking-wide mb-4 border-l-4 border-[#0f7a3d] pl-3 text-neutral-600">
-                Collected by Material Type
-            </h2>
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-sm font-semibold uppercase tracking-wide border-l-4 border-[#0f7a3d] pl-3 text-neutral-600">
+                    Collected by Material Type
+                </h2>
+                <a href="{{ route('materials.index') }}" class="text-xs font-medium text-[#0f7a3d] hover:text-[#0b5c2e] transition-colors">
+                    View full breakdown &rarr;
+                </a>
+            </div>
             @if ($byMaterial->isEmpty() || $byMaterial->sum('kg') == 0)
                 <p class="text-sm text-neutral-400">No collections recorded yet.</p>
             @else
@@ -72,9 +97,14 @@
 
         {{-- Breakdown by entity --}}
         <section class="mb-8 bg-white border border-neutral-200 rounded-xl overflow-hidden shadow-sm">
-            <h2 class="text-sm font-semibold uppercase tracking-wide mt-5 mb-4 border-l-4 border-[#c98500] pl-3 text-neutral-600 mx-5">
-                Top Contributing Entities
-            </h2>
+            <div class="flex items-center justify-between mt-5 mb-4 mx-5">
+                <h2 class="text-sm font-semibold uppercase tracking-wide border-l-4 border-[#c98500] pl-3 text-neutral-600">
+                    Top Contributing Entities
+                </h2>
+                <a href="{{ route('entities.index') }}" class="text-xs font-medium text-[#0f7a3d] hover:text-[#0b5c2e] transition-colors">
+                    View all entities &rarr;
+                </a>
+            </div>
             <table class="w-full text-sm">
                 <thead class="bg-[#f7edd6] text-left text-neutral-600">
                     <tr>
@@ -101,9 +131,14 @@
 
         {{-- Recent submissions --}}
         <section>
-            <h2 class="text-sm font-semibold uppercase tracking-wide mb-3 border-l-4 border-[#0f7a3d] pl-3 text-neutral-600">
-                Recent Submissions ({{ number_format($recent->total()) }})
-            </h2>
+            <div class="flex items-center justify-between mb-3">
+                <h2 class="text-sm font-semibold uppercase tracking-wide border-l-4 border-[#0f7a3d] pl-3 text-neutral-600">
+                    Recent Submissions ({{ number_format($recent->total()) }})
+                </h2>
+                <a href="{{ route('collections.index') }}" class="text-xs font-medium text-[#0f7a3d] hover:text-[#0b5c2e] transition-colors">
+                    Search &amp; filter all &rarr;
+                </a>
+            </div>
             <div class="bg-white border border-neutral-200 rounded-xl overflow-hidden shadow-sm overflow-x-auto">
                 <table class="w-full text-sm">
                     <thead class="bg-[#0f7a3d]/5 text-left text-neutral-500">

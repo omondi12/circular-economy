@@ -10,6 +10,40 @@ use Illuminate\Validation\Validator;
 
 class CollectionController extends Controller
 {
+    /**
+     * Full, filterable submissions list - the homepage's "Recent
+     * Submissions" is an unfiltered preview of the same data; this is what
+     * the Total Submissions / This Month stat cards drill into.
+     */
+    public function index(Request $request): View
+    {
+        $filters = [
+            'entity' => $request->string('entity')->toString() ?: null,
+            'material' => $request->string('material')->toString() ?: null,
+            'from' => $request->string('from')->toString() ?: null,
+            'to' => $request->string('to')->toString() ?: null,
+        ];
+
+        $collections = Collection::query()
+            ->when($filters['entity'], fn ($q, $v) => $q->where('entity_name', 'like', "%{$v}%"))
+            ->when(
+                $filters['material'] && array_key_exists($filters['material'], Collection::MATERIALS),
+                fn ($q) => $q->where($filters['material'], '>', 0)
+            )
+            ->when($filters['from'], fn ($q, $v) => $q->whereDate('collection_date', '>=', $v))
+            ->when($filters['to'], fn ($q, $v) => $q->whereDate('collection_date', '<=', $v))
+            ->orderByDesc('collection_date')
+            ->orderByDesc('id')
+            ->paginate(25)
+            ->withQueryString();
+
+        return view('collections.index', [
+            'collections' => $collections,
+            'filters' => $filters,
+            'materials' => Collection::MATERIALS,
+        ]);
+    }
+
     public function create(): View
     {
         return view('collections.create');
