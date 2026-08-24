@@ -60,7 +60,7 @@
         </header>
 
         {{-- Stat cards --}}
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-8">
             <x-stat-tile
                 label="Total Submissions" icon="document" tone="green"
                 :value="number_format($totalSubmissions)"
@@ -84,6 +84,12 @@
                 :value="number_format($entityCount)"
                 hint="Tap to see every entity"
                 :href="route('entities.index')"
+            />
+            <x-stat-tile
+                label="By Ministry" icon="landmark" tone="rose"
+                :value="number_format($ministryParticipating)"
+                :hint="'of '.number_format($ministryTotal).' ministries - tap for the breakdown'"
+                :href="route('ministries.index')"
             />
         </div>
 

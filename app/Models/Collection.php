@@ -24,6 +24,9 @@ class Collection extends Model
         'quantity',
         'unit',
         'user_id',
+        'ministry_id',
+        'state_department_id',
+        'institution_id',
         'relationship_manager',
         'state_department',
         'department_agency',
@@ -56,6 +59,21 @@ class Collection extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function ministry(): BelongsTo
+    {
+        return $this->belongsTo(GovernmentEntity::class, 'ministry_id');
+    }
+
+    public function stateDepartmentEntity(): BelongsTo
+    {
+        return $this->belongsTo(GovernmentEntity::class, 'state_department_id');
+    }
+
+    public function institution(): BelongsTo
+    {
+        return $this->belongsTo(GovernmentEntity::class, 'institution_id');
     }
 
     /**

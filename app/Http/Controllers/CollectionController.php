@@ -26,6 +26,7 @@ class CollectionController extends Controller
             'material' => $request->string('material')->toString() ?: null,
             'lot' => $request->string('lot')->toString() ?: null,
             'category' => $request->string('category')->toString() ?: null,
+            'ministry' => $request->string('ministry')->toString() ?: null,
             'from' => $request->string('from')->toString() ?: null,
             'to' => $request->string('to')->toString() ?: null,
         ];
@@ -38,6 +39,7 @@ class CollectionController extends Controller
             )
             ->when($filters['lot'], fn ($q, $v) => $q->where('lot', $v))
             ->when($filters['category'], fn ($q, $v) => $q->where('category', $v))
+            ->when($filters['ministry'], fn ($q, $v) => $q->where('ministry_id', $v))
             ->when($filters['from'], fn ($q, $v) => $q->whereDate('collection_date', '>=', $v))
             ->when($filters['to'], fn ($q, $v) => $q->whereDate('collection_date', '<=', $v))
             ->orderByDesc('collection_date')

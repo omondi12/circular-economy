@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Collection;
+use App\Models\GovernmentEntity;
 use App\Support\WasteCategories;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Carbon;
@@ -59,6 +60,9 @@ class DashboardController extends Controller
 
         $entityCount = Collection::distinct('entity_name')->count('entity_name');
 
+        $ministryParticipating = Collection::whereNotNull('ministry_id')->distinct('ministry_id')->count('ministry_id');
+        $ministryTotal = GovernmentEntity::ministries()->count();
+
         $byWeight = self::byWeightCategories();
 
         $byLot = collect(WasteCategories::lots())->map(function (array $lot, int $lotKey) {
@@ -98,6 +102,8 @@ class DashboardController extends Controller
             'thisMonthKg' => $thisMonthKg,
             'thisMonthSubmissions' => $thisMonthSubmissions,
             'entityCount' => $entityCount,
+            'ministryParticipating' => $ministryParticipating,
+            'ministryTotal' => $ministryTotal,
             'byWeight' => $byWeight,
             'byLot' => $byLot,
             'byEntity' => $byEntity,
@@ -125,6 +131,37 @@ class DashboardController extends Controller
         return view('entities.index', [
             'entities' => $entities,
         ]);
+    }
+
+    /**
+     * Full "By Ministry" breakdown - every ministry from the master
+     * hierarchy, not just the ones with submissions so far, so this reads
+     * as coverage against the whole government rather than just a list of
+     * participants. Each row links into the filtered submissions list.
+     */
+    public function ministriesIndex(): View
+    {
+        $ministries = GovernmentEntity::ministries()
+            ->orderBy('id')
+            ->get()
+            ->map(function (GovernmentEntity $ministry) {
+                $row = Collection::where('ministry_id', $ministry->id)
+                    ->selectRaw('COUNT(*) as submissions, '.self::entityQuantitySql())
+                    ->first();
+
+                return [
+                    'id' => $ministry->id,
+                    'name' => $ministry->name,
+                    'submissions' => (int) $row->submissions,
+                    'total_kg' => (float) $row->total_kg,
+                    'total_ltr' => (float) $row->total_ltr,
+                    'total_ton' => (float) $row->total_ton,
+                ];
+            })
+            ->sortByDesc('submissions')
+            ->values();
+
+        return view('ministries.index', ['ministries' => $ministries]);
     }
 
     /**
