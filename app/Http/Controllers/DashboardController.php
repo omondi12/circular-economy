@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Collection;
+use App\Support\WasteCategories;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Carbon;
 
@@ -21,6 +22,8 @@ class DashboardController extends Controller
         $thisMonthKg = (float) Collection::whereBetween('collection_date', [$monthStart, $monthEnd])
             ->selectRaw('SUM('.self::TOTAL_KG_SQL.') as total')->value('total');
 
+        $thisMonthSubmissions = Collection::whereBetween('collection_date', [$monthStart, $monthEnd])->count();
+
         $entityCount = Collection::distinct('entity_name')->count('entity_name');
 
         $byMaterial = collect(Collection::MATERIALS)
@@ -31,6 +34,25 @@ class DashboardController extends Controller
             ])
             ->sortByDesc('kg')
             ->values();
+
+        $byLot = collect(WasteCategories::lots())->map(function (array $lot, int $lotKey) {
+            $categories = collect($lot['categories'])->map(function (array $meta, string $key) use ($lotKey) {
+                return [
+                    'key' => $key,
+                    'label' => $meta['label'],
+                    'unit' => $meta['unit'],
+                    'quantity' => (float) Collection::where('lot', $lotKey)->where('category', $key)->sum('quantity'),
+                    'submissions' => Collection::where('lot', $lotKey)->where('category', $key)->count(),
+                ];
+            })->values();
+
+            return [
+                'lot' => $lotKey,
+                'label' => $lot['short_label'],
+                'submissions' => Collection::where('lot', $lotKey)->count(),
+                'categories' => $categories,
+            ];
+        })->values();
 
         $byEntity = Collection::query()
             ->selectRaw('entity_name, COUNT(*) as submissions, SUM('.self::TOTAL_KG_SQL.') as total_kg')
@@ -48,8 +70,10 @@ class DashboardController extends Controller
             'totalSubmissions' => $totalSubmissions,
             'totalKg' => $totalKg,
             'thisMonthKg' => $thisMonthKg,
+            'thisMonthSubmissions' => $thisMonthSubmissions,
             'entityCount' => $entityCount,
             'byMaterial' => $byMaterial,
+            'byLot' => $byLot,
             'byEntity' => $byEntity,
             'recent' => $recent,
             'monthRangeHref' => route('collections.index', [

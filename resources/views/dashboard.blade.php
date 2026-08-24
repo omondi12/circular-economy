@@ -36,12 +36,26 @@
                     </p>
                 </div>
 
-                <a href="{{ route('collections.create') }}" class="shrink-0 inline-flex items-center gap-2 px-5 py-3 rounded-lg bg-white text-[#0b5c2e] text-sm font-semibold hover:bg-white/90 transition-colors shadow-sm">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-                    </svg>
-                    New Collection
-                </a>
+                @auth
+                    <div class="shrink-0 flex items-center gap-2">
+                        <a href="{{ auth()->user()->isAdmin() ? route('admin.dashboard') : route('rm.dashboard') }}" class="inline-flex items-center gap-2 px-5 py-3 rounded-lg bg-white text-[#0b5c2e] text-sm font-semibold hover:bg-white/90 transition-colors shadow-sm">
+                            {{ auth()->user()->isAdmin() ? 'Admin Dashboard' : 'My Dashboard' }}
+                        </a>
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <button type="submit" class="px-4 py-3 rounded-lg bg-white/15 ring-1 ring-white/25 text-white text-sm font-medium hover:bg-white/25 transition-colors">
+                                Log Out
+                            </button>
+                        </form>
+                    </div>
+                @else
+                    <a href="{{ route('login') }}" class="shrink-0 inline-flex items-center gap-2 px-5 py-3 rounded-lg bg-white/15 ring-1 ring-white/25 text-white text-sm font-semibold hover:bg-white/25 transition-colors backdrop-blur-sm">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15M12 9l3 3m0 0-3 3m3-3H2.25" />
+                        </svg>
+                        RM / Admin Login
+                    </a>
+                @endauth
             </div>
         </header>
 
@@ -99,6 +113,40 @@
             </section>
         </div>
 
+        {{-- Breakdown by lot / category --}}
+        <section class="mb-8 bg-white border border-neutral-200 rounded-xl overflow-hidden shadow-sm">
+            <div class="mt-5 mb-4 mx-5">
+                <h2 class="text-sm font-semibold uppercase tracking-wide border-l-4 border-[#0f7a3d] pl-3 text-neutral-600">
+                    By Lot &amp; Category
+                </h2>
+            </div>
+
+            @if ($byLot->sum(fn ($lot) => $lot['submissions']) == 0)
+                <p class="text-sm text-neutral-400 px-5 pb-5">No Lot submissions recorded yet - RMs enter these from their own dashboard.</p>
+            @else
+                <div class="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-neutral-100">
+                    @foreach ($byLot as $lot)
+                        <div class="p-5">
+                            <div class="flex items-center justify-between mb-3">
+                                <h3 class="text-sm font-semibold {{ $lot['lot'] === 1 ? 'text-[#0b5c2e]' : 'text-[#8a5c00]' }}">{{ $lot['label'] }}</h3>
+                                <span class="text-xs text-neutral-400">{{ number_format($lot['submissions']) }} submissions</span>
+                            </div>
+                            <table class="w-full text-sm">
+                                <tbody class="divide-y divide-neutral-100">
+                                    @foreach ($lot['categories'] as $category)
+                                        <tr>
+                                            <td class="py-1.5 text-neutral-600">{{ $category['label'] }}</td>
+                                            <td class="py-1.5 text-right tabular-nums font-medium whitespace-nowrap">{{ number_format($category['quantity'], 1) }} {{ $category['unit'] }}</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    @endforeach
+                </div>
+            @endif
+        </section>
+
         {{-- Breakdown by entity --}}
         <section class="mb-8 bg-white border border-neutral-200 rounded-xl overflow-hidden shadow-sm">
             <div class="flex items-center justify-between mt-5 mb-4 mx-5">
@@ -148,8 +196,9 @@
                     <thead class="bg-[#0f7a3d]/5 text-left text-neutral-500">
                         <tr>
                             <th class="px-4 py-2 font-medium">Entity</th>
+                            <th class="px-4 py-2 font-medium">Lot / Category</th>
                             <th class="px-4 py-2 font-medium">Contact</th>
-                            <th class="px-4 py-2 font-medium text-right">Total Kg</th>
+                            <th class="px-4 py-2 font-medium text-right">Quantity</th>
                             <th class="px-4 py-2 font-medium">Date</th>
                             <th class="px-4 py-2 font-medium">Action</th>
                         </tr>
@@ -160,8 +209,24 @@
                                 <td class="px-4 py-3 font-medium max-w-xs">
                                     <div class="line-clamp-2">{{ $collection->entity_name }}</div>
                                 </td>
+                                <td class="px-4 py-3 whitespace-nowrap">
+                                    @if ($collection->isLegacyMaterialEntry())
+                                        <span class="inline-flex items-center px-2 py-0.5 rounded-full bg-neutral-100 text-neutral-500 text-xs">Legacy</span>
+                                    @else
+                                        <span class="inline-flex items-center px-2 py-0.5 rounded-full {{ $collection->lot === 1 ? 'bg-[#0f7a3d]/10 text-[#0b5c2e]' : 'bg-[#c98500]/10 text-[#8a5c00]' }} text-xs font-medium">
+                                            {{ \App\Support\WasteCategories::shortLotLabel($collection->lot) }}
+                                        </span>
+                                        <span class="block text-xs text-neutral-500 mt-0.5">{{ $collection->categoryLabel() }}</span>
+                                    @endif
+                                </td>
                                 <td class="px-4 py-3 whitespace-nowrap text-neutral-500">{{ $collection->contact_person_name }}</td>
-                                <td class="px-4 py-3 text-right tabular-nums whitespace-nowrap font-medium">{{ number_format($collection->totalKg(), 1) }}</td>
+                                <td class="px-4 py-3 text-right tabular-nums whitespace-nowrap font-medium">
+                                    @if ($collection->isLegacyMaterialEntry())
+                                        {{ number_format($collection->totalKg(), 1) }} kg
+                                    @else
+                                        {{ number_format($collection->quantity, 1) }} {{ $collection->unit }}
+                                    @endif
+                                </td>
                                 <td class="px-4 py-3 whitespace-nowrap text-neutral-500">{{ $collection->collection_date->format('d M Y') }}</td>
                                 <td class="px-4 py-3 whitespace-nowrap">
                                     <a href="{{ route('collections.show', $collection) }}" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-md bg-[#0f7a3d]/10 text-[#0b5c2e] text-xs font-medium hover:bg-[#0f7a3d]/20 transition-colors">
@@ -171,7 +236,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="5" class="px-4 py-8 text-center text-neutral-400">No collections recorded yet.</td>
+                                <td colspan="6" class="px-4 py-8 text-center text-neutral-400">No collections recorded yet.</td>
                             </tr>
                         @endforelse
                     </tbody>

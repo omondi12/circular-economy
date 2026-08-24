@@ -11,15 +11,20 @@ class DatabaseSeeder extends Seeder
     use WithoutModelEvents;
 
     /**
-     * Seed the application's database.
+     * Idempotent - safe to re-run. Only ever creates the bootstrap admin
+     * account if it doesn't already exist; never touches RM accounts
+     * created afterward through the admin panel.
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        User::firstOrCreate(
+            ['email' => 'admin@amac-circular.local'],
+            [
+                'name' => 'AMAC Admin',
+                'password' => env('SEED_ADMIN_PASSWORD', 'ChangeMe!2026'),
+                'role' => User::ROLE_ADMIN,
+                'is_active' => true,
+            ]
+        );
     }
 }
