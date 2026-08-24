@@ -6,6 +6,7 @@ use App\Models\Collection;
 use App\Models\GovernmentEntity;
 use App\Support\WasteCategories;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 
 class DashboardController extends Controller
@@ -162,6 +163,98 @@ class DashboardController extends Controller
             ->values();
 
         return view('ministries.index', ['ministries' => $ministries]);
+    }
+
+    /**
+     * One ministry's breakdown by State Department - card per department
+     * (including the ones with zero submissions, same "full coverage"
+     * reasoning as the ministries index), each card linking into that
+     * department's own institution breakdown.
+     */
+    public function ministryShow(GovernmentEntity $ministry): View
+    {
+        abort_unless($ministry->level === GovernmentEntity::LEVEL_MINISTRY, 404);
+
+        $overall = Collection::where('ministry_id', $ministry->id)
+            ->selectRaw('COUNT(*) as submissions, '.self::entityQuantitySql())
+            ->first();
+
+        $departments = $ministry->children()->orderBy('id')->get()
+            ->map(fn (GovernmentEntity $dept) => self::withCounts($dept, ['state_department_id' => $dept->id]));
+
+        return view('ministries.show', [
+            'ministry' => $ministry,
+            'overall' => $overall,
+            'departments' => $departments,
+        ]);
+    }
+
+    /**
+     * One state department's breakdown by Institution, plus the full
+     * filterable submissions table underneath (terminal level - an
+     * institution has no further breakdown). Submissions recorded against
+     * the department but with no institution picked (the field is
+     * optional, since some departments have no institutions listed at all)
+     * get their own "Not specified" card rather than being hidden.
+     */
+    public function departmentShow(GovernmentEntity $ministry, GovernmentEntity $department, Request $request): View
+    {
+        abort_unless($ministry->level === GovernmentEntity::LEVEL_MINISTRY, 404);
+        abort_unless(
+            $department->level === GovernmentEntity::LEVEL_STATE_DEPARTMENT && $department->parent_id === $ministry->id,
+            404
+        );
+
+        $overall = Collection::where('state_department_id', $department->id)
+            ->selectRaw('COUNT(*) as submissions, '.self::entityQuantitySql())
+            ->first();
+
+        $institutions = $department->children()->orderBy('id')->get()
+            ->map(fn (GovernmentEntity $inst) => self::withCounts($inst, ['institution_id' => $inst->id]));
+
+        $unspecifiedCount = Collection::where('state_department_id', $department->id)->whereNull('institution_id')->count();
+        if ($unspecifiedCount > 0) {
+            $institutions->push([
+                'id' => null,
+                'name' => 'Not specified',
+                'submissions' => $unspecifiedCount,
+            ]);
+        }
+
+        // 'none' is a distinct sentinel from "no filter" - it means "only
+        // submissions with no institution picked", not "show everything".
+        $institutionParam = $request->string('institution')->toString() ?: null;
+        $institutionId = ($institutionParam && $institutionParam !== 'none') ? (int) $institutionParam : null;
+        $filterUnspecified = $institutionParam === 'none';
+
+        $collections = Collection::where('state_department_id', $department->id)
+            ->when($institutionId, fn ($q, $v) => $q->where('institution_id', $v))
+            ->when($filterUnspecified, fn ($q) => $q->whereNull('institution_id'))
+            ->orderByDesc('collection_date')
+            ->orderByDesc('id')
+            ->paginate(25)
+            ->withQueryString();
+
+        return view('ministries.departments.show', [
+            'ministry' => $ministry,
+            'department' => $department,
+            'overall' => $overall,
+            'institutions' => $institutions,
+            'collections' => $collections,
+            'filters' => ['institution' => $institutionParam],
+        ]);
+    }
+
+    /**
+     * @return array{id: int, name: string, submissions: int}
+     */
+    private static function withCounts(GovernmentEntity $entity, array $where): array
+    {
+        return [
+            'id' => $entity->id,
+            'name' => $entity->name,
+            'submissions' => Collection::where($where)->count(),
+        ];
     }
 
     /**

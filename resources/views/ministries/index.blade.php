@@ -40,11 +40,9 @@
                                 @endif
                             </td>
                             <td class="px-4 py-3 whitespace-nowrap">
-                                @if ($row['submissions'] > 0)
-                                    <a href="{{ route('collections.index', ['ministry' => $row['id']]) }}" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-md bg-[#0f7a3d]/10 text-[#0b5c2e] text-xs font-medium hover:bg-[#0f7a3d]/20 transition-colors">
-                                        View
-                                    </a>
-                                @endif
+                                <a href="{{ route('ministries.show', $row['id']) }}" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-md bg-[#0f7a3d]/10 text-[#0b5c2e] text-xs font-medium hover:bg-[#0f7a3d]/20 transition-colors">
+                                    View
+                                </a>
                             </td>
                         </tr>
                     @endforeach
