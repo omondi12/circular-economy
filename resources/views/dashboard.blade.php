@@ -87,9 +87,9 @@
             />
         </div>
 
-        {{-- Breakdown by material --}}
+        {{-- Breakdown by weight (kg) - legacy submissions + every kg-denominated Lot category --}}
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-8">
-            <x-material-breakdown-chart :materials="$byMaterial" :total="$byMaterial->sum('kg')" />
+            <x-category-weight-chart :categories="$byWeight" :total="$byWeight->sum('kg')" />
 
             <section class="bg-white border border-neutral-200 rounded-xl p-5 shadow-sm">
                 <div class="flex items-center justify-between mb-4">
@@ -100,13 +100,13 @@
                         View full breakdown &rarr;
                     </a>
                 </div>
-                @if ($byMaterial->isEmpty() || $byMaterial->sum('kg') == 0)
-                    <p class="text-sm text-neutral-400">No collections recorded yet.</p>
+                @if ($byWeight->isEmpty() || $byWeight->sum('kg') == 0)
+                    <p class="text-sm text-neutral-400">No kg-denominated collections recorded yet.</p>
                 @else
                     <div class="space-y-3">
-                        @php $maxKg = $byMaterial->max('kg'); @endphp
-                        @foreach ($byMaterial as $row)
-                            <x-material-bar :label="$row['label']" :kg="$row['kg']" :max-kg="$maxKg" />
+                        @php $maxKg = $byWeight->max('kg'); @endphp
+                        @foreach ($byWeight as $row)
+                            <x-category-weight-bar :label="$row['label']" :kg="$row['kg']" :max-kg="$maxKg" :color="$row['color']" />
                         @endforeach
                     </div>
                 @endif

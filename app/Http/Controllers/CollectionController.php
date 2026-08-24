@@ -25,6 +25,7 @@ class CollectionController extends Controller
             'entity' => $request->string('entity')->toString() ?: null,
             'material' => $request->string('material')->toString() ?: null,
             'lot' => $request->string('lot')->toString() ?: null,
+            'category' => $request->string('category')->toString() ?: null,
             'from' => $request->string('from')->toString() ?: null,
             'to' => $request->string('to')->toString() ?: null,
         ];
@@ -36,6 +37,7 @@ class CollectionController extends Controller
                 fn ($q) => $q->where($filters['material'], '>', 0)
             )
             ->when($filters['lot'], fn ($q, $v) => $q->where('lot', $v))
+            ->when($filters['category'], fn ($q, $v) => $q->where('category', $v))
             ->when($filters['from'], fn ($q, $v) => $q->whereDate('collection_date', '>=', $v))
             ->when($filters['to'], fn ($q, $v) => $q->whereDate('collection_date', '<=', $v))
             ->orderByDesc('collection_date')

@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Materials Breakdown - AMAC Circular Economy Tracker</title>
+    <title>Weight Breakdown - AMAC Circular Economy Tracker</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="bg-gradient-to-b from-[#eaf7ee] via-white to-white text-neutral-900 min-h-screen">
@@ -11,18 +11,18 @@
 
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <x-page-header
-            title="Materials Breakdown"
-            :subtitle="number_format($totalKg, 1).' kg collected across '.count($byMaterial).' material types.'"
+            title="Weight Breakdown"
+            :subtitle="number_format($totalKg, 1).' kg collected across '.count($byWeight).' categories. Liters and tons (Lot 2) are tracked separately, not shown here.'"
         />
 
         <div class="bg-white border border-neutral-200 rounded-xl p-5 shadow-sm mb-6">
-            @if ($byMaterial->sum('kg') == 0)
-                <p class="text-sm text-neutral-400">No collections recorded yet.</p>
+            @if ($byWeight->sum('kg') == 0)
+                <p class="text-sm text-neutral-400">No kg-denominated collections recorded yet.</p>
             @else
                 <div class="space-y-3">
-                    @php $maxKg = $byMaterial->max('kg'); @endphp
-                    @foreach ($byMaterial as $row)
-                        <x-material-bar :label="$row['label']" :kg="$row['kg']" :max-kg="$maxKg" />
+                    @php $maxKg = $byWeight->max('kg'); @endphp
+                    @foreach ($byWeight as $row)
+                        <x-category-weight-bar :label="$row['label']" :kg="$row['kg']" :max-kg="$maxKg" :color="$row['color']" />
                     @endforeach
                 </div>
             @endif
@@ -32,7 +32,7 @@
             <table class="w-full text-sm">
                 <thead class="bg-[#f7edd6] text-left text-neutral-600">
                     <tr>
-                        <th class="px-4 py-2 font-medium">Material</th>
+                        <th class="px-4 py-2 font-medium">Category</th>
                         <th class="px-4 py-2 font-medium text-right">Total Kg</th>
                         <th class="px-4 py-2 font-medium text-right">Share of Total</th>
                         <th class="px-4 py-2 font-medium text-right">Entities Reporting</th>
@@ -40,16 +40,23 @@
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-neutral-100">
-                    @foreach ($byMaterial as $row)
+                    @foreach ($byWeight as $row)
                         <tr class="hover:bg-neutral-50 transition-colors">
-                            <td class="px-4 py-3 font-medium">{{ $row['label'] }}</td>
+                            <td class="px-4 py-3 font-medium">
+                                <span class="w-2 h-2 rounded-full inline-block mr-1.5" style="background-color: {{ $row['color'] }}"></span>
+                                {{ $row['label'] }}
+                            </td>
                             <td class="px-4 py-3 text-right tabular-nums">{{ number_format($row['kg'], 1) }}</td>
                             <td class="px-4 py-3 text-right tabular-nums text-neutral-500">{{ number_format($row['share'], 1) }}%</td>
                             <td class="px-4 py-3 text-right tabular-nums text-neutral-500">{{ number_format($row['entities']) }}</td>
                             <td class="px-4 py-3 whitespace-nowrap">
-                                <a href="{{ route('collections.index', ['material' => $row['key']]) }}" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-md bg-[#0f7a3d]/10 text-[#0b5c2e] text-xs font-medium hover:bg-[#0f7a3d]/20 transition-colors">
-                                    View
-                                </a>
+                                @if ($row['key'] !== 'legacy')
+                                    <a href="{{ route('collections.index', ['lot' => $row['lot'], 'category' => $row['key']]) }}" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-md bg-[#0f7a3d]/10 text-[#0b5c2e] text-xs font-medium hover:bg-[#0f7a3d]/20 transition-colors">
+                                        View
+                                    </a>
+                                @else
+                                    <span class="text-neutral-300">—</span>
+                                @endif
                             </td>
                         </tr>
                     @endforeach
