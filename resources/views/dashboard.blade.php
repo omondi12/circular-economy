@@ -162,7 +162,7 @@
                     <tr>
                         <th class="px-5 py-2 font-medium">Ministry / County / Commission</th>
                         <th class="px-5 py-2 font-medium text-right">Submissions</th>
-                        <th class="px-5 py-2 font-medium text-right">Total Kg</th>
+                        <th class="px-5 py-2 font-medium text-right">Recorded Quantities</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-neutral-100">
@@ -170,7 +170,7 @@
                         <tr class="hover:bg-neutral-50 transition-colors">
                             <td class="px-5 py-2.5 font-medium">{{ $row->entity_name }}</td>
                             <td class="px-5 py-2.5 text-right tabular-nums text-neutral-500">{{ number_format($row->submissions) }}</td>
-                            <td class="px-5 py-2.5 text-right tabular-nums font-medium">{{ number_format($row->total_kg, 1) }}</td>
+                            <td class="px-5 py-2.5 text-right font-medium"><x-entity-quantity :row="$row" /></td>
                         </tr>
                     @empty
                         <tr>
