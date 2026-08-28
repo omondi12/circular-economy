@@ -28,23 +28,7 @@ class DashboardController extends Controller
      */
     private const COMBINED_KG_SQL = '('.self::TOTAL_KG_SQL.")  + (CASE WHEN unit = 'kg' THEN quantity ELSE 0 END)";
 
-    /**
-     * Fixed, distinct color per slot so a category's color stays stable
-     * across page loads instead of being reassigned as data changes.
-     */
-    private const CATEGORY_COLORS = [
-        'legacy' => '#7a4fa0',
-        'equipment' => '#0f7a3d',
-        'motor_vehicles' => '#1a9650',
-        'assets' => '#0093b3',
-        'stores' => '#b2491f',
-        'scrap' => '#8a5c00',
-        'tires' => '#556b2f',
-        'other_sale' => '#9c8f00',
-        'medical_industrial' => '#c98500',
-        'ewaste' => '#b23a78',
-        'other_disposal' => '#4f3268',
-    ];
+    private const LEGACY_COLOR = '#7a4fa0';
 
     public function index(): View
     {
@@ -68,12 +52,15 @@ class DashboardController extends Controller
 
         $byLot = collect(WasteCategories::lots())->map(function (array $lot, int $lotKey) {
             $categories = collect($lot['categories'])->map(function (array $meta, string $key) use ($lotKey) {
+                $row = Collection::where('lot', $lotKey)->where('category', $key)
+                    ->selectRaw('COUNT(*) as submissions, '.self::unitBreakdownSql())
+                    ->first();
+
                 return [
                     'key' => $key,
                     'label' => $meta['label'],
-                    'unit' => $meta['unit'],
-                    'quantity' => (float) Collection::where('lot', $lotKey)->where('category', $key)->sum('quantity'),
-                    'submissions' => Collection::where('lot', $lotKey)->where('category', $key)->count(),
+                    'submissions' => (int) $row->submissions,
+                    'units' => self::nonZeroUnits($row),
                 ];
             })->values();
 
@@ -150,14 +137,10 @@ class DashboardController extends Controller
                     ->selectRaw('COUNT(*) as submissions, '.self::entityQuantitySql())
                     ->first();
 
-                return [
-                    'id' => $ministry->id,
-                    'name' => $ministry->name,
-                    'submissions' => (int) $row->submissions,
-                    'total_kg' => (float) $row->total_kg,
-                    'total_ltr' => (float) $row->total_ltr,
-                    'total_ton' => (float) $row->total_ton,
-                ];
+                return array_merge(
+                    ['id' => $ministry->id, 'name' => $ministry->name, 'submissions' => (int) $row->submissions],
+                    self::unitTotalsArray($row)
+                );
             })
             ->sortByDesc('submissions')
             ->values();
@@ -259,15 +242,78 @@ class DashboardController extends Controller
 
     /**
      * Per-entity totals, split by unit rather than blended into one number -
-     * a submission's kg, liters and tons are three different quantities and
-     * must never be added together. Legacy kg columns fold into total_kg
-     * since they genuinely are kg.
+     * kg, litres, tonnes, pieces, units, cartons, sets and m3 are all
+     * different quantities and must never be added together. Legacy kg
+     * columns fold into total_kg since they genuinely are kg.
      */
     private static function entityQuantitySql(): string
     {
-        return 'SUM('.self::COMBINED_KG_SQL.') as total_kg, '
-            ."SUM(CASE WHEN unit = 'ltr' THEN quantity ELSE 0 END) as total_ltr, "
-            ."SUM(CASE WHEN unit = 'ton' THEN quantity ELSE 0 END) as total_ton";
+        $parts = ['SUM('.self::COMBINED_KG_SQL.') as total_kg'];
+
+        foreach (array_keys(WasteCategories::UNIT_LABELS) as $unit) {
+            if ($unit === 'kg') {
+                continue;
+            }
+            $parts[] = "SUM(CASE WHEN unit = '{$unit}' THEN quantity ELSE 0 END) as total_{$unit}";
+        }
+
+        return implode(', ', $parts);
+    }
+
+    /**
+     * Same per-unit split as entityQuantitySql(), but without folding
+     * legacy kg into total_kg - used for Lot-scoped breakdowns where legacy
+     * rows (lot IS NULL) never appear anyway, so the merge would be a no-op
+     * at best and confusing to read at worst.
+     */
+    private static function unitBreakdownSql(): string
+    {
+        $parts = [];
+
+        foreach (array_keys(WasteCategories::UNIT_LABELS) as $unit) {
+            $parts[] = "SUM(CASE WHEN unit = '{$unit}' THEN quantity ELSE 0 END) as total_{$unit}";
+        }
+
+        return implode(', ', $parts);
+    }
+
+    /**
+     * Flattens an entityQuantitySql() row into a plain ['total_kg' => ...,
+     * 'total_tonnes' => ..., ...] array covering every unit - used where a
+     * row needs to be rebuilt into a new array (e.g. ministriesIndex()
+     * merging in id/name/submissions) rather than passed straight through.
+     *
+     * @return array<string, float>
+     */
+    private static function unitTotalsArray(object $row): array
+    {
+        $out = ['total_kg' => (float) $row->total_kg];
+
+        foreach (array_keys(WasteCategories::UNIT_LABELS) as $unit) {
+            if ($unit === 'kg') {
+                continue;
+            }
+            $out["total_{$unit}"] = (float) ($row->{"total_{$unit}"} ?? 0);
+        }
+
+        return $out;
+    }
+
+    /**
+     * @return array<int, array{unit: string, label: string, quantity: float}>
+     */
+    private static function nonZeroUnits(object $row): array
+    {
+        $out = [];
+
+        foreach (WasteCategories::UNIT_LABELS as $key => $label) {
+            $value = (float) ($row->{"total_{$key}"} ?? 0);
+            if ($value > 0) {
+                $out[] = ['unit' => $key, 'label' => $label, 'quantity' => $value];
+            }
+        }
+
+        return $out;
     }
 
     /**
@@ -284,7 +330,9 @@ class DashboardController extends Controller
             'share' => $totalKg > 0 ? $row['kg'] / $totalKg * 100 : 0,
             'entities' => $row['key'] === 'legacy'
                 ? Collection::whereNull('lot')->whereRaw(self::TOTAL_KG_SQL.' > 0')->distinct('entity_name')->count('entity_name')
-                : Collection::where('lot', $row['lot'])->where('category', $row['key'])->distinct('entity_name')->count('entity_name'),
+                : Collection::where('lot', $row['lot'])->where('category', $row['category'])
+                    ->when($row['subcategory'], fn ($q, $v) => $q->where('subcategory', $v))
+                    ->distinct('entity_name')->count('entity_name'),
         ]);
 
         return view('materials.index', [
@@ -294,14 +342,18 @@ class DashboardController extends Controller
     }
 
     /**
-     * Every category whose unit is genuinely kg - the old legacy
+     * Every category/subcategory actually recorded in kg - the old legacy
      * Paper/Metal/Plastic/... submissions folded into one "Legacy
      * Submissions" bucket (they predate the Lot/Category structure and
-     * were never broken out that way), plus every Lot 1/Lot 2 category
-     * whose unit is kg. Liters and tons are deliberately excluded - they
-     * are not the same quantity and don't belong in a weight chart.
+     * were never broken out that way). Data-driven rather than reading a
+     * fixed unit off the category config, since a category can now be
+     * recorded in more than one unit (e.g. Scrap Materials in kg or
+     * Tonnes) - only the rows an RM actually entered in kg count here.
+     * Litres, tonnes, m3, pieces, units, cartons and sets are deliberately
+     * excluded - they are not the same quantity and don't belong in a
+     * weight chart.
      *
-     * @return \Illuminate\Support\Collection<int, array{key: string, label: string, kg: float, color: string, lot?: int}>
+     * @return \Illuminate\Support\Collection<int, array{key: string, lot: ?int, category: ?string, subcategory: ?string, label: string, kg: float, color: string}>
      */
     private static function byWeightCategories(): \Illuminate\Support\Collection
     {
@@ -309,27 +361,48 @@ class DashboardController extends Controller
 
         $legacyKg = (float) Collection::whereNull('lot')->selectRaw('SUM('.self::TOTAL_KG_SQL.') as total')->value('total');
         if ($legacyKg > 0) {
-            $rows->push(['key' => 'legacy', 'label' => 'Legacy Submissions', 'kg' => $legacyKg, 'color' => self::CATEGORY_COLORS['legacy']]);
+            $rows->push(['key' => 'legacy', 'lot' => null, 'category' => null, 'subcategory' => null, 'label' => 'Legacy Submissions', 'kg' => $legacyKg, 'color' => self::LEGACY_COLOR]);
         }
 
-        foreach (WasteCategories::lots() as $lotKey => $lot) {
-            foreach ($lot['categories'] as $categoryKey => $meta) {
-                if ($meta['unit'] !== 'kg') {
-                    continue;
-                }
+        $kgRows = Collection::whereNotNull('lot')
+            ->where('unit', 'kg')
+            ->selectRaw('lot, category, subcategory, SUM(quantity) as kg')
+            ->groupBy('lot', 'category', 'subcategory')
+            ->having('kg', '>', 0)
+            ->get();
 
-                $kg = (float) Collection::where('lot', $lotKey)->where('category', $categoryKey)->sum('quantity');
+        foreach ($kgRows as $row) {
+            $lot = (int) $row->lot;
+            $label = WasteCategories::subcategoryLabel($lot, $row->category, $row->subcategory)
+                ?? WasteCategories::categoryLabel($lot, $row->category)
+                ?? $row->category;
+            $fullLabel = $label.' ('.WasteCategories::shortLotLabel($lot).')';
 
-                $rows->push([
-                    'key' => $categoryKey,
-                    'lot' => $lotKey,
-                    'label' => $meta['label'].' ('.$lot['short_label'].')',
-                    'kg' => $kg,
-                    'color' => self::CATEGORY_COLORS[$categoryKey] ?? '#898781',
-                ]);
-            }
+            $rows->push([
+                'key' => $row->category.'|'.($row->subcategory ?? ''),
+                'lot' => $lot,
+                'category' => $row->category,
+                'subcategory' => $row->subcategory,
+                'label' => $fullLabel,
+                'kg' => (float) $row->kg,
+                'color' => self::colorFor($fullLabel),
+            ]);
         }
 
         return $rows->sortByDesc('kg')->values();
+    }
+
+    /**
+     * Deterministic color per label (same label always -> same color) via a
+     * hue rotation - the category/subcategory list is now large and
+     * data-driven (dozens of possible combinations), so a hand-picked fixed
+     * palette isn't practical here the way it is for the small, fixed set
+     * of homepage stat tiles.
+     */
+    private static function colorFor(string $label): string
+    {
+        $hue = crc32($label) % 360;
+
+        return sprintf('hsl(%d, 55%%, 38%%)', $hue);
     }
 }

@@ -12,7 +12,7 @@
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <x-page-header
             title="Weight Breakdown"
-            :subtitle="number_format($totalKg, 1).' kg collected across '.count($byWeight).' categories. Liters and tons (Lot 2) are tracked separately, not shown here.'"
+            :subtitle="number_format($totalKg, 1).' kg collected across '.count($byWeight).' categories. Anything recorded in litres, tonnes, m³, pieces, units, cartons or sets is tracked separately, not shown here.'"
         />
 
         <div class="bg-white border border-neutral-200 rounded-xl p-5 shadow-sm mb-6">
@@ -51,7 +51,7 @@
                             <td class="px-4 py-3 text-right tabular-nums text-neutral-500">{{ number_format($row['entities']) }}</td>
                             <td class="px-4 py-3 whitespace-nowrap">
                                 @if ($row['key'] !== 'legacy')
-                                    <a href="{{ route('collections.index', ['lot' => $row['lot'], 'category' => $row['key']]) }}" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-md bg-[#0f7a3d]/10 text-[#0b5c2e] text-xs font-medium hover:bg-[#0f7a3d]/20 transition-colors">
+                                    <a href="{{ route('collections.index', ['lot' => $row['lot'], 'category' => $row['category'], 'subcategory' => $row['subcategory']]) }}" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-md bg-[#0f7a3d]/10 text-[#0b5c2e] text-xs font-medium hover:bg-[#0f7a3d]/20 transition-colors">
                                         View
                                     </a>
                                 @else

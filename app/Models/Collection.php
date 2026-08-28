@@ -21,8 +21,10 @@ class Collection extends Model
         'entity_name',
         'lot',
         'category',
+        'subcategory',
         'quantity',
         'unit',
+        'description',
         'user_id',
         'ministry_id',
         'state_department_id',
@@ -100,5 +102,15 @@ class Collection extends Model
     public function categoryLabel(): ?string
     {
         return WasteCategories::categoryLabel($this->lot, $this->category);
+    }
+
+    public function subcategoryLabel(): ?string
+    {
+        return WasteCategories::subcategoryLabel($this->lot, $this->category, $this->subcategory);
+    }
+
+    public function unitLabel(): ?string
+    {
+        return WasteCategories::unitLabel($this->unit);
     }
 }

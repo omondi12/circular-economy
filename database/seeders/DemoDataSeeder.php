@@ -62,20 +62,33 @@ class DemoDataSeeder extends Seeder
 
             for ($i = 0; $i < $count; $i++) {
                 $lotKey = array_rand($lots);
-                $categories = $lots[$lotKey]['categories'];
+                $lot = $lots[$lotKey];
+                $categories = $lot['categories'];
                 $categoryKey = array_rand($categories);
-                $unit = $categories[$categoryKey]['unit'];
+                $category = $categories[$categoryKey];
+
+                if ($lot['has_subcategories']) {
+                    $subKey = array_rand($category['subcategories']);
+                    $units = $category['subcategories'][$subKey]['units'];
+                } else {
+                    $subKey = null;
+                    $units = $category['units'];
+                }
+
+                $unit = $units[array_rand($units)];
 
                 $quantity = match ($unit) {
-                    'ltr' => random_int(20, 500),
-                    'ton' => random_int(1, 20),
-                    default => random_int(10, 800),
+                    'litres', 'm3' => random_int(20, 500),
+                    'tonnes' => random_int(1, 20),
+                    'units' => random_int(1, 12),
+                    default => random_int(1, 300),
                 };
 
                 Collection::create([
                     'entity_name' => $entity,
                     'lot' => $lotKey,
                     'category' => $categoryKey,
+                    'subcategory' => $subKey,
                     'quantity' => $quantity,
                     'unit' => $unit,
                     'user_id' => $users->random()->id,

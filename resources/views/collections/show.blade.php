@@ -25,14 +25,26 @@
             @else
                 <div class="text-white">
                     <p class="text-white/70 text-xs uppercase tracking-wide">{{ \App\Support\WasteCategories::shortLotLabel($collection->lot) }}</p>
-                    <p class="text-lg font-semibold mt-1">{{ $collection->categoryLabel() }}</p>
+                    <p class="text-lg font-semibold mt-1">
+                        {{ $collection->categoryLabel() }}
+                        @if ($collection->subcategoryLabel())
+                            <span class="text-white/70 font-normal">– {{ $collection->subcategoryLabel() }}</span>
+                        @endif
+                    </p>
                 </div>
                 <div class="text-white">
                     <p class="text-white/70 text-xs uppercase tracking-wide">Quantity</p>
-                    <p class="text-3xl font-bold mt-1">{{ number_format($collection->quantity, 1) }} {{ $collection->unit }}</p>
+                    <p class="text-3xl font-bold mt-1">{{ number_format($collection->quantity, 1) }} {{ $collection->unitLabel() }}</p>
                 </div>
             @endif
         </div>
+
+        @if ($collection->description)
+            <div class="mb-4 bg-white border border-neutral-200 rounded-xl p-4 shadow-sm text-sm text-neutral-600">
+                <span class="text-xs uppercase tracking-wide text-neutral-400 block mb-1">Description</span>
+                {{ $collection->description }}
+            </div>
+        @endif
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
             {{-- Entity details --}}

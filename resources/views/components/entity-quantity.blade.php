@@ -1,15 +1,19 @@
 @props(['row'])
 
 {{--
-    kg, liters and tons are different quantities and must never be summed
-    into one number - shows each non-zero unit total on its own line
-    instead of a fabricated blended figure.
+    kg, litres, tonnes, m3, pieces, units, cartons and sets are all
+    different quantities and must never be summed into one number - shows
+    each non-zero unit total on its own line instead of a fabricated
+    blended figure.
 --}}
 @php
     $parts = [];
-    if ($row->total_kg > 0) $parts[] = number_format($row->total_kg, 1).' kg';
-    if ($row->total_ltr > 0) $parts[] = number_format($row->total_ltr, 1).' ltr';
-    if ($row->total_ton > 0) $parts[] = number_format($row->total_ton, 1).' ton';
+    foreach (\App\Support\WasteCategories::UNIT_LABELS as $key => $label) {
+        $value = $row->{"total_{$key}"} ?? null;
+        if ($value > 0) {
+            $parts[] = number_format($value, 1).' '.$label;
+        }
+    }
 @endphp
 
 @if (empty($parts))

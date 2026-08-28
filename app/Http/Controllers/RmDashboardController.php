@@ -95,12 +95,29 @@ class RmDashboardController extends Controller
             'contact_person_number' => ['required', 'string', 'max:50'],
             'lot' => ['required', Rule::in([WasteCategories::LOT_SALE, WasteCategories::LOT_DISPOSAL])],
             'category' => ['required', 'string'],
+            'subcategory' => ['nullable', 'string'],
+            'unit' => ['required', 'string'],
             'quantity' => ['required', 'numeric', 'min:0.01'],
+            'description' => ['nullable', 'string', 'max:255'],
             'collection_date' => ['required', 'date'],
         ]);
 
-        if (! WasteCategories::isValidCategory((int) $data['lot'], $data['category'])) {
+        $lot = (int) $data['lot'];
+
+        if (! WasteCategories::isValidCategory($lot, $data['category'])) {
             return back()->withInput()->withErrors(['category' => 'Choose a category that belongs to the selected lot.']);
+        }
+
+        if (WasteCategories::hasSubcategories($lot)) {
+            if (! WasteCategories::isValidSubcategory($lot, $data['category'], $data['subcategory'])) {
+                return back()->withInput()->withErrors(['subcategory' => 'Choose a subcategory that belongs to the selected category.']);
+            }
+        } else {
+            $data['subcategory'] = null;
+        }
+
+        if (! WasteCategories::isValidUnit($lot, $data['category'], $data['subcategory'], $data['unit'])) {
+            return back()->withInput()->withErrors(['unit' => 'Choose a unit of measure that is valid for the selected category/subcategory.']);
         }
 
         $ministry = null;
@@ -137,7 +154,6 @@ class RmDashboardController extends Controller
             'ministry_id' => $ministry?->id,
             'state_department_id' => $stateDepartment?->id,
             'institution_id' => $institution?->id,
-            'unit' => WasteCategories::unitFor((int) $data['lot'], $data['category']),
             'user_id' => $user->id,
             'relationship_manager' => $user->name,
             'collected_by' => $user->name,
@@ -147,8 +163,9 @@ class RmDashboardController extends Controller
             'entity_name' => $collection->entity_name,
             'lot' => $collection->lotLabel(),
             'category' => $collection->categoryLabel(),
+            'subcategory' => $collection->subcategoryLabel(),
             'quantity' => $collection->quantity,
-            'unit' => $collection->unit,
+            'unit' => $collection->unitLabel(),
         ]);
 
         return redirect()->route('rm.dashboard')->with('status', 'Collection recorded successfully.');

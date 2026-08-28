@@ -25,7 +25,9 @@
                             <span class="inline-flex items-center px-2 py-0.5 rounded-full {{ $collection->lot === 1 ? 'bg-[#0f7a3d]/10 text-[#0b5c2e]' : 'bg-[#c98500]/10 text-[#8a5c00]' }} text-xs font-medium">
                                 {{ \App\Support\WasteCategories::shortLotLabel($collection->lot) }}
                             </span>
-                            <span class="block text-xs text-neutral-500 mt-0.5">{{ $collection->categoryLabel() }}</span>
+                            <span class="block text-xs text-neutral-500 mt-0.5">
+                                {{ $collection->categoryLabel() }}{{ $collection->subcategoryLabel() ? ' – '.$collection->subcategoryLabel() : '' }}
+                            </span>
                         @endif
                     </td>
                     <td class="px-4 py-3 whitespace-nowrap text-neutral-500">{{ $collection->contact_person_name }}</td>
@@ -33,7 +35,7 @@
                         @if ($collection->isLegacyMaterialEntry())
                             {{ number_format($collection->totalKg(), 1) }} kg
                         @else
-                            {{ number_format($collection->quantity, 1) }} {{ $collection->unit }}
+                            {{ number_format($collection->quantity, 1) }} {{ $collection->unitLabel() }}
                         @endif
                     </td>
                     <td class="px-4 py-3 whitespace-nowrap text-neutral-500">{{ $collection->collection_date->format('d M Y') }}</td>
