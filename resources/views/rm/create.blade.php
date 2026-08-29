@@ -30,7 +30,7 @@
                     <span class="bg-[#f7edd6] px-4 py-3 text-sm font-semibold text-neutral-700 flex items-center">
                         Entity Type <span class="text-red-500 ml-1">*</span>
                     </span>
-                    <div class="px-4 py-2.5 flex items-center gap-5">
+                    <div class="px-4 py-2.5 flex flex-wrap items-center gap-x-5 gap-y-1.5">
                         <label class="flex items-center gap-1.5 text-sm text-neutral-700">
                             <input type="radio" name="entity_type" value="ministry" onchange="onEntityTypeChange()"
                                 {{ old('entity_type', 'ministry') === 'ministry' ? 'checked' : '' }}
@@ -38,10 +38,16 @@
                             National Government Ministry
                         </label>
                         <label class="flex items-center gap-1.5 text-sm text-neutral-700">
-                            <input type="radio" name="entity_type" value="other" onchange="onEntityTypeChange()"
-                                {{ old('entity_type') === 'other' ? 'checked' : '' }}
+                            <input type="radio" name="entity_type" value="county" onchange="onEntityTypeChange()"
+                                {{ old('entity_type') === 'county' ? 'checked' : '' }}
                                 class="text-[#0f7a3d] focus:ring-[#0f7a3d]">
-                            County / Commission / Other
+                            County
+                        </label>
+                        <label class="flex items-center gap-1.5 text-sm text-neutral-700">
+                            <input type="radio" name="entity_type" value="commission" onchange="onEntityTypeChange()"
+                                {{ old('entity_type') === 'commission' ? 'checked' : '' }}
+                                class="text-[#0f7a3d] focus:ring-[#0f7a3d]">
+                            Commission / Other
                         </label>
                     </div>
                 </div>
@@ -95,14 +101,87 @@
                             @enderror
                         </div>
                     </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-[220px_1fr] border-b border-neutral-200">
+                        <label for="department_agency_ministry" class="bg-[#f7edd6] px-4 py-3 text-sm font-semibold text-neutral-700 flex items-center">
+                            Department / Agency
+                        </label>
+                        <div class="px-4 py-2 flex flex-col justify-center">
+                            <input type="text" id="department_agency_ministry" name="department_agency" value="{{ old('department_agency') }}"
+                                class="w-full border-0 focus:ring-0 text-sm py-1.5 px-0 text-neutral-900 placeholder:text-neutral-300">
+                        </div>
+                    </div>
                 </div>
 
-                {{-- Non-ministry path: free text, as before --}}
-                <div id="other-fields">
-                    <x-form-field label="Ministry / County / Commission" name="entity_name" :value="old('entity_name')" />
+                {{-- County path: County -> Department (same generic department list for every county) --}}
+                <div id="county-fields">
+                    <div class="grid grid-cols-1 sm:grid-cols-[220px_1fr] border-b border-neutral-200">
+                        <label for="county" class="bg-[#f7edd6] px-4 py-3 text-sm font-semibold text-neutral-700 flex items-center">
+                            County <span class="text-red-500 ml-1">*</span>
+                        </label>
+                        <div class="px-4 py-2 flex flex-col justify-center">
+                            <select id="county" name="county"
+                                class="w-full border-0 focus:ring-0 text-sm py-1.5 px-0 text-neutral-900">
+                                <option value="">Select a county…</option>
+                                @foreach ($counties as $countyName)
+                                    <option value="{{ $countyName }}" @selected(old('county') === $countyName)>{{ $countyName }}</option>
+                                @endforeach
+                            </select>
+                            @error('county')
+                                <p class="text-xs text-red-600 mt-1">{{ $message }}</p>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-[220px_1fr] border-b border-neutral-200">
+                        <label for="department_agency_county" class="bg-[#f7edd6] px-4 py-3 text-sm font-semibold text-neutral-700 flex items-center">
+                            Department / Agency <span class="text-red-500 ml-1">*</span>
+                        </label>
+                        <div class="px-4 py-2 flex flex-col justify-center">
+                            <select id="department_agency_county" name="department_agency"
+                                class="w-full border-0 focus:ring-0 text-sm py-1.5 px-0 text-neutral-900">
+                                <option value="">Select a department…</option>
+                                @foreach ($countyDepartments as $dept)
+                                    <option value="{{ $dept }}" @selected(old('entity_type') === 'county' && old('department_agency') === $dept)>{{ $dept }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
                 </div>
 
-                <x-form-field label="Department / Agency" name="department_agency" />
+                {{-- Commission path: Commission -> Department (cascades - each body has its own directorates) --}}
+                <div id="commission-fields">
+                    <div class="grid grid-cols-1 sm:grid-cols-[220px_1fr] border-b border-neutral-200">
+                        <label for="commission" class="bg-[#f7edd6] px-4 py-3 text-sm font-semibold text-neutral-700 flex items-center">
+                            Commission / Body <span class="text-red-500 ml-1">*</span>
+                        </label>
+                        <div class="px-4 py-2 flex flex-col justify-center">
+                            <select id="commission" name="commission" onchange="onCommissionChange()"
+                                class="w-full border-0 focus:ring-0 text-sm py-1.5 px-0 text-neutral-900">
+                                <option value="">Select a commission or body…</option>
+                                @foreach ($commissions as $name => $meta)
+                                    <option value="{{ $name }}" @selected(old('commission') === $name)>{{ $name }}</option>
+                                @endforeach
+                            </select>
+                            @error('commission')
+                                <p class="text-xs text-red-600 mt-1">{{ $message }}</p>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-[220px_1fr] border-b border-neutral-200">
+                        <label for="department_agency_commission" class="bg-[#f7edd6] px-4 py-3 text-sm font-semibold text-neutral-700 flex items-center">
+                            Department / Directorate <span class="text-red-500 ml-1">*</span>
+                        </label>
+                        <div class="px-4 py-2 flex flex-col justify-center">
+                            <select id="department_agency_commission" name="department_agency" disabled
+                                class="w-full border-0 focus:ring-0 text-sm py-1.5 px-0 text-neutral-900">
+                                <option value="">Select a commission first…</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
                 <x-form-field label="Location / Office" name="location_office" />
                 <x-form-field label="Contact Person Name" name="contact_person_name" required />
                 <x-form-field label="Contact Person Number" name="contact_person_number" required />
@@ -217,29 +296,54 @@
         const oldUnit = @json(old('unit'));
 
         const MINISTRIES = @json($ministries->keyBy('id'));
+        const COMMISSIONS = @json($commissions);
         const oldEntityType = @json(old('entity_type', 'ministry'));
         const oldMinistryId = @json(old('ministry_id'));
         const oldDepartmentId = @json(old('state_department_id'));
         const oldInstitutionId = @json(old('institution_id'));
+        const oldCommission = @json(old('commission'));
+        const oldDepartmentAgency = @json(old('department_agency'));
 
+        // Only the fields belonging to the active Entity Type should be
+        // enabled - a disabled <select>/<input> never submits, which is how
+        // 3 same-named "department_agency" controls (free text for Ministry,
+        // a select for County, a select for Commission) coexist in one form.
         function onEntityTypeChange() {
             const type = document.querySelector('input[name="entity_type"]:checked')?.value ?? 'ministry';
-            const ministryFields = document.getElementById('ministry-fields');
-            const otherFields = document.getElementById('other-fields');
-            const ministrySelect = document.getElementById('ministry_id');
-            const entityNameInput = document.getElementById('entity_name');
+            const blocks = {
+                ministry: document.getElementById('ministry-fields'),
+                county: document.getElementById('county-fields'),
+                commission: document.getElementById('commission-fields'),
+            };
+            const requiredFieldByType = { ministry: 'ministry_id', county: 'county', commission: 'commission' };
+            const deptFieldByType = {
+                ministry: 'department_agency_ministry',
+                county: 'department_agency_county',
+                commission: 'department_agency_commission',
+            };
 
-            if (type === 'ministry') {
-                ministryFields.classList.remove('hidden');
-                otherFields.classList.add('hidden');
-                ministrySelect.required = true;
-                entityNameInput.required = false;
-            } else {
-                ministryFields.classList.add('hidden');
-                otherFields.classList.remove('hidden');
-                ministrySelect.required = false;
-                entityNameInput.required = true;
+            Object.entries(blocks).forEach(([key, el]) => {
+                const active = key === type;
+                el.classList.toggle('hidden', !active);
+                document.getElementById(requiredFieldByType[key]).disabled = !active;
+                document.getElementById(requiredFieldByType[key]).required = active;
+                const deptEl = document.getElementById(deptFieldByType[key]);
+                deptEl.disabled = !active;
+                deptEl.required = active && key !== 'ministry';
+            });
+        }
+
+        function onCommissionChange() {
+            const name = document.getElementById('commission').value;
+            const deptSelect = document.getElementById('department_agency_commission');
+            const meta = COMMISSIONS[name];
+
+            if (!meta) {
+                fillSelect(deptSelect, [], 'Select a commission first…');
+                return;
             }
+
+            fillSelect(deptSelect, meta.departments.map((d) => [d, d]), 'Select a department…');
         }
 
         function onMinistryChange() {
@@ -397,6 +501,13 @@
                     document.getElementById('institution_id').value = oldInstitutionId;
                 }
             }
+            if (oldDepartmentAgency) document.getElementById('department_agency_ministry').value = oldDepartmentAgency;
+        } else if (oldEntityType === 'county' && oldDepartmentAgency) {
+            document.getElementById('department_agency_county').value = oldDepartmentAgency;
+        } else if (oldEntityType === 'commission' && oldCommission) {
+            document.getElementById('commission').value = oldCommission;
+            onCommissionChange();
+            if (oldDepartmentAgency) document.getElementById('department_agency_commission').value = oldDepartmentAgency;
         }
     </script>
 </body>

@@ -19,6 +19,8 @@ class Collection extends Model
 
     protected $fillable = [
         'entity_name',
+        'county',
+        'commission',
         'lot',
         'category',
         'subcategory',

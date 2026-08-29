@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\AuditLog;
 use App\Models\Collection;
 use App\Models\GovernmentEntity;
+use App\Support\EntityDirectory;
 use App\Support\WasteCategories;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -50,7 +51,13 @@ class RmDashboardController extends Controller
 
     public function create(): View
     {
-        return view('rm.create', ['lots' => WasteCategories::lots(), 'ministries' => self::ministryTree()]);
+        return view('rm.create', [
+            'lots' => WasteCategories::lots(),
+            'ministries' => self::ministryTree(),
+            'counties' => EntityDirectory::counties(),
+            'countyDepartments' => EntityDirectory::countyDepartments(),
+            'commissions' => EntityDirectory::commissions(),
+        ]);
     }
 
     /**
@@ -83,11 +90,13 @@ class RmDashboardController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $data = $request->validate([
-            'entity_type' => ['required', Rule::in(['ministry', 'other'])],
+            'entity_type' => ['required', Rule::in(['ministry', 'county', 'commission'])],
             'entity_name' => ['nullable', 'string', 'max:255'],
             'ministry_id' => ['nullable', 'integer', 'exists:government_entities,id'],
             'state_department_id' => ['nullable', 'integer', 'exists:government_entities,id'],
             'institution_id' => ['nullable', 'integer', 'exists:government_entities,id'],
+            'county' => ['nullable', 'string', 'max:255'],
+            'commission' => ['nullable', 'string', 'max:255'],
             'state_department' => ['nullable', 'string', 'max:255'],
             'department_agency' => ['nullable', 'string', 'max:255'],
             'location_office' => ['nullable', 'string', 'max:255'],
@@ -124,27 +133,51 @@ class RmDashboardController extends Controller
         $stateDepartment = null;
         $institution = null;
 
-        if ($data['entity_type'] === 'ministry') {
-            $ministry = $data['ministry_id'] ? GovernmentEntity::find($data['ministry_id']) : null;
-            $stateDepartment = $data['state_department_id'] ? GovernmentEntity::find($data['state_department_id']) : null;
-            $institution = $data['institution_id'] ? GovernmentEntity::find($data['institution_id']) : null;
+        switch ($data['entity_type']) {
+            case 'ministry':
+                $ministry = $data['ministry_id'] ? GovernmentEntity::find($data['ministry_id']) : null;
+                $stateDepartment = $data['state_department_id'] ? GovernmentEntity::find($data['state_department_id']) : null;
+                $institution = $data['institution_id'] ? GovernmentEntity::find($data['institution_id']) : null;
 
-            $validator = validator($data, [])->after(function (Validator $validator) use ($ministry, $stateDepartment, $institution) {
-                if ($ministry === null) {
-                    $validator->errors()->add('ministry_id', 'Choose a ministry.');
-                }
-                if ($stateDepartment !== null && $stateDepartment->parent_id !== $ministry?->id) {
-                    $validator->errors()->add('state_department_id', 'That state department does not belong to the selected ministry.');
-                }
-                if ($institution !== null && $institution->parent_id !== $stateDepartment?->id) {
-                    $validator->errors()->add('institution_id', 'That institution does not belong to the selected state department.');
-                }
-            });
-            $validator->validate();
+                $validator = validator($data, [])->after(function (Validator $validator) use ($ministry, $stateDepartment, $institution) {
+                    if ($ministry === null) {
+                        $validator->errors()->add('ministry_id', 'Choose a ministry.');
+                    }
+                    if ($stateDepartment !== null && $stateDepartment->parent_id !== $ministry?->id) {
+                        $validator->errors()->add('state_department_id', 'That state department does not belong to the selected ministry.');
+                    }
+                    if ($institution !== null && $institution->parent_id !== $stateDepartment?->id) {
+                        $validator->errors()->add('institution_id', 'That institution does not belong to the selected state department.');
+                    }
+                });
+                $validator->validate();
 
-            $data['entity_name'] = ($institution ?? $stateDepartment ?? $ministry)->name;
-        } elseif (! $data['entity_name']) {
-            return back()->withInput()->withErrors(['entity_name' => 'Enter the ministry, county or commission name.']);
+                $data['entity_name'] = ($institution ?? $stateDepartment ?? $ministry)->name;
+                $data['county'] = null;
+                $data['commission'] = null;
+                break;
+
+            case 'county':
+                if (! EntityDirectory::isValidCounty($data['county'])) {
+                    return back()->withInput()->withErrors(['county' => 'Choose a county.']);
+                }
+                if (! EntityDirectory::isValidCountyDepartment($data['department_agency'])) {
+                    return back()->withInput()->withErrors(['department_agency' => 'Choose a department for the selected county.']);
+                }
+                $data['entity_name'] = $data['county'];
+                $data['commission'] = null;
+                break;
+
+            case 'commission':
+                if (! EntityDirectory::isValidCommission($data['commission'])) {
+                    return back()->withInput()->withErrors(['commission' => 'Choose a commission or body.']);
+                }
+                if (! EntityDirectory::isValidCommissionDepartment($data['commission'], $data['department_agency'])) {
+                    return back()->withInput()->withErrors(['department_agency' => 'Choose a department/directorate that belongs to the selected commission.']);
+                }
+                $data['entity_name'] = $data['commission'];
+                $data['county'] = null;
+                break;
         }
 
         $user = Auth::user();
