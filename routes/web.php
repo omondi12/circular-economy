@@ -42,4 +42,5 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin'])->grou
     Route::post('/users', [AdminController::class, 'storeUser'])->name('users.store');
     Route::post('/users/{user}/toggle', [AdminController::class, 'toggleUser'])->name('users.toggle');
     Route::get('/audit-log', [AdminController::class, 'auditLog'])->name('audit-log');
+    Route::get('/rm-performance', [AdminController::class, 'rmPerformance'])->name('rm-performance');
 });

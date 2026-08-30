@@ -63,6 +63,38 @@ class AdminController extends Controller
         return back()->with('status', $user->is_active ? "{$user->name} reactivated." : "{$user->name} deactivated.");
     }
 
+    /**
+     * Per-RM performance: their assigned ministry portfolio (see
+     * DistributeMinistries) alongside their actual submission activity, so
+     * the boss can see who's covering what and how active they are.
+     * Scoped to real (@amacplc.com) accounts only, matching the
+     * ministry-distribution scope - demo accounts don't carry a
+     * meaningful "performance."
+     */
+    public function rmPerformance(): View
+    {
+        $rms = User::where('role', User::ROLE_RM)
+            ->where('email', 'like', '%@amacplc.com')
+            ->orderBy('name')
+            ->get()
+            ->map(function (User $rm) {
+                $submissions = Collection::where('user_id', $rm->id);
+
+                return [
+                    'rm' => $rm,
+                    'ministries' => $rm->assignedMinistries()->orderBy('name')->pluck('name'),
+                    'totalSubmissions' => (clone $submissions)->count(),
+                    'submissionsThisMonth' => (clone $submissions)
+                        ->whereMonth('collection_date', now()->month)
+                        ->whereYear('collection_date', now()->year)
+                        ->count(),
+                    'lastSubmissionAt' => (clone $submissions)->max('collection_date'),
+                ];
+            });
+
+        return view('admin.rm-performance', ['rms' => $rms]);
+    }
+
     public function auditLog(Request $request): View
     {
         $filters = [
