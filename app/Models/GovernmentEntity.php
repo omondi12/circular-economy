@@ -14,7 +14,7 @@ class GovernmentEntity extends Model
 
     public const LEVEL_INSTITUTION = 3;
 
-    protected $fillable = ['parent_id', 'name', 'type', 'level', 'status'];
+    protected $fillable = ['parent_id', 'name', 'type', 'level', 'status', 'assigned_rm_id'];
 
     public function parent(): BelongsTo
     {
@@ -29,6 +29,11 @@ class GovernmentEntity extends Model
     public function collections(): HasMany
     {
         return $this->hasMany(Collection::class, 'ministry_id');
+    }
+
+    public function assignedRm(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'assigned_rm_id');
     }
 
     public function scopeMinistries($query)
