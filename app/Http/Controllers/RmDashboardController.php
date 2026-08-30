@@ -51,9 +51,13 @@ class RmDashboardController extends Controller
 
     public function create(): View
     {
+        $user = Auth::user();
+        $assignedMinistryIds = $user->assignedMinistries()->pluck('id')->all();
+
         return view('rm.create', [
             'lots' => WasteCategories::lots(),
-            'ministries' => self::ministryTree(),
+            'ministries' => self::ministryTree($assignedMinistryIds),
+            'restrictedToOwnMinistries' => $assignedMinistryIds !== [],
             'counties' => EntityDirectory::counties(),
             'countyDepartments' => EntityDirectory::countyDepartments(),
             'commissions' => EntityDirectory::commissions(),
@@ -66,11 +70,20 @@ class RmDashboardController extends Controller
      * Lot -> Category). Small enough (a few hundred rows total) to embed
      * directly rather than adding an AJAX endpoint this app has no other
      * use for.
+     *
+     * $allowedMinistryIds scopes the top-level list to only the ministries
+     * an RM has been assigned (see DistributeMinistries) - an RM covers
+     * their whole ministry, so departments/institutions underneath an
+     * allowed ministry aren't filtered further. An empty array means "no
+     * assignment on record" (demo accounts, admins browsing the RM form)
+     * and falls back to showing every ministry rather than locking the
+     * form to zero options.
      */
-    private static function ministryTree(): \Illuminate\Support\Collection
+    private static function ministryTree(array $allowedMinistryIds = []): \Illuminate\Support\Collection
     {
         return GovernmentEntity::ministries()
             ->orderBy('id')
+            ->when($allowedMinistryIds !== [], fn ($q) => $q->whereIn('id', $allowedMinistryIds))
             ->with(['children' => fn ($q) => $q->orderBy('id'), 'children.children' => fn ($q) => $q->orderBy('id')])
             ->get()
             ->map(fn (GovernmentEntity $ministry) => [
@@ -89,6 +102,9 @@ class RmDashboardController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
+        $user = Auth::user();
+        $assignedMinistryIds = $user->assignedMinistries()->pluck('id')->all();
+
         $data = $request->validate([
             'entity_type' => ['required', Rule::in(['ministry', 'county', 'commission'])],
             'entity_name' => ['nullable', 'string', 'max:255'],
@@ -139,9 +155,11 @@ class RmDashboardController extends Controller
                 $stateDepartment = $data['state_department_id'] ? GovernmentEntity::find($data['state_department_id']) : null;
                 $institution = $data['institution_id'] ? GovernmentEntity::find($data['institution_id']) : null;
 
-                $validator = validator($data, [])->after(function (Validator $validator) use ($ministry, $stateDepartment, $institution) {
+                $validator = validator($data, [])->after(function (Validator $validator) use ($ministry, $stateDepartment, $institution, $assignedMinistryIds) {
                     if ($ministry === null) {
                         $validator->errors()->add('ministry_id', 'Choose a ministry.');
+                    } elseif ($assignedMinistryIds !== [] && ! in_array($ministry->id, $assignedMinistryIds, true)) {
+                        $validator->errors()->add('ministry_id', 'You are only able to submit collections for the ministries assigned to you.');
                     }
                     if ($stateDepartment !== null && $stateDepartment->parent_id !== $ministry?->id) {
                         $validator->errors()->add('state_department_id', 'That state department does not belong to the selected ministry.');
@@ -179,8 +197,6 @@ class RmDashboardController extends Controller
                 $data['county'] = null;
                 break;
         }
-
-        $user = Auth::user();
 
         $collection = Collection::create([
             ...$data,

@@ -69,6 +69,9 @@
                             @error('ministry_id')
                                 <p class="text-xs text-red-600 mt-1">{{ $message }}</p>
                             @enderror
+                            @if ($restrictedToOwnMinistries)
+                                <p class="text-xs text-neutral-400 mt-1">Showing only the ministries assigned to you.</p>
+                            @endif
                         </div>
                     </div>
 
