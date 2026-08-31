@@ -46,6 +46,11 @@ class User extends Authenticatable
         return $this->hasMany(GovernmentEntity::class, 'assigned_rm_id')->where('level', GovernmentEntity::LEVEL_MINISTRY);
     }
 
+    public function assignedStateCorporations(): HasMany
+    {
+        return $this->hasMany(StateCorporation::class, 'assigned_rm_id');
+    }
+
     public function isAdmin(): bool
     {
         return $this->role === self::ROLE_ADMIN;

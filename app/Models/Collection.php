@@ -31,6 +31,7 @@ class Collection extends Model
         'ministry_id',
         'state_department_id',
         'institution_id',
+        'state_corporation_id',
         'relationship_manager',
         'state_department',
         'department_agency',
@@ -78,6 +79,11 @@ class Collection extends Model
     public function institution(): BelongsTo
     {
         return $this->belongsTo(GovernmentEntity::class, 'institution_id');
+    }
+
+    public function stateCorporation(): BelongsTo
+    {
+        return $this->belongsTo(StateCorporation::class);
     }
 
     /**

@@ -350,6 +350,14 @@ class GovernmentHierarchySeeder extends Seeder
                 'Constitutional affairs structures',
             ],
         ],
+        // Added per the boss's Level 1 spec ("22 Ministries, Council of
+        // Governors and the Presidency") - brings the top level to 24.
+        // No state departments listed yet for either; the Presidency's own
+        // departments ("Presidency Departments" per that same spec) are a
+        // follow-up once that list is provided, same placeholder pattern
+        // used for Rural Housing/Climate Works in the sibling project.
+        'The Presidency' => [],
+        'Council of Governors' => [],
     ];
 
     public function run(): void

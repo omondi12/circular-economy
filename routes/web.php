@@ -15,6 +15,9 @@ Route::get('/materials', [DashboardController::class, 'materialsIndex'])->name('
 Route::get('/ministries', [DashboardController::class, 'ministriesIndex'])->name('ministries.index');
 Route::get('/ministries/{ministry}', [DashboardController::class, 'ministryShow'])->name('ministries.show');
 Route::get('/ministries/{ministry}/departments/{department}', [DashboardController::class, 'departmentShow'])->name('ministries.departments.show');
+Route::get('/state-corporations', [DashboardController::class, 'stateCorporationsIndex'])->name('state-corporations.index');
+Route::get('/material-items', [DashboardController::class, 'materialItemsIndex'])->name('material-items.index');
+Route::get('/feasibility-study', [DashboardController::class, 'feasibilityStudyIndex'])->name('feasibility-study.index');
 
 Route::prefix('collections')->name('collections.')->group(function () {
     Route::get('/', [CollectionController::class, 'index'])->name('index');

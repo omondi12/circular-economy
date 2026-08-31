@@ -60,36 +60,30 @@
         </header>
 
         {{-- Stat cards --}}
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-8">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
             <x-stat-tile
-                label="Total Submissions" icon="document" tone="green"
-                :value="number_format($totalSubmissions)"
-                hint="Tap to search or filter"
-                :href="route('collections.index')"
-            />
-            <x-stat-tile
-                label="Total Weight Collected" icon="scale" tone="gold"
-                :value="number_format($totalKg, 1).' kg'"
-                hint="Tap for the material breakdown"
-                :href="route('materials.index')"
-            />
-            <x-stat-tile
-                label="This Month" icon="calendar" tone="teal"
-                :value="number_format($thisMonthKg, 1).' kg'"
-                hint="Tap to see this month's submissions"
-                :href="$monthRangeHref"
-            />
-            <x-stat-tile
-                label="Participating Entities" icon="building" tone="violet"
-                :value="number_format($entityCount)"
-                hint="Tap to see every entity"
-                :href="route('entities.index')"
-            />
-            <x-stat-tile
-                label="By Ministry" icon="landmark" tone="rose"
-                :value="number_format($ministryParticipating)"
-                :hint="'of '.number_format($ministryTotal).' ministries - tap for the breakdown'"
+                label="Ministries" icon="landmark" tone="rose"
+                :value="number_format($ministryTotal)"
+                :hint="number_format($ministryParticipating).' have submitted - includes the Presidency and Council of Governors'"
                 :href="route('ministries.index')"
+            />
+            <x-stat-tile
+                label="State Corporations" icon="building" tone="violet"
+                :value="number_format($stateCorpTotal)"
+                :hint="'Phase 1: '.number_format($stateCorpPhase1).' - Phase 2: '.number_format($stateCorpPhase2)"
+                :href="route('state-corporations.index')"
+            />
+            <x-stat-tile
+                label="Material Items" icon="scale" tone="gold"
+                :value="number_format($materialItemCount)"
+                hint="Across Lot 1 (Sale) and Lot 2 (Disposal)"
+                :href="route('material-items.index')"
+            />
+            <x-stat-tile
+                label="Feasibility Study" icon="document" tone="green"
+                :value="number_format($totalSubmissions)"
+                hint="RM submissions - by agent, materials, ministry or state corporation"
+                :href="route('feasibility-study.index')"
             />
         </div>
 

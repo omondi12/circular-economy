@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Collection;
 use App\Models\GovernmentEntity;
+use App\Models\StateCorporation;
 use App\Support\WasteCategories;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
 
 class DashboardController extends Controller
 {
@@ -32,21 +32,16 @@ class DashboardController extends Controller
 
     public function index(): View
     {
-        $monthStart = Carbon::now()->startOfMonth();
-        $monthEnd = Carbon::now()->endOfMonth();
-
         $totalSubmissions = Collection::count();
-        $totalKg = (float) Collection::selectRaw('SUM('.self::COMBINED_KG_SQL.') as total')->value('total');
-
-        $thisMonthKg = (float) Collection::whereBetween('collection_date', [$monthStart, $monthEnd])
-            ->selectRaw('SUM('.self::COMBINED_KG_SQL.') as total')->value('total');
-
-        $thisMonthSubmissions = Collection::whereBetween('collection_date', [$monthStart, $monthEnd])->count();
-
-        $entityCount = Collection::distinct('entity_name')->count('entity_name');
 
         $ministryParticipating = Collection::whereNotNull('ministry_id')->distinct('ministry_id')->count('ministry_id');
         $ministryTotal = GovernmentEntity::ministries()->count();
+
+        $stateCorpTotal = StateCorporation::count();
+        $stateCorpPhase1 = StateCorporation::phaseOne()->count();
+        $stateCorpPhase2 = StateCorporation::phaseTwo()->count();
+
+        $materialItemCount = collect(WasteCategories::lots())->sum(fn (array $lot) => count($lot['categories']));
 
         $byWeight = self::byWeightCategories();
 
@@ -86,20 +81,16 @@ class DashboardController extends Controller
 
         return view('dashboard', [
             'totalSubmissions' => $totalSubmissions,
-            'totalKg' => $totalKg,
-            'thisMonthKg' => $thisMonthKg,
-            'thisMonthSubmissions' => $thisMonthSubmissions,
-            'entityCount' => $entityCount,
             'ministryParticipating' => $ministryParticipating,
             'ministryTotal' => $ministryTotal,
+            'stateCorpTotal' => $stateCorpTotal,
+            'stateCorpPhase1' => $stateCorpPhase1,
+            'stateCorpPhase2' => $stateCorpPhase2,
+            'materialItemCount' => $materialItemCount,
             'byWeight' => $byWeight,
             'byLot' => $byLot,
             'byEntity' => $byEntity,
             'recent' => $recent,
-            'monthRangeHref' => route('collections.index', [
-                'from' => $monthStart->toDateString(),
-                'to' => $monthEnd->toDateString(),
-            ]),
         ]);
     }
 
@@ -122,30 +113,73 @@ class DashboardController extends Controller
     }
 
     /**
-     * Full "By Ministry" breakdown - every ministry from the master
-     * hierarchy, not just the ones with submissions so far, so this reads
-     * as coverage against the whole government rather than just a list of
-     * participants. Each row links into the filtered submissions list.
+     * Full "Ministries" breakdown - every ministry from the master
+     * hierarchy (now 24: the 22 named ministries plus Council of Governors
+     * and the Presidency), not just the ones with submissions so far, so
+     * this reads as coverage against the whole government rather than just
+     * a list of participants. Each row links into the filtered submissions
+     * list, and carries its assigned Coordinator (see
+     * DistributeMinistries) so the boss can see who owns what.
+     *
+     * The search box matches the ministry's own name plus every state
+     * department and institution nested under it - loaded eagerly and
+     * filtered in memory since the whole tree is only a few hundred rows,
+     * the same trade-off RmDashboardController::ministryTree() already
+     * makes for the same data.
      */
-    public function ministriesIndex(): View
+    public function ministriesIndex(Request $request): View
     {
+        $search = $request->string('q')->toString() ?: null;
+        $needle = $search ? mb_strtolower($search) : null;
+
         $ministries = GovernmentEntity::ministries()
             ->orderBy('id')
+            ->with(['assignedRm', 'children.children'])
             ->get()
+            ->filter(function (GovernmentEntity $ministry) use ($needle) {
+                if ($needle === null) {
+                    return true;
+                }
+
+                if (str_contains(mb_strtolower($ministry->name), $needle)) {
+                    return true;
+                }
+
+                foreach ($ministry->children as $department) {
+                    if (str_contains(mb_strtolower($department->name), $needle)) {
+                        return true;
+                    }
+                    foreach ($department->children as $institution) {
+                        if (str_contains(mb_strtolower($institution->name), $needle)) {
+                            return true;
+                        }
+                    }
+                }
+
+                return false;
+            })
             ->map(function (GovernmentEntity $ministry) {
                 $row = Collection::where('ministry_id', $ministry->id)
                     ->selectRaw('COUNT(*) as submissions, '.self::entityQuantitySql())
                     ->first();
 
                 return array_merge(
-                    ['id' => $ministry->id, 'name' => $ministry->name, 'submissions' => (int) $row->submissions],
+                    [
+                        'id' => $ministry->id,
+                        'name' => $ministry->name,
+                        'coordinator' => $ministry->assignedRm?->name,
+                        'submissions' => (int) $row->submissions,
+                    ],
                     self::unitTotalsArray($row)
                 );
             })
-            ->sortByDesc('submissions')
             ->values();
 
-        return view('ministries.index', ['ministries' => $ministries]);
+        return view('ministries.index', [
+            'ministries' => $ministries,
+            'totalMinistries' => GovernmentEntity::ministries()->count(),
+            'search' => $search,
+        ]);
     }
 
     /**
@@ -225,6 +259,148 @@ class DashboardController extends Controller
             'institutions' => $institutions,
             'collections' => $collections,
             'filters' => ['institution' => $institutionParam],
+        ]);
+    }
+
+    /**
+     * "State Corporations" (the boss's Level 2 parastatal category, what
+     * this tracker used to loosely call "institutions") - a flat,
+     * standalone registry seeded from the official 348-corporation list
+     * (see database/data/state_corporations.json), tagged Phase 1 (the
+     * boss's named pilot clients) or Phase 2 (everything else). Filterable
+     * by phase and by name/cluster search.
+     */
+    public function stateCorporationsIndex(Request $request): View
+    {
+        $phase = $request->integer('phase') ?: null;
+        $search = $request->string('q')->toString() ?: null;
+
+        $corporations = StateCorporation::query()
+            ->when($phase, fn ($q, $v) => $q->where('phase', $v))
+            ->when($search, fn ($q, $v) => $q->where('name', 'like', "%{$v}%"))
+            ->orderBy('phase')
+            ->orderBy('cluster')
+            ->orderBy('name')
+            ->get();
+
+        return view('state-corporations.index', [
+            'corporations' => $corporations,
+            'phase1Count' => StateCorporation::phaseOne()->count(),
+            'phase2Count' => StateCorporation::phaseTwo()->count(),
+            'filters' => ['phase' => $phase, 'q' => $search],
+        ]);
+    }
+
+    /**
+     * "Material Items" - the Lot 1 / Lot 2 catalog itself (every category,
+     * subcategory and the units each one is valid in), not submission
+     * data. Each row also carries its own submission count as a light
+     * cross-reference into how much that catalog entry has actually been
+     * used, without turning this into a duplicate of the weight/lot
+     * breakdowns already on the homepage.
+     */
+    public function materialItemsIndex(): View
+    {
+        $lots = collect(WasteCategories::lots())->map(function (array $lot, int $lotKey) {
+            $categories = collect($lot['categories'])->map(function (array $meta, string $categoryKey) use ($lotKey, $lot) {
+                if (! empty($lot['has_subcategories']) && isset($meta['subcategories'])) {
+                    $subcategories = collect($meta['subcategories'])->map(function (array $sub, string $subKey) use ($lotKey, $categoryKey) {
+                        return [
+                            'label' => $sub['label'],
+                            'units' => array_map(fn ($u) => WasteCategories::UNIT_LABELS[$u] ?? $u, $sub['units']),
+                            'submissions' => Collection::where('lot', $lotKey)->where('category', $categoryKey)->where('subcategory', $subKey)->count(),
+                        ];
+                    })->values();
+
+                    return [
+                        'label' => $meta['label'],
+                        'subcategories' => $subcategories,
+                        'units' => [],
+                        'submissions' => Collection::where('lot', $lotKey)->where('category', $categoryKey)->count(),
+                    ];
+                }
+
+                return [
+                    'label' => $meta['label'],
+                    'subcategories' => collect(),
+                    'units' => array_map(fn ($u) => WasteCategories::UNIT_LABELS[$u] ?? $u, $meta['units']),
+                    'submissions' => Collection::where('lot', $lotKey)->where('category', $categoryKey)->count(),
+                ];
+            })->values();
+
+            return [
+                'lot' => $lotKey,
+                'label' => $lot['label'],
+                'has_subcategories' => ! empty($lot['has_subcategories']),
+                'categories' => $categories,
+            ];
+        })->values();
+
+        return view('material-items.index', ['lots' => $lots]);
+    }
+
+    /**
+     * "Feasibility Study" - the RM-submitted survey data itself (what the
+     * homepage's old "Total Submissions" card pointed at), browsable 4
+     * ways per the boss's Level 4 spec. "By State Corporation" will read
+     * as all-zero until the Account Manager availability-survey flow
+     * (Level 4) actually writes state_corporation_id on a Collection - the
+     * column exists (see the 2026_08_31_000002 migration) but nothing
+     * populates it yet, so this view is honestly empty rather than broken.
+     */
+    public function feasibilityStudyIndex(Request $request): View
+    {
+        $view = $request->string('view')->toString();
+        $view = in_array($view, ['agent', 'materials', 'ministries', 'state-corporation'], true) ? $view : 'agent';
+
+        $rows = match ($view) {
+            'agent' => Collection::query()
+                ->selectRaw('relationship_manager, COUNT(*) as submissions, '.self::entityQuantitySql())
+                ->whereNotNull('relationship_manager')
+                ->groupBy('relationship_manager')
+                ->orderByDesc('submissions')
+                ->get(),
+            'materials' => collect(WasteCategories::lots())->flatMap(function (array $lot, int $lotKey) {
+                return collect($lot['categories'])->map(function (array $meta, string $categoryKey) use ($lotKey) {
+                    $row = Collection::where('lot', $lotKey)->where('category', $categoryKey)
+                        ->selectRaw('COUNT(*) as submissions, '.self::unitBreakdownSql())
+                        ->first();
+
+                    return [
+                        'label' => $meta['label'].' ('.WasteCategories::shortLotLabel($lotKey).')',
+                        'submissions' => (int) $row->submissions,
+                        'units' => self::nonZeroUnits($row),
+                    ];
+                });
+            })->sortByDesc('submissions')->values(),
+            'ministries' => GovernmentEntity::ministries()->orderBy('id')->get()
+                ->map(function (GovernmentEntity $ministry) {
+                    $row = Collection::where('ministry_id', $ministry->id)
+                        ->selectRaw('COUNT(*) as submissions, '.self::entityQuantitySql())
+                        ->first();
+
+                    return array_merge(
+                        ['label' => $ministry->name, 'submissions' => (int) $row->submissions],
+                        self::unitTotalsArray($row)
+                    );
+                })->sortByDesc('submissions')->values(),
+            'state-corporation' => StateCorporation::orderBy('name')->get()
+                ->map(function (StateCorporation $corp) {
+                    $row = Collection::where('state_corporation_id', $corp->id)
+                        ->selectRaw('COUNT(*) as submissions, '.self::entityQuantitySql())
+                        ->first();
+
+                    return array_merge(
+                        ['label' => $corp->name, 'submissions' => (int) $row->submissions],
+                        self::unitTotalsArray($row)
+                    );
+                })->sortByDesc('submissions')->values(),
+        };
+
+        return view('feasibility-study.index', [
+            'view' => $view,
+            'rows' => $rows,
+            'totalSubmissions' => Collection::count(),
         ]);
     }
 

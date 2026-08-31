@@ -1,0 +1,2452 @@
+[
+  {
+    "name": "Assets Recovery Agency",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (A)",
+    "phase": 2
+  },
+  {
+    "name": "Financial Reporting Centre",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (A)",
+    "phase": 2
+  },
+  {
+    "name": "Geothermal Development Company (GDC)",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (A)",
+    "phase": 1
+  },
+  {
+    "name": "Kenya Deposit Insurance Corporation",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (A)",
+    "phase": 2
+  },
+  {
+    "name": "Kenya Electricity Transmission Company",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (A)",
+    "phase": 1
+  },
+  {
+    "name": "Kenya Revenue Authority",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (A)",
+    "phase": 1
+  },
+  {
+    "name": "Kenya Roads Board",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (A)",
+    "phase": 2
+  },
+  {
+    "name": "Kenya Trade Network Agency",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (A)",
+    "phase": 2
+  },
+  {
+    "name": "Nairobi International Financial Center Authority",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (A)",
+    "phase": 2
+  },
+  {
+    "name": "National Coroners Service",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (A)",
+    "phase": 2
+  },
+  {
+    "name": "Rural Electrification and Renewable Energy Corporation (REREC)",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (A)",
+    "phase": 1
+  },
+  {
+    "name": "Social Health Authority",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (A)",
+    "phase": 2
+  },
+  {
+    "name": "Unclaimed Financial Assets Authority",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (A)",
+    "phase": 2
+  },
+  {
+    "name": "Business Registration Service",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (B)",
+    "phase": 2
+  },
+  {
+    "name": "Information & Communication Technology Authority",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (B)",
+    "phase": 2
+  },
+  {
+    "name": "Investor Compensation Fund Board",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (B)",
+    "phase": 2
+  },
+  {
+    "name": "Kenya Academy of Sports",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (B)",
+    "phase": 2
+  },
+  {
+    "name": "Kenya Animal Genetic Resource Centre",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (B)",
+    "phase": 2
+  },
+  {
+    "name": "Kenya Export Promotion and Branding Agency",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (B)",
+    "phase": 2
+  },
+  {
+    "name": "Kenya Institute of Curriculum Development",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (B)",
+    "phase": 2
+  },
+  {
+    "name": "Kenya Investment Authority",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (B)",
+    "phase": 2
+  },
+  {
+    "name": "Kenya Law Reform Commission",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (B)",
+    "phase": 2
+  },
+  {
+    "name": "Kenya Medical Supplies Agency (KEMSA)",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (B)",
+    "phase": 1
+  },
+  {
+    "name": "Kenya National Bureau of Statistics",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (B)",
+    "phase": 2
+  },
+  {
+    "name": "Kenya National Examinations Council",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (B)",
+    "phase": 2
+  },
+  {
+    "name": "Kenya National Highways Authority (KeNHA)",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (B)",
+    "phase": 1
+  },
+  {
+    "name": "Kenya Rural Roads Authority",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (B)",
+    "phase": 1
+  },
+  {
+    "name": "Kenya Tourism Board",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (B)",
+    "phase": 2
+  },
+  {
+    "name": "Kenya Urban Roads Authority",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (B)",
+    "phase": 1
+  },
+  {
+    "name": "Kenya Wildlife Service",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (B)",
+    "phase": 1
+  },
+  {
+    "name": "Konza Technopolis Development Authority",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (B)",
+    "phase": 2
+  },
+  {
+    "name": "LAPSSET Corridor Development Authority",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (B)",
+    "phase": 1
+  },
+  {
+    "name": "Micro & Small Enterprises Authority",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "RA",
+    "subclass": "EA (B)",
+    "phase": 2
+  },
+  {
+    "name": "Nairobi Area Metropolitan Transport Authority",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (B)",
+    "phase": 2
+  },
+  {
+    "name": "Nairobi Centre for International Arbitration",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (B)",
+    "phase": 2
+  },
+  {
+    "name": "National Cancer Institute of Kenya",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (B)",
+    "phase": 2
+  },
+  {
+    "name": "National Environment Trust Fund",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (B)",
+    "phase": 2
+  },
+  {
+    "name": "National Government Affirmative Action Fund",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (B)",
+    "phase": 2
+  },
+  {
+    "name": "National Government Constituency Development Fund",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (B)",
+    "phase": 2
+  },
+  {
+    "name": "National Irrigation Authority",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (B)",
+    "phase": 1
+  },
+  {
+    "name": "National Legal Aid Service",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (B)",
+    "phase": 2
+  },
+  {
+    "name": "National Syndemic Disease Control Council",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (B)",
+    "phase": 2
+  },
+  {
+    "name": "Policy Holders Compensation Fund",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (B)",
+    "phase": 2
+  },
+  {
+    "name": "Privatization Commission",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (B)",
+    "phase": 2
+  },
+  {
+    "name": "Sports Kenya",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (B)",
+    "phase": 2
+  },
+  {
+    "name": "Tourism Fund",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (B)",
+    "phase": 2
+  },
+  {
+    "name": "Water Sector Trust Fund",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (B)",
+    "phase": 2
+  },
+  {
+    "name": "Youth Enterprise Development Fund Board",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (B)",
+    "phase": 2
+  },
+  {
+    "name": "Agricultural Development Corporation",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (C)",
+    "phase": 2
+  },
+  {
+    "name": "Athi Water Works Development Agency",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (C)",
+    "phase": 1
+  },
+  {
+    "name": "Central Rift Valley Water Works Development Agency",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (C)",
+    "phase": 1
+  },
+  {
+    "name": "Coast Water Works Development Agency",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (C)",
+    "phase": 2
+  },
+  {
+    "name": "Export Processing Zones Authority",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (C)",
+    "phase": 2
+  },
+  {
+    "name": "Fertilizers and Animal Food Stuff Board",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (C)",
+    "phase": 2
+  },
+  {
+    "name": "Higher Education Loans Board",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (C)",
+    "phase": 2
+  },
+  {
+    "name": "Institute of Human Resource Management Professionals Examinations Board",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (C)",
+    "phase": 2
+  },
+  {
+    "name": "Kenya Accountants and Secretaries National Examination Board",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (C)",
+    "phase": 2
+  },
+  {
+    "name": "Kenya Film Commission",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (C)",
+    "phase": 2
+  },
+  {
+    "name": "Kenya Fisheries Service",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": null,
+    "subclass": null,
+    "phase": 2
+  },
+  {
+    "name": "Kenya Fish Marketing Authority",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (C)",
+    "phase": 2
+  },
+  {
+    "name": "Kenya Forest Service",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (C)",
+    "phase": 1
+  },
+  {
+    "name": "Kenya Hospital Authority Trust Fund",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (C)",
+    "phase": 2
+  },
+  {
+    "name": "Kenya Industrial Property Institute",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (C)",
+    "phase": 2
+  },
+  {
+    "name": "Kenya Institute of Supplies Examination Board",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (C)",
+    "phase": 2
+  },
+  {
+    "name": "Kenya National Library Service",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (C)",
+    "phase": 2
+  },
+  {
+    "name": "Kenya National Public Health Institute",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (C)",
+    "phase": 2
+  },
+  {
+    "name": "Kenya Trade Remedies Agency",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (C)",
+    "phase": 2
+  },
+  {
+    "name": "Kenya Tsetse and Trypanosomiasis Eradication Council",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (C)",
+    "phase": 2
+  },
+  {
+    "name": "Kenya Universities and Colleges Central Placement Service",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (C)",
+    "phase": 2
+  },
+  {
+    "name": "Kenya Water Towers Agency",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (C)",
+    "phase": 2
+  },
+  {
+    "name": "Kenya Yearbook Editorial Board",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (C)",
+    "phase": 2
+  },
+  {
+    "name": "Lake Victoria North Water Works Development Agency",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (C)",
+    "phase": 2
+  },
+  {
+    "name": "Lake Victoria South Water Works Development Agency",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (C)",
+    "phase": 2
+  },
+  {
+    "name": "National Coordinating Agency for Population and Development",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (C)",
+    "phase": 2
+  },
+  {
+    "name": "National Council for Law Reporting",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (C)",
+    "phase": 2
+  },
+  {
+    "name": "National Council for Persons with Disabilities",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (C)",
+    "phase": 2
+  },
+  {
+    "name": "National Drought Management Authority",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (C)",
+    "phase": 2
+  },
+  {
+    "name": "National Quality Control Laboratory",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (C)",
+    "phase": 2
+  },
+  {
+    "name": "National Water Harvesting and Storage Authority",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (C)",
+    "phase": 1
+  },
+  {
+    "name": "National Youth Service",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (C)",
+    "phase": 1
+  },
+  {
+    "name": "North Rift Valley Water Works Development Agency",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (C)",
+    "phase": 2
+  },
+  {
+    "name": "Northern Water Works Development Agency (NWSB)",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (C)",
+    "phase": 2
+  },
+  {
+    "name": "Nuclear Power and Energy Agency",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (C)",
+    "phase": 2
+  },
+  {
+    "name": "Nyayo Tea Zones Development Corporation",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (C)",
+    "phase": 2
+  },
+  {
+    "name": "Railway City Development Authority",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (C)",
+    "phase": 2
+  },
+  {
+    "name": "Tana and Athi Water Works Development Agency",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (C)",
+    "phase": 2
+  },
+  {
+    "name": "Tana Water Works Development Agency",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (C)",
+    "phase": 1
+  },
+  {
+    "name": "Technical and Vocational Education and Training Curriculum Development Assessment & Certification Council (TVETCDACC)",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (C)",
+    "phase": 2
+  },
+  {
+    "name": "Victims Protection Agency",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (C)",
+    "phase": 2
+  },
+  {
+    "name": "Warehouse Receipt System Council",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (C)",
+    "phase": 2
+  },
+  {
+    "name": "Witness Protection Agency",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (C)",
+    "phase": 2
+  },
+  {
+    "name": "Agricultural Information Resource Centre (AIRC)",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (D)",
+    "phase": 2
+  },
+  {
+    "name": "Anti-Female Genital Mutilation Board",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (D)",
+    "phase": 2
+  },
+  {
+    "name": "Coast Development Authority",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (D)",
+    "phase": 2
+  },
+  {
+    "name": "Ewaso Ng’iro North Development Authority",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (D)",
+    "phase": 2
+  },
+  {
+    "name": "Ewaso Ng’iro South Development Authority",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (D)",
+    "phase": 2
+  },
+  {
+    "name": "Kenya National Commission for UNESCO",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (D)",
+    "phase": 2
+  },
+  {
+    "name": "Kenya National Innovation Agency",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (D)",
+    "phase": 2
+  },
+  {
+    "name": "Kenya National Qualifications Authority",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (D)",
+    "phase": 2
+  },
+  {
+    "name": "Kerio Valley Development Authority (KVDA)",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (D)",
+    "phase": 2
+  },
+  {
+    "name": "Lake Basin Development Authority (LBDA)",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (D)",
+    "phase": 2
+  },
+  {
+    "name": "National Heroes Council",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (D)",
+    "phase": 2
+  },
+  {
+    "name": "National Youth Council",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (D)",
+    "phase": 2
+  },
+  {
+    "name": "Tana and Athi Rivers Development Authority",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (D)",
+    "phase": 2
+  },
+  {
+    "name": "The Kenya Cultural Centre",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (D)",
+    "phase": 2
+  },
+  {
+    "name": "The President’s Awards",
+    "cluster": "EXECUTIVE AGENCIES",
+    "class": "EA",
+    "subclass": "EA (D)",
+    "phase": 2
+  },
+  {
+    "name": "East African Portland Cement Company Ltd",
+    "cluster": "GOVERNMENT OWNED ENTERPRISES",
+    "class": "GOE1",
+    "subclass": "GOE1",
+    "phase": 2
+  },
+  {
+    "name": "Kenya Electricity Generating Company",
+    "cluster": "GOVERNMENT OWNED ENTERPRISES",
+    "class": "GOE1",
+    "subclass": "GOE1",
+    "phase": 1
+  },
+  {
+    "name": "Kenya Power and Lighting Company Ltd",
+    "cluster": "GOVERNMENT OWNED ENTERPRISES",
+    "class": "GOE1",
+    "subclass": "GOE1",
+    "phase": 1
+  },
+  {
+    "name": "Kenya Re-Insurance Corporation",
+    "cluster": "GOVERNMENT OWNED ENTERPRISES",
+    "class": "GOE1",
+    "subclass": "GOE1",
+    "phase": 2
+  },
+  {
+    "name": "Kenya Re-Insurance Corporation Cote d’Ivoire",
+    "cluster": "GOVERNMENT OWNED ENTERPRISES",
+    "class": "GOE1",
+    "subclass": "GOE1",
+    "phase": 2
+  },
+  {
+    "name": "Kenya Re-Insurance Corporation Zambia Ltd",
+    "cluster": "GOVERNMENT OWNED ENTERPRISES",
+    "class": "GOE1",
+    "subclass": "GOE1",
+    "phase": 2
+  },
+  {
+    "name": "Kenya Re-Insurance Corporation Uganda SMC",
+    "cluster": "GOVERNMENT OWNED ENTERPRISES",
+    "class": "GOE1",
+    "subclass": "GOE1",
+    "phase": 2
+  },
+  {
+    "name": "Agricultural Finance Corporation",
+    "cluster": "GOVERNMENT OWNED ENTERPRISES",
+    "class": "GOE2",
+    "subclass": "GOE2 (A)",
+    "phase": 2
+  },
+  {
+    "name": "Industrial and Commercial Development Corporation",
+    "cluster": "GOVERNMENT OWNED ENTERPRISES",
+    "class": "GOE2",
+    "subclass": "GOE2 (A)",
+    "phase": 2
+  },
+  {
+    "name": "Kenya Airports Authority",
+    "cluster": "GOVERNMENT OWNED ENTERPRISES",
+    "class": "GOE2",
+    "subclass": "GOE2 (A)",
+    "phase": 1
+  },
+  {
+    "name": "Kenya Development Corporation",
+    "cluster": "GOVERNMENT OWNED ENTERPRISES",
+    "class": "GOE2",
+    "subclass": "GOE2 (A)",
+    "phase": 2
+  },
+  {
+    "name": "Kenya Literature Bureau",
+    "cluster": "GOVERNMENT OWNED ENTERPRISES",
+    "class": "GOE2",
+    "subclass": "GOE2 (A)",
+    "phase": 1
+  },
+  {
+    "name": "Kenya National Entrepreneurs Savings Trust",
+    "cluster": "GOVERNMENT OWNED ENTERPRISES",
+    "class": "GOE3",
+    "subclass": "GOE2 (A)",
+    "phase": 2
+  },
+  {
+    "name": "Kenya Pipeline Corporation",
+    "cluster": "GOVERNMENT OWNED ENTERPRISES",
+    "class": "GOE2",
+    "subclass": "GOE2 (A)",
+    "phase": 1
+  },
+  {
+    "name": "Kenya Ports Authority",
+    "cluster": "GOVERNMENT OWNED ENTERPRISES",
+    "class": "GOE2",
+    "subclass": "GOE2 (A)",
+    "phase": 1
+  },
+  {
+    "name": "Kenya Railways Corporation",
+    "cluster": "GOVERNMENT OWNED ENTERPRISES",
+    "class": "GOE2",
+    "subclass": "GOE2 (A)",
+    "phase": 1
+  },
+  {
+    "name": "National Hospital Insurance Fund",
+    "cluster": "GOVERNMENT OWNED ENTERPRISES",
+    "class": "GOE2",
+    "subclass": "GOE2 (A)",
+    "phase": 2
+  },
+  {
+    "name": "National Social Security Fund",
+    "cluster": "GOVERNMENT OWNED ENTERPRISES",
+    "class": "GOE2",
+    "subclass": "GOE2 (A)",
+    "phase": 2
+  },
+  {
+    "name": "New Kenya Co-operative Creameries",
+    "cluster": "GOVERNMENT OWNED ENTERPRISES",
+    "class": "GOE2",
+    "subclass": "GOE2 (A)",
+    "phase": 2
+  },
+  {
+    "name": "Kenya Seed Company Limited",
+    "cluster": "GOVERNMENT OWNED ENTERPRISES",
+    "class": "GOE2",
+    "subclass": "GOE2 (B)",
+    "phase": 2
+  },
+  {
+    "name": "Local Authorities Provident Fund",
+    "cluster": "GOVERNMENT OWNED ENTERPRISES",
+    "class": "GOE2",
+    "subclass": "GOE2 (B)",
+    "phase": 2
+  },
+  {
+    "name": "National Cereals and Produce Board",
+    "cluster": "GOVERNMENT OWNED ENTERPRISES",
+    "class": "GOE2",
+    "subclass": "GOE2 (B)",
+    "phase": 2
+  },
+  {
+    "name": "National Housing Corporation",
+    "cluster": "GOVERNMENT OWNED ENTERPRISES",
+    "class": "GOE2",
+    "subclass": "GOE2 (B)",
+    "phase": 2
+  },
+  {
+    "name": "Numerical Machining Complex",
+    "cluster": "GOVERNMENT OWNED ENTERPRISES",
+    "class": "GOE2",
+    "subclass": "GOE2 (B)",
+    "phase": 2
+  },
+  {
+    "name": "Postal Corporation of Kenya",
+    "cluster": "GOVERNMENT OWNED ENTERPRISES",
+    "class": "GOE2",
+    "subclass": "GOE2 (B)",
+    "phase": 2
+  },
+  {
+    "name": "Public Service Superannuation Fund Board",
+    "cluster": "GOVERNMENT OWNED ENTERPRISES",
+    "class": "GOE2",
+    "subclass": "GOE2 (B)",
+    "phase": 2
+  },
+  {
+    "name": "Rivatex East Africa Limited",
+    "cluster": "GOVERNMENT OWNED ENTERPRISES",
+    "class": "GOE2",
+    "subclass": "GOE2 (B)",
+    "phase": 2
+  },
+  {
+    "name": "School Equipment Production Unit",
+    "cluster": "GOVERNMENT OWNED ENTERPRISES",
+    "class": "GOE2",
+    "subclass": "GOE3 (B)",
+    "phase": 2
+  },
+  {
+    "name": "Kenya Broadcasting Corporation",
+    "cluster": "GOVERNMENT OWNED ENTERPRISES",
+    "class": "GOE2",
+    "subclass": "GOE2 (C)",
+    "phase": 2
+  },
+  {
+    "name": "Kenya Ordinance and Factories Corporation (KOFC)",
+    "cluster": "GOVERNMENT OWNED ENTERPRISES",
+    "class": "GOE2",
+    "subclass": "GOE2 (C)",
+    "phase": 1
+  },
+  {
+    "name": "National Mining Corporation",
+    "cluster": "GOVERNMENT OWNED ENTERPRISES",
+    "class": "GOE2",
+    "subclass": "GOE2 (C)",
+    "phase": 2
+  },
+  {
+    "name": "National Oil Corporation of Kenya (NOCK)",
+    "cluster": "GOVERNMENT OWNED ENTERPRISES",
+    "class": "GOE2",
+    "subclass": "GOE2 (C)",
+    "phase": 1
+  },
+  {
+    "name": "Consolidated Bank",
+    "cluster": "GOVERNMENT OWNED ENTERPRISES",
+    "class": "GOE3",
+    "subclass": "GOE3 (A)",
+    "phase": 2
+  },
+  {
+    "name": "Kenya BioVax Institute",
+    "cluster": "GOVERNMENT OWNED ENTERPRISES",
+    "class": "GOE3",
+    "subclass": "GOE3 (A)",
+    "phase": 2
+  },
+  {
+    "name": "Kenyatta International Convention Centre",
+    "cluster": "GOVERNMENT OWNED ENTERPRISES",
+    "class": "GOE2",
+    "subclass": "GOE3 (A)",
+    "phase": 2
+  },
+  {
+    "name": "Kenya National Trading Corporation Ltd",
+    "cluster": "GOVERNMENT OWNED ENTERPRISES",
+    "class": "GOE3",
+    "subclass": "GOE3 (A)",
+    "phase": 2
+  },
+  {
+    "name": "Kenya Shipyard Ltd",
+    "cluster": "GOVERNMENT OWNED ENTERPRISES",
+    "class": "GOE3",
+    "subclass": "GOE3 (A)",
+    "phase": 1
+  },
+  {
+    "name": "Kenya Veterinary Vaccines Production Institute (KEVEVAPI)",
+    "cluster": "GOVERNMENT OWNED ENTERPRISES",
+    "class": "GOE3",
+    "subclass": "GOE3 (A)",
+    "phase": 2
+  },
+  {
+    "name": "Agro-Chemical and Food Company",
+    "cluster": "GOVERNMENT OWNED ENTERPRISES",
+    "class": "GOE3",
+    "subclass": "GOE3 (B)",
+    "phase": 2
+  },
+  {
+    "name": "Development Bank of Kenya Ltd.",
+    "cluster": "GOVERNMENT OWNED ENTERPRISES",
+    "class": "GOE3",
+    "subclass": "GOE3 (B)",
+    "phase": 2
+  },
+  {
+    "name": "Egerton University Investment Enterprise",
+    "cluster": "GOVERNMENT OWNED ENTERPRISES",
+    "class": "GOE3",
+    "subclass": "GOE3 (B)",
+    "phase": 2
+  },
+  {
+    "name": "Jomo Kenyatta Foundation",
+    "cluster": "GOVERNMENT OWNED ENTERPRISES",
+    "class": "GOE3",
+    "subclass": "GOE3 (B)",
+    "phase": 2
+  },
+  {
+    "name": "Jomo Kenyatta University Enterprises Ltd.",
+    "cluster": "GOVERNMENT OWNED ENTERPRISES",
+    "class": "GOE3",
+    "subclass": "GOE3 (B)",
+    "phase": 2
+  },
+  {
+    "name": "Kenya Fishing Industries Corporation",
+    "cluster": "GOVERNMENT OWNED ENTERPRISES",
+    "class": "GOE3",
+    "subclass": "GOE3 (B)",
+    "phase": 2
+  },
+  {
+    "name": "Kenya Industrial Estate",
+    "cluster": "GOVERNMENT OWNED ENTERPRISES",
+    "class": "GOE3",
+    "subclass": "GOE3 (B)",
+    "phase": 2
+  },
+  {
+    "name": "Kenya Meat Commission",
+    "cluster": "GOVERNMENT OWNED ENTERPRISES",
+    "class": "GOE3",
+    "subclass": "GOE3 (B)",
+    "phase": 2
+  },
+  {
+    "name": "Kenya National Shipping Line",
+    "cluster": "GOVERNMENT OWNED ENTERPRISES",
+    "class": "GOE3",
+    "subclass": "GOE3 (B)",
+    "phase": 1
+  },
+  {
+    "name": "Kenya Petroleum Refineries Limited",
+    "cluster": "GOVERNMENT OWNED ENTERPRISES",
+    "class": "GOE3",
+    "subclass": "GOE3 (B)",
+    "phase": 2
+  },
+  {
+    "name": "Kenya Post Office Savings Bank",
+    "cluster": "GOVERNMENT OWNED ENTERPRISES",
+    "class": "GOE3",
+    "subclass": "GOE3 (B)",
+    "phase": 2
+  },
+  {
+    "name": "Kenya Prisons Enterprise Fund",
+    "cluster": "GOVERNMENT OWNED ENTERPRISES",
+    "class": "GOE3",
+    "subclass": "GOE3 (B)",
+    "phase": 2
+  },
+  {
+    "name": "National Informal Sector Pension Ltd",
+    "cluster": "GOVERNMENT OWNED ENTERPRISES",
+    "class": "GOE3",
+    "subclass": "GOE3 (B)",
+    "phase": 2
+  },
+  {
+    "name": "University of Nairobi Enterprises and Services Limited",
+    "cluster": "GOVERNMENT OWNED ENTERPRISES",
+    "class": "GOE3",
+    "subclass": "GOE3 (B)",
+    "phase": 2
+  },
+  {
+    "name": "Agri and Cooperative Training & Consultancy Services Ltd",
+    "cluster": "GOVERNMENT OWNED ENTERPRISES",
+    "class": "GOE3",
+    "subclass": "GOE3 (C)",
+    "phase": 2
+  },
+  {
+    "name": "Ahero Rice Meals",
+    "cluster": "GOVERNMENT OWNED ENTERPRISES",
+    "class": "GOE3",
+    "subclass": "GOE3 (C)",
+    "phase": 2
+  },
+  {
+    "name": "Bomas of Kenya",
+    "cluster": "GOVERNMENT OWNED ENTERPRISES",
+    "class": "GOE3",
+    "subclass": "GOE3 (C)",
+    "phase": 2
+  },
+  {
+    "name": "CBKL Bancassurance Intermediary",
+    "cluster": "GOVERNMENT OWNED ENTERPRISES",
+    "class": "GOE3",
+    "subclass": "GOE3 (C)",
+    "phase": 2
+  },
+  {
+    "name": "Chemilil Sugar Company Ltd",
+    "cluster": "GOVERNMENT OWNED ENTERPRISES",
+    "class": "GOE3",
+    "subclass": "GOE3 (C)",
+    "phase": 2
+  },
+  {
+    "name": "Freshpick Processors",
+    "cluster": "GOVERNMENT OWNED ENTERPRISES",
+    "class": "GOE3",
+    "subclass": "GOE3 (C)",
+    "phase": 2
+  },
+  {
+    "name": "Gatitu Tea Factory",
+    "cluster": "GOVERNMENT OWNED ENTERPRISES",
+    "class": "GOE3",
+    "subclass": "GOE3 (C)",
+    "phase": 2
+  },
+  {
+    "name": "Golf Hotel Kakamega",
+    "cluster": "GOVERNMENT OWNED ENTERPRISES",
+    "class": "GOE3",
+    "subclass": "GOE3 (C)",
+    "phase": 2
+  },
+  {
+    "name": "JKUAT Industrial Park Limited",
+    "cluster": "GOVERNMENT OWNED ENTERPRISES",
+    "class": "GOE3",
+    "subclass": "GOE3 (C)",
+    "phase": 2
+  },
+  {
+    "name": "Kabarnet Hotel Ltd",
+    "cluster": "GOVERNMENT OWNED ENTERPRISES",
+    "class": "GOE3",
+    "subclass": "GOE3 (C)",
+    "phase": 2
+  },
+  {
+    "name": "Kenya National Assurance Company (under receivership)",
+    "cluster": "GOVERNMENT OWNED ENTERPRISES",
+    "class": "GOE3",
+    "subclass": "GOE3 (C)",
+    "phase": 2
+  },
+  {
+    "name": "Kenya National Multi Commodities Exchange Ltd",
+    "cluster": "GOVERNMENT OWNED ENTERPRISES",
+    "class": "GOE3",
+    "subclass": "GOE3 (C)",
+    "phase": 2
+  },
+  {
+    "name": "Kenya Safari Lodges and Hotels Ltd",
+    "cluster": "GOVERNMENT OWNED ENTERPRISES",
+    "class": "GOE3",
+    "subclass": "GOE3 (C)",
+    "phase": 2
+  },
+  {
+    "name": "KENATCO TAXIS Kltd (under receivership)",
+    "cluster": "GOVERNMENT OWNED ENTERPRISES",
+    "class": "GOE3",
+    "subclass": "GOE3 (C)",
+    "phase": 2
+  },
+  {
+    "name": "Kipchabo Tea Factory",
+    "cluster": "GOVERNMENT OWNED ENTERPRISES",
+    "class": "GOE3",
+    "subclass": "GOE3 (C)",
+    "phase": 2
+  },
+  {
+    "name": "Lands Limited",
+    "cluster": "GOVERNMENT OWNED ENTERPRISES",
+    "class": "GOE3",
+    "subclass": "GOE3 (C)",
+    "phase": 2
+  },
+  {
+    "name": "Miwani Sugar Company Limited",
+    "cluster": "GOVERNMENT OWNED ENTERPRISES",
+    "class": "GOE3",
+    "subclass": "GOE3 (C)",
+    "phase": 2
+  },
+  {
+    "name": "Mt. Elgon Lodge",
+    "cluster": "GOVERNMENT OWNED ENTERPRISES",
+    "class": "GOE3",
+    "subclass": "GOE3 (C)",
+    "phase": 2
+  },
+  {
+    "name": "Muhoroni Sugar Company Ltd",
+    "cluster": "GOVERNMENT OWNED ENTERPRISES",
+    "class": "GOE3",
+    "subclass": "GOE3 (C)",
+    "phase": 2
+  },
+  {
+    "name": "Mwea Rice Mills",
+    "cluster": "GOVERNMENT OWNED ENTERPRISES",
+    "class": "GOE3",
+    "subclass": "GOE3 (C)",
+    "phase": 2
+  },
+  {
+    "name": "New Kenya Planters Cooperative Union",
+    "cluster": "GOVERNMENT OWNED ENTERPRISES",
+    "class": "GOE3",
+    "subclass": "GOE3 (C)",
+    "phase": 2
+  },
+  {
+    "name": "Nzoia Sugar Company",
+    "cluster": "GOVERNMENT OWNED ENTERPRISES",
+    "class": "GOE3",
+    "subclass": "GOE3 (C)",
+    "phase": 2
+  },
+  {
+    "name": "Pyrethrum Processing Company of Kenya",
+    "cluster": "GOVERNMENT OWNED ENTERPRISES",
+    "class": "GOE3",
+    "subclass": "GOE3 (C)",
+    "phase": 2
+  },
+  {
+    "name": "Kibo Seeds Ltd (Tanzania)",
+    "cluster": "GOVERNMENT OWNED ENTERPRISES",
+    "class": "GOE3",
+    "subclass": "GOE3 (C)",
+    "phase": 2
+  },
+  {
+    "name": "Simlaw Seeds Kenya Ltd",
+    "cluster": "GOVERNMENT OWNED ENTERPRISES",
+    "class": "GOE3",
+    "subclass": "GOE3 (C)",
+    "phase": 2
+  },
+  {
+    "name": "Simlaw Seeds Rwanda",
+    "cluster": "GOVERNMENT OWNED ENTERPRISES",
+    "class": "GOE3",
+    "subclass": "GOE3 (C)",
+    "phase": 2
+  },
+  {
+    "name": "Simlaw Seeds Uganda",
+    "cluster": "GOVERNMENT OWNED ENTERPRISES",
+    "class": "GOE3",
+    "subclass": "GOE3 (C)",
+    "phase": 2
+  },
+  {
+    "name": "South Nyanza Sugar Company Limited (SONY)",
+    "cluster": "GOVERNMENT OWNED ENTERPRISES",
+    "class": "GOE3",
+    "subclass": "GOE3 (C)",
+    "phase": 2
+  },
+  {
+    "name": "Sunset Hotel Kisumu",
+    "cluster": "GOVERNMENT OWNED ENTERPRISES",
+    "class": "GOE3",
+    "subclass": "GOE3 (C)",
+    "phase": 2
+  },
+  {
+    "name": "Telkom Kenya Limited",
+    "cluster": "GOVERNMENT OWNED ENTERPRISES",
+    "class": "GOE3",
+    "subclass": "GOE3 (C)",
+    "phase": 1
+  },
+  {
+    "name": "Tourism Finance Corporation (Defunct)",
+    "cluster": "GOVERNMENT OWNED ENTERPRISES",
+    "class": null,
+    "subclass": null,
+    "phase": 2
+  },
+  {
+    "name": "University of Nairobi Press",
+    "cluster": "GOVERNMENT OWNED ENTERPRISES",
+    "class": "GOE3",
+    "subclass": "GOE3 (C)",
+    "phase": 2
+  },
+  {
+    "name": "Western Kenya Rice Mills Ltd",
+    "cluster": "GOVERNMENT OWNED ENTERPRISES",
+    "class": "GOE3",
+    "subclass": "GOE3 (C)",
+    "phase": 2
+  },
+  {
+    "name": "Capital Markets Authority",
+    "cluster": "REGULATORY AGENCIES",
+    "class": "RA",
+    "subclass": "RA (A)",
+    "phase": 2
+  },
+  {
+    "name": "Commission for University Education",
+    "cluster": "REGULATORY AGENCIES",
+    "class": "RA",
+    "subclass": "RA (A)",
+    "phase": 2
+  },
+  {
+    "name": "Communications Authority of Kenya",
+    "cluster": "REGULATORY AGENCIES",
+    "class": "RA",
+    "subclass": "RA (A)",
+    "phase": 2
+  },
+  {
+    "name": "Competition Authority of Kenya",
+    "cluster": "REGULATORY AGENCIES",
+    "class": "RA",
+    "subclass": "RA (A)",
+    "phase": 2
+  },
+  {
+    "name": "Energy and Petroleum Regulatory Authority",
+    "cluster": "REGULATORY AGENCIES",
+    "class": "RA",
+    "subclass": "RA (A)",
+    "phase": 2
+  },
+  {
+    "name": "Engineers Board of Kenya",
+    "cluster": "REGULATORY AGENCIES",
+    "class": "RA",
+    "subclass": "RA (A)",
+    "phase": 2
+  },
+  {
+    "name": "Insurance Regulatory Authority",
+    "cluster": "REGULATORY AGENCIES",
+    "class": "RA",
+    "subclass": "RA (A)",
+    "phase": 2
+  },
+  {
+    "name": "Kenya Bureau of Standards",
+    "cluster": "REGULATORY AGENCIES",
+    "class": "RA",
+    "subclass": "RA (A)",
+    "phase": 1
+  },
+  {
+    "name": "Kenya Health Professionals Oversight Authority",
+    "cluster": "REGULATORY AGENCIES",
+    "class": "RA",
+    "subclass": "RA (A)",
+    "phase": 2
+  },
+  {
+    "name": "Kenya Nuclear Regulatory Authority",
+    "cluster": "REGULATORY AGENCIES",
+    "class": "RA",
+    "subclass": "RA (A)",
+    "phase": 2
+  },
+  {
+    "name": "Kenya Space Agency",
+    "cluster": "REGULATORY AGENCIES",
+    "class": "RA",
+    "subclass": "RA (A)",
+    "phase": 2
+  },
+  {
+    "name": "National Construction Authority",
+    "cluster": "REGULATORY AGENCIES",
+    "class": "RA",
+    "subclass": "RA (A)",
+    "phase": 2
+  },
+  {
+    "name": "National Transport & Safety Authority",
+    "cluster": "REGULATORY AGENCIES",
+    "class": "RA",
+    "subclass": "RA (A)",
+    "phase": 2
+  },
+  {
+    "name": "Public Procurement Regulatory Authority",
+    "cluster": "REGULATORY AGENCIES",
+    "class": "RA",
+    "subclass": "RA (A)",
+    "phase": 2
+  },
+  {
+    "name": "Retirement Benefits Authority",
+    "cluster": "REGULATORY AGENCIES",
+    "class": "RA",
+    "subclass": "RA (A)",
+    "phase": 2
+  },
+  {
+    "name": "Sacco Societies Regulatory Authority",
+    "cluster": "REGULATORY AGENCIES",
+    "class": "RA",
+    "subclass": "RA (A)",
+    "phase": 2
+  },
+  {
+    "name": "Tea Board of Kenya",
+    "cluster": "REGULATORY AGENCIES",
+    "class": "RA",
+    "subclass": "RA (A)",
+    "phase": 2
+  },
+  {
+    "name": "Agricultural and Food Authority",
+    "cluster": "REGULATORY AGENCIES",
+    "class": "RA",
+    "subclass": "RA (B)",
+    "phase": 2
+  },
+  {
+    "name": "Anti-Counterfeit Agency",
+    "cluster": "REGULATORY AGENCIES",
+    "class": "RA",
+    "subclass": "RA (B)",
+    "phase": 2
+  },
+  {
+    "name": "Anti-Doping Agency",
+    "cluster": "REGULATORY AGENCIES",
+    "class": "RA",
+    "subclass": "RA (B)",
+    "phase": 2
+  },
+  {
+    "name": "Clinical Council of Kenya",
+    "cluster": "REGULATORY AGENCIES",
+    "class": "RA",
+    "subclass": "RA (B)",
+    "phase": 2
+  },
+  {
+    "name": "Council for Legal Education",
+    "cluster": "REGULATORY AGENCIES",
+    "class": "RA",
+    "subclass": "RA (B)",
+    "phase": 2
+  },
+  {
+    "name": "Institute of Human Resource Management",
+    "cluster": "REGULATORY AGENCIES",
+    "class": "RA",
+    "subclass": "RA (B)",
+    "phase": 2
+  },
+  {
+    "name": "Kenya Civil Aviation Authority",
+    "cluster": "REGULATORY AGENCIES",
+    "class": "RA",
+    "subclass": "RA (B)",
+    "phase": 1
+  },
+  {
+    "name": "Kenya Dairy Board",
+    "cluster": "REGULATORY AGENCIES",
+    "class": "RA",
+    "subclass": "RA (B)",
+    "phase": 2
+  },
+  {
+    "name": "Kenya Film Classification Board",
+    "cluster": "REGULATORY AGENCIES",
+    "class": "RA",
+    "subclass": "RA (B)",
+    "phase": 2
+  },
+  {
+    "name": "Kenya Health Human Resource Advisory Council",
+    "cluster": "REGULATORY AGENCIES",
+    "class": "RA",
+    "subclass": "RA (B)",
+    "phase": 2
+  },
+  {
+    "name": "Kenya Institute of Supplies Management",
+    "cluster": "REGULATORY AGENCIES",
+    "class": "RA",
+    "subclass": "RA (B)",
+    "phase": 2
+  },
+  {
+    "name": "Kenya Maritime Authority",
+    "cluster": "REGULATORY AGENCIES",
+    "class": "RA",
+    "subclass": "RA (B)",
+    "phase": 2
+  },
+  {
+    "name": "Kenya Medical Practitioners and Dentist Council",
+    "cluster": "REGULATORY AGENCIES",
+    "class": "RA",
+    "subclass": "RA (B)",
+    "phase": 2
+  },
+  {
+    "name": "Kenya National Accreditation Service",
+    "cluster": "REGULATORY AGENCIES",
+    "class": "RA",
+    "subclass": "RA (B)",
+    "phase": 2
+  },
+  {
+    "name": "Kenya Plant Health Inspectorate Services",
+    "cluster": "REGULATORY AGENCIES",
+    "class": "RA",
+    "subclass": "RA (B)",
+    "phase": 2
+  },
+  {
+    "name": "Kenya Tissue and Transplant Authority",
+    "cluster": "REGULATORY AGENCIES",
+    "class": "RA",
+    "subclass": "RA (B)",
+    "phase": 2
+  },
+  {
+    "name": "National Commission for Science, Technology and Innovation",
+    "cluster": "REGULATORY AGENCIES",
+    "class": "RA",
+    "subclass": "RA (B)",
+    "phase": 2
+  },
+  {
+    "name": "National Council for Children Services",
+    "cluster": "REGULATORY AGENCIES",
+    "class": "RA",
+    "subclass": "RA (B)",
+    "phase": 2
+  },
+  {
+    "name": "National Environment Management Authority",
+    "cluster": "REGULATORY AGENCIES",
+    "class": "RA",
+    "subclass": "RA (B)",
+    "phase": 1
+  },
+  {
+    "name": "National Authority for the Campaign against Alcohol and Drug Abuse",
+    "cluster": "REGULATORY AGENCIES",
+    "class": "RA",
+    "subclass": "RA (B)",
+    "phase": 2
+  },
+  {
+    "name": "National Biosafety Authority",
+    "cluster": "REGULATORY AGENCIES",
+    "class": "RA",
+    "subclass": "RA (B)",
+    "phase": 2
+  },
+  {
+    "name": "Pharmacy & Poisons Board",
+    "cluster": "REGULATORY AGENCIES",
+    "class": "RA",
+    "subclass": "RA (B)",
+    "phase": 2
+  },
+  {
+    "name": "Street Families Rehabilitation Fund",
+    "cluster": "REGULATORY AGENCIES",
+    "class": "RA",
+    "subclass": "RA (B)",
+    "phase": 2
+  },
+  {
+    "name": "Technical Vocational and Training Authority",
+    "cluster": "REGULATORY AGENCIES",
+    "class": "RA",
+    "subclass": "RA (B)",
+    "phase": 2
+  },
+  {
+    "name": "Tourism Regulatory Authority",
+    "cluster": "REGULATORY AGENCIES",
+    "class": null,
+    "subclass": null,
+    "phase": 2
+  },
+  {
+    "name": "Veterinary Medicines Directorate",
+    "cluster": "REGULATORY AGENCIES",
+    "class": "RA",
+    "subclass": "RA (B)",
+    "phase": 2
+  },
+  {
+    "name": "Water Resources Authority",
+    "cluster": "REGULATORY AGENCIES",
+    "class": "RA",
+    "subclass": "RA (B)",
+    "phase": 2
+  },
+  {
+    "name": "Water Services Regulatory Board",
+    "cluster": "REGULATORY AGENCIES",
+    "class": "RA",
+    "subclass": "RA (B)",
+    "phase": 2
+  },
+  {
+    "name": "Animal Technicians Council",
+    "cluster": "REGULATORY AGENCIES",
+    "class": "RA",
+    "subclass": "RA (C)",
+    "phase": 2
+  },
+  {
+    "name": "Auctioneers Licensing Board",
+    "cluster": "REGULATORY AGENCIES",
+    "class": "RA",
+    "subclass": "RA (C)",
+    "phase": 2
+  },
+  {
+    "name": "Board of Registration of Architects and Quantity Surveyors",
+    "cluster": "REGULATORY AGENCIES",
+    "class": "RA",
+    "subclass": "RA (C)",
+    "phase": 2
+  },
+  {
+    "name": "Building Surveyors Registration Board",
+    "cluster": "REGULATORY AGENCIES",
+    "class": "RA",
+    "subclass": "RA (C)",
+    "phase": 2
+  },
+  {
+    "name": "Counsellors and Psychologists Board",
+    "cluster": "REGULATORY AGENCIES",
+    "class": "RA",
+    "subclass": "RA (C)",
+    "phase": 2
+  },
+  {
+    "name": "Estate Agents Registration Board",
+    "cluster": "REGULATORY AGENCIES",
+    "class": "RA",
+    "subclass": "RA (C)",
+    "phase": 2
+  },
+  {
+    "name": "Geologist Registration Board",
+    "cluster": "REGULATORY AGENCIES",
+    "class": "RA",
+    "subclass": "RA (C)",
+    "phase": 2
+  },
+  {
+    "name": "Health Records and Information Management Board",
+    "cluster": "REGULATORY AGENCIES",
+    "class": "RA",
+    "subclass": "RA (C)",
+    "phase": 2
+  },
+  {
+    "name": "Hydrologist Registration Board",
+    "cluster": "REGULATORY AGENCIES",
+    "class": "RA",
+    "subclass": "RA (C)",
+    "phase": 2
+  },
+  {
+    "name": "Institute of Certified Investment and Financial Analysts",
+    "cluster": "REGULATORY AGENCIES",
+    "class": "RA",
+    "subclass": "RA (C)",
+    "phase": 2
+  },
+  {
+    "name": "Institute of Certified Public Accountants of Kenya",
+    "cluster": "REGULATORY AGENCIES",
+    "class": "RA",
+    "subclass": "RA (C)",
+    "phase": 2
+  },
+  {
+    "name": "Kenya Copyrights Board",
+    "cluster": "REGULATORY AGENCIES",
+    "class": "RA",
+    "subclass": "RA (C)",
+    "phase": 2
+  },
+  {
+    "name": "Kenya Engineering Technology Registration Board",
+    "cluster": "REGULATORY AGENCIES",
+    "class": "RA",
+    "subclass": "RA (C)",
+    "phase": 2
+  },
+  {
+    "name": "Kenya Leather Development Council",
+    "cluster": "REGULATORY AGENCIES",
+    "class": "RA",
+    "subclass": "RA (C)",
+    "phase": 2
+  },
+  {
+    "name": "Kenya Medical Laboratory Technicians and Technologists Board",
+    "cluster": "REGULATORY AGENCIES",
+    "class": "RA",
+    "subclass": "RA (C)",
+    "phase": 2
+  },
+  {
+    "name": "Kenya Veterinary Board",
+    "cluster": "REGULATORY AGENCIES",
+    "class": "RA",
+    "subclass": "RA (C)",
+    "phase": 2
+  },
+  {
+    "name": "Land Surveyors Board",
+    "cluster": "REGULATORY AGENCIES",
+    "class": "RA",
+    "subclass": "RA (C)",
+    "phase": 2
+  },
+  {
+    "name": "Media Council of Kenya",
+    "cluster": "REGULATORY AGENCIES",
+    "class": "RA",
+    "subclass": "RA (C)",
+    "phase": 2
+  },
+  {
+    "name": "National Employment Authority",
+    "cluster": "REGULATORY AGENCIES",
+    "class": "RA",
+    "subclass": "RA (C)",
+    "phase": 2
+  },
+  {
+    "name": "National Industrial Training Authority",
+    "cluster": "REGULATORY AGENCIES",
+    "class": "RA",
+    "subclass": "RA (C)",
+    "phase": 2
+  },
+  {
+    "name": "NGOs Coordination Board",
+    "cluster": "REGULATORY AGENCIES",
+    "class": "RA",
+    "subclass": "RA (C)",
+    "phase": 2
+  },
+  {
+    "name": "Nursing Council of Kenya",
+    "cluster": "REGULATORY AGENCIES",
+    "class": "RA",
+    "subclass": "RA (C)",
+    "phase": 2
+  },
+  {
+    "name": "Occupational Therapy Council of Kenya",
+    "cluster": "REGULATORY AGENCIES",
+    "class": "RA",
+    "subclass": "RA (C)",
+    "phase": 2
+  },
+  {
+    "name": "Physical Planners Registration Board",
+    "cluster": "REGULATORY AGENCIES",
+    "class": "RA",
+    "subclass": "RA (C)",
+    "phase": 2
+  },
+  {
+    "name": "Private Security Regulatory Authority",
+    "cluster": "REGULATORY AGENCIES",
+    "class": "RA",
+    "subclass": "RA (C)",
+    "phase": 2
+  },
+  {
+    "name": "Public Health Officers and Technician Council",
+    "cluster": "REGULATORY AGENCIES",
+    "class": "RA",
+    "subclass": "RA (C)",
+    "phase": 2
+  },
+  {
+    "name": "Registration of Certified Public Accountants Board",
+    "cluster": "REGULATORY AGENCIES",
+    "class": "RA",
+    "subclass": "RA (C)",
+    "phase": 2
+  },
+  {
+    "name": "Registration of Certified Public Secretaries Board",
+    "cluster": "REGULATORY AGENCIES",
+    "class": "RA",
+    "subclass": "RA (C)",
+    "phase": 2
+  },
+  {
+    "name": "Scrap Metal Council",
+    "cluster": "REGULATORY AGENCIES",
+    "class": "RA",
+    "subclass": "RA (C)",
+    "phase": 2
+  },
+  {
+    "name": "Special Economic Zones Authority",
+    "cluster": "REGULATORY AGENCIES",
+    "class": "RA",
+    "subclass": "RA (C)",
+    "phase": 2
+  },
+  {
+    "name": "Tea Research Foundation",
+    "cluster": "REGULATORY AGENCIES",
+    "class": "RA",
+    "subclass": "RA (C)",
+    "phase": 2
+  },
+  {
+    "name": "Egerton University",
+    "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
+    "class": "PUC",
+    "subclass": "PUC1 (A)",
+    "phase": 2
+  },
+  {
+    "name": "Jomo Kenyatta University of Agriculture and Technology",
+    "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
+    "class": "PUC",
+    "subclass": "PUC1 (A)",
+    "phase": 1
+  },
+  {
+    "name": "Kenyatta University",
+    "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
+    "class": "PUC",
+    "subclass": "PUC1 (A)",
+    "phase": 1
+  },
+  {
+    "name": "Maseno University",
+    "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
+    "class": "PUC",
+    "subclass": "PUC1 (A)",
+    "phase": 2
+  },
+  {
+    "name": "Masinde Muliro University of Science & Technology",
+    "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
+    "class": "PUC",
+    "subclass": "PUC1 (A)",
+    "phase": 2
+  },
+  {
+    "name": "Moi University",
+    "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
+    "class": "PUC",
+    "subclass": "PUC1 (A)",
+    "phase": 2
+  },
+  {
+    "name": "University of Nairobi",
+    "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
+    "class": "PUC",
+    "subclass": "PUC1 (A)",
+    "phase": 1
+  },
+  {
+    "name": "Chuka University",
+    "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
+    "class": "PUC",
+    "subclass": "PUC1 (B)",
+    "phase": 2
+  },
+  {
+    "name": "Cooperative University",
+    "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
+    "class": "PUC",
+    "subclass": "PUC1 (B)",
+    "phase": 2
+  },
+  {
+    "name": "Dedan Kimathi University of Science and Technology",
+    "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
+    "class": "PUC",
+    "subclass": "PUC1 (B)",
+    "phase": 2
+  },
+  {
+    "name": "Embu University",
+    "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
+    "class": "PUC",
+    "subclass": "PUC1 (B)",
+    "phase": 2
+  },
+  {
+    "name": "Garissa University",
+    "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
+    "class": "PUC",
+    "subclass": "PUC1 (B)",
+    "phase": 2
+  },
+  {
+    "name": "Jaramogi Oginga Odinga University of Science & Technology",
+    "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
+    "class": "PUC",
+    "subclass": "PUC1 (B)",
+    "phase": 2
+  },
+  {
+    "name": "Karatina University",
+    "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
+    "class": "PUC",
+    "subclass": "PUC1 (B)",
+    "phase": 2
+  },
+  {
+    "name": "Kibabii University",
+    "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
+    "class": "PUC",
+    "subclass": "PUC1 (B)",
+    "phase": 2
+  },
+  {
+    "name": "Kirinyaga University",
+    "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
+    "class": "PUC",
+    "subclass": "PUC1 (B)",
+    "phase": 2
+  },
+  {
+    "name": "Kisii University",
+    "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
+    "class": "PUC",
+    "subclass": "PUC1 (B)",
+    "phase": 2
+  },
+  {
+    "name": "Laikipia University",
+    "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
+    "class": "PUC",
+    "subclass": "PUC1 (B)",
+    "phase": 2
+  },
+  {
+    "name": "Maasai Mara University",
+    "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
+    "class": "PUC",
+    "subclass": "PUC1 (B)",
+    "phase": 2
+  },
+  {
+    "name": "Machakos University",
+    "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
+    "class": "PUC",
+    "subclass": "PUC1 (B)",
+    "phase": 2
+  },
+  {
+    "name": "Meru University of Science and Technology",
+    "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
+    "class": "PUC",
+    "subclass": "PUC1 (B)",
+    "phase": 2
+  },
+  {
+    "name": "Multi-Media University",
+    "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
+    "class": "PUC",
+    "subclass": "PUC1 (B)",
+    "phase": 2
+  },
+  {
+    "name": "Murang’a University",
+    "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
+    "class": "PUC",
+    "subclass": "PUC1 (B)",
+    "phase": 2
+  },
+  {
+    "name": "National Defense University - Kenya",
+    "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
+    "class": "PUC",
+    "subclass": "PUC1 (B)",
+    "phase": 2
+  },
+  {
+    "name": "Pwani University",
+    "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
+    "class": "PUC",
+    "subclass": "PUC1 (B)",
+    "phase": 2
+  },
+  {
+    "name": "Rongo University",
+    "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
+    "class": "PUC",
+    "subclass": "PUC1 (B)",
+    "phase": 2
+  },
+  {
+    "name": "South Eastern University",
+    "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
+    "class": "PUC",
+    "subclass": "PUC1 (B)",
+    "phase": 2
+  },
+  {
+    "name": "Taita Taveta University",
+    "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
+    "class": "PUC",
+    "subclass": "PUC1 (B)",
+    "phase": 2
+  },
+  {
+    "name": "Technical University of Kenya",
+    "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
+    "class": "PUC",
+    "subclass": "PUC1 (B)",
+    "phase": 2
+  },
+  {
+    "name": "Technical University of Mombasa",
+    "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
+    "class": "PUC",
+    "subclass": "PUC1 (B)",
+    "phase": 2
+  },
+  {
+    "name": "University Kabianga",
+    "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
+    "class": "PUC",
+    "subclass": "PUC1 (B)",
+    "phase": 2
+  },
+  {
+    "name": "University of Eldoret",
+    "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
+    "class": "PUC",
+    "subclass": "PUC1 (B)",
+    "phase": 2
+  },
+  {
+    "name": "Kenya School of Government",
+    "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
+    "class": "PUC",
+    "subclass": "PUC2 (A)",
+    "phase": 1
+  },
+  {
+    "name": "Kenya School of Law",
+    "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
+    "class": "PUC",
+    "subclass": "PUC2 (A)",
+    "phase": 2
+  },
+  {
+    "name": "Alupe University College",
+    "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
+    "class": "PUC",
+    "subclass": "PUC2 (B)",
+    "phase": 2
+  },
+  {
+    "name": "Bandari Maritime Academy",
+    "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
+    "class": "PUC",
+    "subclass": "PUC2 (B)",
+    "phase": 2
+  },
+  {
+    "name": "Bomet University College",
+    "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
+    "class": "PUC",
+    "subclass": "PUC2 (B)",
+    "phase": 2
+  },
+  {
+    "name": "Kaimosi Friends University College",
+    "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
+    "class": "PUC",
+    "subclass": "PUC2 (B)",
+    "phase": 2
+  },
+  {
+    "name": "Kenya Advanced Institute of Science and Technology",
+    "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
+    "class": "PUC",
+    "subclass": "PUC2 (B)",
+    "phase": 2
+  },
+  {
+    "name": "Koitale Arap Samoei University College",
+    "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
+    "class": "PUC",
+    "subclass": "PUC2 (B)",
+    "phase": 2
+  },
+  {
+    "name": "Mama Ngina University College",
+    "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
+    "class": "PUC",
+    "subclass": "PUC2 (B)",
+    "phase": 1
+  },
+  {
+    "name": "Tharaka University College",
+    "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
+    "class": "PUC",
+    "subclass": "PUC2 (B)",
+    "phase": 2
+  },
+  {
+    "name": "Tom Mboya University College",
+    "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
+    "class": "PUC",
+    "subclass": "PUC2 (B)",
+    "phase": 2
+  },
+  {
+    "name": "Turkana University College",
+    "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
+    "class": "PUC",
+    "subclass": "PUC2 (B)",
+    "phase": 2
+  },
+  {
+    "name": "Kenya School of Monetary Studies",
+    "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
+    "class": null,
+    "subclass": null,
+    "phase": 2
+  },
+  {
+    "name": "Kenya Institute of Mass Communication",
+    "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
+    "class": "PUC",
+    "subclass": "PUC3 (A)",
+    "phase": 2
+  },
+  {
+    "name": "Kenya Medical Training College",
+    "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
+    "class": "PUC",
+    "subclass": "PUC3 (A)",
+    "phase": 2
+  },
+  {
+    "name": "Kenya Utalii College",
+    "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
+    "class": "PUC",
+    "subclass": "PUC3 (A)",
+    "phase": 2
+  },
+  {
+    "name": "Bukura Agricultural College",
+    "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
+    "class": "PUC",
+    "subclass": "PUC3 (A)",
+    "phase": 2
+  },
+  {
+    "name": "Kenya School of TVET",
+    "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
+    "class": "PUC",
+    "subclass": "PUC3 (A)",
+    "phase": 2
+  },
+  {
+    "name": "Kenya Water Institute",
+    "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
+    "class": "PUC",
+    "subclass": "PUC3 (A)",
+    "phase": 2
+  },
+  {
+    "name": "Kabete National Polytechnic",
+    "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
+    "class": "PUC",
+    "subclass": "PUC3 (B)",
+    "phase": 2
+  },
+  {
+    "name": "Kenya Coast National Polytechnic",
+    "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
+    "class": "PUC",
+    "subclass": "PUC3 (B)",
+    "phase": 2
+  },
+  {
+    "name": "Kisii National Polytechnic",
+    "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
+    "class": "PUC",
+    "subclass": "PUC3 (B)",
+    "phase": 2
+  },
+  {
+    "name": "Kisumu National Polytechnic",
+    "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
+    "class": "PUC",
+    "subclass": "PUC3 (B)",
+    "phase": 2
+  },
+  {
+    "name": "Kitale National Polytechnic",
+    "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
+    "class": "PUC",
+    "subclass": "PUC3 (B)",
+    "phase": 2
+  },
+  {
+    "name": "Meru National Polytechnic",
+    "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
+    "class": "PUC",
+    "subclass": "PUC3 (B)",
+    "phase": 2
+  },
+  {
+    "name": "North Eastern National Polytechnic",
+    "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
+    "class": "PUC",
+    "subclass": "PUC3 (B)",
+    "phase": 2
+  },
+  {
+    "name": "Nyandarua National Polytechnic",
+    "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
+    "class": "PUC",
+    "subclass": "PUC3 (B)",
+    "phase": 2
+  },
+  {
+    "name": "Nyeri National Polytechnic",
+    "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
+    "class": "PUC",
+    "subclass": "PUC3 (B)",
+    "phase": 2
+  },
+  {
+    "name": "Sigalagala National Polytechnic",
+    "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
+    "class": "PUC",
+    "subclass": "PUC3 (B)",
+    "phase": 2
+  },
+  {
+    "name": "The Eldoret National Polytechnic",
+    "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
+    "class": "PUC",
+    "subclass": "PUC3 (B)",
+    "phase": 2
+  },
+  {
+    "name": "Kenyatta National Hospital",
+    "cluster": "NATIONAL REFERRAL HOSPITALS",
+    "class": "NRH",
+    "subclass": "NRH (A)",
+    "phase": 1
+  },
+  {
+    "name": "Kenyatta University Teaching and Referral Hospital",
+    "cluster": "NATIONAL REFERRAL HOSPITALS",
+    "class": "NRH",
+    "subclass": "NRH (A)",
+    "phase": 1
+  },
+  {
+    "name": "Moi Teaching and Referral Hospital",
+    "cluster": "NATIONAL REFERRAL HOSPITALS",
+    "class": "NRH",
+    "subclass": "NRH (A)",
+    "phase": 2
+  },
+  {
+    "name": "Mathari National Teaching and Referral Hospital",
+    "cluster": "NATIONAL REFERRAL HOSPITALS",
+    "class": "NRH",
+    "subclass": "NRH (B)",
+    "phase": 2
+  },
+  {
+    "name": "Kenya Agricultural and Livestock Research Organization",
+    "cluster": "RESEARCH INSTITUTIONS",
+    "class": "RI",
+    "subclass": "RI (A)",
+    "phase": 2
+  },
+  {
+    "name": "Kenya Institute of Public Policy Research & Analysis",
+    "cluster": "RESEARCH INSTITUTIONS",
+    "class": "RI",
+    "subclass": "RI (A)",
+    "phase": 2
+  },
+  {
+    "name": "Kenya Medical Research Institute (KEMRI)",
+    "cluster": "RESEARCH INSTITUTIONS",
+    "class": "RI",
+    "subclass": "RI (A)",
+    "phase": 2
+  },
+  {
+    "name": "Centre for Mathematics, Science and Technology Education in Africa",
+    "cluster": "RESEARCH INSTITUTIONS",
+    "class": "RI",
+    "subclass": "RI (B)",
+    "phase": 2
+  },
+  {
+    "name": "Kenya Education Management Institute",
+    "cluster": "RESEARCH INSTITUTIONS",
+    "class": "RI",
+    "subclass": "RI (B)",
+    "phase": 2
+  },
+  {
+    "name": "Kenya Foreign Service Institute",
+    "cluster": "RESEARCH INSTITUTIONS",
+    "class": "RI",
+    "subclass": "RI (B)",
+    "phase": 2
+  },
+  {
+    "name": "Kenya Forestry Research Institute",
+    "cluster": "RESEARCH INSTITUTIONS",
+    "class": "RI",
+    "subclass": "RI (B)",
+    "phase": 2
+  },
+  {
+    "name": "Kenya Industrial Research & Development Institute",
+    "cluster": "RESEARCH INSTITUTIONS",
+    "class": "RI",
+    "subclass": "RI (B)",
+    "phase": 2
+  },
+  {
+    "name": "Kenya Institute of Primate Research",
+    "cluster": "RESEARCH INSTITUTIONS",
+    "class": "RI",
+    "subclass": "RI (B)",
+    "phase": 2
+  },
+  {
+    "name": "Kenya Marine & Fisheries Research Institute",
+    "cluster": "RESEARCH INSTITUTIONS",
+    "class": "RI",
+    "subclass": "RI (B)",
+    "phase": 2
+  },
+  {
+    "name": "National Crime Research Centre",
+    "cluster": "RESEARCH INSTITUTIONS",
+    "class": "RI",
+    "subclass": "RI (B)",
+    "phase": 2
+  },
+  {
+    "name": "National Museums of Kenya",
+    "cluster": "RESEARCH INSTITUTIONS",
+    "class": "RI",
+    "subclass": "RI (B)",
+    "phase": 2
+  },
+  {
+    "name": "Tourism Research Institute",
+    "cluster": "RESEARCH INSTITUTIONS",
+    "class": "RI",
+    "subclass": "RI (B)",
+    "phase": 2
+  },
+  {
+    "name": "Wildlife Research Training Institute",
+    "cluster": "RESEARCH INSTITUTIONS",
+    "class": "RI",
+    "subclass": "RI (B)",
+    "phase": 1
+  },
+  {
+    "name": "Regional Centre for Ground Water Resources, Education, Training and Research in East Africa",
+    "cluster": "RESEARCH INSTITUTIONS",
+    "class": "RI",
+    "subclass": "RI (B)",
+    "phase": 2
+  },
+  {
+    "name": "Kenya National Archives",
+    "cluster": null,
+    "class": null,
+    "subclass": null,
+    "phase": 1
+  },
+  {
+    "name": "Kenya News Agency",
+    "cluster": null,
+    "class": null,
+    "subclass": null,
+    "phase": 1
+  }
+]
