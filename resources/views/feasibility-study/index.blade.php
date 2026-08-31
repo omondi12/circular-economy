@@ -55,6 +55,7 @@
                         </th>
                         <th class="px-4 py-2 font-medium text-right">Submissions</th>
                         <th class="px-4 py-2 font-medium text-right">Recorded Quantities</th>
+                        <th class="px-4 py-2 font-medium">Action</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-neutral-100">
@@ -77,10 +78,23 @@
                                     <x-entity-quantity :row="$view === 'agent' ? $row : (object) $row" />
                                 @endif
                             </td>
+                            <td class="px-4 py-3 whitespace-nowrap">
+                                @php
+                                    $viewHref = match ($view) {
+                                        'agent' => route('collections.index', ['agent' => $row->relationship_manager]),
+                                        'materials' => route('collections.index', ['lot' => $row['lot'], 'category' => $row['category']]),
+                                        'ministries' => route('ministries.show', $row['id']),
+                                        'state-corporation' => route('collections.index', ['state_corporation' => $row['id']]),
+                                    };
+                                @endphp
+                                <a href="{{ $viewHref }}" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-md bg-[#0f7a3d]/10 text-[#0b5c2e] text-xs font-medium hover:bg-[#0f7a3d]/20 transition-colors">
+                                    View
+                                </a>
+                            </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="3" class="px-4 py-8 text-center text-neutral-400">No data yet.</td>
+                            <td colspan="4" class="px-4 py-8 text-center text-neutral-400">No data yet.</td>
                         </tr>
                     @endforelse
                 </tbody>

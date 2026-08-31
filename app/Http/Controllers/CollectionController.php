@@ -29,6 +29,8 @@ class CollectionController extends Controller
             'subcategory' => $request->string('subcategory')->toString() ?: null,
             'ministry' => $request->string('ministry')->toString() ?: null,
             'rm' => $request->integer('rm') ?: null,
+            'agent' => $request->string('agent')->toString() ?: null,
+            'state_corporation' => $request->integer('state_corporation') ?: null,
             'from' => $request->string('from')->toString() ?: null,
             'to' => $request->string('to')->toString() ?: null,
         ];
@@ -44,6 +46,8 @@ class CollectionController extends Controller
             ->when($filters['subcategory'], fn ($q, $v) => $q->where('subcategory', $v))
             ->when($filters['ministry'], fn ($q, $v) => $q->where('ministry_id', $v))
             ->when($filters['rm'], fn ($q, $v) => $q->where('user_id', $v))
+            ->when($filters['agent'], fn ($q, $v) => $q->where('relationship_manager', $v))
+            ->when($filters['state_corporation'], fn ($q, $v) => $q->where('state_corporation_id', $v))
             ->when($filters['from'], fn ($q, $v) => $q->whereDate('collection_date', '>=', $v))
             ->when($filters['to'], fn ($q, $v) => $q->whereDate('collection_date', '<=', $v))
             ->orderByDesc('collection_date')

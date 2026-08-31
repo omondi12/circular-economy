@@ -368,6 +368,8 @@ class DashboardController extends Controller
 
                     return [
                         'label' => $meta['label'].' ('.WasteCategories::shortLotLabel($lotKey).')',
+                        'lot' => $lotKey,
+                        'category' => $categoryKey,
                         'submissions' => (int) $row->submissions,
                         'units' => self::nonZeroUnits($row),
                     ];
@@ -380,7 +382,7 @@ class DashboardController extends Controller
                         ->first();
 
                     return array_merge(
-                        ['label' => $ministry->name, 'submissions' => (int) $row->submissions],
+                        ['id' => $ministry->id, 'label' => $ministry->name, 'submissions' => (int) $row->submissions],
                         self::unitTotalsArray($row)
                     );
                 })->sortByDesc('submissions')->values(),
@@ -391,7 +393,7 @@ class DashboardController extends Controller
                         ->first();
 
                     return array_merge(
-                        ['label' => $corp->name, 'submissions' => (int) $row->submissions],
+                        ['id' => $corp->id, 'label' => $corp->name, 'submissions' => (int) $row->submissions],
                         self::unitTotalsArray($row)
                     );
                 })->sortByDesc('submissions')->values(),
