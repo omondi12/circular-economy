@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Login - AMAC Circular Economy Tracker</title>
+    <title>Login - Westport Industrial City</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="bg-gradient-to-b from-[#eaf7ee] via-white to-white text-neutral-900 min-h-screen">
@@ -23,7 +23,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5M16.5 3.5a3 3 0 0 1 3 3v1M20.5 9.5v3a3 3 0 0 1-3 3M13.5 20.5h-3a3 3 0 0 1-3-3v-1" />
                         </svg>
                     </div>
-                    <h1 class="text-2xl font-semibold text-white mt-6 leading-tight">AMAC Circular<br>Economy Tracker</h1>
+                    <h1 class="text-2xl font-semibold text-white mt-6 leading-tight">Westport<br>Industrial City</h1>
                     <p class="text-sm text-white/80 mt-3 max-w-xs">
                         Sign in to record collections and manage Relationship Manager accounts.
                     </p>

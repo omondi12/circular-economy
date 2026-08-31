@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AMAC Circular Economy Tracker</title>
+    <title>Westport Industrial City</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="bg-gradient-to-b from-[#eaf7ee] via-white to-white text-neutral-900 min-h-screen">
@@ -30,7 +30,7 @@
                 </div>
 
                 <div class="flex-1 text-center sm:text-left">
-                    <h1 class="text-xl sm:text-2xl font-semibold text-white">AMAC Circular Economy Tracker</h1>
+                    <h1 class="text-xl sm:text-2xl font-semibold text-white">Westport Industrial City</h1>
                     <p class="text-sm text-white/85 mt-1 max-w-2xl">
                         Recyclable materials collected from ministries, counties and commissions.
                     </p>
