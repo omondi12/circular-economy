@@ -10,12 +10,8 @@
         <div class="absolute -bottom-24 left-1/4 w-72 h-72 rounded-full bg-gold-500/10 blur-3xl"></div>
 
         <div class="relative max-w-2xl fade-rise">
-            <div class="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-gold-100 bg-white/10 rounded-full px-3.5 py-1.5 mb-5">
-                <span class="w-1.5 h-1.5 rounded-full bg-gold-300"></span>
-                {{ __('Circular Economy Materials Register') }}
-            </div>
             <h1 class="font-display italic text-4xl sm:text-6xl text-white leading-[1.08]">
-                {{ __('Closing the loop on public sector materials.') }}
+                {{ __('Circular Economy Materials Register') }}
             </h1>
             <p class="mt-5 text-white/75 leading-relaxed max-w-lg">
                 {{ __('Every recyclable and disposal item collected across ministries, counties, commissions and state corporations — tracked from submission to recovery, in one place.') }}
@@ -68,48 +64,6 @@
             :href="route('feasibility-study.index')"
         />
     </div>
-
-    {{-- Signature: the loop --}}
-    @php
-        $lot1 = $byLot->firstWhere('lot', 1);
-        $lot2 = $byLot->firstWhere('lot', 2);
-        $totalKg = $byWeight->sum('kg');
-    @endphp
-    <section class="rounded-2xl border border-border bg-panel shadow-sm p-6 sm:p-8 mb-10 fade-rise">
-        <div class="flex items-center justify-between mb-6">
-            <h2 class="font-display italic text-xl text-ink">{{ __('The loop, end to end') }}</h2>
-            <span class="text-xs text-ink-faint font-mono uppercase tracking-wide">{{ __('Live') }}</span>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
-            <div class="relative flex flex-col items-center text-center p-5 rounded-xl bg-brand-50">
-                <div class="w-12 h-12 rounded-full bg-brand-700 text-white flex items-center justify-center mb-3 shadow-md">
-                    <x-icon name="building-community" size="20" />
-                </div>
-                <div class="font-display text-3xl text-brand-800 tabular-nums">{{ number_format($totalSubmissions) }}</div>
-                <div class="text-xs text-ink-muted mt-1 uppercase tracking-wide font-mono">{{ __('Collected') }}</div>
-                <p class="text-xs text-ink-faint mt-2">{{ __('Submissions logged across every entity') }}</p>
-            </div>
-
-            <div class="relative flex flex-col items-center text-center p-5 rounded-xl bg-gold-50">
-                <div class="w-12 h-12 rounded-full bg-gold-500 text-white flex items-center justify-center mb-3 shadow-md">
-                    <x-icon name="sort-ascending" size="20" />
-                </div>
-                <div class="font-display text-3xl text-gold-700 tabular-nums">{{ number_format($lot1['submissions'] ?? 0) }} / {{ number_format($lot2['submissions'] ?? 0) }}</div>
-                <div class="text-xs text-ink-muted mt-1 uppercase tracking-wide font-mono">{{ __('Sorted — Lot 1 / Lot 2') }}</div>
-                <p class="text-xs text-ink-faint mt-2">{{ __('Sale-grade vs. disposal-grade material') }}</p>
-            </div>
-
-            <div class="relative flex flex-col items-center text-center p-5 rounded-xl bg-brand-50">
-                <div class="w-12 h-12 rounded-full bg-brand-700 text-white flex items-center justify-center mb-3 shadow-md">
-                    <x-icon name="recycle" size="20" />
-                </div>
-                <div class="font-display text-3xl text-brand-800 tabular-nums">{{ number_format($totalKg, 0) }} kg</div>
-                <div class="text-xs text-ink-muted mt-1 uppercase tracking-wide font-mono">{{ __('Recovered') }}</div>
-                <p class="text-xs text-ink-faint mt-2">{{ __('Total weight tracked back into the loop') }}</p>
-            </div>
-        </div>
-    </section>
 
     {{-- Breakdown by weight (kg) --}}
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-10">
@@ -252,17 +206,5 @@
         </table>
     </section>
 
-    {{-- Recent submissions --}}
-    <section>
-        <div class="flex items-center justify-between mb-3">
-            <h2 class="text-sm font-semibold uppercase tracking-wide font-mono border-l-4 border-brand-600 pl-3 text-ink-muted">
-                {{ __('Recent Submissions') }} ({{ number_format($recent->total()) }})
-            </h2>
-            <a href="{{ route('collections.index') }}" class="text-xs font-medium text-brand-700 hover:text-brand-900 transition-colors">
-                {{ __('Search & filter all') }} &rarr;
-            </a>
-        </div>
-        <x-submissions-table :collections="$recent" />
-    </section>
 
 </x-layout>
