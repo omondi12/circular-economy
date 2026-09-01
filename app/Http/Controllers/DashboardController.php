@@ -43,37 +43,6 @@ class DashboardController extends Controller
 
         $materialItemCount = collect(WasteCategories::lots())->sum(fn (array $lot) => count($lot['categories']));
 
-        $byWeight = self::byWeightCategories();
-
-        $byLot = collect(WasteCategories::lots())->map(function (array $lot, int $lotKey) {
-            $categories = collect($lot['categories'])->map(function (array $meta, string $key) use ($lotKey) {
-                $row = Collection::where('lot', $lotKey)->where('category', $key)
-                    ->selectRaw('COUNT(*) as submissions, '.self::unitBreakdownSql())
-                    ->first();
-
-                return [
-                    'key' => $key,
-                    'label' => $meta['label'],
-                    'submissions' => (int) $row->submissions,
-                    'units' => self::nonZeroUnits($row),
-                ];
-            })->values();
-
-            return [
-                'lot' => $lotKey,
-                'label' => $lot['short_label'],
-                'submissions' => Collection::where('lot', $lotKey)->count(),
-                'categories' => $categories,
-            ];
-        })->values();
-
-        $byEntity = Collection::query()
-            ->selectRaw('entity_name, COUNT(*) as submissions, '.self::entityQuantitySql())
-            ->groupBy('entity_name')
-            ->orderByDesc('submissions')
-            ->limit(10)
-            ->get();
-
         $recent = Collection::query()
             ->orderByDesc('collection_date')
             ->orderByDesc('id')
@@ -87,9 +56,6 @@ class DashboardController extends Controller
             'stateCorpPhase1' => $stateCorpPhase1,
             'stateCorpPhase2' => $stateCorpPhase2,
             'materialItemCount' => $materialItemCount,
-            'byWeight' => $byWeight,
-            'byLot' => $byLot,
-            'byEntity' => $byEntity,
             'recent' => $recent,
         ]);
     }
