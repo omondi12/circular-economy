@@ -1,9 +1,107 @@
 @import 'tailwindcss';
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Instrument+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap');
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
 
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
+    --font-display: 'Instrument Serif', ui-serif, Georgia, serif;
+    --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+
+    /* Surfaces */
+    --color-canvas: #f6faf6;
+    --color-panel: #ffffff;
+    --color-panel-muted: #f0f6f1;
+    --color-panel-high: #e3ede5;
+
+    /* Ink */
+    --color-ink: #16211a;
+    --color-ink-muted: #5b6b60;
+    --color-ink-faint: #8b9a90;
+
+    /* Border */
+    --color-border: #e1e9e2;
+    --color-border-strong: #c7d5c9;
+
+    /* Brand green — the loop */
+    --color-brand-50: #eaf7ee;
+    --color-brand-100: #cdeed9;
+    --color-brand-200: #9ddcb5;
+    --color-brand-300: #66c48d;
+    --color-brand-400: #3aa96c;
+    --color-brand-500: #1f8c52;
+    --color-brand-600: #147041;
+    --color-brand-700: #0f5c37;
+    --color-brand-800: #0d492c;
+    --color-brand-900: #0a3722;
+    --color-brand-950: #052014;
+
+    /* Gold — recovered value */
+    --color-gold-50: #fdf6e6;
+    --color-gold-100: #f9e7bd;
+    --color-gold-300: #e3ad3f;
+    --color-gold-500: #b5810a;
+    --color-gold-600: #966b08;
+    --color-gold-700: #7a5706;
+
+    /* Status */
+    --color-success: #147041;
+    --color-success-bg: #e3f3e8;
+    --color-danger: #b8362a;
+    --color-danger-bg: #fbe8e5;
+    --color-info: #1c6f8c;
+    --color-info-bg: #e4f2f6;
+}
+
+@layer base {
+    [x-cloak] {
+        display: none !important;
+    }
+}
+
+@keyframes loop-spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+.loop-spin {
+    animation: loop-spin 14s linear infinite;
+}
+
+@keyframes fade-rise {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.fade-rise {
+    opacity: 0;
+    animation: fade-rise 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes flow-dash {
+    to { stroke-dashoffset: -40; }
+}
+.flow-dash {
+    stroke-dasharray: 4 6;
+    animation: flow-dash 1.2s linear infinite;
+}
+
+.marquee-mask {
+    mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent);
+}
+
+@keyframes ticker-scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+}
+.ticker-track {
+    animation: ticker-scroll 24s linear infinite;
+}
+.ticker-track:hover {
+    animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .loop-spin, .ticker-track, .flow-dash { animation: none; }
+    .fade-rise { opacity: 1; animation: none; }
 }

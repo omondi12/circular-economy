@@ -1,15 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Record a Collection - Westport Industrial City</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-</head>
-<body class="bg-gradient-to-b from-[#eaf7ee] via-white to-white text-neutral-900 min-h-screen">
-    <div class="h-1.5 w-full bg-gradient-to-r from-[#0f7a3d] via-[#1a9650] to-[#c98500]"></div>
-
-    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+<x-layout title="Record a Collection">
         <x-page-header
             title="Record a Collection"
             subtitle="Choose the Lot first, then pick the category it belongs to."
@@ -21,32 +10,32 @@
             @csrf
 
             {{-- Entity & contact block --}}
-            <div class="bg-white border border-neutral-200 rounded-xl overflow-hidden shadow-sm">
-                <div class="bg-gradient-to-r from-[#0f7a3d] to-[#1a9650] px-4 py-2.5">
+            <div class="bg-panel border border-border rounded-xl overflow-hidden shadow-sm">
+                <div class="bg-gradient-to-r from-brand-700 to-brand-500 px-4 py-2.5">
                     <h2 class="text-sm font-semibold text-white uppercase tracking-wide">Entity Details</h2>
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-[220px_1fr] border-b border-neutral-200">
-                    <span class="bg-[#f7edd6] px-4 py-3 text-sm font-semibold text-neutral-700 flex items-center">
-                        Entity Type <span class="text-red-500 ml-1">*</span>
+                <div class="grid grid-cols-1 sm:grid-cols-[220px_1fr] border-b border-border">
+                    <span class="bg-gold-50 px-4 py-3 text-sm font-semibold text-ink-muted flex items-center">
+                        Entity Type <span class="text-danger ml-1">*</span>
                     </span>
                     <div class="px-4 py-2.5 flex flex-wrap items-center gap-x-5 gap-y-1.5">
-                        <label class="flex items-center gap-1.5 text-sm text-neutral-700">
+                        <label class="flex items-center gap-1.5 text-sm text-ink-muted">
                             <input type="radio" name="entity_type" value="ministry" onchange="onEntityTypeChange()"
                                 {{ old('entity_type', 'ministry') === 'ministry' ? 'checked' : '' }}
-                                class="text-[#0f7a3d] focus:ring-[#0f7a3d]">
+                                class="text-brand-700 focus:ring-brand-600">
                             National Government Ministry
                         </label>
-                        <label class="flex items-center gap-1.5 text-sm text-neutral-700">
+                        <label class="flex items-center gap-1.5 text-sm text-ink-muted">
                             <input type="radio" name="entity_type" value="county" onchange="onEntityTypeChange()"
                                 {{ old('entity_type') === 'county' ? 'checked' : '' }}
-                                class="text-[#0f7a3d] focus:ring-[#0f7a3d]">
+                                class="text-brand-700 focus:ring-brand-600">
                             County
                         </label>
-                        <label class="flex items-center gap-1.5 text-sm text-neutral-700">
+                        <label class="flex items-center gap-1.5 text-sm text-ink-muted">
                             <input type="radio" name="entity_type" value="commission" onchange="onEntityTypeChange()"
                                 {{ old('entity_type') === 'commission' ? 'checked' : '' }}
-                                class="text-[#0f7a3d] focus:ring-[#0f7a3d]">
+                                class="text-brand-700 focus:ring-brand-600">
                             Commission / Other
                         </label>
                     </div>
@@ -54,95 +43,95 @@
 
                 {{-- Ministry path: cascading Ministry -> State Department -> Institution --}}
                 <div id="ministry-fields">
-                    <div class="grid grid-cols-1 sm:grid-cols-[220px_1fr] border-b border-neutral-200">
-                        <label for="ministry_id" class="bg-[#f7edd6] px-4 py-3 text-sm font-semibold text-neutral-700 flex items-center">
-                            Ministry <span class="text-red-500 ml-1">*</span>
+                    <div class="grid grid-cols-1 sm:grid-cols-[220px_1fr] border-b border-border">
+                        <label for="ministry_id" class="bg-gold-50 px-4 py-3 text-sm font-semibold text-ink-muted flex items-center">
+                            Ministry <span class="text-danger ml-1">*</span>
                         </label>
                         <div class="px-4 py-2 flex flex-col justify-center">
                             <select id="ministry_id" name="ministry_id" onchange="onMinistryChange()"
-                                class="w-full border-0 focus:ring-0 text-sm py-1.5 px-0 text-neutral-900">
+                                class="w-full border-0 focus:ring-0 text-sm py-1.5 px-0 text-ink">
                                 <option value="">Select a ministry…</option>
                                 @foreach ($ministries as $ministry)
                                     <option value="{{ $ministry['id'] }}" @selected(old('ministry_id') == $ministry['id'])>{{ $ministry['name'] }}</option>
                                 @endforeach
                             </select>
                             @error('ministry_id')
-                                <p class="text-xs text-red-600 mt-1">{{ $message }}</p>
+                                <p class="text-xs text-danger mt-1">{{ $message }}</p>
                             @enderror
                             @if ($restrictedToOwnMinistries)
-                                <p class="text-xs text-neutral-400 mt-1">Showing only the ministries assigned to you.</p>
+                                <p class="text-xs text-ink-faint mt-1">Showing only the ministries assigned to you.</p>
                             @endif
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-1 sm:grid-cols-[220px_1fr] border-b border-neutral-200">
-                        <label for="state_department_id" class="bg-[#f7edd6] px-4 py-3 text-sm font-semibold text-neutral-700 flex items-center">
+                    <div class="grid grid-cols-1 sm:grid-cols-[220px_1fr] border-b border-border">
+                        <label for="state_department_id" class="bg-gold-50 px-4 py-3 text-sm font-semibold text-ink-muted flex items-center">
                             State Department
                         </label>
                         <div class="px-4 py-2 flex flex-col justify-center">
                             <select id="state_department_id" name="state_department_id" onchange="onDepartmentChange()" disabled
-                                class="w-full border-0 focus:ring-0 text-sm py-1.5 px-0 text-neutral-900">
+                                class="w-full border-0 focus:ring-0 text-sm py-1.5 px-0 text-ink">
                                 <option value="">Select a ministry first…</option>
                             </select>
                             @error('state_department_id')
-                                <p class="text-xs text-red-600 mt-1">{{ $message }}</p>
+                                <p class="text-xs text-danger mt-1">{{ $message }}</p>
                             @enderror
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-1 sm:grid-cols-[220px_1fr] border-b border-neutral-200">
-                        <label for="institution_id" class="bg-[#f7edd6] px-4 py-3 text-sm font-semibold text-neutral-700 flex items-center">
+                    <div class="grid grid-cols-1 sm:grid-cols-[220px_1fr] border-b border-border">
+                        <label for="institution_id" class="bg-gold-50 px-4 py-3 text-sm font-semibold text-ink-muted flex items-center">
                             Institution
                         </label>
                         <div class="px-4 py-2 flex flex-col justify-center">
                             <select id="institution_id" name="institution_id" disabled
-                                class="w-full border-0 focus:ring-0 text-sm py-1.5 px-0 text-neutral-900">
+                                class="w-full border-0 focus:ring-0 text-sm py-1.5 px-0 text-ink">
                                 <option value="">Select a state department first…</option>
                             </select>
                             @error('institution_id')
-                                <p class="text-xs text-red-600 mt-1">{{ $message }}</p>
+                                <p class="text-xs text-danger mt-1">{{ $message }}</p>
                             @enderror
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-1 sm:grid-cols-[220px_1fr] border-b border-neutral-200">
-                        <label for="department_agency_ministry" class="bg-[#f7edd6] px-4 py-3 text-sm font-semibold text-neutral-700 flex items-center">
+                    <div class="grid grid-cols-1 sm:grid-cols-[220px_1fr] border-b border-border">
+                        <label for="department_agency_ministry" class="bg-gold-50 px-4 py-3 text-sm font-semibold text-ink-muted flex items-center">
                             Department / Agency
                         </label>
                         <div class="px-4 py-2 flex flex-col justify-center">
                             <input type="text" id="department_agency_ministry" name="department_agency" value="{{ old('department_agency') }}"
-                                class="w-full border-0 focus:ring-0 text-sm py-1.5 px-0 text-neutral-900 placeholder:text-neutral-300">
+                                class="w-full border-0 focus:ring-0 text-sm py-1.5 px-0 text-ink placeholder:text-ink-faint">
                         </div>
                     </div>
                 </div>
 
                 {{-- County path: County -> Department (same generic department list for every county) --}}
                 <div id="county-fields">
-                    <div class="grid grid-cols-1 sm:grid-cols-[220px_1fr] border-b border-neutral-200">
-                        <label for="county" class="bg-[#f7edd6] px-4 py-3 text-sm font-semibold text-neutral-700 flex items-center">
-                            County <span class="text-red-500 ml-1">*</span>
+                    <div class="grid grid-cols-1 sm:grid-cols-[220px_1fr] border-b border-border">
+                        <label for="county" class="bg-gold-50 px-4 py-3 text-sm font-semibold text-ink-muted flex items-center">
+                            County <span class="text-danger ml-1">*</span>
                         </label>
                         <div class="px-4 py-2 flex flex-col justify-center">
                             <select id="county" name="county"
-                                class="w-full border-0 focus:ring-0 text-sm py-1.5 px-0 text-neutral-900">
+                                class="w-full border-0 focus:ring-0 text-sm py-1.5 px-0 text-ink">
                                 <option value="">Select a county…</option>
                                 @foreach ($counties as $countyName)
                                     <option value="{{ $countyName }}" @selected(old('county') === $countyName)>{{ $countyName }}</option>
                                 @endforeach
                             </select>
                             @error('county')
-                                <p class="text-xs text-red-600 mt-1">{{ $message }}</p>
+                                <p class="text-xs text-danger mt-1">{{ $message }}</p>
                             @enderror
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-1 sm:grid-cols-[220px_1fr] border-b border-neutral-200">
-                        <label for="department_agency_county" class="bg-[#f7edd6] px-4 py-3 text-sm font-semibold text-neutral-700 flex items-center">
-                            Department / Agency <span class="text-red-500 ml-1">*</span>
+                    <div class="grid grid-cols-1 sm:grid-cols-[220px_1fr] border-b border-border">
+                        <label for="department_agency_county" class="bg-gold-50 px-4 py-3 text-sm font-semibold text-ink-muted flex items-center">
+                            Department / Agency <span class="text-danger ml-1">*</span>
                         </label>
                         <div class="px-4 py-2 flex flex-col justify-center">
                             <select id="department_agency_county" name="department_agency"
-                                class="w-full border-0 focus:ring-0 text-sm py-1.5 px-0 text-neutral-900">
+                                class="w-full border-0 focus:ring-0 text-sm py-1.5 px-0 text-ink">
                                 <option value="">Select a department…</option>
                                 @foreach ($countyDepartments as $dept)
                                     <option value="{{ $dept }}" @selected(old('entity_type') === 'county' && old('department_agency') === $dept)>{{ $dept }}</option>
@@ -154,31 +143,31 @@
 
                 {{-- Commission path: Commission -> Department (cascades - each body has its own directorates) --}}
                 <div id="commission-fields">
-                    <div class="grid grid-cols-1 sm:grid-cols-[220px_1fr] border-b border-neutral-200">
-                        <label for="commission" class="bg-[#f7edd6] px-4 py-3 text-sm font-semibold text-neutral-700 flex items-center">
-                            Commission / Body <span class="text-red-500 ml-1">*</span>
+                    <div class="grid grid-cols-1 sm:grid-cols-[220px_1fr] border-b border-border">
+                        <label for="commission" class="bg-gold-50 px-4 py-3 text-sm font-semibold text-ink-muted flex items-center">
+                            Commission / Body <span class="text-danger ml-1">*</span>
                         </label>
                         <div class="px-4 py-2 flex flex-col justify-center">
                             <select id="commission" name="commission" onchange="onCommissionChange()"
-                                class="w-full border-0 focus:ring-0 text-sm py-1.5 px-0 text-neutral-900">
+                                class="w-full border-0 focus:ring-0 text-sm py-1.5 px-0 text-ink">
                                 <option value="">Select a commission or body…</option>
                                 @foreach ($commissions as $name => $meta)
                                     <option value="{{ $name }}" @selected(old('commission') === $name)>{{ $name }}</option>
                                 @endforeach
                             </select>
                             @error('commission')
-                                <p class="text-xs text-red-600 mt-1">{{ $message }}</p>
+                                <p class="text-xs text-danger mt-1">{{ $message }}</p>
                             @enderror
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-1 sm:grid-cols-[220px_1fr] border-b border-neutral-200">
-                        <label for="department_agency_commission" class="bg-[#f7edd6] px-4 py-3 text-sm font-semibold text-neutral-700 flex items-center">
-                            Department / Directorate <span class="text-red-500 ml-1">*</span>
+                    <div class="grid grid-cols-1 sm:grid-cols-[220px_1fr] border-b border-border">
+                        <label for="department_agency_commission" class="bg-gold-50 px-4 py-3 text-sm font-semibold text-ink-muted flex items-center">
+                            Department / Directorate <span class="text-danger ml-1">*</span>
                         </label>
                         <div class="px-4 py-2 flex flex-col justify-center">
                             <select id="department_agency_commission" name="department_agency" disabled
-                                class="w-full border-0 focus:ring-0 text-sm py-1.5 px-0 text-neutral-900">
+                                class="w-full border-0 focus:ring-0 text-sm py-1.5 px-0 text-ink">
                                 <option value="">Select a commission first…</option>
                             </select>
                         </div>
@@ -191,85 +180,85 @@
             </div>
 
             {{-- Lot / Category / Subcategory / Unit / Quantity --}}
-            <div class="bg-white border border-neutral-200 rounded-xl overflow-hidden shadow-sm">
-                <div class="bg-gradient-to-r from-[#0f7a3d] to-[#1a9650] px-4 py-2.5">
+            <div class="bg-panel border border-border rounded-xl overflow-hidden shadow-sm">
+                <div class="bg-gradient-to-r from-brand-700 to-brand-500 px-4 py-2.5">
                     <h2 class="text-sm font-semibold text-white uppercase tracking-wide">Lot &amp; Category</h2>
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-[220px_1fr] border-b border-neutral-200">
-                    <label for="lot" class="bg-[#f7edd6] px-4 py-3 text-sm font-semibold text-neutral-700 flex items-center">
-                        Lot <span class="text-red-500 ml-1">*</span>
+                <div class="grid grid-cols-1 sm:grid-cols-[220px_1fr] border-b border-border">
+                    <label for="lot" class="bg-gold-50 px-4 py-3 text-sm font-semibold text-ink-muted flex items-center">
+                        Lot <span class="text-danger ml-1">*</span>
                     </label>
                     <div class="px-4 py-2 flex flex-col justify-center">
                         <select id="lot" name="lot" required onchange="onLotChange()"
-                            class="w-full border-0 focus:ring-0 text-sm py-1.5 px-0 text-neutral-900">
+                            class="w-full border-0 focus:ring-0 text-sm py-1.5 px-0 text-ink">
                             <option value="">Select a lot…</option>
                             @foreach ($lots as $lotKey => $lot)
                                 <option value="{{ $lotKey }}" @selected(old('lot') == $lotKey)>{{ $lot['label'] }}</option>
                             @endforeach
                         </select>
                         @error('lot')
-                            <p class="text-xs text-red-600 mt-1">{{ $message }}</p>
+                            <p class="text-xs text-danger mt-1">{{ $message }}</p>
                         @enderror
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-[220px_1fr] border-b border-neutral-200">
-                    <label for="category" class="bg-[#f7edd6] px-4 py-3 text-sm font-semibold text-neutral-700 flex items-center">
-                        Main Category <span class="text-red-500 ml-1">*</span>
+                <div class="grid grid-cols-1 sm:grid-cols-[220px_1fr] border-b border-border">
+                    <label for="category" class="bg-gold-50 px-4 py-3 text-sm font-semibold text-ink-muted flex items-center">
+                        Main Category <span class="text-danger ml-1">*</span>
                     </label>
                     <div class="px-4 py-2 flex flex-col justify-center">
                         <select id="category" name="category" required onchange="onCategoryChange()"
-                            class="w-full border-0 focus:ring-0 text-sm py-1.5 px-0 text-neutral-900" disabled>
+                            class="w-full border-0 focus:ring-0 text-sm py-1.5 px-0 text-ink" disabled>
                             <option value="">Select a lot first…</option>
                         </select>
                         @error('category')
-                            <p class="text-xs text-red-600 mt-1">{{ $message }}</p>
+                            <p class="text-xs text-danger mt-1">{{ $message }}</p>
                         @enderror
                     </div>
                 </div>
 
-                <div id="subcategory-row" class="grid grid-cols-1 sm:grid-cols-[220px_1fr] border-b border-neutral-200">
-                    <label for="subcategory" class="bg-[#f7edd6] px-4 py-3 text-sm font-semibold text-neutral-700 flex items-center">
-                        Subcategory <span class="text-red-500 ml-1">*</span>
+                <div id="subcategory-row" class="grid grid-cols-1 sm:grid-cols-[220px_1fr] border-b border-border">
+                    <label for="subcategory" class="bg-gold-50 px-4 py-3 text-sm font-semibold text-ink-muted flex items-center">
+                        Subcategory <span class="text-danger ml-1">*</span>
                     </label>
                     <div class="px-4 py-2 flex flex-col justify-center">
                         <select id="subcategory" name="subcategory" onchange="onSubcategoryChange()"
-                            class="w-full border-0 focus:ring-0 text-sm py-1.5 px-0 text-neutral-900" disabled>
+                            class="w-full border-0 focus:ring-0 text-sm py-1.5 px-0 text-ink" disabled>
                             <option value="">Select a category first…</option>
                         </select>
                         @error('subcategory')
-                            <p class="text-xs text-red-600 mt-1">{{ $message }}</p>
+                            <p class="text-xs text-danger mt-1">{{ $message }}</p>
                         @enderror
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-[220px_1fr] border-b border-neutral-200">
-                    <label for="unit" class="bg-[#f7edd6] px-4 py-3 text-sm font-semibold text-neutral-700 flex items-center">
-                        Unit of Measure <span class="text-red-500 ml-1">*</span>
+                <div class="grid grid-cols-1 sm:grid-cols-[220px_1fr] border-b border-border">
+                    <label for="unit" class="bg-gold-50 px-4 py-3 text-sm font-semibold text-ink-muted flex items-center">
+                        Unit of Measure <span class="text-danger ml-1">*</span>
                     </label>
                     <div class="px-4 py-2 flex flex-col justify-center">
                         <select id="unit" name="unit" required
-                            class="w-full border-0 focus:ring-0 text-sm py-1.5 px-0 text-neutral-900" disabled>
+                            class="w-full border-0 focus:ring-0 text-sm py-1.5 px-0 text-ink" disabled>
                             <option value="">Select a category first…</option>
                         </select>
                         @error('unit')
-                            <p class="text-xs text-red-600 mt-1">{{ $message }}</p>
+                            <p class="text-xs text-danger mt-1">{{ $message }}</p>
                         @enderror
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-[220px_1fr] border-b border-neutral-200">
-                    <label for="quantity" class="bg-[#f7edd6] px-4 py-3 text-sm font-semibold text-neutral-700 flex items-center">
-                        Quantity <span class="text-red-500 ml-1">*</span>
+                <div class="grid grid-cols-1 sm:grid-cols-[220px_1fr] border-b border-border">
+                    <label for="quantity" class="bg-gold-50 px-4 py-3 text-sm font-semibold text-ink-muted flex items-center">
+                        Quantity <span class="text-danger ml-1">*</span>
                     </label>
                     <div class="px-4 py-2 flex flex-col justify-center">
                         <input
                             type="number" step="0.01" min="0.01" id="quantity" name="quantity" value="{{ old('quantity') }}" required
-                            class="w-40 border-0 focus:ring-0 text-sm py-1.5 px-0 text-neutral-900 placeholder:text-neutral-300"
+                            class="w-40 border-0 focus:ring-0 text-sm py-1.5 px-0 text-ink placeholder:text-ink-faint"
                         >
                         @error('quantity')
-                            <p class="text-xs text-red-600 mt-1">{{ $message }}</p>
+                            <p class="text-xs text-danger mt-1">{{ $message }}</p>
                         @enderror
                     </div>
                 </div>
@@ -278,17 +267,16 @@
             </div>
 
             {{-- Date --}}
-            <div class="bg-white border border-neutral-200 rounded-xl overflow-hidden shadow-sm">
+            <div class="bg-panel border border-border rounded-xl overflow-hidden shadow-sm">
                 <x-form-field label="Date" name="collection_date" type="date" required :value="now()->toDateString()" />
             </div>
 
             <div class="flex justify-end">
-                <button type="submit" class="px-6 py-3 rounded-md bg-[#0f7a3d] hover:bg-[#0b5c2e] text-white text-sm font-semibold transition-colors shadow-sm shadow-[#0f7a3d]/30">
+                <button type="submit" class="px-6 py-3 rounded-md bg-brand-700 hover:bg-brand-800 text-white text-sm font-semibold transition-colors shadow-sm shadow-brand-900/20">
                     Submit Collection
                 </button>
             </div>
         </form>
-    </div>
 
     <script>
         const LOTS = @json($lots);
@@ -513,5 +501,4 @@
             if (oldDepartmentAgency) document.getElementById('department_agency_commission').value = oldDepartmentAgency;
         }
     </script>
-</body>
-</html>
+</x-layout>

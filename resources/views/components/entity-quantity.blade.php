@@ -17,7 +17,7 @@
 @endphp
 
 @if (empty($parts))
-    <span class="text-neutral-300">—</span>
+    <span class="text-ink-faint">—</span>
 @else
     <div class="space-y-0.5">
         @foreach ($parts as $part)

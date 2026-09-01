@@ -1,22 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>My Dashboard - Westport Industrial City</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-</head>
-<body class="bg-gradient-to-b from-[#eaf7ee] via-white to-white text-neutral-900 min-h-screen">
-    <div class="h-1.5 w-full bg-gradient-to-r from-[#0f7a3d] via-[#1a9650] to-[#c98500]"></div>
-
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+<x-layout title="My Dashboard">
         @if (session('status'))
-            <div class="mb-6 rounded-lg bg-[#0f7a3d]/10 border border-[#0f7a3d]/30 text-[#0b5c2e] text-sm px-4 py-3">
+            <div class="mb-6 rounded-lg bg-brand-50 border border-brand-600/30 text-brand-800 text-sm px-4 py-3">
                 {{ session('status') }}
             </div>
         @endif
 
-        <header class="relative mb-8 rounded-2xl bg-gradient-to-br from-[#0f7a3d] via-[#177a44] to-[#c98500] shadow-xl shadow-[#0f7a3d]/20 px-6 py-7 sm:px-8 sm:py-8 overflow-hidden">
+        <header class="relative mb-8 rounded-2xl bg-gradient-to-br from-brand-700 via-brand-800 to-brand-900 shadow-xl shadow-brand-900/10 px-6 py-7 sm:px-8 sm:py-8 overflow-hidden">
             <div class="absolute -top-16 -right-10 w-64 h-64 rounded-full bg-white/10 blur-2xl"></div>
 
             <div class="relative flex flex-col sm:flex-row items-center gap-6">
@@ -27,7 +16,7 @@
                 </div>
 
                 <div class="shrink-0 flex items-center gap-2">
-                    <a href="{{ route('rm.collections.create') }}" class="inline-flex items-center gap-2 px-5 py-3 rounded-lg bg-white text-[#0b5c2e] text-sm font-semibold hover:bg-white/90 transition-colors shadow-sm">
+                    <a href="{{ route('rm.collections.create') }}" class="inline-flex items-center gap-2 px-5 py-3 rounded-lg bg-white text-brand-800 text-sm font-semibold hover:bg-white/90 transition-colors shadow-sm">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                         </svg>
@@ -51,12 +40,12 @@
             @endforeach
         </div>
 
-        <div class="bg-white border border-neutral-200 rounded-xl overflow-hidden shadow-sm">
-            <div class="px-5 py-4 border-b border-neutral-100">
-                <h2 class="text-sm font-semibold uppercase tracking-wide text-neutral-600">My Submissions</h2>
+        <div class="bg-panel border border-border rounded-xl overflow-hidden shadow-sm">
+            <div class="px-5 py-4 border-b border-border">
+                <h2 class="text-sm font-semibold uppercase tracking-wide text-ink-muted">My Submissions</h2>
             </div>
             <table class="w-full text-sm">
-                <thead class="bg-[#0f7a3d]/5 text-left text-neutral-500">
+                <thead class="bg-brand-50 text-left text-ink-faint">
                     <tr>
                         <th class="px-4 py-2 font-medium">Entity</th>
                         <th class="px-4 py-2 font-medium">Lot / Category</th>
@@ -64,24 +53,24 @@
                         <th class="px-4 py-2 font-medium">Date</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-neutral-100">
+                <tbody class="divide-y divide-border">
                     @forelse ($submissions as $submission)
-                        <tr class="hover:bg-neutral-50 transition-colors">
+                        <tr class="hover:bg-panel-muted transition-colors">
                             <td class="px-4 py-3 font-medium max-w-xs">
                                 <div class="line-clamp-2">{{ $submission->entity_name }}</div>
                             </td>
                             <td class="px-4 py-3 whitespace-nowrap">
-                                <span class="inline-flex items-center px-2 py-0.5 rounded-full {{ $submission->lot === 1 ? 'bg-[#0f7a3d]/10 text-[#0b5c2e]' : 'bg-[#c98500]/10 text-[#8a5c00]' }} text-xs font-medium">
+                                <span class="inline-flex items-center px-2 py-0.5 rounded-full {{ $submission->lot === 1 ? 'bg-brand-50 text-brand-800' : 'bg-gold-100 text-gold-700' }} text-xs font-medium">
                                     {{ \App\Support\WasteCategories::shortLotLabel($submission->lot) }}
                                 </span>
-                                <span class="block text-xs text-neutral-500 mt-0.5">{{ $submission->categoryLabel() }}</span>
+                                <span class="block text-xs text-ink-faint mt-0.5">{{ $submission->categoryLabel() }}</span>
                             </td>
                             <td class="px-4 py-3 text-right tabular-nums whitespace-nowrap font-medium">{{ number_format($submission->quantity, 1) }} {{ $submission->unit }}</td>
-                            <td class="px-4 py-3 whitespace-nowrap text-neutral-500">{{ $submission->collection_date->format('d M Y') }}</td>
+                            <td class="px-4 py-3 whitespace-nowrap text-ink-faint">{{ $submission->collection_date->format('d M Y') }}</td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="4" class="px-4 py-8 text-center text-neutral-400">You haven't recorded any collections yet.</td>
+                            <td colspan="4" class="px-4 py-8 text-center text-ink-faint">You haven't recorded any collections yet.</td>
                         </tr>
                     @endforelse
                 </tbody>
@@ -91,6 +80,4 @@
         <div class="mt-4">
             {{ $submissions->links() }}
         </div>
-    </div>
-</body>
-</html>
+</x-layout>

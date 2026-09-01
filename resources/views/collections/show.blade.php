@@ -1,22 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ $collection->entity_name }} - Westport Industrial City</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-</head>
-<body class="bg-gradient-to-b from-[#eaf7ee] via-white to-white text-neutral-900 min-h-screen">
-    <div class="h-1.5 w-full bg-gradient-to-r from-[#0f7a3d] via-[#1a9650] to-[#c98500]"></div>
-
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+<x-layout title="{{ $collection->entity_name }}">
         <x-page-header
             :title="$collection->entity_name"
             :subtitle="'Collected '.$collection->collection_date->format('d M Y')"
         />
 
         {{-- Total weight banner --}}
-        <div class="mb-6 rounded-2xl bg-gradient-to-br from-[#0f7a3d] via-[#177a44] to-[#c98500] shadow-xl shadow-[#0f7a3d]/20 px-6 py-6 flex flex-wrap items-center gap-6">
+        <div class="mb-6 rounded-2xl bg-gradient-to-br from-brand-700 via-brand-800 to-brand-900 shadow-xl shadow-brand-900/10 px-6 py-6 flex flex-wrap items-center gap-6">
             @if ($collection->isLegacyMaterialEntry())
                 <div class="text-white">
                     <p class="text-white/70 text-xs uppercase tracking-wide">Total Collected</p>
@@ -40,16 +29,16 @@
         </div>
 
         @if ($collection->description)
-            <div class="mb-4 bg-white border border-neutral-200 rounded-xl p-4 shadow-sm text-sm text-neutral-600">
-                <span class="text-xs uppercase tracking-wide text-neutral-400 block mb-1">Description</span>
+            <div class="mb-4 bg-panel border border-border rounded-xl p-4 shadow-sm text-sm text-ink-muted">
+                <span class="text-xs uppercase tracking-wide text-ink-faint block mb-1">Description</span>
                 {{ $collection->description }}
             </div>
         @endif
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
             {{-- Entity details --}}
-            <div class="bg-white border border-neutral-200 rounded-xl p-5 shadow-sm">
-                <h2 class="text-sm font-semibold uppercase tracking-wide mb-4 border-l-4 border-[#0f7a3d] pl-3 text-neutral-600">
+            <div class="bg-panel border border-border rounded-xl p-5 shadow-sm">
+                <h2 class="text-sm font-semibold uppercase tracking-wide mb-4 border-l-4 border-brand-600 pl-3 text-ink-muted">
                     Entity Details
                 </h2>
                 <div class="grid grid-cols-1 gap-4">
@@ -62,8 +51,8 @@
             </div>
 
             {{-- Contact & meta --}}
-            <div class="bg-white border border-neutral-200 rounded-xl p-5 shadow-sm">
-                <h2 class="text-sm font-semibold uppercase tracking-wide mb-4 border-l-4 border-[#c98500] pl-3 text-neutral-600">
+            <div class="bg-panel border border-border rounded-xl p-5 shadow-sm">
+                <h2 class="text-sm font-semibold uppercase tracking-wide mb-4 border-l-4 border-gold-500 pl-3 text-ink-muted">
                     Contact &amp; Record
                 </h2>
                 <div class="grid grid-cols-1 gap-4">
@@ -77,18 +66,18 @@
 
         @if ($collection->isLegacyMaterialEntry())
             {{-- Materials --}}
-            <div class="bg-white border border-neutral-200 rounded-xl overflow-hidden shadow-sm">
-                <h2 class="text-sm font-semibold uppercase tracking-wide mt-5 mb-4 border-l-4 border-[#0f7a3d] pl-3 text-neutral-600 mx-5">
+            <div class="bg-panel border border-border rounded-xl overflow-hidden shadow-sm">
+                <h2 class="text-sm font-semibold uppercase tracking-wide mt-5 mb-4 border-l-4 border-brand-600 pl-3 text-ink-muted mx-5">
                     Materials Collected
                 </h2>
                 <table class="w-full text-sm">
-                    <thead class="bg-[#f7edd6] text-left text-neutral-600">
+                    <thead class="bg-gold-50 text-left text-ink-muted">
                         <tr>
                             <th class="px-5 py-2 font-medium">Material</th>
                             <th class="px-5 py-2 font-medium text-right">Quantity (Kg)</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-neutral-100">
+                    <tbody class="divide-y divide-border">
                         <tr>
                             <td class="px-5 py-2.5">Paper</td>
                             <td class="px-5 py-2.5 text-right tabular-nums">{{ number_format($collection->paper_kg, 2) }}</td>
@@ -115,7 +104,7 @@
                         </tr>
                     </tbody>
                     <tfoot>
-                        <tr class="bg-[#0f7a3d]/5 font-semibold">
+                        <tr class="bg-brand-50 font-semibold">
                             <td class="px-5 py-2.5">Total</td>
                             <td class="px-5 py-2.5 text-right tabular-nums">{{ number_format($collection->totalKg(), 2) }}</td>
                         </tr>
@@ -125,13 +114,11 @@
         @endif
 
         @if ($collection->user)
-            <div class="mt-4 bg-white border border-neutral-200 rounded-xl p-5 shadow-sm">
-                <h2 class="text-sm font-semibold uppercase tracking-wide mb-4 border-l-4 border-[#0f7a3d] pl-3 text-neutral-600">
+            <div class="mt-4 bg-panel border border-border rounded-xl p-5 shadow-sm">
+                <h2 class="text-sm font-semibold uppercase tracking-wide mb-4 border-l-4 border-brand-600 pl-3 text-ink-muted">
                     Submitted By
                 </h2>
                 <x-detail-item label="Relationship Manager" :value="$collection->user->name" />
             </div>
         @endif
-    </div>
-</body>
-</html>
+</x-layout>
