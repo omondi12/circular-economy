@@ -48,7 +48,7 @@
             @empty
                 <tr>
                     <td colspan="6" class="px-4 py-10 text-center text-ink-faint">
-                        <i class="ti ti-inbox text-xl mb-1.5 block" aria-hidden="true"></i>
+                        <x-icon name="inbox" class="text-xl mb-1.5 block" />
                         {{ __('No submissions match these filters.') }}
                     </td>
                 </tr>

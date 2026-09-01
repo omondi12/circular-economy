@@ -2,9 +2,10 @@
 
     {{-- Hero --}}
     <section class="relative rounded-2xl overflow-hidden bg-gradient-to-br from-brand-800 via-brand-700 to-brand-900 shadow-xl mb-10 px-6 py-12 sm:px-12 sm:py-16">
-        <svg class="absolute -right-16 -top-16 w-80 h-80 opacity-[0.08] loop-spin" viewBox="0 0 32 32" style="animation-duration: 40s">
-            <path d="M16 4 A12 12 0 0 1 27.8 14" fill="none" stroke="white" stroke-width="1.4" stroke-linecap="round"/>
-            <path d="M16 28 A12 12 0 0 1 4.2 18" fill="none" stroke="white" stroke-width="1.4" stroke-linecap="round"/>
+        <svg class="absolute -right-10 -top-10 w-72 h-72 opacity-[0.10]" viewBox="0 0 100 100">
+            <circle cx="50" cy="50" r="47" fill="none" stroke="white" stroke-width="0.8" stroke-dasharray="2 3"/>
+            <circle cx="50" cy="50" r="40" fill="none" stroke="white" stroke-width="0.6"/>
+            <circle cx="50" cy="50" r="33" fill="none" stroke="white" stroke-width="0.6"/>
         </svg>
         <div class="absolute -bottom-24 left-1/4 w-72 h-72 rounded-full bg-gold-500/10 blur-3xl"></div>
 
@@ -13,7 +14,7 @@
                 <span class="w-1.5 h-1.5 rounded-full bg-gold-300"></span>
                 {{ __('Circular Economy Materials Register') }}
             </div>
-            <h1 class="font-display italic text-4xl sm:text-5xl text-white leading-[1.1]">
+            <h1 class="font-display italic text-4xl sm:text-6xl text-white leading-[1.08]">
                 {{ __('Closing the loop on public sector materials.') }}
             </h1>
             <p class="mt-5 text-white/75 leading-relaxed max-w-lg">
@@ -83,7 +84,7 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
             <div class="relative flex flex-col items-center text-center p-5 rounded-xl bg-brand-50">
                 <div class="w-12 h-12 rounded-full bg-brand-700 text-white flex items-center justify-center mb-3 shadow-md">
-                    <i class="ti ti-building-community" style="font-size:20px" aria-hidden="true"></i>
+                    <x-icon name="building-community" size="20" />
                 </div>
                 <div class="font-display text-3xl text-brand-800 tabular-nums">{{ number_format($totalSubmissions) }}</div>
                 <div class="text-xs text-ink-muted mt-1 uppercase tracking-wide font-mono">{{ __('Collected') }}</div>
@@ -92,7 +93,7 @@
 
             <div class="relative flex flex-col items-center text-center p-5 rounded-xl bg-gold-50">
                 <div class="w-12 h-12 rounded-full bg-gold-500 text-white flex items-center justify-center mb-3 shadow-md">
-                    <i class="ti ti-sort-ascending-2" style="font-size:20px" aria-hidden="true"></i>
+                    <x-icon name="sort-ascending" size="20" />
                 </div>
                 <div class="font-display text-3xl text-gold-700 tabular-nums">{{ number_format($lot1['submissions'] ?? 0) }} / {{ number_format($lot2['submissions'] ?? 0) }}</div>
                 <div class="text-xs text-ink-muted mt-1 uppercase tracking-wide font-mono">{{ __('Sorted — Lot 1 / Lot 2') }}</div>
@@ -101,7 +102,7 @@
 
             <div class="relative flex flex-col items-center text-center p-5 rounded-xl bg-brand-50">
                 <div class="w-12 h-12 rounded-full bg-brand-700 text-white flex items-center justify-center mb-3 shadow-md">
-                    <i class="ti ti-recycle" style="font-size:20px" aria-hidden="true"></i>
+                    <x-icon name="recycle" size="20" />
                 </div>
                 <div class="font-display text-3xl text-brand-800 tabular-nums">{{ number_format($totalKg, 0) }} kg</div>
                 <div class="text-xs text-ink-muted mt-1 uppercase tracking-wide font-mono">{{ __('Recovered') }}</div>

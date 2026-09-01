@@ -4,7 +4,6 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Login — Westport Industrial City</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/2.44.0/iconfont/tabler-icons.min.css">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"></script>
 </head>
@@ -24,7 +23,7 @@
 
                 <div class="relative">
                     <div class="w-14 h-14 rounded-2xl bg-white/15 ring-1 ring-white/30 flex items-center justify-center backdrop-blur-sm">
-                        <i class="ti ti-recycle text-white" style="font-size:26px" aria-hidden="true"></i>
+                        <x-icon name="recycle" size="26" class="text-white" />
                     </div>
                     <h1 class="font-display italic text-3xl text-white mt-6 leading-tight">Westport<br>Industrial City</h1>
                     <p class="text-sm text-white/75 mt-3 max-w-xs">
@@ -34,15 +33,15 @@
 
                 <div class="relative hidden sm:block space-y-3 mt-10">
                     <div class="flex items-center gap-2.5 text-white/85 text-sm">
-                        <i class="ti ti-circle-check text-gold-300" style="font-size:16px" aria-hidden="true"></i>
+                        <x-icon name="circle-check" size="16" class="text-gold-300" />
                         {{ __('Lot 1 & Lot 2 disposal tracking') }}
                     </div>
                     <div class="flex items-center gap-2.5 text-white/85 text-sm">
-                        <i class="ti ti-circle-check text-gold-300" style="font-size:16px" aria-hidden="true"></i>
+                        <x-icon name="circle-check" size="16" class="text-gold-300" />
                         {{ __('Per-RM submission history') }}
                     </div>
                     <div class="flex items-center gap-2.5 text-white/85 text-sm">
-                        <i class="ti ti-circle-check text-gold-300" style="font-size:16px" aria-hidden="true"></i>
+                        <x-icon name="circle-check" size="16" class="text-gold-300" />
                         {{ __('Full audit log for admins') }}
                     </div>
                 </div>
@@ -55,7 +54,7 @@
 
                 @if ($errors->any())
                     <div class="mb-5 rounded-lg bg-danger-bg border border-danger/20 text-danger text-sm px-4 py-3 flex items-center gap-2">
-                        <i class="ti ti-alert-triangle" aria-hidden="true"></i>
+                        <x-icon name="alert-triangle" />
                         {{ $errors->first() }}
                     </div>
                 @endif
@@ -88,13 +87,13 @@
 
                     <button type="submit" class="w-full px-4 py-3 rounded-lg bg-brand-700 hover:bg-brand-800 text-white text-sm font-semibold transition-colors shadow-sm shadow-brand-900/20 flex items-center justify-center gap-2 group">
                         {{ __('Log in') }}
-                        <i class="ti ti-arrow-right text-sm transition-transform group-hover:translate-x-0.5" aria-hidden="true"></i>
+                        <x-icon name="arrow-right" class="text-sm transition-transform group-hover:translate-x-0.5" />
                     </button>
                 </form>
 
                 <p class="text-center text-xs text-ink-faint mt-8">
                     <a href="{{ route('dashboard') }}" class="hover:text-ink-muted transition-colors inline-flex items-center gap-1">
-                        <i class="ti ti-arrow-left" style="font-size:13px" aria-hidden="true"></i>
+                        <x-icon name="arrow-left" size="13" />
                         {{ __('Back to public dashboard') }}
                     </a>
                 </p>

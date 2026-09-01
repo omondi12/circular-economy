@@ -6,7 +6,6 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ $title ? $title.' — Westport Industrial City' : 'Westport Industrial City' }}</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/2.44.0/iconfont/tabler-icons.min.css">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"></script>
 </head>
@@ -41,7 +40,7 @@
                 <div class="flex items-center gap-2">
                     @auth
                         <a href="{{ auth()->user()->isAdmin() ? route('admin.dashboard') : route('rm.dashboard') }}" class="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-brand-700 text-white text-sm font-semibold hover:bg-brand-800 transition-colors shadow-sm">
-                            <i class="ti ti-layout-dashboard" style="font-size:15px" aria-hidden="true"></i>
+                            <x-icon name="layout-dashboard" size="15" />
                             {{ auth()->user()->isAdmin() ? __('Admin') : __('My Dashboard') }}
                         </a>
                         <span class="hidden md:inline-flex items-center justify-center w-8 h-8 rounded-full bg-gold-100 text-gold-700 text-xs font-bold shrink-0" title="{{ auth()->user()->name }}">
@@ -50,7 +49,7 @@
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
                             <button type="submit" class="p-2 rounded-lg text-ink-faint hover:text-ink hover:bg-panel-muted transition-colors" title="{{ __('Log out') }}">
-                                <i class="ti ti-logout-2" style="font-size:17px" aria-hidden="true"></i>
+                                <x-icon name="logout" size="17" />
                             </button>
                         </form>
                     @else
@@ -60,7 +59,7 @@
                     @endauth
 
                     <button @click="mobileOpen = ! mobileOpen" class="lg:hidden p-2 rounded-lg text-ink-muted hover:bg-panel-muted transition-colors">
-                        <i class="ti ti-menu-2" style="font-size:20px" aria-hidden="true"></i>
+                        <x-icon name="menu" size="20" />
                     </button>
                 </div>
             </div>
@@ -79,7 +78,7 @@
     @if (session('status'))
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-6">
             <div class="rounded-lg bg-brand-50 border border-brand-200 text-brand-800 text-sm px-4 py-3 flex items-center gap-2">
-                <i class="ti ti-circle-check" aria-hidden="true"></i>
+                <x-icon name="circle-check" />
                 {{ session('status') }}
             </div>
         </div>

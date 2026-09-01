@@ -2,7 +2,7 @@
 
 <div class="mb-6 fade-rise">
     <a href="{{ $back ?? route('dashboard') }}" class="inline-flex items-center gap-1.5 text-sm text-brand-700 hover:text-brand-900 font-medium mb-3 transition-colors">
-        <i class="ti ti-arrow-left" style="font-size:15px" aria-hidden="true"></i>
+        <x-icon name="arrow-left" size="15" />
         {{ $backLabel }}
     </a>
     <h1 class="font-display italic text-2xl sm:text-3xl text-ink">{{ $title }}</h1>
