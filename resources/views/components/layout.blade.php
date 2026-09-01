@@ -25,7 +25,8 @@
                             <path d="M4.2 18 L7.5 21.5 M4.2 18 L8.5 16.5" fill="none" stroke="#b5810a" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
                     </span>
-                    <span class="font-display italic text-lg leading-none text-brand-800">Westport</span>
+                    <span class="font-display italic text-lg leading-none text-brand-800 whitespace-nowrap hidden sm:inline">Westport Industrial City</span>
+                    <span class="font-display italic text-lg leading-none text-brand-800 whitespace-nowrap sm:hidden">Westport</span>
                 </a>
 
                 <nav class="hidden lg:flex items-center gap-1">

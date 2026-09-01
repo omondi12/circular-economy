@@ -157,10 +157,21 @@
                         </div>
                         <table class="w-full text-sm">
                             <tbody class="divide-y divide-border">
+                                @php $maxCatSubmissions = collect($lot['categories'])->max('submissions') ?: 1; @endphp
                                 @foreach ($lot['categories'] as $category)
-                                    <tr>
-                                        <td class="py-1.5 text-ink-muted align-top">{{ $category['label'] }}</td>
-                                        <td class="py-1.5 text-right tabular-nums font-medium whitespace-nowrap">
+                                    <tr class="hover:bg-panel-muted transition-colors">
+                                        <td class="py-2 text-ink-muted align-top">
+                                            <div class="flex items-center gap-2">
+                                                <span class="w-1.5 h-1.5 rounded-full shrink-0 {{ $category['submissions'] > 0 ? ($lot['lot'] === 1 ? 'bg-brand-500' : 'bg-gold-500') : 'bg-panel-high' }}"></span>
+                                                {{ $category['label'] }}
+                                            </div>
+                                            @if ($category['submissions'] > 0)
+                                                <div class="ml-3.5 mt-1 w-20 h-1 rounded-full bg-panel-high overflow-hidden">
+                                                    <div class="h-full rounded-full {{ $lot['lot'] === 1 ? 'bg-brand-400' : 'bg-gold-400' }}" style="width: {{ round($category['submissions'] / $maxCatSubmissions * 100) }}%"></div>
+                                                </div>
+                                            @endif
+                                        </td>
+                                        <td class="py-2 text-right tabular-nums font-medium whitespace-nowrap align-top">
                                             @forelse ($category['units'] as $u)
                                                 <div>{{ number_format($u['quantity'], 1) }} {{ $u['label'] }}</div>
                                             @empty
@@ -178,33 +189,63 @@
     </section>
 
     {{-- Breakdown by entity --}}
-    <section class="mb-10 bg-panel border border-border rounded-xl overflow-hidden shadow-sm">
-        <div class="flex items-center justify-between mt-5 mb-4 mx-5">
+    <section class="mb-10 bg-panel border border-border rounded-xl overflow-hidden shadow-sm" x-data="{ q: '' }">
+        <div class="flex flex-wrap items-center justify-between gap-3 mt-5 mb-4 mx-5">
             <h2 class="text-sm font-semibold uppercase tracking-wide font-mono border-l-4 border-gold-500 pl-3 text-ink-muted">
                 {{ __('Top Contributing Entities') }}
             </h2>
-            <a href="{{ route('entities.index') }}" class="text-xs font-medium text-brand-700 hover:text-brand-900 transition-colors">
-                {{ __('View all entities') }} &rarr;
-            </a>
+            <div class="flex items-center gap-3">
+                <div class="relative">
+                    <x-icon name="user" size="14" class="absolute left-2.5 top-1/2 -translate-y-1/2 text-ink-faint" />
+                    <input x-model="q" type="text" placeholder="{{ __('Filter…') }}" class="text-xs border border-border rounded-md pl-7 pr-2 py-1.5 bg-panel-muted focus:bg-panel focus:ring-2 focus:ring-brand-600/10 focus:border-brand-600 transition-colors w-36 sm:w-48">
+                </div>
+                <a href="{{ route('entities.index') }}" class="text-xs font-medium text-brand-700 hover:text-brand-900 transition-colors whitespace-nowrap">
+                    {{ __('View all') }} &rarr;
+                </a>
+            </div>
         </div>
         <table class="w-full text-sm">
             <thead class="bg-gold-50 text-left text-ink-muted text-[11px] font-mono uppercase tracking-wider">
                 <tr>
+                    <th class="px-5 py-2.5 font-medium w-10"></th>
                     <th class="px-5 py-2.5 font-medium">{{ __('Ministry / County / Commission') }}</th>
                     <th class="px-5 py-2.5 font-medium text-right">{{ __('Submissions') }}</th>
                     <th class="px-5 py-2.5 font-medium text-right">{{ __('Recorded Quantities') }}</th>
                 </tr>
             </thead>
             <tbody class="divide-y divide-border">
-                @forelse ($byEntity as $row)
-                    <tr class="hover:bg-panel-muted transition-colors">
+                @php $maxSubmissions = $byEntity->max('submissions') ?: 1; @endphp
+                @forelse ($byEntity as $i => $row)
+                    @php
+                        $rankClass = match (true) {
+                            $i === 0 => 'bg-gold-500 text-white',
+                            $i === 1 => 'bg-ink-faint/40 text-ink',
+                            $i === 2 => 'bg-gold-300/60 text-gold-700',
+                            default => 'bg-panel-high text-ink-faint',
+                        };
+                        $barPct = round($row->submissions / $maxSubmissions * 100);
+                    @endphp
+                    <tr
+                        class="hover:bg-panel-muted transition-colors"
+                        x-show="q === '' || {{ Illuminate\Support\Js::from(mb_strtolower($row->entity_name)) }}.includes(q.toLowerCase())"
+                    >
+                        <td class="px-5 py-2.5">
+                            <span class="inline-flex items-center justify-center w-6 h-6 rounded-full text-[11px] font-bold {{ $rankClass }}">{{ $i + 1 }}</span>
+                        </td>
                         <td class="px-5 py-2.5 font-medium text-ink">{{ $row->entity_name }}</td>
-                        <td class="px-5 py-2.5 text-right tabular-nums text-ink-faint">{{ number_format($row->submissions) }}</td>
+                        <td class="px-5 py-2.5 text-right">
+                            <div class="flex items-center justify-end gap-2">
+                                <div class="w-16 h-1.5 rounded-full bg-panel-high overflow-hidden hidden sm:block">
+                                    <div class="h-full rounded-full bg-brand-500" style="width: {{ $barPct }}%"></div>
+                                </div>
+                                <span class="tabular-nums text-ink-faint w-6 text-right">{{ number_format($row->submissions) }}</span>
+                            </div>
+                        </td>
                         <td class="px-5 py-2.5 text-right font-medium"><x-entity-quantity :row="$row" /></td>
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="3" class="px-5 py-10 text-center text-ink-faint">{{ __('No collections recorded yet.') }}</td>
+                        <td colspan="4" class="px-5 py-10 text-center text-ink-faint">{{ __('No collections recorded yet.') }}</td>
                     </tr>
                 @endforelse
             </tbody>
