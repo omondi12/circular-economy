@@ -1,7 +1,7 @@
-<x-layout title="State Corporations">
+<x-layout title="Clients">
         <x-page-header
-            title="State Corporations"
-            :subtitle="'Official state corporations, all 47 counties, National Polytechnics, IEBC and the Government Printer. Phase 1 ('.number_format($phase1Count).') are the pilot clients already engaged; Phase 2 ('.number_format($phase2Count).') is everyone else.'"
+            title="Clients"
+            :subtitle="'State corporations, all 47 counties, National Polytechnics, IEBC and the Government Printer. Phase 1 ('.number_format($phase1Count).') are the pilot clients already engaged; Phase 2 ('.number_format($phase2Count).') is everyone else.'"
         />
 
         <div class="flex flex-col sm:flex-row sm:items-center gap-3 mb-4">
@@ -88,7 +88,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="7" class="px-4 py-8 text-center text-ink-faint">No state corporations match this filter.</td>
+                            <td colspan="7" class="px-4 py-8 text-center text-ink-faint">No clients match this filter.</td>
                         </tr>
                     @endforelse
                 </tbody>

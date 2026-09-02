@@ -27,7 +27,7 @@
             :href="route('ministries.index')"
         />
         <x-stat-tile
-            label="State Corporations" icon="building" tone="violet"
+            label="Clients" icon="building" tone="violet"
             :value="number_format($stateCorpTotal)"
             :hint="'Phase 1: '.number_format($stateCorpPhase1).' - Phase 2: '.number_format($stateCorpPhase2)"
             :href="route('state-corporations.index')"
