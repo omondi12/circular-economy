@@ -11,20 +11,42 @@
             ];
         @endphp
 
-        <div class="inline-flex flex-wrap rounded-lg border border-border bg-white p-1 text-sm mb-4">
-            @foreach ($tabs as $key => $label)
-                <a
-                    href="{{ route('feasibility-study.index', ['view' => $key]) }}"
-                    @class([
-                        'px-3 py-1.5 rounded-md font-medium transition-colors whitespace-nowrap',
-                        'bg-brand-700 text-white' => $view === $key,
-                        'text-ink-faint hover:text-ink' => $view !== $key,
-                    ])
-                >
-                    {{ $label }}
-                </a>
-            @endforeach
+        <div class="flex flex-col sm:flex-row sm:items-center gap-3 mb-4">
+            <div class="inline-flex flex-wrap rounded-lg border border-border bg-white p-1 text-sm">
+                @foreach ($tabs as $key => $label)
+                    <a
+                        href="{{ route('feasibility-study.index', ['view' => $key, 'q' => $search]) }}"
+                        @class([
+                            'px-3 py-1.5 rounded-md font-medium transition-colors whitespace-nowrap',
+                            'bg-brand-700 text-white' => $view === $key,
+                            'text-ink-faint hover:text-ink' => $view !== $key,
+                        ])
+                    >
+                        {{ $label }}
+                    </a>
+                @endforeach
+            </div>
+
+            <form method="GET" class="flex-1">
+                <input type="hidden" name="view" value="{{ $view }}">
+                <div class="relative max-w-md">
+                    <input
+                        type="text" name="q" value="{{ $search }}"
+                        placeholder="Search by name…"
+                        class="w-full rounded-lg border border-border bg-white pl-4 pr-24 py-2.5 text-sm text-ink placeholder:text-ink-faint focus:outline-none focus:ring-2 focus:ring-brand-600/30 focus:border-brand-600"
+                    >
+                    <button type="submit" class="absolute right-1.5 top-1/2 -translate-y-1/2 px-3 py-1.5 rounded-md bg-brand-700 text-white text-xs font-medium hover:bg-brand-800 transition-colors">
+                        Search
+                    </button>
+                </div>
+            </form>
         </div>
+
+        @if ($search)
+            <a href="{{ route('feasibility-study.index', ['view' => $view]) }}" class="inline-block mb-4 text-xs text-ink-faint hover:text-ink-muted">
+                Clear search ({{ $rows->count() }} match{{ $rows->count() === 1 ? '' : 'es' }})
+            </a>
+        @endif
 
         @if ($view === 'state-corporation' && $rows->sum('submissions') === 0)
             <div class="mb-4 rounded-lg bg-gold-100 border border-gold-500/30 text-gold-700 text-sm px-4 py-3">

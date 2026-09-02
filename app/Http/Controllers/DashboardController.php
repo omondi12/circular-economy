@@ -358,8 +358,12 @@ class DashboardController extends Controller
         $view = $request->string('view')->toString();
         $view = in_array($view, ['ministries', 'state-corporation'], true) ? $view : 'state-corporation';
 
+        $search = $request->string('q')->toString() ?: null;
+
         $rows = match ($view) {
-            'ministries' => GovernmentEntity::ministries()->orderBy('id')->get()
+            'ministries' => GovernmentEntity::ministries()
+                ->when($search, fn ($q, $v) => $q->where('name', 'like', "%{$v}%"))
+                ->orderBy('id')->get()
                 ->map(function (GovernmentEntity $ministry) {
                     $row = Collection::where('ministry_id', $ministry->id)
                         ->selectRaw('COUNT(*) as submissions, '.self::entityQuantitySql())
@@ -370,7 +374,9 @@ class DashboardController extends Controller
                         self::unitTotalsArray($row)
                     );
                 })->sortByDesc('submissions')->values(),
-            'state-corporation' => StateCorporation::orderBy('name')->get()
+            'state-corporation' => StateCorporation::query()
+                ->when($search, fn ($q, $v) => $q->where('name', 'like', "%{$v}%"))
+                ->orderBy('name')->get()
                 ->map(function (StateCorporation $corp) {
                     $row = Collection::where('state_corporation_id', $corp->id)
                         ->selectRaw('COUNT(*) as submissions, '.self::entityQuantitySql())
@@ -387,6 +393,7 @@ class DashboardController extends Controller
             'view' => $view,
             'rows' => $rows,
             'totalSubmissions' => Collection::count(),
+            'search' => $search,
         ]);
     }
 
