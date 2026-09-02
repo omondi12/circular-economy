@@ -158,6 +158,8 @@ class DashboardController extends Controller
     {
         abort_unless($ministry->level === GovernmentEntity::LEVEL_MINISTRY, 404);
 
+        $ministry->load('assignedRm');
+
         $overall = Collection::where('ministry_id', $ministry->id)
             ->selectRaw('COUNT(*) as submissions, '.self::entityQuantitySql())
             ->first();
@@ -264,6 +266,33 @@ class DashboardController extends Controller
     }
 
     /**
+     * One client's (state corporation / county / polytechnic / etc.) full
+     * detail page - classification, ministry, cluster/class, assigned RM,
+     * and every submission recorded against it. Mirrors the ministry
+     * show/department pattern, collapsed to one page since a client has no
+     * further sub-hierarchy the way a ministry has departments.
+     */
+    public function stateCorporationShow(StateCorporation $stateCorporation): View
+    {
+        $stateCorporation->load(['ministry', 'assignedRm']);
+
+        $overall = Collection::where('state_corporation_id', $stateCorporation->id)
+            ->selectRaw('COUNT(*) as submissions, '.self::entityQuantitySql())
+            ->first();
+
+        $collections = Collection::where('state_corporation_id', $stateCorporation->id)
+            ->orderByDesc('collection_date')
+            ->orderByDesc('id')
+            ->paginate(25);
+
+        return view('state-corporations.show', [
+            'corporation' => $stateCorporation,
+            'overall' => $overall,
+            'collections' => $collections,
+        ]);
+    }
+
+    /**
      * "Material Items" - the Lot 1 / Lot 2 catalog itself (every category,
      * subcategory and the units each one is valid in), not submission
      * data. Each row also carries its own submission count as a light
@@ -313,40 +342,23 @@ class DashboardController extends Controller
 
     /**
      * "Feasibility Study" - the RM-submitted survey data itself (what the
-     * homepage's old "Total Submissions" card pointed at), browsable 4
-     * ways per the boss's Level 4 spec. "By State Corporation" will read
-     * as all-zero until the Account Manager availability-survey flow
-     * (Level 4) actually writes state_corporation_id on a Collection - the
-     * column exists (see the 2026_08_31_000002 migration) but nothing
-     * populates it yet, so this view is honestly empty rather than broken.
+     * homepage's old "Total Submissions" card pointed at), browsable by
+     * Client or Ministry per the boss's request (2026-09-02) to trim this
+     * down from its earlier 4-way agent/materials/ministries/client split -
+     * those two other breakdowns are still reachable via their own pages
+     * (collections index filters, Material Items), just not tabs here.
+     * "By Client" will read as all-zero until the Account Manager
+     * availability-survey flow (Level 4) actually writes
+     * state_corporation_id on a Collection - the column exists (see the
+     * 2026_08_31_000002 migration) but nothing populates it yet, so this
+     * view is honestly empty rather than broken.
      */
     public function feasibilityStudyIndex(Request $request): View
     {
         $view = $request->string('view')->toString();
-        $view = in_array($view, ['agent', 'materials', 'ministries', 'state-corporation'], true) ? $view : 'agent';
+        $view = in_array($view, ['ministries', 'state-corporation'], true) ? $view : 'state-corporation';
 
         $rows = match ($view) {
-            'agent' => Collection::query()
-                ->selectRaw('relationship_manager, COUNT(*) as submissions, '.self::entityQuantitySql())
-                ->whereNotNull('relationship_manager')
-                ->groupBy('relationship_manager')
-                ->orderByDesc('submissions')
-                ->get(),
-            'materials' => collect(WasteCategories::lots())->flatMap(function (array $lot, int $lotKey) {
-                return collect($lot['categories'])->map(function (array $meta, string $categoryKey) use ($lotKey) {
-                    $row = Collection::where('lot', $lotKey)->where('category', $categoryKey)
-                        ->selectRaw('COUNT(*) as submissions, '.self::unitBreakdownSql())
-                        ->first();
-
-                    return [
-                        'label' => $meta['label'].' ('.WasteCategories::shortLotLabel($lotKey).')',
-                        'lot' => $lotKey,
-                        'category' => $categoryKey,
-                        'submissions' => (int) $row->submissions,
-                        'units' => self::nonZeroUnits($row),
-                    ];
-                });
-            })->sortByDesc('submissions')->values(),
             'ministries' => GovernmentEntity::ministries()->orderBy('id')->get()
                 ->map(function (GovernmentEntity $ministry) {
                     $row = Collection::where('ministry_id', $ministry->id)

@@ -6,10 +6,22 @@
             back-label="Back to By Ministry"
         />
 
-        <div class="mb-6 bg-panel border border-border rounded-xl p-5 shadow-sm">
-            <p class="text-xs text-ink-faint mb-2">Recorded Quantities</p>
-            <div class="text-2xl font-bold text-brand-700">
-                <x-entity-quantity :row="$overall" />
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+            <div class="bg-panel border border-border rounded-xl p-5 shadow-sm">
+                <p class="text-xs text-ink-faint mb-1.5">Assigned RM</p>
+                <p class="text-sm font-medium text-ink">
+                    @if ($ministry->assignedRm)
+                        {{ $ministry->assignedRm->name }}
+                    @else
+                        <span class="text-ink-faint font-normal">Unassigned</span>
+                    @endif
+                </p>
+            </div>
+            <div class="bg-panel border border-border rounded-xl p-5 shadow-sm">
+                <p class="text-xs text-ink-faint mb-2">Recorded Quantities</p>
+                <div class="text-2xl font-bold text-brand-700">
+                    <x-entity-quantity :row="$overall" />
+                </div>
             </div>
         </div>
 
