@@ -6,7 +6,7 @@
     "subclass": "EA (A)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "State Law Office and Department of Justice"
   },
   {
     "name": "Financial Reporting Centre",
@@ -15,7 +15,7 @@
     "subclass": "EA (A)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "The National Treasury and Economic Planning"
   },
   {
     "name": "Geothermal Development Company (GDC)",
@@ -24,7 +24,7 @@
     "subclass": "EA (A)",
     "phase": 1,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Energy and Petroleum"
   },
   {
     "name": "Kenya Deposit Insurance Corporation",
@@ -33,7 +33,7 @@
     "subclass": "EA (A)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "The National Treasury and Economic Planning"
   },
   {
     "name": "Kenya Electricity Transmission Company",
@@ -42,7 +42,7 @@
     "subclass": "EA (A)",
     "phase": 1,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Energy and Petroleum"
   },
   {
     "name": "Kenya Revenue Authority",
@@ -51,7 +51,7 @@
     "subclass": "EA (A)",
     "phase": 1,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "The National Treasury and Economic Planning"
   },
   {
     "name": "Kenya Roads Board",
@@ -60,7 +60,7 @@
     "subclass": "EA (A)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Roads and Transport"
   },
   {
     "name": "Kenya Trade Network Agency",
@@ -69,7 +69,7 @@
     "subclass": "EA (A)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "The National Treasury and Economic Planning"
   },
   {
     "name": "Nairobi International Financial Center Authority",
@@ -78,7 +78,7 @@
     "subclass": "EA (A)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "The National Treasury and Economic Planning"
   },
   {
     "name": "National Coroners Service",
@@ -87,7 +87,7 @@
     "subclass": "EA (A)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "State Law Office and Department of Justice"
   },
   {
     "name": "Rural Electrification and Renewable Energy Corporation (REREC)",
@@ -96,7 +96,7 @@
     "subclass": "EA (A)",
     "phase": 1,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Energy and Petroleum"
   },
   {
     "name": "Social Health Authority",
@@ -105,7 +105,7 @@
     "subclass": "EA (A)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Health"
   },
   {
     "name": "Unclaimed Financial Assets Authority",
@@ -114,7 +114,7 @@
     "subclass": "EA (A)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "The National Treasury and Economic Planning"
   },
   {
     "name": "Business Registration Service",
@@ -123,7 +123,7 @@
     "subclass": "EA (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "State Law Office and Department of Justice"
   },
   {
     "name": "Information & Communication Technology Authority",
@@ -132,7 +132,7 @@
     "subclass": "EA (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Information, Communications and the Digital Economy"
   },
   {
     "name": "Investor Compensation Fund Board",
@@ -141,7 +141,7 @@
     "subclass": "EA (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "The National Treasury and Economic Planning"
   },
   {
     "name": "Kenya Academy of Sports",
@@ -150,7 +150,7 @@
     "subclass": "EA (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Youth Affairs, Sports and the Arts"
   },
   {
     "name": "Kenya Animal Genetic Resource Centre",
@@ -159,7 +159,7 @@
     "subclass": "EA (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Agriculture and Livestock Development"
   },
   {
     "name": "Kenya Export Promotion and Branding Agency",
@@ -168,7 +168,7 @@
     "subclass": "EA (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Trade, Investments and Industry"
   },
   {
     "name": "Kenya Institute of Curriculum Development",
@@ -177,7 +177,7 @@
     "subclass": "EA (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Education"
   },
   {
     "name": "Kenya Investment Authority",
@@ -186,7 +186,7 @@
     "subclass": "EA (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Trade, Investments and Industry"
   },
   {
     "name": "Kenya Law Reform Commission",
@@ -195,7 +195,7 @@
     "subclass": "EA (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "State Law Office and Department of Justice"
   },
   {
     "name": "Kenya Medical Supplies Agency (KEMSA)",
@@ -204,7 +204,7 @@
     "subclass": "EA (B)",
     "phase": 1,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Health"
   },
   {
     "name": "Kenya National Bureau of Statistics",
@@ -213,7 +213,7 @@
     "subclass": "EA (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "The National Treasury and Economic Planning"
   },
   {
     "name": "Kenya National Examinations Council",
@@ -222,7 +222,7 @@
     "subclass": "EA (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Education"
   },
   {
     "name": "Kenya National Highways Authority (KeNHA)",
@@ -231,7 +231,7 @@
     "subclass": "EA (B)",
     "phase": 1,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Roads and Transport"
   },
   {
     "name": "Kenya Rural Roads Authority",
@@ -240,7 +240,7 @@
     "subclass": "EA (B)",
     "phase": 1,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Roads and Transport"
   },
   {
     "name": "Kenya Tourism Board",
@@ -249,7 +249,7 @@
     "subclass": "EA (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Tourism, Wildlife and Heritage"
   },
   {
     "name": "Kenya Urban Roads Authority",
@@ -258,7 +258,7 @@
     "subclass": "EA (B)",
     "phase": 1,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Roads and Transport"
   },
   {
     "name": "Kenya Wildlife Service",
@@ -267,7 +267,7 @@
     "subclass": "EA (B)",
     "phase": 1,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Tourism, Wildlife and Heritage"
   },
   {
     "name": "Konza Technopolis Development Authority",
@@ -276,7 +276,7 @@
     "subclass": "EA (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Information, Communications and the Digital Economy"
   },
   {
     "name": "LAPSSET Corridor Development Authority",
@@ -285,7 +285,7 @@
     "subclass": "EA (B)",
     "phase": 1,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Roads and Transport"
   },
   {
     "name": "Micro & Small Enterprises Authority",
@@ -294,7 +294,7 @@
     "subclass": "EA (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Co-operatives and MSME Development"
   },
   {
     "name": "Nairobi Area Metropolitan Transport Authority",
@@ -303,7 +303,7 @@
     "subclass": "EA (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Roads and Transport"
   },
   {
     "name": "Nairobi Centre for International Arbitration",
@@ -312,7 +312,7 @@
     "subclass": "EA (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "State Law Office and Department of Justice"
   },
   {
     "name": "National Cancer Institute of Kenya",
@@ -321,7 +321,7 @@
     "subclass": "EA (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Health"
   },
   {
     "name": "National Environment Trust Fund",
@@ -330,7 +330,7 @@
     "subclass": "EA (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Environment and Forestry"
   },
   {
     "name": "National Government Affirmative Action Fund",
@@ -339,7 +339,7 @@
     "subclass": "EA (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Public Service, Gender and Affirmative Action"
   },
   {
     "name": "National Government Constituency Development Fund",
@@ -348,7 +348,7 @@
     "subclass": "EA (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "The National Treasury and Economic Planning"
   },
   {
     "name": "National Irrigation Authority",
@@ -357,7 +357,7 @@
     "subclass": "EA (B)",
     "phase": 1,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Water and Sanitation"
   },
   {
     "name": "National Legal Aid Service",
@@ -366,7 +366,7 @@
     "subclass": "EA (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "State Law Office and Department of Justice"
   },
   {
     "name": "National Syndemic Disease Control Council",
@@ -375,7 +375,7 @@
     "subclass": "EA (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Health"
   },
   {
     "name": "Policy Holders Compensation Fund",
@@ -384,7 +384,7 @@
     "subclass": "EA (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "The National Treasury and Economic Planning"
   },
   {
     "name": "Privatization Commission",
@@ -393,7 +393,7 @@
     "subclass": "EA (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "The National Treasury and Economic Planning"
   },
   {
     "name": "Sports Kenya",
@@ -402,7 +402,7 @@
     "subclass": "EA (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Youth Affairs, Sports and the Arts"
   },
   {
     "name": "Tourism Fund",
@@ -411,7 +411,7 @@
     "subclass": "EA (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Tourism, Wildlife and Heritage"
   },
   {
     "name": "Water Sector Trust Fund",
@@ -420,7 +420,7 @@
     "subclass": "EA (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Water and Sanitation"
   },
   {
     "name": "Youth Enterprise Development Fund Board",
@@ -429,7 +429,7 @@
     "subclass": "EA (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Youth Affairs, Sports and the Arts"
   },
   {
     "name": "Agricultural Development Corporation",
@@ -438,7 +438,7 @@
     "subclass": "EA (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Agriculture and Livestock Development"
   },
   {
     "name": "Athi Water Works Development Agency",
@@ -447,7 +447,7 @@
     "subclass": "EA (C)",
     "phase": 1,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Water and Sanitation"
   },
   {
     "name": "Central Rift Valley Water Works Development Agency",
@@ -456,7 +456,7 @@
     "subclass": "EA (C)",
     "phase": 1,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Water and Sanitation"
   },
   {
     "name": "Coast Water Works Development Agency",
@@ -465,7 +465,7 @@
     "subclass": "EA (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Water and Sanitation"
   },
   {
     "name": "Export Processing Zones Authority",
@@ -474,7 +474,7 @@
     "subclass": "EA (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Trade, Investments and Industry"
   },
   {
     "name": "Fertilizers and Animal Food Stuff Board",
@@ -483,7 +483,7 @@
     "subclass": "EA (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Agriculture and Livestock Development"
   },
   {
     "name": "Higher Education Loans Board",
@@ -492,7 +492,7 @@
     "subclass": "EA (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Education"
   },
   {
     "name": "Institute of Human Resource Management Professionals Examinations Board",
@@ -501,7 +501,7 @@
     "subclass": "EA (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Public Service, Gender and Affirmative Action"
   },
   {
     "name": "Kenya Accountants and Secretaries National Examination Board",
@@ -510,7 +510,7 @@
     "subclass": "EA (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "The National Treasury and Economic Planning"
   },
   {
     "name": "Kenya Film Commission",
@@ -519,7 +519,7 @@
     "subclass": "EA (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Youth Affairs, Sports and the Arts"
   },
   {
     "name": "Kenya Fisheries Service",
@@ -528,7 +528,7 @@
     "subclass": null,
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Mining, Blue Economy and Maritime Affairs"
   },
   {
     "name": "Kenya Fish Marketing Authority",
@@ -537,7 +537,7 @@
     "subclass": "EA (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Mining, Blue Economy and Maritime Affairs"
   },
   {
     "name": "Kenya Forest Service",
@@ -546,7 +546,7 @@
     "subclass": "EA (C)",
     "phase": 1,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Environment and Forestry"
   },
   {
     "name": "Kenya Hospital Authority Trust Fund",
@@ -555,7 +555,7 @@
     "subclass": "EA (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Health"
   },
   {
     "name": "Kenya Industrial Property Institute",
@@ -564,7 +564,7 @@
     "subclass": "EA (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Trade, Investments and Industry"
   },
   {
     "name": "Kenya Institute of Supplies Examination Board",
@@ -573,7 +573,7 @@
     "subclass": "EA (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "The National Treasury and Economic Planning"
   },
   {
     "name": "Kenya National Library Service",
@@ -582,7 +582,7 @@
     "subclass": "EA (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Tourism, Wildlife and Heritage"
   },
   {
     "name": "Kenya National Public Health Institute",
@@ -591,7 +591,7 @@
     "subclass": "EA (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Health"
   },
   {
     "name": "Kenya Trade Remedies Agency",
@@ -600,7 +600,7 @@
     "subclass": "EA (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Trade, Investments and Industry"
   },
   {
     "name": "Kenya Tsetse and Trypanosomiasis Eradication Council",
@@ -609,7 +609,7 @@
     "subclass": "EA (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Agriculture and Livestock Development"
   },
   {
     "name": "Kenya Universities and Colleges Central Placement Service",
@@ -618,7 +618,7 @@
     "subclass": "EA (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Education"
   },
   {
     "name": "Kenya Water Towers Agency",
@@ -627,7 +627,7 @@
     "subclass": "EA (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Environment and Forestry"
   },
   {
     "name": "Kenya Yearbook Editorial Board",
@@ -636,7 +636,7 @@
     "subclass": "EA (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Information, Communications and the Digital Economy"
   },
   {
     "name": "Lake Victoria North Water Works Development Agency",
@@ -645,7 +645,7 @@
     "subclass": "EA (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Water and Sanitation"
   },
   {
     "name": "Lake Victoria South Water Works Development Agency",
@@ -654,7 +654,7 @@
     "subclass": "EA (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Water and Sanitation"
   },
   {
     "name": "National Coordinating Agency for Population and Development",
@@ -663,7 +663,7 @@
     "subclass": "EA (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "The National Treasury and Economic Planning"
   },
   {
     "name": "National Council for Law Reporting",
@@ -672,7 +672,7 @@
     "subclass": "EA (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "State Law Office and Department of Justice"
   },
   {
     "name": "National Council for Persons with Disabilities",
@@ -681,7 +681,7 @@
     "subclass": "EA (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Labour and Social Protection"
   },
   {
     "name": "National Drought Management Authority",
@@ -690,7 +690,7 @@
     "subclass": "EA (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of East African Community, ASALs and Regional Development"
   },
   {
     "name": "National Quality Control Laboratory",
@@ -699,7 +699,7 @@
     "subclass": "EA (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Health"
   },
   {
     "name": "National Water Harvesting and Storage Authority",
@@ -708,7 +708,7 @@
     "subclass": "EA (C)",
     "phase": 1,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Water and Sanitation"
   },
   {
     "name": "National Youth Service",
@@ -717,7 +717,7 @@
     "subclass": "EA (C)",
     "phase": 1,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Public Service, Gender and Affirmative Action"
   },
   {
     "name": "North Rift Valley Water Works Development Agency",
@@ -726,7 +726,7 @@
     "subclass": "EA (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Water and Sanitation"
   },
   {
     "name": "Northern Water Works Development Agency (NWSB)",
@@ -735,7 +735,7 @@
     "subclass": "EA (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Water and Sanitation"
   },
   {
     "name": "Nuclear Power and Energy Agency",
@@ -744,7 +744,7 @@
     "subclass": "EA (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Energy and Petroleum"
   },
   {
     "name": "Nyayo Tea Zones Development Corporation",
@@ -753,7 +753,7 @@
     "subclass": "EA (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Agriculture and Livestock Development"
   },
   {
     "name": "Railway City Development Authority",
@@ -762,7 +762,7 @@
     "subclass": "EA (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Roads and Transport"
   },
   {
     "name": "Tana and Athi Water Works Development Agency",
@@ -780,7 +780,7 @@
     "subclass": "EA (C)",
     "phase": 1,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Water and Sanitation"
   },
   {
     "name": "Technical and Vocational Education and Training Curriculum Development Assessment & Certification Council (TVETCDACC)",
@@ -789,7 +789,7 @@
     "subclass": "EA (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Education"
   },
   {
     "name": "Victims Protection Agency",
@@ -798,7 +798,7 @@
     "subclass": "EA (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "State Law Office and Department of Justice"
   },
   {
     "name": "Warehouse Receipt System Council",
@@ -807,7 +807,7 @@
     "subclass": "EA (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Trade, Investments and Industry"
   },
   {
     "name": "Witness Protection Agency",
@@ -816,7 +816,7 @@
     "subclass": "EA (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "State Law Office and Department of Justice"
   },
   {
     "name": "Agricultural Information Resource Centre (AIRC)",
@@ -825,7 +825,7 @@
     "subclass": "EA (D)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Agriculture and Livestock Development"
   },
   {
     "name": "Anti-Female Genital Mutilation Board",
@@ -834,7 +834,7 @@
     "subclass": "EA (D)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Public Service, Gender and Affirmative Action"
   },
   {
     "name": "Coast Development Authority",
@@ -843,7 +843,7 @@
     "subclass": "EA (D)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of East African Community, ASALs and Regional Development"
   },
   {
     "name": "Ewaso Ng’iro North Development Authority",
@@ -852,7 +852,7 @@
     "subclass": "EA (D)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of East African Community, ASALs and Regional Development"
   },
   {
     "name": "Ewaso Ng’iro South Development Authority",
@@ -861,7 +861,7 @@
     "subclass": "EA (D)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of East African Community, ASALs and Regional Development"
   },
   {
     "name": "Kenya National Commission for UNESCO",
@@ -870,7 +870,7 @@
     "subclass": "EA (D)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Education"
   },
   {
     "name": "Kenya National Innovation Agency",
@@ -879,7 +879,7 @@
     "subclass": "EA (D)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Youth Affairs, Sports and the Arts"
   },
   {
     "name": "Kenya National Qualifications Authority",
@@ -888,7 +888,7 @@
     "subclass": "EA (D)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Education"
   },
   {
     "name": "Kerio Valley Development Authority (KVDA)",
@@ -897,7 +897,7 @@
     "subclass": "EA (D)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of East African Community, ASALs and Regional Development"
   },
   {
     "name": "Lake Basin Development Authority (LBDA)",
@@ -906,7 +906,7 @@
     "subclass": "EA (D)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of East African Community, ASALs and Regional Development"
   },
   {
     "name": "National Heroes Council",
@@ -915,7 +915,7 @@
     "subclass": "EA (D)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Tourism, Wildlife and Heritage"
   },
   {
     "name": "National Youth Council",
@@ -924,7 +924,7 @@
     "subclass": "EA (D)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Youth Affairs, Sports and the Arts"
   },
   {
     "name": "Tana and Athi Rivers Development Authority",
@@ -933,7 +933,7 @@
     "subclass": "EA (D)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of East African Community, ASALs and Regional Development"
   },
   {
     "name": "The Kenya Cultural Centre",
@@ -942,7 +942,7 @@
     "subclass": "EA (D)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Tourism, Wildlife and Heritage"
   },
   {
     "name": "The President’s Awards",
@@ -951,7 +951,7 @@
     "subclass": "EA (D)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Youth Affairs, Sports and the Arts"
   },
   {
     "name": "East African Portland Cement Company Ltd",
@@ -960,7 +960,7 @@
     "subclass": "GOE1",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Trade, Investments and Industry"
   },
   {
     "name": "Kenya Electricity Generating Company",
@@ -969,7 +969,7 @@
     "subclass": "GOE1",
     "phase": 1,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Energy and Petroleum"
   },
   {
     "name": "Kenya Power and Lighting Company Ltd",
@@ -978,7 +978,7 @@
     "subclass": "GOE1",
     "phase": 1,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Energy and Petroleum"
   },
   {
     "name": "Kenya Re-Insurance Corporation",
@@ -987,7 +987,7 @@
     "subclass": "GOE1",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "The National Treasury and Economic Planning"
   },
   {
     "name": "Kenya Re-Insurance Corporation Cote d’Ivoire",
@@ -996,7 +996,7 @@
     "subclass": "GOE1",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "The National Treasury and Economic Planning"
   },
   {
     "name": "Kenya Re-Insurance Corporation Zambia Ltd",
@@ -1005,7 +1005,7 @@
     "subclass": "GOE1",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "The National Treasury and Economic Planning"
   },
   {
     "name": "Kenya Re-Insurance Corporation Uganda SMC",
@@ -1014,7 +1014,7 @@
     "subclass": "GOE1",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "The National Treasury and Economic Planning"
   },
   {
     "name": "Agricultural Finance Corporation",
@@ -1023,7 +1023,7 @@
     "subclass": "GOE2 (A)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Agriculture and Livestock Development"
   },
   {
     "name": "Industrial and Commercial Development Corporation",
@@ -1032,7 +1032,7 @@
     "subclass": "GOE2 (A)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "The National Treasury and Economic Planning"
   },
   {
     "name": "Kenya Airports Authority",
@@ -1041,7 +1041,7 @@
     "subclass": "GOE2 (A)",
     "phase": 1,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Roads and Transport"
   },
   {
     "name": "Kenya Development Corporation",
@@ -1050,7 +1050,7 @@
     "subclass": "GOE2 (A)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Trade, Investments and Industry"
   },
   {
     "name": "Kenya Literature Bureau",
@@ -1059,7 +1059,7 @@
     "subclass": "GOE2 (A)",
     "phase": 1,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Education"
   },
   {
     "name": "Kenya National Entrepreneurs Savings Trust",
@@ -1068,7 +1068,7 @@
     "subclass": "GOE2 (A)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "The National Treasury and Economic Planning"
   },
   {
     "name": "Kenya Pipeline Corporation",
@@ -1077,7 +1077,7 @@
     "subclass": "GOE2 (A)",
     "phase": 1,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Energy and Petroleum"
   },
   {
     "name": "Kenya Ports Authority",
@@ -1086,7 +1086,7 @@
     "subclass": "GOE2 (A)",
     "phase": 1,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Roads and Transport"
   },
   {
     "name": "Kenya Railways Corporation",
@@ -1095,7 +1095,7 @@
     "subclass": "GOE2 (A)",
     "phase": 1,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Roads and Transport"
   },
   {
     "name": "National Hospital Insurance Fund",
@@ -1104,7 +1104,7 @@
     "subclass": "GOE2 (A)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Health"
   },
   {
     "name": "National Social Security Fund",
@@ -1113,7 +1113,7 @@
     "subclass": "GOE2 (A)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Labour and Social Protection"
   },
   {
     "name": "New Kenya Co-operative Creameries",
@@ -1122,7 +1122,7 @@
     "subclass": "GOE2 (A)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Co-operatives and MSME Development"
   },
   {
     "name": "Kenya Seed Company Limited",
@@ -1131,7 +1131,7 @@
     "subclass": "GOE2 (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Agriculture and Livestock Development"
   },
   {
     "name": "Local Authorities Provident Fund",
@@ -1140,7 +1140,7 @@
     "subclass": "GOE2 (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "The National Treasury and Economic Planning"
   },
   {
     "name": "National Cereals and Produce Board",
@@ -1149,7 +1149,7 @@
     "subclass": "GOE2 (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Agriculture and Livestock Development"
   },
   {
     "name": "National Housing Corporation",
@@ -1158,7 +1158,7 @@
     "subclass": "GOE2 (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Lands, Public Works, Housing and Urban Development"
   },
   {
     "name": "Numerical Machining Complex",
@@ -1167,7 +1167,7 @@
     "subclass": "GOE2 (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Trade, Investments and Industry"
   },
   {
     "name": "Postal Corporation of Kenya",
@@ -1176,7 +1176,7 @@
     "subclass": "GOE2 (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Information, Communications and the Digital Economy"
   },
   {
     "name": "Public Service Superannuation Fund Board",
@@ -1185,7 +1185,7 @@
     "subclass": "GOE2 (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "The National Treasury and Economic Planning"
   },
   {
     "name": "Rivatex East Africa Limited",
@@ -1194,7 +1194,7 @@
     "subclass": "GOE2 (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Trade, Investments and Industry"
   },
   {
     "name": "School Equipment Production Unit",
@@ -1203,7 +1203,7 @@
     "subclass": "GOE3 (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Education"
   },
   {
     "name": "Kenya Broadcasting Corporation",
@@ -1212,7 +1212,7 @@
     "subclass": "GOE2 (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Information, Communications and the Digital Economy"
   },
   {
     "name": "Kenya Ordinance and Factories Corporation (KOFC)",
@@ -1221,7 +1221,7 @@
     "subclass": "GOE2 (C)",
     "phase": 1,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Defence"
   },
   {
     "name": "National Mining Corporation",
@@ -1230,7 +1230,7 @@
     "subclass": "GOE2 (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Mining, Blue Economy and Maritime Affairs"
   },
   {
     "name": "National Oil Corporation of Kenya (NOCK)",
@@ -1239,7 +1239,7 @@
     "subclass": "GOE2 (C)",
     "phase": 1,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Energy and Petroleum"
   },
   {
     "name": "Consolidated Bank",
@@ -1248,7 +1248,7 @@
     "subclass": "GOE3 (A)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "The National Treasury and Economic Planning"
   },
   {
     "name": "Kenya BioVax Institute",
@@ -1257,7 +1257,7 @@
     "subclass": "GOE3 (A)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Health"
   },
   {
     "name": "Kenyatta International Convention Centre",
@@ -1266,7 +1266,7 @@
     "subclass": "GOE3 (A)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Tourism, Wildlife and Heritage"
   },
   {
     "name": "Kenya National Trading Corporation Ltd",
@@ -1275,7 +1275,7 @@
     "subclass": "GOE3 (A)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Trade, Investments and Industry"
   },
   {
     "name": "Kenya Shipyard Ltd",
@@ -1284,7 +1284,7 @@
     "subclass": "GOE3 (A)",
     "phase": 1,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Defence"
   },
   {
     "name": "Kenya Veterinary Vaccines Production Institute (KEVEVAPI)",
@@ -1293,7 +1293,7 @@
     "subclass": "GOE3 (A)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Agriculture and Livestock Development"
   },
   {
     "name": "Agro-Chemical and Food Company",
@@ -1302,7 +1302,7 @@
     "subclass": "GOE3 (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Agriculture and Livestock Development"
   },
   {
     "name": "Development Bank of Kenya Ltd.",
@@ -1311,7 +1311,7 @@
     "subclass": "GOE3 (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "The National Treasury and Economic Planning"
   },
   {
     "name": "Egerton University Investment Enterprise",
@@ -1320,7 +1320,7 @@
     "subclass": "GOE3 (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Education"
   },
   {
     "name": "Jomo Kenyatta Foundation",
@@ -1329,7 +1329,7 @@
     "subclass": "GOE3 (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Education"
   },
   {
     "name": "Jomo Kenyatta University Enterprises Ltd.",
@@ -1338,7 +1338,7 @@
     "subclass": "GOE3 (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Education"
   },
   {
     "name": "Kenya Fishing Industries Corporation",
@@ -1347,7 +1347,7 @@
     "subclass": "GOE3 (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Mining, Blue Economy and Maritime Affairs"
   },
   {
     "name": "Kenya Industrial Estate",
@@ -1356,7 +1356,7 @@
     "subclass": "GOE3 (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Co-operatives and MSME Development"
   },
   {
     "name": "Kenya Meat Commission",
@@ -1365,7 +1365,7 @@
     "subclass": "GOE3 (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Defence"
   },
   {
     "name": "Kenya National Shipping Line",
@@ -1374,7 +1374,7 @@
     "subclass": "GOE3 (B)",
     "phase": 1,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Mining, Blue Economy and Maritime Affairs"
   },
   {
     "name": "Kenya Petroleum Refineries Limited",
@@ -1383,7 +1383,7 @@
     "subclass": "GOE3 (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Energy and Petroleum"
   },
   {
     "name": "Kenya Post Office Savings Bank",
@@ -1392,7 +1392,7 @@
     "subclass": "GOE3 (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "The National Treasury and Economic Planning"
   },
   {
     "name": "Kenya Prisons Enterprise Fund",
@@ -1401,7 +1401,7 @@
     "subclass": "GOE3 (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Interior and National Administration"
   },
   {
     "name": "National Informal Sector Pension Ltd",
@@ -1410,7 +1410,7 @@
     "subclass": "GOE3 (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "The National Treasury and Economic Planning"
   },
   {
     "name": "University of Nairobi Enterprises and Services Limited",
@@ -1419,7 +1419,7 @@
     "subclass": "GOE3 (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Education"
   },
   {
     "name": "Agri and Cooperative Training & Consultancy Services Ltd",
@@ -1428,7 +1428,7 @@
     "subclass": "GOE3 (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Agriculture and Livestock Development"
   },
   {
     "name": "Ahero Rice Meals",
@@ -1437,7 +1437,7 @@
     "subclass": "GOE3 (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Agriculture and Livestock Development"
   },
   {
     "name": "Bomas of Kenya",
@@ -1446,7 +1446,7 @@
     "subclass": "GOE3 (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Tourism, Wildlife and Heritage"
   },
   {
     "name": "CBKL Bancassurance Intermediary",
@@ -1455,7 +1455,7 @@
     "subclass": "GOE3 (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "The National Treasury and Economic Planning"
   },
   {
     "name": "Chemilil Sugar Company Ltd",
@@ -1464,7 +1464,7 @@
     "subclass": "GOE3 (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Agriculture and Livestock Development"
   },
   {
     "name": "Freshpick Processors",
@@ -1473,7 +1473,7 @@
     "subclass": "GOE3 (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "The National Treasury and Economic Planning"
   },
   {
     "name": "Gatitu Tea Factory",
@@ -1482,7 +1482,7 @@
     "subclass": "GOE3 (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Agriculture and Livestock Development"
   },
   {
     "name": "Golf Hotel Kakamega",
@@ -1491,7 +1491,7 @@
     "subclass": "GOE3 (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Tourism, Wildlife and Heritage"
   },
   {
     "name": "JKUAT Industrial Park Limited",
@@ -1500,7 +1500,7 @@
     "subclass": "GOE3 (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Education"
   },
   {
     "name": "Kabarnet Hotel Ltd",
@@ -1509,7 +1509,7 @@
     "subclass": "GOE3 (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Tourism, Wildlife and Heritage"
   },
   {
     "name": "Kenya National Assurance Company (under receivership)",
@@ -1518,7 +1518,7 @@
     "subclass": "GOE3 (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "The National Treasury and Economic Planning"
   },
   {
     "name": "Kenya National Multi Commodities Exchange Ltd",
@@ -1527,7 +1527,7 @@
     "subclass": "GOE3 (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Trade, Investments and Industry"
   },
   {
     "name": "Kenya Safari Lodges and Hotels Ltd",
@@ -1536,7 +1536,7 @@
     "subclass": "GOE3 (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Tourism, Wildlife and Heritage"
   },
   {
     "name": "KENATCO TAXIS Kltd (under receivership)",
@@ -1545,7 +1545,7 @@
     "subclass": "GOE3 (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "The National Treasury and Economic Planning"
   },
   {
     "name": "Kipchabo Tea Factory",
@@ -1554,7 +1554,7 @@
     "subclass": "GOE3 (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Agriculture and Livestock Development"
   },
   {
     "name": "Lands Limited",
@@ -1563,7 +1563,7 @@
     "subclass": "GOE3 (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Lands, Public Works, Housing and Urban Development"
   },
   {
     "name": "Miwani Sugar Company Limited",
@@ -1572,7 +1572,7 @@
     "subclass": "GOE3 (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Agriculture and Livestock Development"
   },
   {
     "name": "Mt. Elgon Lodge",
@@ -1581,7 +1581,7 @@
     "subclass": "GOE3 (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Tourism, Wildlife and Heritage"
   },
   {
     "name": "Muhoroni Sugar Company Ltd",
@@ -1590,7 +1590,7 @@
     "subclass": "GOE3 (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Agriculture and Livestock Development"
   },
   {
     "name": "Mwea Rice Mills",
@@ -1599,7 +1599,7 @@
     "subclass": "GOE3 (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Agriculture and Livestock Development"
   },
   {
     "name": "New Kenya Planters Cooperative Union",
@@ -1608,7 +1608,7 @@
     "subclass": "GOE3 (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Co-operatives and MSME Development"
   },
   {
     "name": "Nzoia Sugar Company",
@@ -1617,7 +1617,7 @@
     "subclass": "GOE3 (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Agriculture and Livestock Development"
   },
   {
     "name": "Pyrethrum Processing Company of Kenya",
@@ -1626,7 +1626,7 @@
     "subclass": "GOE3 (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Agriculture and Livestock Development"
   },
   {
     "name": "Kibo Seeds Ltd (Tanzania)",
@@ -1635,7 +1635,7 @@
     "subclass": "GOE3 (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Agriculture and Livestock Development"
   },
   {
     "name": "Simlaw Seeds Kenya Ltd",
@@ -1644,7 +1644,7 @@
     "subclass": "GOE3 (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Agriculture and Livestock Development"
   },
   {
     "name": "Simlaw Seeds Rwanda",
@@ -1653,7 +1653,7 @@
     "subclass": "GOE3 (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Agriculture and Livestock Development"
   },
   {
     "name": "Simlaw Seeds Uganda",
@@ -1662,7 +1662,7 @@
     "subclass": "GOE3 (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Agriculture and Livestock Development"
   },
   {
     "name": "South Nyanza Sugar Company Limited (SONY)",
@@ -1671,7 +1671,7 @@
     "subclass": "GOE3 (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Agriculture and Livestock Development"
   },
   {
     "name": "Sunset Hotel Kisumu",
@@ -1680,7 +1680,7 @@
     "subclass": "GOE3 (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Tourism, Wildlife and Heritage"
   },
   {
     "name": "Telkom Kenya Limited",
@@ -1689,7 +1689,7 @@
     "subclass": "GOE3 (C)",
     "phase": 1,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Information, Communications and the Digital Economy"
   },
   {
     "name": "Tourism Finance Corporation (Defunct)",
@@ -1698,7 +1698,7 @@
     "subclass": null,
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Tourism, Wildlife and Heritage"
   },
   {
     "name": "University of Nairobi Press",
@@ -1707,7 +1707,7 @@
     "subclass": "GOE3 (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Education"
   },
   {
     "name": "Western Kenya Rice Mills Ltd",
@@ -1716,7 +1716,7 @@
     "subclass": "GOE3 (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Agriculture and Livestock Development"
   },
   {
     "name": "Capital Markets Authority",
@@ -1725,7 +1725,7 @@
     "subclass": "RA (A)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "The National Treasury and Economic Planning"
   },
   {
     "name": "Commission for University Education",
@@ -1734,7 +1734,7 @@
     "subclass": "RA (A)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Education"
   },
   {
     "name": "Communications Authority of Kenya",
@@ -1743,7 +1743,7 @@
     "subclass": "RA (A)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Information, Communications and the Digital Economy"
   },
   {
     "name": "Competition Authority of Kenya",
@@ -1752,7 +1752,7 @@
     "subclass": "RA (A)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "The National Treasury and Economic Planning"
   },
   {
     "name": "Energy and Petroleum Regulatory Authority",
@@ -1761,7 +1761,7 @@
     "subclass": "RA (A)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Energy and Petroleum"
   },
   {
     "name": "Engineers Board of Kenya",
@@ -1770,7 +1770,7 @@
     "subclass": "RA (A)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Roads and Transport"
   },
   {
     "name": "Insurance Regulatory Authority",
@@ -1779,7 +1779,7 @@
     "subclass": "RA (A)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "The National Treasury and Economic Planning"
   },
   {
     "name": "Kenya Bureau of Standards",
@@ -1788,7 +1788,7 @@
     "subclass": "RA (A)",
     "phase": 1,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Trade, Investments and Industry"
   },
   {
     "name": "Kenya Health Professionals Oversight Authority",
@@ -1797,7 +1797,7 @@
     "subclass": "RA (A)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Health"
   },
   {
     "name": "Kenya Nuclear Regulatory Authority",
@@ -1806,7 +1806,7 @@
     "subclass": "RA (A)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Health"
   },
   {
     "name": "Kenya Space Agency",
@@ -1815,7 +1815,7 @@
     "subclass": "RA (A)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Defence"
   },
   {
     "name": "National Construction Authority",
@@ -1824,7 +1824,7 @@
     "subclass": "RA (A)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Lands, Public Works, Housing and Urban Development"
   },
   {
     "name": "National Transport & Safety Authority",
@@ -1833,7 +1833,7 @@
     "subclass": "RA (A)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Roads and Transport"
   },
   {
     "name": "Public Procurement Regulatory Authority",
@@ -1842,7 +1842,7 @@
     "subclass": "RA (A)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "The National Treasury and Economic Planning"
   },
   {
     "name": "Retirement Benefits Authority",
@@ -1851,7 +1851,7 @@
     "subclass": "RA (A)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "The National Treasury and Economic Planning"
   },
   {
     "name": "Sacco Societies Regulatory Authority",
@@ -1860,7 +1860,7 @@
     "subclass": "RA (A)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Co-operatives and MSME Development"
   },
   {
     "name": "Tea Board of Kenya",
@@ -1869,7 +1869,7 @@
     "subclass": "RA (A)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Agriculture and Livestock Development"
   },
   {
     "name": "Agricultural and Food Authority",
@@ -1878,7 +1878,7 @@
     "subclass": "RA (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Agriculture and Livestock Development"
   },
   {
     "name": "Anti-Counterfeit Agency",
@@ -1887,7 +1887,7 @@
     "subclass": "RA (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Trade, Investments and Industry"
   },
   {
     "name": "Anti-Doping Agency",
@@ -1896,7 +1896,7 @@
     "subclass": "RA (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Youth Affairs, Sports and the Arts"
   },
   {
     "name": "Clinical Council of Kenya",
@@ -1905,7 +1905,7 @@
     "subclass": "RA (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Health"
   },
   {
     "name": "Council for Legal Education",
@@ -1914,7 +1914,7 @@
     "subclass": "RA (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "State Law Office and Department of Justice"
   },
   {
     "name": "Institute of Human Resource Management",
@@ -1923,7 +1923,7 @@
     "subclass": "RA (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Public Service, Gender and Affirmative Action"
   },
   {
     "name": "Kenya Civil Aviation Authority",
@@ -1932,7 +1932,7 @@
     "subclass": "RA (B)",
     "phase": 1,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Roads and Transport"
   },
   {
     "name": "Kenya Dairy Board",
@@ -1941,7 +1941,7 @@
     "subclass": "RA (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Agriculture and Livestock Development"
   },
   {
     "name": "Kenya Film Classification Board",
@@ -1950,7 +1950,7 @@
     "subclass": "RA (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Youth Affairs, Sports and the Arts"
   },
   {
     "name": "Kenya Health Human Resource Advisory Council",
@@ -1959,7 +1959,7 @@
     "subclass": "RA (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Health"
   },
   {
     "name": "Kenya Institute of Supplies Management",
@@ -1968,7 +1968,7 @@
     "subclass": "RA (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "The National Treasury and Economic Planning"
   },
   {
     "name": "Kenya Maritime Authority",
@@ -1977,7 +1977,7 @@
     "subclass": "RA (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Mining, Blue Economy and Maritime Affairs"
   },
   {
     "name": "Kenya Medical Practitioners and Dentist Council",
@@ -1986,7 +1986,7 @@
     "subclass": "RA (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Health"
   },
   {
     "name": "Kenya National Accreditation Service",
@@ -1995,7 +1995,7 @@
     "subclass": "RA (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Trade, Investments and Industry"
   },
   {
     "name": "Kenya Plant Health Inspectorate Services",
@@ -2004,7 +2004,7 @@
     "subclass": "RA (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Agriculture and Livestock Development"
   },
   {
     "name": "Kenya Tissue and Transplant Authority",
@@ -2013,7 +2013,7 @@
     "subclass": "RA (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Health"
   },
   {
     "name": "National Commission for Science, Technology and Innovation",
@@ -2022,7 +2022,7 @@
     "subclass": "RA (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Education"
   },
   {
     "name": "National Council for Children Services",
@@ -2031,7 +2031,7 @@
     "subclass": "RA (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Labour and Social Protection"
   },
   {
     "name": "National Environment Management Authority",
@@ -2040,7 +2040,7 @@
     "subclass": "RA (B)",
     "phase": 1,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Environment and Forestry"
   },
   {
     "name": "National Authority for the Campaign against Alcohol and Drug Abuse",
@@ -2049,7 +2049,7 @@
     "subclass": "RA (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Interior and National Administration"
   },
   {
     "name": "National Biosafety Authority",
@@ -2058,7 +2058,7 @@
     "subclass": "RA (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Agriculture and Livestock Development"
   },
   {
     "name": "Pharmacy & Poisons Board",
@@ -2067,7 +2067,7 @@
     "subclass": "RA (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Health"
   },
   {
     "name": "Street Families Rehabilitation Fund",
@@ -2076,7 +2076,7 @@
     "subclass": "RA (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Labour and Social Protection"
   },
   {
     "name": "Technical Vocational and Training Authority",
@@ -2085,7 +2085,7 @@
     "subclass": "RA (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Education"
   },
   {
     "name": "Tourism Regulatory Authority",
@@ -2094,7 +2094,7 @@
     "subclass": null,
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Tourism, Wildlife and Heritage"
   },
   {
     "name": "Veterinary Medicines Directorate",
@@ -2103,7 +2103,7 @@
     "subclass": "RA (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Agriculture and Livestock Development"
   },
   {
     "name": "Water Resources Authority",
@@ -2112,7 +2112,7 @@
     "subclass": "RA (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Water and Sanitation"
   },
   {
     "name": "Water Services Regulatory Board",
@@ -2121,7 +2121,7 @@
     "subclass": "RA (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Water and Sanitation"
   },
   {
     "name": "Animal Technicians Council",
@@ -2130,7 +2130,7 @@
     "subclass": "RA (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Agriculture and Livestock Development"
   },
   {
     "name": "Auctioneers Licensing Board",
@@ -2139,7 +2139,7 @@
     "subclass": "RA (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "State Law Office and Department of Justice"
   },
   {
     "name": "Board of Registration of Architects and Quantity Surveyors",
@@ -2148,7 +2148,7 @@
     "subclass": "RA (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Lands, Public Works, Housing and Urban Development"
   },
   {
     "name": "Building Surveyors Registration Board",
@@ -2157,7 +2157,7 @@
     "subclass": "RA (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Lands, Public Works, Housing and Urban Development"
   },
   {
     "name": "Counsellors and Psychologists Board",
@@ -2166,7 +2166,7 @@
     "subclass": "RA (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Health"
   },
   {
     "name": "Estate Agents Registration Board",
@@ -2175,7 +2175,7 @@
     "subclass": "RA (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Lands, Public Works, Housing and Urban Development"
   },
   {
     "name": "Geologist Registration Board",
@@ -2184,7 +2184,7 @@
     "subclass": "RA (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Mining, Blue Economy and Maritime Affairs"
   },
   {
     "name": "Health Records and Information Management Board",
@@ -2193,7 +2193,7 @@
     "subclass": "RA (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Health"
   },
   {
     "name": "Hydrologist Registration Board",
@@ -2202,7 +2202,7 @@
     "subclass": "RA (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Water and Sanitation"
   },
   {
     "name": "Institute of Certified Investment and Financial Analysts",
@@ -2211,7 +2211,7 @@
     "subclass": "RA (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "The National Treasury and Economic Planning"
   },
   {
     "name": "Institute of Certified Public Accountants of Kenya",
@@ -2220,7 +2220,7 @@
     "subclass": "RA (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "The National Treasury and Economic Planning"
   },
   {
     "name": "Kenya Copyrights Board",
@@ -2229,7 +2229,7 @@
     "subclass": "RA (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Tourism, Wildlife and Heritage"
   },
   {
     "name": "Kenya Engineering Technology Registration Board",
@@ -2238,7 +2238,7 @@
     "subclass": "RA (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Roads and Transport"
   },
   {
     "name": "Kenya Leather Development Council",
@@ -2247,7 +2247,7 @@
     "subclass": "RA (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Agriculture and Livestock Development"
   },
   {
     "name": "Kenya Medical Laboratory Technicians and Technologists Board",
@@ -2256,7 +2256,7 @@
     "subclass": "RA (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Health"
   },
   {
     "name": "Kenya Veterinary Board",
@@ -2265,7 +2265,7 @@
     "subclass": "RA (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Agriculture and Livestock Development"
   },
   {
     "name": "Land Surveyors Board",
@@ -2274,7 +2274,7 @@
     "subclass": "RA (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Lands, Public Works, Housing and Urban Development"
   },
   {
     "name": "Media Council of Kenya",
@@ -2283,7 +2283,7 @@
     "subclass": "RA (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Information, Communications and the Digital Economy"
   },
   {
     "name": "National Employment Authority",
@@ -2292,7 +2292,7 @@
     "subclass": "RA (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Labour and Social Protection"
   },
   {
     "name": "National Industrial Training Authority",
@@ -2301,7 +2301,7 @@
     "subclass": "RA (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Labour and Social Protection"
   },
   {
     "name": "NGOs Coordination Board",
@@ -2310,7 +2310,7 @@
     "subclass": "RA (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Interior and National Administration"
   },
   {
     "name": "Nursing Council of Kenya",
@@ -2319,7 +2319,7 @@
     "subclass": "RA (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Health"
   },
   {
     "name": "Occupational Therapy Council of Kenya",
@@ -2328,7 +2328,7 @@
     "subclass": "RA (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Health"
   },
   {
     "name": "Physical Planners Registration Board",
@@ -2337,7 +2337,7 @@
     "subclass": "RA (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Lands, Public Works, Housing and Urban Development"
   },
   {
     "name": "Private Security Regulatory Authority",
@@ -2346,7 +2346,7 @@
     "subclass": "RA (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Interior and National Administration"
   },
   {
     "name": "Public Health Officers and Technician Council",
@@ -2355,7 +2355,7 @@
     "subclass": "RA (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Health"
   },
   {
     "name": "Registration of Certified Public Accountants Board",
@@ -2364,7 +2364,7 @@
     "subclass": "RA (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "The National Treasury and Economic Planning"
   },
   {
     "name": "Registration of Certified Public Secretaries Board",
@@ -2373,7 +2373,7 @@
     "subclass": "RA (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "The National Treasury and Economic Planning"
   },
   {
     "name": "Scrap Metal Council",
@@ -2382,7 +2382,7 @@
     "subclass": "RA (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Trade, Investments and Industry"
   },
   {
     "name": "Special Economic Zones Authority",
@@ -2391,7 +2391,7 @@
     "subclass": "RA (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Trade, Investments and Industry"
   },
   {
     "name": "Tea Research Foundation",
@@ -2400,7 +2400,7 @@
     "subclass": "RA (C)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Agriculture and Livestock Development"
   },
   {
     "name": "Egerton University",
@@ -2409,7 +2409,7 @@
     "subclass": "PUC1 (A)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Education"
   },
   {
     "name": "Jomo Kenyatta University of Agriculture and Technology",
@@ -2418,7 +2418,7 @@
     "subclass": "PUC1 (A)",
     "phase": 1,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Education"
   },
   {
     "name": "Kenyatta University",
@@ -2427,7 +2427,7 @@
     "subclass": "PUC1 (A)",
     "phase": 1,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Education"
   },
   {
     "name": "Maseno University",
@@ -2436,7 +2436,7 @@
     "subclass": "PUC1 (A)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Education"
   },
   {
     "name": "Masinde Muliro University of Science & Technology",
@@ -2445,7 +2445,7 @@
     "subclass": "PUC1 (A)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Education"
   },
   {
     "name": "Moi University",
@@ -2454,7 +2454,7 @@
     "subclass": "PUC1 (A)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Education"
   },
   {
     "name": "University of Nairobi",
@@ -2463,7 +2463,7 @@
     "subclass": "PUC1 (A)",
     "phase": 1,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Education"
   },
   {
     "name": "Chuka University",
@@ -2472,7 +2472,7 @@
     "subclass": "PUC1 (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Education"
   },
   {
     "name": "Cooperative University",
@@ -2481,7 +2481,7 @@
     "subclass": "PUC1 (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Education"
   },
   {
     "name": "Dedan Kimathi University of Science and Technology",
@@ -2490,7 +2490,7 @@
     "subclass": "PUC1 (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Education"
   },
   {
     "name": "Embu University",
@@ -2499,7 +2499,7 @@
     "subclass": "PUC1 (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Education"
   },
   {
     "name": "Garissa University",
@@ -2508,7 +2508,7 @@
     "subclass": "PUC1 (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Education"
   },
   {
     "name": "Jaramogi Oginga Odinga University of Science & Technology",
@@ -2517,7 +2517,7 @@
     "subclass": "PUC1 (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Education"
   },
   {
     "name": "Karatina University",
@@ -2526,7 +2526,7 @@
     "subclass": "PUC1 (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Education"
   },
   {
     "name": "Kibabii University",
@@ -2535,7 +2535,7 @@
     "subclass": "PUC1 (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Education"
   },
   {
     "name": "Kirinyaga University",
@@ -2544,7 +2544,7 @@
     "subclass": "PUC1 (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Education"
   },
   {
     "name": "Kisii University",
@@ -2553,7 +2553,7 @@
     "subclass": "PUC1 (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Education"
   },
   {
     "name": "Laikipia University",
@@ -2562,7 +2562,7 @@
     "subclass": "PUC1 (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Education"
   },
   {
     "name": "Maasai Mara University",
@@ -2571,7 +2571,7 @@
     "subclass": "PUC1 (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Education"
   },
   {
     "name": "Machakos University",
@@ -2580,7 +2580,7 @@
     "subclass": "PUC1 (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Education"
   },
   {
     "name": "Meru University of Science and Technology",
@@ -2589,7 +2589,7 @@
     "subclass": "PUC1 (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Education"
   },
   {
     "name": "Multi-Media University",
@@ -2598,7 +2598,7 @@
     "subclass": "PUC1 (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Education"
   },
   {
     "name": "Murang’a University",
@@ -2607,7 +2607,7 @@
     "subclass": "PUC1 (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Education"
   },
   {
     "name": "National Defense University - Kenya",
@@ -2616,7 +2616,7 @@
     "subclass": "PUC1 (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Defence"
   },
   {
     "name": "Pwani University",
@@ -2625,7 +2625,7 @@
     "subclass": "PUC1 (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Education"
   },
   {
     "name": "Rongo University",
@@ -2634,7 +2634,7 @@
     "subclass": "PUC1 (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Education"
   },
   {
     "name": "South Eastern University",
@@ -2643,7 +2643,7 @@
     "subclass": "PUC1 (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Education"
   },
   {
     "name": "Taita Taveta University",
@@ -2652,7 +2652,7 @@
     "subclass": "PUC1 (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Education"
   },
   {
     "name": "Technical University of Kenya",
@@ -2661,7 +2661,7 @@
     "subclass": "PUC1 (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Education"
   },
   {
     "name": "Technical University of Mombasa",
@@ -2670,7 +2670,7 @@
     "subclass": "PUC1 (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Education"
   },
   {
     "name": "University Kabianga",
@@ -2679,7 +2679,7 @@
     "subclass": "PUC1 (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Education"
   },
   {
     "name": "University of Eldoret",
@@ -2688,7 +2688,7 @@
     "subclass": "PUC1 (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Education"
   },
   {
     "name": "Kenya School of Government",
@@ -2697,7 +2697,7 @@
     "subclass": "PUC2 (A)",
     "phase": 1,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Public Service, Gender and Affirmative Action"
   },
   {
     "name": "Kenya School of Law",
@@ -2706,7 +2706,7 @@
     "subclass": "PUC2 (A)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "State Law Office and Department of Justice"
   },
   {
     "name": "Alupe University College",
@@ -2715,7 +2715,7 @@
     "subclass": "PUC2 (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Education"
   },
   {
     "name": "Bandari Maritime Academy",
@@ -2724,7 +2724,7 @@
     "subclass": "PUC2 (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Mining, Blue Economy and Maritime Affairs"
   },
   {
     "name": "Bomet University College",
@@ -2733,7 +2733,7 @@
     "subclass": "PUC2 (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Education"
   },
   {
     "name": "Kaimosi Friends University College",
@@ -2742,7 +2742,7 @@
     "subclass": "PUC2 (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Education"
   },
   {
     "name": "Kenya Advanced Institute of Science and Technology",
@@ -2751,7 +2751,7 @@
     "subclass": "PUC2 (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Education"
   },
   {
     "name": "Koitale Arap Samoei University College",
@@ -2760,7 +2760,7 @@
     "subclass": "PUC2 (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Education"
   },
   {
     "name": "Mama Ngina University College",
@@ -2769,7 +2769,7 @@
     "subclass": "PUC2 (B)",
     "phase": 1,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Education"
   },
   {
     "name": "Tharaka University College",
@@ -2778,7 +2778,7 @@
     "subclass": "PUC2 (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Education"
   },
   {
     "name": "Tom Mboya University College",
@@ -2787,7 +2787,7 @@
     "subclass": "PUC2 (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Education"
   },
   {
     "name": "Turkana University College",
@@ -2796,7 +2796,7 @@
     "subclass": "PUC2 (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Education"
   },
   {
     "name": "Kenya School of Monetary Studies",
@@ -2805,7 +2805,7 @@
     "subclass": null,
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Education"
   },
   {
     "name": "Kenya Institute of Mass Communication",
@@ -2814,7 +2814,7 @@
     "subclass": "PUC3 (A)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Information, Communications and the Digital Economy"
   },
   {
     "name": "Kenya Medical Training College",
@@ -2823,7 +2823,7 @@
     "subclass": "PUC3 (A)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Health"
   },
   {
     "name": "Kenya Utalii College",
@@ -2832,7 +2832,7 @@
     "subclass": "PUC3 (A)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Tourism, Wildlife and Heritage"
   },
   {
     "name": "Bukura Agricultural College",
@@ -2841,7 +2841,7 @@
     "subclass": "PUC3 (A)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Agriculture and Livestock Development"
   },
   {
     "name": "Kenya School of TVET",
@@ -2850,7 +2850,7 @@
     "subclass": "PUC3 (A)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Education"
   },
   {
     "name": "Kenya Water Institute",
@@ -2859,7 +2859,7 @@
     "subclass": "PUC3 (A)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Water and Sanitation"
   },
   {
     "name": "Kabete National Polytechnic",
@@ -2967,7 +2967,7 @@
     "subclass": "NRH (A)",
     "phase": 1,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Health"
   },
   {
     "name": "Kenyatta University Teaching and Referral Hospital",
@@ -2976,7 +2976,7 @@
     "subclass": "NRH (A)",
     "phase": 1,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Health"
   },
   {
     "name": "Moi Teaching and Referral Hospital",
@@ -2985,7 +2985,7 @@
     "subclass": "NRH (A)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Health"
   },
   {
     "name": "Mathari National Teaching and Referral Hospital",
@@ -2994,7 +2994,7 @@
     "subclass": "NRH (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Health"
   },
   {
     "name": "Kenya Agricultural and Livestock Research Organization",
@@ -3003,7 +3003,7 @@
     "subclass": "RI (A)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Agriculture and Livestock Development"
   },
   {
     "name": "Kenya Institute of Public Policy Research & Analysis",
@@ -3012,7 +3012,7 @@
     "subclass": "RI (A)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "The National Treasury and Economic Planning"
   },
   {
     "name": "Kenya Medical Research Institute (KEMRI)",
@@ -3021,7 +3021,7 @@
     "subclass": "RI (A)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Health"
   },
   {
     "name": "Centre for Mathematics, Science and Technology Education in Africa",
@@ -3030,7 +3030,7 @@
     "subclass": "RI (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Education"
   },
   {
     "name": "Kenya Education Management Institute",
@@ -3039,7 +3039,7 @@
     "subclass": "RI (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Education"
   },
   {
     "name": "Kenya Foreign Service Institute",
@@ -3048,7 +3048,7 @@
     "subclass": "RI (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Foreign and Diaspora Affairs"
   },
   {
     "name": "Kenya Forestry Research Institute",
@@ -3057,7 +3057,7 @@
     "subclass": "RI (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Environment and Forestry"
   },
   {
     "name": "Kenya Industrial Research & Development Institute",
@@ -3066,7 +3066,7 @@
     "subclass": "RI (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Trade, Investments and Industry"
   },
   {
     "name": "Kenya Institute of Primate Research",
@@ -3075,7 +3075,7 @@
     "subclass": "RI (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Health"
   },
   {
     "name": "Kenya Marine & Fisheries Research Institute",
@@ -3084,7 +3084,7 @@
     "subclass": "RI (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Mining, Blue Economy and Maritime Affairs"
   },
   {
     "name": "National Crime Research Centre",
@@ -3093,7 +3093,7 @@
     "subclass": "RI (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Interior and National Administration"
   },
   {
     "name": "National Museums of Kenya",
@@ -3102,7 +3102,7 @@
     "subclass": "RI (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Tourism, Wildlife and Heritage"
   },
   {
     "name": "Tourism Research Institute",
@@ -3111,7 +3111,7 @@
     "subclass": "RI (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Tourism, Wildlife and Heritage"
   },
   {
     "name": "Wildlife Research Training Institute",
@@ -3120,7 +3120,7 @@
     "subclass": "RI (B)",
     "phase": 1,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Tourism, Wildlife and Heritage"
   },
   {
     "name": "Regional Centre for Ground Water Resources, Education, Training and Research in East Africa",
@@ -3129,7 +3129,7 @@
     "subclass": "RI (B)",
     "phase": 2,
     "classification": "State Corporation",
-    "ministry": null
+    "ministry": "Ministry of Water and Sanitation"
   },
   {
     "name": "Kenya National Archives",
