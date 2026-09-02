@@ -12,7 +12,7 @@ class StateCorporation extends Model
 
     public const PHASE_TWO = 2;
 
-    protected $fillable = ['name', 'cluster', 'class', 'subclass', 'phase', 'assigned_rm_id'];
+    protected $fillable = ['name', 'cluster', 'class', 'subclass', 'classification', 'ministry_id', 'phase', 'assigned_rm_id'];
 
     protected function casts(): array
     {
@@ -22,6 +22,11 @@ class StateCorporation extends Model
     public function assignedRm(): BelongsTo
     {
         return $this->belongsTo(User::class, 'assigned_rm_id');
+    }
+
+    public function ministry(): BelongsTo
+    {
+        return $this->belongsTo(GovernmentEntity::class, 'ministry_id');
     }
 
     public function collections(): HasMany

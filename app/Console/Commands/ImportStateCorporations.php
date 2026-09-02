@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\GovernmentEntity;
 use App\Models\StateCorporation;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
@@ -9,12 +10,19 @@ use Illuminate\Support\Facades\File;
 
 /**
  * Seeds the "State Corporations" registry from
- * database/data/state_corporations.json - 348 entries transcribed from the
- * official "LIST OF STATE CORPORATIONS (348 No.) AS AT 5.2.2024" (Annex I),
- * plus 2 real pilot-client bodies (Kenya National Archives, Kenya News
- * Agency) that the boss named directly but don't appear anywhere on that
- * official list - kept rather than dropped, with no cluster/class data
- * since the source PDF has none for them.
+ * database/data/state_corporations.json - the original 348 entries
+ * transcribed from the official "LIST OF STATE CORPORATIONS (348 No.) AS AT
+ * 5.2.2024" (Annex I), plus 2 real pilot-client bodies (Kenya National
+ * Archives, Kenya News Agency) named directly by the boss, plus (added
+ * 2026-09-02) all 47 counties, all 33 National Polytechnics (per the
+ * Ministry of Education's Oct-2025 TVET Sub-Sector Report), IEBC and the
+ * Government Printer - 421 rows total.
+ *
+ * Each row optionally carries a `classification` (governance status -
+ * State Corporation / Constitutional Commission / County Government /
+ * Government Department, a different axis from the SCAC cluster/class) and
+ * a `ministry` name resolved here to `ministry_id` against GovernmentEntity
+ * (null for entities with no supervising ministry, e.g. IEBC).
  *
  * Phase 1 (42 rows) = the corporations named in the boss's "Circular
  * Economy Pilot Clients" screenshot, cross-matched against the official
@@ -45,17 +53,27 @@ class ImportStateCorporations extends Command
             return self::FAILURE;
         }
 
+        $ministryIds = GovernmentEntity::ministries()->pluck('id', 'name');
+
         $created = 0;
         $updated = 0;
 
-        DB::transaction(function () use ($rows, &$created, &$updated) {
+        DB::transaction(function () use ($rows, $ministryIds, &$created, &$updated) {
             foreach ($rows as $row) {
+                $ministryName = $row['ministry'] ?? null;
+
+                if ($ministryName && ! $ministryIds->has($ministryName)) {
+                    $this->warn("Unknown ministry \"{$ministryName}\" for \"{$row['name']}\" - leaving ministry_id null.");
+                }
+
                 $corp = StateCorporation::updateOrCreate(
                     ['name' => $row['name']],
                     [
                         'cluster' => $row['cluster'],
                         'class' => $row['class'],
                         'subclass' => $row['subclass'],
+                        'classification' => $row['classification'] ?? 'State Corporation',
+                        'ministry_id' => $ministryName ? $ministryIds->get($ministryName) : null,
                         'phase' => $row['phase'],
                     ]
                 );

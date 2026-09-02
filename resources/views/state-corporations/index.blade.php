@@ -1,14 +1,14 @@
 <x-layout title="State Corporations">
         <x-page-header
             title="State Corporations"
-            :subtitle="'From the official 348-corporation list. Phase 1 ('.number_format($phase1Count).') are the pilot clients already engaged; Phase 2 ('.number_format($phase2Count).') is everyone else.'"
+            :subtitle="'Official state corporations, all 47 counties, National Polytechnics, IEBC and the Government Printer. Phase 1 ('.number_format($phase1Count).') are the pilot clients already engaged; Phase 2 ('.number_format($phase2Count).') is everyone else.'"
         />
 
         <div class="flex flex-col sm:flex-row sm:items-center gap-3 mb-4">
             <div class="inline-flex rounded-lg border border-border bg-white p-1 text-sm">
                 @foreach ([null => 'All', 1 => 'Phase 1', 2 => 'Phase 2'] as $value => $label)
                     <a
-                        href="{{ route('state-corporations.index', array_filter(['phase' => $value, 'q' => $filters['q']])) }}"
+                        href="{{ route('state-corporations.index', array_filter(['phase' => $value, 'q' => $filters['q'], 'classification' => $filters['classification']])) }}"
                         @class([
                             'px-3 py-1.5 rounded-md font-medium transition-colors',
                             'bg-brand-700 text-white' => $filters['phase'] === $value,
@@ -22,11 +22,20 @@
                 @endforeach
             </div>
 
-            <form method="GET" class="flex-1">
+            <form method="GET" class="flex flex-1 gap-2">
                 @if ($filters['phase'])
                     <input type="hidden" name="phase" value="{{ $filters['phase'] }}">
                 @endif
-                <div class="relative max-w-md">
+                <select
+                    name="classification" onchange="this.form.submit()"
+                    class="rounded-lg border border-border bg-white px-3 py-2.5 text-sm text-ink focus:outline-none focus:ring-2 focus:ring-brand-600/30 focus:border-brand-600"
+                >
+                    <option value="">All classifications</option>
+                    @foreach ($classifications as $c)
+                        <option value="{{ $c }}" @selected($filters['classification'] === $c)>{{ $c }}</option>
+                    @endforeach
+                </select>
+                <div class="relative flex-1 max-w-md">
                     <input
                         type="text" name="q" value="{{ $filters['q'] }}"
                         placeholder="Search by name…"
@@ -44,6 +53,8 @@
                 <thead class="bg-gold-50 text-left text-ink-muted">
                     <tr>
                         <th class="px-4 py-2 font-medium">Name</th>
+                        <th class="px-4 py-2 font-medium">Classification</th>
+                        <th class="px-4 py-2 font-medium">Ministry</th>
                         <th class="px-4 py-2 font-medium">Cluster</th>
                         <th class="px-4 py-2 font-medium">Class</th>
                         <th class="px-4 py-2 font-medium">Sub-Class</th>
@@ -56,6 +67,14 @@
                             <td class="px-4 py-3 font-medium max-w-md">
                                 <div class="line-clamp-2">{{ $corp->name }}</div>
                             </td>
+                            <td class="px-4 py-3">
+                                @if ($corp->classification === 'State Corporation')
+                                    <span class="inline-flex px-2 py-0.5 rounded-full bg-panel-high text-ink-faint text-xs font-medium whitespace-nowrap">{{ $corp->classification }}</span>
+                                @else
+                                    <span class="inline-flex px-2 py-0.5 rounded-full bg-gold-50 text-gold-800 text-xs font-medium whitespace-nowrap">{{ $corp->classification ?? '—' }}</span>
+                                @endif
+                            </td>
+                            <td class="px-4 py-3 text-ink-faint whitespace-nowrap">{{ $corp->ministry->name ?? '—' }}</td>
                             <td class="px-4 py-3 text-ink-faint">{{ $corp->cluster ?? '—' }}</td>
                             <td class="px-4 py-3 text-ink-faint">{{ $corp->class ?? '—' }}</td>
                             <td class="px-4 py-3 text-ink-faint">{{ $corp->subclass ?? '—' }}</td>
@@ -69,7 +88,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5" class="px-4 py-8 text-center text-ink-faint">No state corporations match this filter.</td>
+                            <td colspan="7" class="px-4 py-8 text-center text-ink-faint">No state corporations match this filter.</td>
                         </tr>
                     @endforelse
                 </tbody>

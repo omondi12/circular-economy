@@ -4,2449 +4,3788 @@
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (A)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Financial Reporting Centre",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (A)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Geothermal Development Company (GDC)",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (A)",
-    "phase": 1
+    "phase": 1,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya Deposit Insurance Corporation",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (A)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya Electricity Transmission Company",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (A)",
-    "phase": 1
+    "phase": 1,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya Revenue Authority",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (A)",
-    "phase": 1
+    "phase": 1,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya Roads Board",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (A)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya Trade Network Agency",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (A)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Nairobi International Financial Center Authority",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (A)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "National Coroners Service",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (A)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Rural Electrification and Renewable Energy Corporation (REREC)",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (A)",
-    "phase": 1
+    "phase": 1,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Social Health Authority",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (A)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Unclaimed Financial Assets Authority",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (A)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Business Registration Service",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Information & Communication Technology Authority",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Investor Compensation Fund Board",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya Academy of Sports",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya Animal Genetic Resource Centre",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya Export Promotion and Branding Agency",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya Institute of Curriculum Development",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya Investment Authority",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya Law Reform Commission",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya Medical Supplies Agency (KEMSA)",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (B)",
-    "phase": 1
+    "phase": 1,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya National Bureau of Statistics",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya National Examinations Council",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya National Highways Authority (KeNHA)",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (B)",
-    "phase": 1
+    "phase": 1,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya Rural Roads Authority",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (B)",
-    "phase": 1
+    "phase": 1,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya Tourism Board",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya Urban Roads Authority",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (B)",
-    "phase": 1
+    "phase": 1,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya Wildlife Service",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (B)",
-    "phase": 1
+    "phase": 1,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Konza Technopolis Development Authority",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "LAPSSET Corridor Development Authority",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (B)",
-    "phase": 1
+    "phase": 1,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Micro & Small Enterprises Authority",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "RA",
     "subclass": "EA (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Nairobi Area Metropolitan Transport Authority",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Nairobi Centre for International Arbitration",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "National Cancer Institute of Kenya",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "National Environment Trust Fund",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "National Government Affirmative Action Fund",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "National Government Constituency Development Fund",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "National Irrigation Authority",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (B)",
-    "phase": 1
+    "phase": 1,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "National Legal Aid Service",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "National Syndemic Disease Control Council",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Policy Holders Compensation Fund",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Privatization Commission",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Sports Kenya",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Tourism Fund",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Water Sector Trust Fund",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Youth Enterprise Development Fund Board",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Agricultural Development Corporation",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Athi Water Works Development Agency",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (C)",
-    "phase": 1
+    "phase": 1,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Central Rift Valley Water Works Development Agency",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (C)",
-    "phase": 1
+    "phase": 1,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Coast Water Works Development Agency",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Export Processing Zones Authority",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Fertilizers and Animal Food Stuff Board",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Higher Education Loans Board",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Institute of Human Resource Management Professionals Examinations Board",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya Accountants and Secretaries National Examination Board",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya Film Commission",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya Fisheries Service",
     "cluster": "EXECUTIVE AGENCIES",
     "class": null,
     "subclass": null,
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya Fish Marketing Authority",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya Forest Service",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (C)",
-    "phase": 1
+    "phase": 1,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya Hospital Authority Trust Fund",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya Industrial Property Institute",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya Institute of Supplies Examination Board",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya National Library Service",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya National Public Health Institute",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya Trade Remedies Agency",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya Tsetse and Trypanosomiasis Eradication Council",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya Universities and Colleges Central Placement Service",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya Water Towers Agency",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya Yearbook Editorial Board",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Lake Victoria North Water Works Development Agency",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Lake Victoria South Water Works Development Agency",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "National Coordinating Agency for Population and Development",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "National Council for Law Reporting",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "National Council for Persons with Disabilities",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "National Drought Management Authority",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "National Quality Control Laboratory",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "National Water Harvesting and Storage Authority",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (C)",
-    "phase": 1
+    "phase": 1,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "National Youth Service",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (C)",
-    "phase": 1
+    "phase": 1,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "North Rift Valley Water Works Development Agency",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Northern Water Works Development Agency (NWSB)",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Nuclear Power and Energy Agency",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Nyayo Tea Zones Development Corporation",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Railway City Development Authority",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Tana and Athi Water Works Development Agency",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Tana Water Works Development Agency",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (C)",
-    "phase": 1
+    "phase": 1,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Technical and Vocational Education and Training Curriculum Development Assessment & Certification Council (TVETCDACC)",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Victims Protection Agency",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Warehouse Receipt System Council",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Witness Protection Agency",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Agricultural Information Resource Centre (AIRC)",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (D)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Anti-Female Genital Mutilation Board",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (D)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Coast Development Authority",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (D)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Ewaso Ng’iro North Development Authority",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (D)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Ewaso Ng’iro South Development Authority",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (D)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya National Commission for UNESCO",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (D)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya National Innovation Agency",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (D)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya National Qualifications Authority",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (D)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kerio Valley Development Authority (KVDA)",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (D)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Lake Basin Development Authority (LBDA)",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (D)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "National Heroes Council",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (D)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "National Youth Council",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (D)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Tana and Athi Rivers Development Authority",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (D)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "The Kenya Cultural Centre",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (D)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "The President’s Awards",
     "cluster": "EXECUTIVE AGENCIES",
     "class": "EA",
     "subclass": "EA (D)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "East African Portland Cement Company Ltd",
     "cluster": "GOVERNMENT OWNED ENTERPRISES",
     "class": "GOE1",
     "subclass": "GOE1",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya Electricity Generating Company",
     "cluster": "GOVERNMENT OWNED ENTERPRISES",
     "class": "GOE1",
     "subclass": "GOE1",
-    "phase": 1
+    "phase": 1,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya Power and Lighting Company Ltd",
     "cluster": "GOVERNMENT OWNED ENTERPRISES",
     "class": "GOE1",
     "subclass": "GOE1",
-    "phase": 1
+    "phase": 1,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya Re-Insurance Corporation",
     "cluster": "GOVERNMENT OWNED ENTERPRISES",
     "class": "GOE1",
     "subclass": "GOE1",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya Re-Insurance Corporation Cote d’Ivoire",
     "cluster": "GOVERNMENT OWNED ENTERPRISES",
     "class": "GOE1",
     "subclass": "GOE1",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya Re-Insurance Corporation Zambia Ltd",
     "cluster": "GOVERNMENT OWNED ENTERPRISES",
     "class": "GOE1",
     "subclass": "GOE1",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya Re-Insurance Corporation Uganda SMC",
     "cluster": "GOVERNMENT OWNED ENTERPRISES",
     "class": "GOE1",
     "subclass": "GOE1",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Agricultural Finance Corporation",
     "cluster": "GOVERNMENT OWNED ENTERPRISES",
     "class": "GOE2",
     "subclass": "GOE2 (A)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Industrial and Commercial Development Corporation",
     "cluster": "GOVERNMENT OWNED ENTERPRISES",
     "class": "GOE2",
     "subclass": "GOE2 (A)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya Airports Authority",
     "cluster": "GOVERNMENT OWNED ENTERPRISES",
     "class": "GOE2",
     "subclass": "GOE2 (A)",
-    "phase": 1
+    "phase": 1,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya Development Corporation",
     "cluster": "GOVERNMENT OWNED ENTERPRISES",
     "class": "GOE2",
     "subclass": "GOE2 (A)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya Literature Bureau",
     "cluster": "GOVERNMENT OWNED ENTERPRISES",
     "class": "GOE2",
     "subclass": "GOE2 (A)",
-    "phase": 1
+    "phase": 1,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya National Entrepreneurs Savings Trust",
     "cluster": "GOVERNMENT OWNED ENTERPRISES",
     "class": "GOE3",
     "subclass": "GOE2 (A)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya Pipeline Corporation",
     "cluster": "GOVERNMENT OWNED ENTERPRISES",
     "class": "GOE2",
     "subclass": "GOE2 (A)",
-    "phase": 1
+    "phase": 1,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya Ports Authority",
     "cluster": "GOVERNMENT OWNED ENTERPRISES",
     "class": "GOE2",
     "subclass": "GOE2 (A)",
-    "phase": 1
+    "phase": 1,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya Railways Corporation",
     "cluster": "GOVERNMENT OWNED ENTERPRISES",
     "class": "GOE2",
     "subclass": "GOE2 (A)",
-    "phase": 1
+    "phase": 1,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "National Hospital Insurance Fund",
     "cluster": "GOVERNMENT OWNED ENTERPRISES",
     "class": "GOE2",
     "subclass": "GOE2 (A)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "National Social Security Fund",
     "cluster": "GOVERNMENT OWNED ENTERPRISES",
     "class": "GOE2",
     "subclass": "GOE2 (A)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "New Kenya Co-operative Creameries",
     "cluster": "GOVERNMENT OWNED ENTERPRISES",
     "class": "GOE2",
     "subclass": "GOE2 (A)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya Seed Company Limited",
     "cluster": "GOVERNMENT OWNED ENTERPRISES",
     "class": "GOE2",
     "subclass": "GOE2 (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Local Authorities Provident Fund",
     "cluster": "GOVERNMENT OWNED ENTERPRISES",
     "class": "GOE2",
     "subclass": "GOE2 (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "National Cereals and Produce Board",
     "cluster": "GOVERNMENT OWNED ENTERPRISES",
     "class": "GOE2",
     "subclass": "GOE2 (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "National Housing Corporation",
     "cluster": "GOVERNMENT OWNED ENTERPRISES",
     "class": "GOE2",
     "subclass": "GOE2 (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Numerical Machining Complex",
     "cluster": "GOVERNMENT OWNED ENTERPRISES",
     "class": "GOE2",
     "subclass": "GOE2 (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Postal Corporation of Kenya",
     "cluster": "GOVERNMENT OWNED ENTERPRISES",
     "class": "GOE2",
     "subclass": "GOE2 (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Public Service Superannuation Fund Board",
     "cluster": "GOVERNMENT OWNED ENTERPRISES",
     "class": "GOE2",
     "subclass": "GOE2 (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Rivatex East Africa Limited",
     "cluster": "GOVERNMENT OWNED ENTERPRISES",
     "class": "GOE2",
     "subclass": "GOE2 (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "School Equipment Production Unit",
     "cluster": "GOVERNMENT OWNED ENTERPRISES",
     "class": "GOE2",
     "subclass": "GOE3 (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya Broadcasting Corporation",
     "cluster": "GOVERNMENT OWNED ENTERPRISES",
     "class": "GOE2",
     "subclass": "GOE2 (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya Ordinance and Factories Corporation (KOFC)",
     "cluster": "GOVERNMENT OWNED ENTERPRISES",
     "class": "GOE2",
     "subclass": "GOE2 (C)",
-    "phase": 1
+    "phase": 1,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "National Mining Corporation",
     "cluster": "GOVERNMENT OWNED ENTERPRISES",
     "class": "GOE2",
     "subclass": "GOE2 (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "National Oil Corporation of Kenya (NOCK)",
     "cluster": "GOVERNMENT OWNED ENTERPRISES",
     "class": "GOE2",
     "subclass": "GOE2 (C)",
-    "phase": 1
+    "phase": 1,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Consolidated Bank",
     "cluster": "GOVERNMENT OWNED ENTERPRISES",
     "class": "GOE3",
     "subclass": "GOE3 (A)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya BioVax Institute",
     "cluster": "GOVERNMENT OWNED ENTERPRISES",
     "class": "GOE3",
     "subclass": "GOE3 (A)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenyatta International Convention Centre",
     "cluster": "GOVERNMENT OWNED ENTERPRISES",
     "class": "GOE2",
     "subclass": "GOE3 (A)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya National Trading Corporation Ltd",
     "cluster": "GOVERNMENT OWNED ENTERPRISES",
     "class": "GOE3",
     "subclass": "GOE3 (A)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya Shipyard Ltd",
     "cluster": "GOVERNMENT OWNED ENTERPRISES",
     "class": "GOE3",
     "subclass": "GOE3 (A)",
-    "phase": 1
+    "phase": 1,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya Veterinary Vaccines Production Institute (KEVEVAPI)",
     "cluster": "GOVERNMENT OWNED ENTERPRISES",
     "class": "GOE3",
     "subclass": "GOE3 (A)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Agro-Chemical and Food Company",
     "cluster": "GOVERNMENT OWNED ENTERPRISES",
     "class": "GOE3",
     "subclass": "GOE3 (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Development Bank of Kenya Ltd.",
     "cluster": "GOVERNMENT OWNED ENTERPRISES",
     "class": "GOE3",
     "subclass": "GOE3 (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Egerton University Investment Enterprise",
     "cluster": "GOVERNMENT OWNED ENTERPRISES",
     "class": "GOE3",
     "subclass": "GOE3 (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Jomo Kenyatta Foundation",
     "cluster": "GOVERNMENT OWNED ENTERPRISES",
     "class": "GOE3",
     "subclass": "GOE3 (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Jomo Kenyatta University Enterprises Ltd.",
     "cluster": "GOVERNMENT OWNED ENTERPRISES",
     "class": "GOE3",
     "subclass": "GOE3 (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya Fishing Industries Corporation",
     "cluster": "GOVERNMENT OWNED ENTERPRISES",
     "class": "GOE3",
     "subclass": "GOE3 (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya Industrial Estate",
     "cluster": "GOVERNMENT OWNED ENTERPRISES",
     "class": "GOE3",
     "subclass": "GOE3 (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya Meat Commission",
     "cluster": "GOVERNMENT OWNED ENTERPRISES",
     "class": "GOE3",
     "subclass": "GOE3 (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya National Shipping Line",
     "cluster": "GOVERNMENT OWNED ENTERPRISES",
     "class": "GOE3",
     "subclass": "GOE3 (B)",
-    "phase": 1
+    "phase": 1,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya Petroleum Refineries Limited",
     "cluster": "GOVERNMENT OWNED ENTERPRISES",
     "class": "GOE3",
     "subclass": "GOE3 (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya Post Office Savings Bank",
     "cluster": "GOVERNMENT OWNED ENTERPRISES",
     "class": "GOE3",
     "subclass": "GOE3 (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya Prisons Enterprise Fund",
     "cluster": "GOVERNMENT OWNED ENTERPRISES",
     "class": "GOE3",
     "subclass": "GOE3 (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "National Informal Sector Pension Ltd",
     "cluster": "GOVERNMENT OWNED ENTERPRISES",
     "class": "GOE3",
     "subclass": "GOE3 (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "University of Nairobi Enterprises and Services Limited",
     "cluster": "GOVERNMENT OWNED ENTERPRISES",
     "class": "GOE3",
     "subclass": "GOE3 (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Agri and Cooperative Training & Consultancy Services Ltd",
     "cluster": "GOVERNMENT OWNED ENTERPRISES",
     "class": "GOE3",
     "subclass": "GOE3 (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Ahero Rice Meals",
     "cluster": "GOVERNMENT OWNED ENTERPRISES",
     "class": "GOE3",
     "subclass": "GOE3 (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Bomas of Kenya",
     "cluster": "GOVERNMENT OWNED ENTERPRISES",
     "class": "GOE3",
     "subclass": "GOE3 (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "CBKL Bancassurance Intermediary",
     "cluster": "GOVERNMENT OWNED ENTERPRISES",
     "class": "GOE3",
     "subclass": "GOE3 (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Chemilil Sugar Company Ltd",
     "cluster": "GOVERNMENT OWNED ENTERPRISES",
     "class": "GOE3",
     "subclass": "GOE3 (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Freshpick Processors",
     "cluster": "GOVERNMENT OWNED ENTERPRISES",
     "class": "GOE3",
     "subclass": "GOE3 (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Gatitu Tea Factory",
     "cluster": "GOVERNMENT OWNED ENTERPRISES",
     "class": "GOE3",
     "subclass": "GOE3 (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Golf Hotel Kakamega",
     "cluster": "GOVERNMENT OWNED ENTERPRISES",
     "class": "GOE3",
     "subclass": "GOE3 (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "JKUAT Industrial Park Limited",
     "cluster": "GOVERNMENT OWNED ENTERPRISES",
     "class": "GOE3",
     "subclass": "GOE3 (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kabarnet Hotel Ltd",
     "cluster": "GOVERNMENT OWNED ENTERPRISES",
     "class": "GOE3",
     "subclass": "GOE3 (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya National Assurance Company (under receivership)",
     "cluster": "GOVERNMENT OWNED ENTERPRISES",
     "class": "GOE3",
     "subclass": "GOE3 (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya National Multi Commodities Exchange Ltd",
     "cluster": "GOVERNMENT OWNED ENTERPRISES",
     "class": "GOE3",
     "subclass": "GOE3 (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya Safari Lodges and Hotels Ltd",
     "cluster": "GOVERNMENT OWNED ENTERPRISES",
     "class": "GOE3",
     "subclass": "GOE3 (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "KENATCO TAXIS Kltd (under receivership)",
     "cluster": "GOVERNMENT OWNED ENTERPRISES",
     "class": "GOE3",
     "subclass": "GOE3 (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kipchabo Tea Factory",
     "cluster": "GOVERNMENT OWNED ENTERPRISES",
     "class": "GOE3",
     "subclass": "GOE3 (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Lands Limited",
     "cluster": "GOVERNMENT OWNED ENTERPRISES",
     "class": "GOE3",
     "subclass": "GOE3 (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Miwani Sugar Company Limited",
     "cluster": "GOVERNMENT OWNED ENTERPRISES",
     "class": "GOE3",
     "subclass": "GOE3 (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Mt. Elgon Lodge",
     "cluster": "GOVERNMENT OWNED ENTERPRISES",
     "class": "GOE3",
     "subclass": "GOE3 (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Muhoroni Sugar Company Ltd",
     "cluster": "GOVERNMENT OWNED ENTERPRISES",
     "class": "GOE3",
     "subclass": "GOE3 (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Mwea Rice Mills",
     "cluster": "GOVERNMENT OWNED ENTERPRISES",
     "class": "GOE3",
     "subclass": "GOE3 (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "New Kenya Planters Cooperative Union",
     "cluster": "GOVERNMENT OWNED ENTERPRISES",
     "class": "GOE3",
     "subclass": "GOE3 (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Nzoia Sugar Company",
     "cluster": "GOVERNMENT OWNED ENTERPRISES",
     "class": "GOE3",
     "subclass": "GOE3 (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Pyrethrum Processing Company of Kenya",
     "cluster": "GOVERNMENT OWNED ENTERPRISES",
     "class": "GOE3",
     "subclass": "GOE3 (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kibo Seeds Ltd (Tanzania)",
     "cluster": "GOVERNMENT OWNED ENTERPRISES",
     "class": "GOE3",
     "subclass": "GOE3 (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Simlaw Seeds Kenya Ltd",
     "cluster": "GOVERNMENT OWNED ENTERPRISES",
     "class": "GOE3",
     "subclass": "GOE3 (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Simlaw Seeds Rwanda",
     "cluster": "GOVERNMENT OWNED ENTERPRISES",
     "class": "GOE3",
     "subclass": "GOE3 (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Simlaw Seeds Uganda",
     "cluster": "GOVERNMENT OWNED ENTERPRISES",
     "class": "GOE3",
     "subclass": "GOE3 (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "South Nyanza Sugar Company Limited (SONY)",
     "cluster": "GOVERNMENT OWNED ENTERPRISES",
     "class": "GOE3",
     "subclass": "GOE3 (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Sunset Hotel Kisumu",
     "cluster": "GOVERNMENT OWNED ENTERPRISES",
     "class": "GOE3",
     "subclass": "GOE3 (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Telkom Kenya Limited",
     "cluster": "GOVERNMENT OWNED ENTERPRISES",
     "class": "GOE3",
     "subclass": "GOE3 (C)",
-    "phase": 1
+    "phase": 1,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Tourism Finance Corporation (Defunct)",
     "cluster": "GOVERNMENT OWNED ENTERPRISES",
     "class": null,
     "subclass": null,
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "University of Nairobi Press",
     "cluster": "GOVERNMENT OWNED ENTERPRISES",
     "class": "GOE3",
     "subclass": "GOE3 (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Western Kenya Rice Mills Ltd",
     "cluster": "GOVERNMENT OWNED ENTERPRISES",
     "class": "GOE3",
     "subclass": "GOE3 (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Capital Markets Authority",
     "cluster": "REGULATORY AGENCIES",
     "class": "RA",
     "subclass": "RA (A)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Commission for University Education",
     "cluster": "REGULATORY AGENCIES",
     "class": "RA",
     "subclass": "RA (A)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Communications Authority of Kenya",
     "cluster": "REGULATORY AGENCIES",
     "class": "RA",
     "subclass": "RA (A)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Competition Authority of Kenya",
     "cluster": "REGULATORY AGENCIES",
     "class": "RA",
     "subclass": "RA (A)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Energy and Petroleum Regulatory Authority",
     "cluster": "REGULATORY AGENCIES",
     "class": "RA",
     "subclass": "RA (A)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Engineers Board of Kenya",
     "cluster": "REGULATORY AGENCIES",
     "class": "RA",
     "subclass": "RA (A)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Insurance Regulatory Authority",
     "cluster": "REGULATORY AGENCIES",
     "class": "RA",
     "subclass": "RA (A)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya Bureau of Standards",
     "cluster": "REGULATORY AGENCIES",
     "class": "RA",
     "subclass": "RA (A)",
-    "phase": 1
+    "phase": 1,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya Health Professionals Oversight Authority",
     "cluster": "REGULATORY AGENCIES",
     "class": "RA",
     "subclass": "RA (A)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya Nuclear Regulatory Authority",
     "cluster": "REGULATORY AGENCIES",
     "class": "RA",
     "subclass": "RA (A)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya Space Agency",
     "cluster": "REGULATORY AGENCIES",
     "class": "RA",
     "subclass": "RA (A)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "National Construction Authority",
     "cluster": "REGULATORY AGENCIES",
     "class": "RA",
     "subclass": "RA (A)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "National Transport & Safety Authority",
     "cluster": "REGULATORY AGENCIES",
     "class": "RA",
     "subclass": "RA (A)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Public Procurement Regulatory Authority",
     "cluster": "REGULATORY AGENCIES",
     "class": "RA",
     "subclass": "RA (A)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Retirement Benefits Authority",
     "cluster": "REGULATORY AGENCIES",
     "class": "RA",
     "subclass": "RA (A)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Sacco Societies Regulatory Authority",
     "cluster": "REGULATORY AGENCIES",
     "class": "RA",
     "subclass": "RA (A)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Tea Board of Kenya",
     "cluster": "REGULATORY AGENCIES",
     "class": "RA",
     "subclass": "RA (A)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Agricultural and Food Authority",
     "cluster": "REGULATORY AGENCIES",
     "class": "RA",
     "subclass": "RA (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Anti-Counterfeit Agency",
     "cluster": "REGULATORY AGENCIES",
     "class": "RA",
     "subclass": "RA (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Anti-Doping Agency",
     "cluster": "REGULATORY AGENCIES",
     "class": "RA",
     "subclass": "RA (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Clinical Council of Kenya",
     "cluster": "REGULATORY AGENCIES",
     "class": "RA",
     "subclass": "RA (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Council for Legal Education",
     "cluster": "REGULATORY AGENCIES",
     "class": "RA",
     "subclass": "RA (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Institute of Human Resource Management",
     "cluster": "REGULATORY AGENCIES",
     "class": "RA",
     "subclass": "RA (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya Civil Aviation Authority",
     "cluster": "REGULATORY AGENCIES",
     "class": "RA",
     "subclass": "RA (B)",
-    "phase": 1
+    "phase": 1,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya Dairy Board",
     "cluster": "REGULATORY AGENCIES",
     "class": "RA",
     "subclass": "RA (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya Film Classification Board",
     "cluster": "REGULATORY AGENCIES",
     "class": "RA",
     "subclass": "RA (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya Health Human Resource Advisory Council",
     "cluster": "REGULATORY AGENCIES",
     "class": "RA",
     "subclass": "RA (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya Institute of Supplies Management",
     "cluster": "REGULATORY AGENCIES",
     "class": "RA",
     "subclass": "RA (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya Maritime Authority",
     "cluster": "REGULATORY AGENCIES",
     "class": "RA",
     "subclass": "RA (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya Medical Practitioners and Dentist Council",
     "cluster": "REGULATORY AGENCIES",
     "class": "RA",
     "subclass": "RA (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya National Accreditation Service",
     "cluster": "REGULATORY AGENCIES",
     "class": "RA",
     "subclass": "RA (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya Plant Health Inspectorate Services",
     "cluster": "REGULATORY AGENCIES",
     "class": "RA",
     "subclass": "RA (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya Tissue and Transplant Authority",
     "cluster": "REGULATORY AGENCIES",
     "class": "RA",
     "subclass": "RA (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "National Commission for Science, Technology and Innovation",
     "cluster": "REGULATORY AGENCIES",
     "class": "RA",
     "subclass": "RA (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "National Council for Children Services",
     "cluster": "REGULATORY AGENCIES",
     "class": "RA",
     "subclass": "RA (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "National Environment Management Authority",
     "cluster": "REGULATORY AGENCIES",
     "class": "RA",
     "subclass": "RA (B)",
-    "phase": 1
+    "phase": 1,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "National Authority for the Campaign against Alcohol and Drug Abuse",
     "cluster": "REGULATORY AGENCIES",
     "class": "RA",
     "subclass": "RA (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "National Biosafety Authority",
     "cluster": "REGULATORY AGENCIES",
     "class": "RA",
     "subclass": "RA (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Pharmacy & Poisons Board",
     "cluster": "REGULATORY AGENCIES",
     "class": "RA",
     "subclass": "RA (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Street Families Rehabilitation Fund",
     "cluster": "REGULATORY AGENCIES",
     "class": "RA",
     "subclass": "RA (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Technical Vocational and Training Authority",
     "cluster": "REGULATORY AGENCIES",
     "class": "RA",
     "subclass": "RA (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Tourism Regulatory Authority",
     "cluster": "REGULATORY AGENCIES",
     "class": null,
     "subclass": null,
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Veterinary Medicines Directorate",
     "cluster": "REGULATORY AGENCIES",
     "class": "RA",
     "subclass": "RA (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Water Resources Authority",
     "cluster": "REGULATORY AGENCIES",
     "class": "RA",
     "subclass": "RA (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Water Services Regulatory Board",
     "cluster": "REGULATORY AGENCIES",
     "class": "RA",
     "subclass": "RA (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Animal Technicians Council",
     "cluster": "REGULATORY AGENCIES",
     "class": "RA",
     "subclass": "RA (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Auctioneers Licensing Board",
     "cluster": "REGULATORY AGENCIES",
     "class": "RA",
     "subclass": "RA (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Board of Registration of Architects and Quantity Surveyors",
     "cluster": "REGULATORY AGENCIES",
     "class": "RA",
     "subclass": "RA (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Building Surveyors Registration Board",
     "cluster": "REGULATORY AGENCIES",
     "class": "RA",
     "subclass": "RA (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Counsellors and Psychologists Board",
     "cluster": "REGULATORY AGENCIES",
     "class": "RA",
     "subclass": "RA (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Estate Agents Registration Board",
     "cluster": "REGULATORY AGENCIES",
     "class": "RA",
     "subclass": "RA (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Geologist Registration Board",
     "cluster": "REGULATORY AGENCIES",
     "class": "RA",
     "subclass": "RA (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Health Records and Information Management Board",
     "cluster": "REGULATORY AGENCIES",
     "class": "RA",
     "subclass": "RA (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Hydrologist Registration Board",
     "cluster": "REGULATORY AGENCIES",
     "class": "RA",
     "subclass": "RA (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Institute of Certified Investment and Financial Analysts",
     "cluster": "REGULATORY AGENCIES",
     "class": "RA",
     "subclass": "RA (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Institute of Certified Public Accountants of Kenya",
     "cluster": "REGULATORY AGENCIES",
     "class": "RA",
     "subclass": "RA (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya Copyrights Board",
     "cluster": "REGULATORY AGENCIES",
     "class": "RA",
     "subclass": "RA (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya Engineering Technology Registration Board",
     "cluster": "REGULATORY AGENCIES",
     "class": "RA",
     "subclass": "RA (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya Leather Development Council",
     "cluster": "REGULATORY AGENCIES",
     "class": "RA",
     "subclass": "RA (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya Medical Laboratory Technicians and Technologists Board",
     "cluster": "REGULATORY AGENCIES",
     "class": "RA",
     "subclass": "RA (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya Veterinary Board",
     "cluster": "REGULATORY AGENCIES",
     "class": "RA",
     "subclass": "RA (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Land Surveyors Board",
     "cluster": "REGULATORY AGENCIES",
     "class": "RA",
     "subclass": "RA (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Media Council of Kenya",
     "cluster": "REGULATORY AGENCIES",
     "class": "RA",
     "subclass": "RA (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "National Employment Authority",
     "cluster": "REGULATORY AGENCIES",
     "class": "RA",
     "subclass": "RA (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "National Industrial Training Authority",
     "cluster": "REGULATORY AGENCIES",
     "class": "RA",
     "subclass": "RA (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "NGOs Coordination Board",
     "cluster": "REGULATORY AGENCIES",
     "class": "RA",
     "subclass": "RA (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Nursing Council of Kenya",
     "cluster": "REGULATORY AGENCIES",
     "class": "RA",
     "subclass": "RA (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Occupational Therapy Council of Kenya",
     "cluster": "REGULATORY AGENCIES",
     "class": "RA",
     "subclass": "RA (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Physical Planners Registration Board",
     "cluster": "REGULATORY AGENCIES",
     "class": "RA",
     "subclass": "RA (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Private Security Regulatory Authority",
     "cluster": "REGULATORY AGENCIES",
     "class": "RA",
     "subclass": "RA (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Public Health Officers and Technician Council",
     "cluster": "REGULATORY AGENCIES",
     "class": "RA",
     "subclass": "RA (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Registration of Certified Public Accountants Board",
     "cluster": "REGULATORY AGENCIES",
     "class": "RA",
     "subclass": "RA (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Registration of Certified Public Secretaries Board",
     "cluster": "REGULATORY AGENCIES",
     "class": "RA",
     "subclass": "RA (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Scrap Metal Council",
     "cluster": "REGULATORY AGENCIES",
     "class": "RA",
     "subclass": "RA (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Special Economic Zones Authority",
     "cluster": "REGULATORY AGENCIES",
     "class": "RA",
     "subclass": "RA (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Tea Research Foundation",
     "cluster": "REGULATORY AGENCIES",
     "class": "RA",
     "subclass": "RA (C)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Egerton University",
     "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
     "class": "PUC",
     "subclass": "PUC1 (A)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Jomo Kenyatta University of Agriculture and Technology",
     "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
     "class": "PUC",
     "subclass": "PUC1 (A)",
-    "phase": 1
+    "phase": 1,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenyatta University",
     "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
     "class": "PUC",
     "subclass": "PUC1 (A)",
-    "phase": 1
+    "phase": 1,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Maseno University",
     "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
     "class": "PUC",
     "subclass": "PUC1 (A)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Masinde Muliro University of Science & Technology",
     "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
     "class": "PUC",
     "subclass": "PUC1 (A)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Moi University",
     "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
     "class": "PUC",
     "subclass": "PUC1 (A)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "University of Nairobi",
     "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
     "class": "PUC",
     "subclass": "PUC1 (A)",
-    "phase": 1
+    "phase": 1,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Chuka University",
     "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
     "class": "PUC",
     "subclass": "PUC1 (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Cooperative University",
     "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
     "class": "PUC",
     "subclass": "PUC1 (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Dedan Kimathi University of Science and Technology",
     "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
     "class": "PUC",
     "subclass": "PUC1 (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Embu University",
     "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
     "class": "PUC",
     "subclass": "PUC1 (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Garissa University",
     "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
     "class": "PUC",
     "subclass": "PUC1 (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Jaramogi Oginga Odinga University of Science & Technology",
     "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
     "class": "PUC",
     "subclass": "PUC1 (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Karatina University",
     "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
     "class": "PUC",
     "subclass": "PUC1 (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kibabii University",
     "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
     "class": "PUC",
     "subclass": "PUC1 (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kirinyaga University",
     "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
     "class": "PUC",
     "subclass": "PUC1 (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kisii University",
     "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
     "class": "PUC",
     "subclass": "PUC1 (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Laikipia University",
     "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
     "class": "PUC",
     "subclass": "PUC1 (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Maasai Mara University",
     "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
     "class": "PUC",
     "subclass": "PUC1 (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Machakos University",
     "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
     "class": "PUC",
     "subclass": "PUC1 (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Meru University of Science and Technology",
     "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
     "class": "PUC",
     "subclass": "PUC1 (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Multi-Media University",
     "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
     "class": "PUC",
     "subclass": "PUC1 (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Murang’a University",
     "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
     "class": "PUC",
     "subclass": "PUC1 (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "National Defense University - Kenya",
     "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
     "class": "PUC",
     "subclass": "PUC1 (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Pwani University",
     "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
     "class": "PUC",
     "subclass": "PUC1 (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Rongo University",
     "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
     "class": "PUC",
     "subclass": "PUC1 (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "South Eastern University",
     "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
     "class": "PUC",
     "subclass": "PUC1 (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Taita Taveta University",
     "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
     "class": "PUC",
     "subclass": "PUC1 (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Technical University of Kenya",
     "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
     "class": "PUC",
     "subclass": "PUC1 (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Technical University of Mombasa",
     "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
     "class": "PUC",
     "subclass": "PUC1 (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "University Kabianga",
     "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
     "class": "PUC",
     "subclass": "PUC1 (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "University of Eldoret",
     "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
     "class": "PUC",
     "subclass": "PUC1 (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya School of Government",
     "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
     "class": "PUC",
     "subclass": "PUC2 (A)",
-    "phase": 1
+    "phase": 1,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya School of Law",
     "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
     "class": "PUC",
     "subclass": "PUC2 (A)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Alupe University College",
     "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
     "class": "PUC",
     "subclass": "PUC2 (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Bandari Maritime Academy",
     "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
     "class": "PUC",
     "subclass": "PUC2 (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Bomet University College",
     "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
     "class": "PUC",
     "subclass": "PUC2 (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kaimosi Friends University College",
     "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
     "class": "PUC",
     "subclass": "PUC2 (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya Advanced Institute of Science and Technology",
     "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
     "class": "PUC",
     "subclass": "PUC2 (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Koitale Arap Samoei University College",
     "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
     "class": "PUC",
     "subclass": "PUC2 (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Mama Ngina University College",
     "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
     "class": "PUC",
     "subclass": "PUC2 (B)",
-    "phase": 1
+    "phase": 1,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Tharaka University College",
     "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
     "class": "PUC",
     "subclass": "PUC2 (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Tom Mboya University College",
     "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
     "class": "PUC",
     "subclass": "PUC2 (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Turkana University College",
     "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
     "class": "PUC",
     "subclass": "PUC2 (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya School of Monetary Studies",
     "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
     "class": null,
     "subclass": null,
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya Institute of Mass Communication",
     "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
     "class": "PUC",
     "subclass": "PUC3 (A)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya Medical Training College",
     "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
     "class": "PUC",
     "subclass": "PUC3 (A)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya Utalii College",
     "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
     "class": "PUC",
     "subclass": "PUC3 (A)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Bukura Agricultural College",
     "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
     "class": "PUC",
     "subclass": "PUC3 (A)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya School of TVET",
     "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
     "class": "PUC",
     "subclass": "PUC3 (A)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya Water Institute",
     "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
     "class": "PUC",
     "subclass": "PUC3 (A)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kabete National Polytechnic",
     "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
     "class": "PUC",
     "subclass": "PUC3 (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": "Ministry of Education"
   },
   {
     "name": "Kenya Coast National Polytechnic",
     "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
     "class": "PUC",
     "subclass": "PUC3 (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": "Ministry of Education"
   },
   {
     "name": "Kisii National Polytechnic",
     "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
     "class": "PUC",
     "subclass": "PUC3 (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": "Ministry of Education"
   },
   {
     "name": "Kisumu National Polytechnic",
     "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
     "class": "PUC",
     "subclass": "PUC3 (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": "Ministry of Education"
   },
   {
     "name": "Kitale National Polytechnic",
     "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
     "class": "PUC",
     "subclass": "PUC3 (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": "Ministry of Education"
   },
   {
     "name": "Meru National Polytechnic",
     "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
     "class": "PUC",
     "subclass": "PUC3 (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": "Ministry of Education"
   },
   {
     "name": "North Eastern National Polytechnic",
     "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
     "class": "PUC",
     "subclass": "PUC3 (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": "Ministry of Education"
   },
   {
     "name": "Nyandarua National Polytechnic",
     "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
     "class": "PUC",
     "subclass": "PUC3 (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": "Ministry of Education"
   },
   {
     "name": "Nyeri National Polytechnic",
     "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
     "class": "PUC",
     "subclass": "PUC3 (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": "Ministry of Education"
   },
   {
     "name": "Sigalagala National Polytechnic",
     "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
     "class": "PUC",
     "subclass": "PUC3 (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": "Ministry of Education"
   },
   {
     "name": "The Eldoret National Polytechnic",
     "cluster": "PUBLIC UNIVERSITIES AND COLLEGES",
     "class": "PUC",
     "subclass": "PUC3 (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": "Ministry of Education"
   },
   {
     "name": "Kenyatta National Hospital",
     "cluster": "NATIONAL REFERRAL HOSPITALS",
     "class": "NRH",
     "subclass": "NRH (A)",
-    "phase": 1
+    "phase": 1,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenyatta University Teaching and Referral Hospital",
     "cluster": "NATIONAL REFERRAL HOSPITALS",
     "class": "NRH",
     "subclass": "NRH (A)",
-    "phase": 1
+    "phase": 1,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Moi Teaching and Referral Hospital",
     "cluster": "NATIONAL REFERRAL HOSPITALS",
     "class": "NRH",
     "subclass": "NRH (A)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Mathari National Teaching and Referral Hospital",
     "cluster": "NATIONAL REFERRAL HOSPITALS",
     "class": "NRH",
     "subclass": "NRH (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya Agricultural and Livestock Research Organization",
     "cluster": "RESEARCH INSTITUTIONS",
     "class": "RI",
     "subclass": "RI (A)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya Institute of Public Policy Research & Analysis",
     "cluster": "RESEARCH INSTITUTIONS",
     "class": "RI",
     "subclass": "RI (A)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya Medical Research Institute (KEMRI)",
     "cluster": "RESEARCH INSTITUTIONS",
     "class": "RI",
     "subclass": "RI (A)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Centre for Mathematics, Science and Technology Education in Africa",
     "cluster": "RESEARCH INSTITUTIONS",
     "class": "RI",
     "subclass": "RI (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya Education Management Institute",
     "cluster": "RESEARCH INSTITUTIONS",
     "class": "RI",
     "subclass": "RI (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya Foreign Service Institute",
     "cluster": "RESEARCH INSTITUTIONS",
     "class": "RI",
     "subclass": "RI (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya Forestry Research Institute",
     "cluster": "RESEARCH INSTITUTIONS",
     "class": "RI",
     "subclass": "RI (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya Industrial Research & Development Institute",
     "cluster": "RESEARCH INSTITUTIONS",
     "class": "RI",
     "subclass": "RI (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya Institute of Primate Research",
     "cluster": "RESEARCH INSTITUTIONS",
     "class": "RI",
     "subclass": "RI (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya Marine & Fisheries Research Institute",
     "cluster": "RESEARCH INSTITUTIONS",
     "class": "RI",
     "subclass": "RI (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "National Crime Research Centre",
     "cluster": "RESEARCH INSTITUTIONS",
     "class": "RI",
     "subclass": "RI (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "National Museums of Kenya",
     "cluster": "RESEARCH INSTITUTIONS",
     "class": "RI",
     "subclass": "RI (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Tourism Research Institute",
     "cluster": "RESEARCH INSTITUTIONS",
     "class": "RI",
     "subclass": "RI (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Wildlife Research Training Institute",
     "cluster": "RESEARCH INSTITUTIONS",
     "class": "RI",
     "subclass": "RI (B)",
-    "phase": 1
+    "phase": 1,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Regional Centre for Ground Water Resources, Education, Training and Research in East Africa",
     "cluster": "RESEARCH INSTITUTIONS",
     "class": "RI",
     "subclass": "RI (B)",
-    "phase": 2
+    "phase": 2,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya National Archives",
     "cluster": null,
     "class": null,
     "subclass": null,
-    "phase": 1
+    "phase": 1,
+    "classification": "State Corporation",
+    "ministry": null
   },
   {
     "name": "Kenya News Agency",
     "cluster": null,
     "class": null,
     "subclass": null,
-    "phase": 1
+    "phase": 1,
+    "classification": "State Corporation",
+    "ministry": null
+  },
+  {
+    "name": "County Government of Nairobi",
+    "cluster": "DEVOLVED GOVERNMENTS",
+    "class": "CG",
+    "subclass": null,
+    "classification": "County Government",
+    "ministry": "Council of Governors",
+    "phase": 2
+  },
+  {
+    "name": "County Government of Kiambu",
+    "cluster": "DEVOLVED GOVERNMENTS",
+    "class": "CG",
+    "subclass": null,
+    "classification": "County Government",
+    "ministry": "Council of Governors",
+    "phase": 2
+  },
+  {
+    "name": "County Government of Kirinyaga",
+    "cluster": "DEVOLVED GOVERNMENTS",
+    "class": "CG",
+    "subclass": null,
+    "classification": "County Government",
+    "ministry": "Council of Governors",
+    "phase": 2
+  },
+  {
+    "name": "County Government of Murang'a",
+    "cluster": "DEVOLVED GOVERNMENTS",
+    "class": "CG",
+    "subclass": null,
+    "classification": "County Government",
+    "ministry": "Council of Governors",
+    "phase": 2
+  },
+  {
+    "name": "County Government of Nyandarua",
+    "cluster": "DEVOLVED GOVERNMENTS",
+    "class": "CG",
+    "subclass": null,
+    "classification": "County Government",
+    "ministry": "Council of Governors",
+    "phase": 2
+  },
+  {
+    "name": "County Government of Nyeri",
+    "cluster": "DEVOLVED GOVERNMENTS",
+    "class": "CG",
+    "subclass": null,
+    "classification": "County Government",
+    "ministry": "Council of Governors",
+    "phase": 2
+  },
+  {
+    "name": "County Government of Kilifi",
+    "cluster": "DEVOLVED GOVERNMENTS",
+    "class": "CG",
+    "subclass": null,
+    "classification": "County Government",
+    "ministry": "Council of Governors",
+    "phase": 2
+  },
+  {
+    "name": "County Government of Kwale",
+    "cluster": "DEVOLVED GOVERNMENTS",
+    "class": "CG",
+    "subclass": null,
+    "classification": "County Government",
+    "ministry": "Council of Governors",
+    "phase": 2
+  },
+  {
+    "name": "County Government of Lamu",
+    "cluster": "DEVOLVED GOVERNMENTS",
+    "class": "CG",
+    "subclass": null,
+    "classification": "County Government",
+    "ministry": "Council of Governors",
+    "phase": 2
+  },
+  {
+    "name": "County Government of Mombasa",
+    "cluster": "DEVOLVED GOVERNMENTS",
+    "class": "CG",
+    "subclass": null,
+    "classification": "County Government",
+    "ministry": "Council of Governors",
+    "phase": 2
+  },
+  {
+    "name": "County Government of Taita-Taveta",
+    "cluster": "DEVOLVED GOVERNMENTS",
+    "class": "CG",
+    "subclass": null,
+    "classification": "County Government",
+    "ministry": "Council of Governors",
+    "phase": 2
+  },
+  {
+    "name": "County Government of Tana River",
+    "cluster": "DEVOLVED GOVERNMENTS",
+    "class": "CG",
+    "subclass": null,
+    "classification": "County Government",
+    "ministry": "Council of Governors",
+    "phase": 2
+  },
+  {
+    "name": "County Government of Embu",
+    "cluster": "DEVOLVED GOVERNMENTS",
+    "class": "CG",
+    "subclass": null,
+    "classification": "County Government",
+    "ministry": "Council of Governors",
+    "phase": 2
+  },
+  {
+    "name": "County Government of Isiolo",
+    "cluster": "DEVOLVED GOVERNMENTS",
+    "class": "CG",
+    "subclass": null,
+    "classification": "County Government",
+    "ministry": "Council of Governors",
+    "phase": 2
+  },
+  {
+    "name": "County Government of Kitui",
+    "cluster": "DEVOLVED GOVERNMENTS",
+    "class": "CG",
+    "subclass": null,
+    "classification": "County Government",
+    "ministry": "Council of Governors",
+    "phase": 2
+  },
+  {
+    "name": "County Government of Machakos",
+    "cluster": "DEVOLVED GOVERNMENTS",
+    "class": "CG",
+    "subclass": null,
+    "classification": "County Government",
+    "ministry": "Council of Governors",
+    "phase": 2
+  },
+  {
+    "name": "County Government of Makueni",
+    "cluster": "DEVOLVED GOVERNMENTS",
+    "class": "CG",
+    "subclass": null,
+    "classification": "County Government",
+    "ministry": "Council of Governors",
+    "phase": 2
+  },
+  {
+    "name": "County Government of Marsabit",
+    "cluster": "DEVOLVED GOVERNMENTS",
+    "class": "CG",
+    "subclass": null,
+    "classification": "County Government",
+    "ministry": "Council of Governors",
+    "phase": 2
+  },
+  {
+    "name": "County Government of Meru",
+    "cluster": "DEVOLVED GOVERNMENTS",
+    "class": "CG",
+    "subclass": null,
+    "classification": "County Government",
+    "ministry": "Council of Governors",
+    "phase": 2
+  },
+  {
+    "name": "County Government of Tharaka-Nithi",
+    "cluster": "DEVOLVED GOVERNMENTS",
+    "class": "CG",
+    "subclass": null,
+    "classification": "County Government",
+    "ministry": "Council of Governors",
+    "phase": 2
+  },
+  {
+    "name": "County Government of Garissa",
+    "cluster": "DEVOLVED GOVERNMENTS",
+    "class": "CG",
+    "subclass": null,
+    "classification": "County Government",
+    "ministry": "Council of Governors",
+    "phase": 2
+  },
+  {
+    "name": "County Government of Mandera",
+    "cluster": "DEVOLVED GOVERNMENTS",
+    "class": "CG",
+    "subclass": null,
+    "classification": "County Government",
+    "ministry": "Council of Governors",
+    "phase": 2
+  },
+  {
+    "name": "County Government of Wajir",
+    "cluster": "DEVOLVED GOVERNMENTS",
+    "class": "CG",
+    "subclass": null,
+    "classification": "County Government",
+    "ministry": "Council of Governors",
+    "phase": 2
+  },
+  {
+    "name": "County Government of Homa Bay",
+    "cluster": "DEVOLVED GOVERNMENTS",
+    "class": "CG",
+    "subclass": null,
+    "classification": "County Government",
+    "ministry": "Council of Governors",
+    "phase": 2
+  },
+  {
+    "name": "County Government of Kisii",
+    "cluster": "DEVOLVED GOVERNMENTS",
+    "class": "CG",
+    "subclass": null,
+    "classification": "County Government",
+    "ministry": "Council of Governors",
+    "phase": 2
+  },
+  {
+    "name": "County Government of Kisumu",
+    "cluster": "DEVOLVED GOVERNMENTS",
+    "class": "CG",
+    "subclass": null,
+    "classification": "County Government",
+    "ministry": "Council of Governors",
+    "phase": 2
+  },
+  {
+    "name": "County Government of Migori",
+    "cluster": "DEVOLVED GOVERNMENTS",
+    "class": "CG",
+    "subclass": null,
+    "classification": "County Government",
+    "ministry": "Council of Governors",
+    "phase": 2
+  },
+  {
+    "name": "County Government of Nyamira",
+    "cluster": "DEVOLVED GOVERNMENTS",
+    "class": "CG",
+    "subclass": null,
+    "classification": "County Government",
+    "ministry": "Council of Governors",
+    "phase": 2
+  },
+  {
+    "name": "County Government of Siaya",
+    "cluster": "DEVOLVED GOVERNMENTS",
+    "class": "CG",
+    "subclass": null,
+    "classification": "County Government",
+    "ministry": "Council of Governors",
+    "phase": 2
+  },
+  {
+    "name": "County Government of Baringo",
+    "cluster": "DEVOLVED GOVERNMENTS",
+    "class": "CG",
+    "subclass": null,
+    "classification": "County Government",
+    "ministry": "Council of Governors",
+    "phase": 2
+  },
+  {
+    "name": "County Government of Bomet",
+    "cluster": "DEVOLVED GOVERNMENTS",
+    "class": "CG",
+    "subclass": null,
+    "classification": "County Government",
+    "ministry": "Council of Governors",
+    "phase": 2
+  },
+  {
+    "name": "County Government of Elgeyo-Marakwet",
+    "cluster": "DEVOLVED GOVERNMENTS",
+    "class": "CG",
+    "subclass": null,
+    "classification": "County Government",
+    "ministry": "Council of Governors",
+    "phase": 2
+  },
+  {
+    "name": "County Government of Kajiado",
+    "cluster": "DEVOLVED GOVERNMENTS",
+    "class": "CG",
+    "subclass": null,
+    "classification": "County Government",
+    "ministry": "Council of Governors",
+    "phase": 2
+  },
+  {
+    "name": "County Government of Kericho",
+    "cluster": "DEVOLVED GOVERNMENTS",
+    "class": "CG",
+    "subclass": null,
+    "classification": "County Government",
+    "ministry": "Council of Governors",
+    "phase": 2
+  },
+  {
+    "name": "County Government of Laikipia",
+    "cluster": "DEVOLVED GOVERNMENTS",
+    "class": "CG",
+    "subclass": null,
+    "classification": "County Government",
+    "ministry": "Council of Governors",
+    "phase": 2
+  },
+  {
+    "name": "County Government of Nakuru",
+    "cluster": "DEVOLVED GOVERNMENTS",
+    "class": "CG",
+    "subclass": null,
+    "classification": "County Government",
+    "ministry": "Council of Governors",
+    "phase": 2
+  },
+  {
+    "name": "County Government of Nandi",
+    "cluster": "DEVOLVED GOVERNMENTS",
+    "class": "CG",
+    "subclass": null,
+    "classification": "County Government",
+    "ministry": "Council of Governors",
+    "phase": 2
+  },
+  {
+    "name": "County Government of Narok",
+    "cluster": "DEVOLVED GOVERNMENTS",
+    "class": "CG",
+    "subclass": null,
+    "classification": "County Government",
+    "ministry": "Council of Governors",
+    "phase": 2
+  },
+  {
+    "name": "County Government of Samburu",
+    "cluster": "DEVOLVED GOVERNMENTS",
+    "class": "CG",
+    "subclass": null,
+    "classification": "County Government",
+    "ministry": "Council of Governors",
+    "phase": 2
+  },
+  {
+    "name": "County Government of Trans Nzoia",
+    "cluster": "DEVOLVED GOVERNMENTS",
+    "class": "CG",
+    "subclass": null,
+    "classification": "County Government",
+    "ministry": "Council of Governors",
+    "phase": 2
+  },
+  {
+    "name": "County Government of Turkana",
+    "cluster": "DEVOLVED GOVERNMENTS",
+    "class": "CG",
+    "subclass": null,
+    "classification": "County Government",
+    "ministry": "Council of Governors",
+    "phase": 2
+  },
+  {
+    "name": "County Government of Uasin Gishu",
+    "cluster": "DEVOLVED GOVERNMENTS",
+    "class": "CG",
+    "subclass": null,
+    "classification": "County Government",
+    "ministry": "Council of Governors",
+    "phase": 2
+  },
+  {
+    "name": "County Government of West Pokot",
+    "cluster": "DEVOLVED GOVERNMENTS",
+    "class": "CG",
+    "subclass": null,
+    "classification": "County Government",
+    "ministry": "Council of Governors",
+    "phase": 2
+  },
+  {
+    "name": "County Government of Bungoma",
+    "cluster": "DEVOLVED GOVERNMENTS",
+    "class": "CG",
+    "subclass": null,
+    "classification": "County Government",
+    "ministry": "Council of Governors",
+    "phase": 2
+  },
+  {
+    "name": "County Government of Busia",
+    "cluster": "DEVOLVED GOVERNMENTS",
+    "class": "CG",
+    "subclass": null,
+    "classification": "County Government",
+    "ministry": "Council of Governors",
+    "phase": 2
+  },
+  {
+    "name": "County Government of Kakamega",
+    "cluster": "DEVOLVED GOVERNMENTS",
+    "class": "CG",
+    "subclass": null,
+    "classification": "County Government",
+    "ministry": "Council of Governors",
+    "phase": 2
+  },
+  {
+    "name": "County Government of Vihiga",
+    "cluster": "DEVOLVED GOVERNMENTS",
+    "class": "CG",
+    "subclass": null,
+    "classification": "County Government",
+    "ministry": "Council of Governors",
+    "phase": 2
+  },
+  {
+    "name": "Tseikuru National Polytechnic",
+    "cluster": "NATIONAL POLYTECHNICS",
+    "class": "NP",
+    "subclass": null,
+    "classification": "State Corporation",
+    "ministry": "Ministry of Education",
+    "phase": 2
+  },
+  {
+    "name": "Kajiado National Polytechnic",
+    "cluster": "NATIONAL POLYTECHNICS",
+    "class": "NP",
+    "subclass": null,
+    "classification": "State Corporation",
+    "ministry": "Ministry of Education",
+    "phase": 2
+  },
+  {
+    "name": "Kaiboi National Polytechnic",
+    "cluster": "NATIONAL POLYTECHNICS",
+    "class": "NP",
+    "subclass": null,
+    "classification": "State Corporation",
+    "ministry": "Ministry of Education",
+    "phase": 2
+  },
+  {
+    "name": "Jeremiah Nyagah National Polytechnic",
+    "cluster": "NATIONAL POLYTECHNICS",
+    "class": "NP",
+    "subclass": null,
+    "classification": "State Corporation",
+    "ministry": "Ministry of Education",
+    "phase": 2
+  },
+  {
+    "name": "Bungoma National Polytechnic",
+    "cluster": "NATIONAL POLYTECHNICS",
+    "class": "NP",
+    "subclass": null,
+    "classification": "State Corporation",
+    "ministry": "Ministry of Education",
+    "phase": 2
+  },
+  {
+    "name": "Shamberere National Polytechnic",
+    "cluster": "NATIONAL POLYTECHNICS",
+    "class": "NP",
+    "subclass": null,
+    "classification": "State Corporation",
+    "ministry": "Ministry of Education",
+    "phase": 2
+  },
+  {
+    "name": "Kericho National Polytechnic",
+    "cluster": "NATIONAL POLYTECHNICS",
+    "class": "NP",
+    "subclass": null,
+    "classification": "State Corporation",
+    "ministry": "Ministry of Education",
+    "phase": 2
+  },
+  {
+    "name": "Nyamira National Polytechnic",
+    "cluster": "NATIONAL POLYTECHNICS",
+    "class": "NP",
+    "subclass": null,
+    "classification": "State Corporation",
+    "ministry": "Ministry of Education",
+    "phase": 2
+  },
+  {
+    "name": "Mawego National Polytechnic",
+    "cluster": "NATIONAL POLYTECHNICS",
+    "class": "NP",
+    "subclass": null,
+    "classification": "State Corporation",
+    "ministry": "Ministry of Education",
+    "phase": 2
+  },
+  {
+    "name": "Baringo National Polytechnic",
+    "cluster": "NATIONAL POLYTECHNICS",
+    "class": "NP",
+    "subclass": null,
+    "classification": "State Corporation",
+    "ministry": "Ministry of Education",
+    "phase": 2
+  },
+  {
+    "name": "Rift Valley National Polytechnic",
+    "cluster": "NATIONAL POLYTECHNICS",
+    "class": "NP",
+    "subclass": null,
+    "classification": "State Corporation",
+    "ministry": "Ministry of Education",
+    "phase": 2
+  },
+  {
+    "name": "Kiambu National Polytechnic",
+    "cluster": "NATIONAL POLYTECHNICS",
+    "class": "NP",
+    "subclass": null,
+    "classification": "State Corporation",
+    "ministry": "Ministry of Education",
+    "phase": 2
+  },
+  {
+    "name": "Taita Taveta National Polytechnic",
+    "cluster": "NATIONAL POLYTECHNICS",
+    "class": "NP",
+    "subclass": null,
+    "classification": "State Corporation",
+    "ministry": "Ministry of Education",
+    "phase": 2
+  },
+  {
+    "name": "Nairobi National Polytechnic",
+    "cluster": "NATIONAL POLYTECHNICS",
+    "class": "NP",
+    "subclass": null,
+    "classification": "State Corporation",
+    "ministry": "Ministry of Education",
+    "phase": 2
+  },
+  {
+    "name": "Michuki National Polytechnic",
+    "cluster": "NATIONAL POLYTECHNICS",
+    "class": "NP",
+    "subclass": null,
+    "classification": "State Corporation",
+    "ministry": "Ministry of Education",
+    "phase": 2
+  },
+  {
+    "name": "Ollessos National Polytechnic",
+    "cluster": "NATIONAL POLYTECHNICS",
+    "class": "NP",
+    "subclass": null,
+    "classification": "State Corporation",
+    "ministry": "Ministry of Education",
+    "phase": 2
+  },
+  {
+    "name": "Kaimosi Friends National Polytechnic",
+    "cluster": "NATIONAL POLYTECHNICS",
+    "class": "NP",
+    "subclass": null,
+    "classification": "State Corporation",
+    "ministry": "Ministry of Education",
+    "phase": 2
+  },
+  {
+    "name": "Siaya National Polytechnic",
+    "cluster": "NATIONAL POLYTECHNICS",
+    "class": "NP",
+    "subclass": null,
+    "classification": "State Corporation",
+    "ministry": "Ministry of Education",
+    "phase": 2
+  },
+  {
+    "name": "Mitunguu National Polytechnic",
+    "cluster": "NATIONAL POLYTECHNICS",
+    "class": "NP",
+    "subclass": null,
+    "classification": "State Corporation",
+    "ministry": "Ministry of Education",
+    "phase": 2
+  },
+  {
+    "name": "Kisiwa National Polytechnic",
+    "cluster": "NATIONAL POLYTECHNICS",
+    "class": "NP",
+    "subclass": null,
+    "classification": "State Corporation",
+    "ministry": "Ministry of Education",
+    "phase": 2
+  },
+  {
+    "name": "The Bumbe National Polytechnic",
+    "cluster": "NATIONAL POLYTECHNICS",
+    "class": "NP",
+    "subclass": null,
+    "classification": "State Corporation",
+    "ministry": "Ministry of Education",
+    "phase": 2
+  },
+  {
+    "name": "The Kipsoen National Polytechnic",
+    "cluster": "NATIONAL POLYTECHNICS",
+    "class": "NP",
+    "subclass": null,
+    "classification": "State Corporation",
+    "ministry": "Ministry of Education",
+    "phase": 2
+  },
+  {
+    "name": "Independent Electoral and Boundaries Commission (IEBC)",
+    "cluster": null,
+    "class": null,
+    "subclass": null,
+    "classification": "Constitutional Commission",
+    "ministry": null,
+    "phase": 2
+  },
+  {
+    "name": "Government Printer (Government Press)",
+    "cluster": null,
+    "class": null,
+    "subclass": null,
+    "classification": "Government Department",
+    "ministry": "Ministry of Interior and National Administration",
+    "phase": 2
   }
 ]

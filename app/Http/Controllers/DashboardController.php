@@ -241,8 +241,12 @@ class DashboardController extends Controller
         $phase = $request->integer('phase') ?: null;
         $search = $request->string('q')->toString() ?: null;
 
+        $classification = $request->string('classification')->toString() ?: null;
+
         $corporations = StateCorporation::query()
+            ->with('ministry')
             ->when($phase, fn ($q, $v) => $q->where('phase', $v))
+            ->when($classification, fn ($q, $v) => $q->where('classification', $v))
             ->when($search, fn ($q, $v) => $q->where('name', 'like', "%{$v}%"))
             ->orderBy('phase')
             ->orderBy('cluster')
@@ -253,7 +257,9 @@ class DashboardController extends Controller
             'corporations' => $corporations,
             'phase1Count' => StateCorporation::phaseOne()->count(),
             'phase2Count' => StateCorporation::phaseTwo()->count(),
-            'filters' => ['phase' => $phase, 'q' => $search],
+            'classifications' => StateCorporation::query()
+                ->select('classification')->distinct()->orderBy('classification')->pluck('classification'),
+            'filters' => ['phase' => $phase, 'q' => $search, 'classification' => $classification],
         ]);
     }
 
