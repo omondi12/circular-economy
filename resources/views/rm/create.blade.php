@@ -263,7 +263,7 @@
                     </div>
                 </div>
 
-                <x-form-field label="Description" name="description" :value="old('description')" />
+                <x-form-field label="Description" name="description" :value="old('description')" placeholder="e.g. specify the exact type when Subcategory is 'Other'" />
             </div>
 
             {{-- Date --}}
@@ -437,15 +437,18 @@
             if (!lot || !category) {
                 fillSelect(subcatSelect, [], 'Select a category first…');
                 populateUnits([]);
+                toggleOtherHint(null);
                 return;
             }
 
             if (lot.has_subcategories) {
                 fillSelect(subcatSelect, Object.entries(category.subcategories).map(([k, s]) => [k, s.label]), 'Select a subcategory…');
                 populateUnits([]);
+                toggleOtherHint(null);
             } else {
                 // No subcategory level - units come straight from the category.
                 populateUnits(category.units);
+                toggleOtherHint(null);
             }
         }
 
@@ -454,6 +457,21 @@
             const subKey = document.getElementById('subcategory').value;
             const sub = category && category.subcategories ? category.subcategories[subKey] : null;
             populateUnits(sub ? sub.units : []);
+            toggleOtherHint(sub);
+        }
+
+        // A subcategory labelled "Other ..." means the RM's actual item
+        // isn't in the list - the Description field is how they type what
+        // it actually is, so make that connection obvious (and required)
+        // right when they pick it, rather than leaving Description as a
+        // generic optional afterthought.
+        function toggleOtherHint(sub) {
+            const description = document.getElementById('description');
+            const isOther = !!sub && sub.label.startsWith('Other');
+            description.required = isOther;
+            description.placeholder = isOther
+                ? 'Please specify the waste type…'
+                : "e.g. specify the exact type when Subcategory is 'Other'";
         }
 
         function populateUnits(unitKeys) {

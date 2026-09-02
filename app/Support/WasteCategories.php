@@ -5,15 +5,10 @@ namespace App\Support;
 /**
  * Lot -> Category -> Subcategory -> Unit of Measure, per the boss's "AMAC
  * Lot Category Proposal" brief. Replaces the earlier flat Lot -> Category
- * (always kg) shape - government assets aren't all weighed, so Lot 1 now
- * classifies WHAT is being disposed of (category/subcategory) separately
+ * (always kg) shape - government assets aren't all weighed, so both Lots
+ * now classify WHAT is being disposed of (category/subcategory) separately
  * from HOW it's counted (a unit the RM picks from that subcategory's valid
  * list), rather than forcing everything into kilograms.
- *
- * Lot 2 (waste) keeps its original 2-level shape (Category -> Units) per
- * the brief - "Lot 2 is generally acceptable... keep it mostly as it is" -
- * waste genuinely is measured by weight/volume, so no subcategory split was
- * requested there.
  *
  * Five Lot 1 categories (Plant & Machinery, Stores & Materials, Scrap
  * Materials, Tyres & Automotive Parts, Other Government Assets) were listed
@@ -21,6 +16,13 @@ namespace App\Support;
  * "General ..." subcategory here so the Lot -> Category -> Subcategory ->
  * Unit shape stays uniform across all of Lot 1; flag to the boss if he'd
  * rather see these broken out further.
+ *
+ * Lot 2 (waste) got the same Category -> Subcategory split added
+ * (2026-09-02, per the boss) - every category ends with an "Other ..."
+ * subcategory for whatever isn't named, paired with the form's existing
+ * free-text Description field for the RM to type the specific waste type.
+ * The catch-all "Other Waste" category keeps a single generic subcategory
+ * so its own shape stays uniform with everything else.
  */
 class WasteCategories
 {
@@ -130,15 +132,73 @@ class WasteCategories
         self::LOT_DISPOSAL => [
             'label' => 'Lot 2 - Waste Disposal Management',
             'short_label' => 'Lot 2 (Disposal)',
-            'has_subcategories' => false,
+            'has_subcategories' => true,
             'categories' => [
-                'medical_waste' => ['label' => 'Medical Waste', 'units' => ['kg']],
-                'industrial_hazardous' => ['label' => 'Industrial / Hazardous Waste', 'units' => ['kg', 'tonnes']],
-                'liquid_waste' => ['label' => 'Liquid Waste', 'units' => ['litres', 'm3']],
-                'ewaste' => ['label' => 'E-Waste', 'units' => ['kg', 'tonnes']],
-                'solid_waste' => ['label' => 'Solid Waste', 'units' => ['kg', 'tonnes']],
-                'construction_waste' => ['label' => 'Construction Waste', 'units' => ['tonnes', 'm3']],
-                'other_waste' => ['label' => 'Other Waste', 'units' => ['kg', 'tonnes', 'litres', 'm3']],
+                'medical_waste' => [
+                    'label' => 'Medical Waste',
+                    'subcategories' => [
+                        'sharps' => ['label' => 'Sharps Waste', 'units' => ['kg']],
+                        'pathological' => ['label' => 'Pathological Waste', 'units' => ['kg']],
+                        'pharmaceutical' => ['label' => 'Pharmaceutical Waste', 'units' => ['kg']],
+                        'infectious' => ['label' => 'Infectious Waste', 'units' => ['kg']],
+                        'non_hazardous_medical' => ['label' => 'Non-Hazardous Medical Waste', 'units' => ['kg']],
+                        'other_medical' => ['label' => 'Other Medical Waste', 'units' => ['kg']],
+                    ],
+                ],
+                'industrial_hazardous' => [
+                    'label' => 'Industrial / Hazardous Waste',
+                    'subcategories' => [
+                        'chemical_waste' => ['label' => 'Chemical Waste', 'units' => ['kg', 'tonnes']],
+                        'used_oil_lubricants' => ['label' => 'Used Oil & Lubricants', 'units' => ['kg', 'tonnes']],
+                        'contaminated_packaging' => ['label' => 'Contaminated Packaging', 'units' => ['kg', 'tonnes']],
+                        'batteries_accumulators' => ['label' => 'Batteries & Accumulators', 'units' => ['kg', 'tonnes']],
+                        'asbestos' => ['label' => 'Asbestos Waste', 'units' => ['kg', 'tonnes']],
+                        'other_hazardous' => ['label' => 'Other Hazardous Waste', 'units' => ['kg', 'tonnes']],
+                    ],
+                ],
+                'liquid_waste' => [
+                    'label' => 'Liquid Waste',
+                    'subcategories' => [
+                        'wastewater_sewage' => ['label' => 'Wastewater / Sewage', 'units' => ['litres', 'm3']],
+                        'sludge' => ['label' => 'Sludge', 'units' => ['litres', 'm3']],
+                        'chemical_effluent' => ['label' => 'Chemical Effluent', 'units' => ['litres', 'm3']],
+                        'other_liquid' => ['label' => 'Other Liquid Waste', 'units' => ['litres', 'm3']],
+                    ],
+                ],
+                'ewaste' => [
+                    'label' => 'E-Waste',
+                    'subcategories' => [
+                        'computers_it' => ['label' => 'Computers & IT Equipment', 'units' => ['kg', 'tonnes']],
+                        'household_appliances' => ['label' => 'Household Appliances', 'units' => ['kg', 'tonnes']],
+                        'batteries' => ['label' => 'Batteries', 'units' => ['kg', 'tonnes']],
+                        'cables_accessories' => ['label' => 'Cables & Accessories', 'units' => ['kg', 'tonnes']],
+                        'other_ewaste' => ['label' => 'Other E-Waste', 'units' => ['kg', 'tonnes']],
+                    ],
+                ],
+                'solid_waste' => [
+                    'label' => 'Solid Waste',
+                    'subcategories' => [
+                        'general_office_waste' => ['label' => 'General Office Waste', 'units' => ['kg', 'tonnes']],
+                        'packaging_waste' => ['label' => 'Packaging Waste', 'units' => ['kg', 'tonnes']],
+                        'organic_waste' => ['label' => 'Organic Waste', 'units' => ['kg', 'tonnes']],
+                        'other_solid' => ['label' => 'Other Solid Waste', 'units' => ['kg', 'tonnes']],
+                    ],
+                ],
+                'construction_waste' => [
+                    'label' => 'Construction Waste',
+                    'subcategories' => [
+                        'demolition_debris' => ['label' => 'Demolition Debris', 'units' => ['tonnes', 'm3']],
+                        'excavation_material' => ['label' => 'Excavation Material', 'units' => ['tonnes', 'm3']],
+                        'building_materials' => ['label' => 'Building Materials', 'units' => ['tonnes', 'm3']],
+                        'other_construction' => ['label' => 'Other Construction Waste', 'units' => ['tonnes', 'm3']],
+                    ],
+                ],
+                'other_waste' => [
+                    'label' => 'Other Waste',
+                    'subcategories' => [
+                        'general' => ['label' => 'Other Waste', 'units' => ['kg', 'tonnes', 'litres', 'm3']],
+                    ],
+                ],
             ],
         ],
     ];
