@@ -24,10 +24,11 @@
             </div>
         </header>
 
-        <div class="grid grid-cols-1 sm:grid-cols-4 gap-4 mb-6">
+        <div class="grid grid-cols-1 sm:grid-cols-5 gap-4 mb-6">
             <x-stat-tile label="Relationship Managers" :value="number_format($userCount)" hint="Tap to manage accounts" icon="building" tone="green" :href="route('admin.users')" />
             <x-stat-tile label="Total Submissions" :value="number_format($submissionCount)" hint="Across all RMs and legacy data" icon="document" tone="gold" :href="route('dashboard')" />
             <x-stat-tile label="RM Performance" value="View" hint="Ministries and activity per RM" icon="landmark" tone="violet" :href="route('admin.rm-performance')" />
+            <x-stat-tile label="Assign RMs" value="Manage" hint="Assign or shift RMs across ministries and clients" icon="user" tone="rose" :href="route('admin.assign-rms')" />
             <x-stat-tile label="Audit Log" value="View" hint="Every account and submission action" icon="scale" tone="teal" :href="route('admin.audit-log')" />
         </div>
 
