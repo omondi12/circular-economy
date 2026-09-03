@@ -1,0 +1,425 @@
+[
+  {
+    "excel_name": "Kenya Wildlife Research & Training Institute",
+    "existing_name": "Wildlife Research Training Institute",
+    "industry": "Wildlife & Forestry",
+    "rm_name": "Benard Wambui"
+  },
+  {
+    "excel_name": "Kenya Wildlife Services",
+    "existing_name": "Kenya Wildlife Service",
+    "industry": "Wildlife & Forestry",
+    "rm_name": "Dennis Thuo"
+  },
+  {
+    "excel_name": "State Department for Wildlife",
+    "new": true,
+    "cluster": null,
+    "classification": "State Department",
+    "ministry": "Ministry of Tourism, Wildlife and Heritage",
+    "industry": "Wildlife & Forestry",
+    "rm_name": "Evaline Waithera"
+  },
+  {
+    "excel_name": "Kenya Ports Authority",
+    "existing_name": "Kenya Ports Authority",
+    "industry": "Maritime & Shipping",
+    "rm_name": "Felix Letia"
+  },
+  {
+    "excel_name": "Kenya Railways",
+    "existing_name": "Kenya Railways Corporation",
+    "industry": "Transport & Logistics",
+    "rm_name": "Grace Wambui"
+  },
+  {
+    "excel_name": "Kenya Airports Authority",
+    "existing_name": "Kenya Airports Authority",
+    "industry": "Maritime & Shipping",
+    "rm_name": "Jemimah Goiri"
+  },
+  {
+    "excel_name": "Kenya National Highways Authority",
+    "existing_name": "Kenya National Highways Authority (KeNHA)",
+    "industry": "Roads & Infrastructure",
+    "rm_name": "Josephine Wambui"
+  },
+  {
+    "excel_name": "Kenya Rural Roads Authority",
+    "existing_name": "Kenya Rural Roads Authority",
+    "industry": "Roads & Infrastructure",
+    "rm_name": "Peris Nduta"
+  },
+  {
+    "excel_name": "Kenya Urban Roads Authority",
+    "existing_name": "Kenya Urban Roads Authority",
+    "industry": "Roads & Infrastructure",
+    "rm_name": "Zamar Muthoni"
+  },
+  {
+    "excel_name": "Kenya Civil Aviation Authority",
+    "existing_name": "Kenya Civil Aviation Authority",
+    "industry": "Aviation & Aerospace",
+    "rm_name": "Ken Wambo"
+  },
+  {
+    "excel_name": "State Department for Roads",
+    "new": true,
+    "cluster": null,
+    "classification": "State Department",
+    "ministry": "Ministry of Roads and Transport",
+    "industry": "Roads & Infrastructure",
+    "rm_name": "Benard Wambui"
+  },
+  {
+    "excel_name": "State Department for Transport",
+    "new": true,
+    "cluster": null,
+    "classification": "State Department",
+    "ministry": "Ministry of Roads and Transport",
+    "industry": "Government & Public Administration",
+    "rm_name": "Dennis Thuo"
+  },
+  {
+    "excel_name": "State Department for Aviation and Space Development",
+    "new": true,
+    "cluster": null,
+    "classification": "State Department",
+    "ministry": null,
+    "industry": "Aviation & Aerospace",
+    "rm_name": "Evaline Waithera"
+  },
+  {
+    "excel_name": "State Department for Defence",
+    "new": true,
+    "cluster": null,
+    "classification": "State Department",
+    "ministry": "Ministry of Defence",
+    "industry": "Defence & Security",
+    "rm_name": "Felix Letia"
+  },
+  {
+    "excel_name": "Kenya Shipyards Ltd",
+    "existing_name": "Kenya Shipyard Ltd",
+    "industry": "Maritime & Shipping",
+    "rm_name": "Grace Wambui"
+  },
+  {
+    "excel_name": "Kenya Ordinance Factory",
+    "existing_name": "Kenya Ordinance and Factories Corporation (KOFC)",
+    "industry": "Defence & Security",
+    "rm_name": "Jemimah Goiri"
+  },
+  {
+    "excel_name": "Kenya National Shipping Line",
+    "existing_name": "Kenya National Shipping Line",
+    "industry": "Maritime & Shipping",
+    "rm_name": "Josephine Wambui"
+  },
+  {
+    "excel_name": "LAPSSET",
+    "existing_name": "LAPSSET Corridor Development Authority",
+    "industry": "Transport & Logistics",
+    "rm_name": "Peris Nduta"
+  },
+  {
+    "excel_name": "Kenya Revenue Authority",
+    "existing_name": "Kenya Revenue Authority",
+    "industry": "Revenue, Standards & Regulation",
+    "rm_name": "Zamar Muthoni"
+  },
+  {
+    "excel_name": "Kenya Bureau of Standards",
+    "existing_name": "Kenya Bureau of Standards",
+    "industry": "Revenue, Standards & Regulation",
+    "rm_name": "Ken Wambo"
+  },
+  {
+    "excel_name": "National Youth Service",
+    "existing_name": "National Youth Service",
+    "industry": "Government & Public Administration",
+    "rm_name": "Benard Wambui"
+  },
+  {
+    "excel_name": "Kenya School of Government",
+    "existing_name": "Kenya School of Government",
+    "industry": "Education & Research",
+    "rm_name": "Dennis Thuo"
+  },
+  {
+    "excel_name": "Kenya National Archives",
+    "existing_name": "Kenya National Archives",
+    "industry": "Archives & Culture",
+    "rm_name": "Evaline Waithera"
+  },
+  {
+    "excel_name": "Kenya Medical Supplies Agency",
+    "existing_name": "Kenya Medical Supplies Agency (KEMSA)",
+    "industry": "Health & Medical",
+    "rm_name": "Felix Letia"
+  },
+  {
+    "excel_name": "County Government of Nairobi",
+    "existing_name": "County Government of Nairobi",
+    "industry": "Government & Public Administration",
+    "rm_name": "Grace Wambui"
+  },
+  {
+    "excel_name": "County Government of Mombasa",
+    "existing_name": "County Government of Mombasa",
+    "industry": "Government & Public Administration",
+    "rm_name": "Jemimah Goiri"
+  },
+  {
+    "excel_name": "Independent Elections & Boundaries Commission",
+    "existing_name": "Independent Electoral and Boundaries Commission (IEBC)",
+    "industry": "Revenue, Standards & Regulation",
+    "rm_name": "Josephine Wambui"
+  },
+  {
+    "excel_name": "National Lands Commission",
+    "new": true,
+    "cluster": null,
+    "classification": "Constitutional Commission",
+    "ministry": null,
+    "industry": "Lands, Housing & Public Works",
+    "rm_name": "Peris Nduta"
+  },
+  {
+    "excel_name": "Kenya News Agency",
+    "existing_name": "Kenya News Agency",
+    "industry": "Media & Publishing",
+    "rm_name": "Zamar Muthoni"
+  },
+  {
+    "excel_name": "State Department for Housing",
+    "new": true,
+    "cluster": null,
+    "classification": "State Department",
+    "ministry": "Ministry of Lands, Public Works, Housing and Urban Development",
+    "industry": "Lands, Housing & Public Works",
+    "rm_name": "Ken Wambo"
+  },
+  {
+    "excel_name": "State Department for Public Works",
+    "new": true,
+    "cluster": null,
+    "classification": "State Department",
+    "ministry": "Ministry of Lands, Public Works, Housing and Urban Development",
+    "industry": "Lands, Housing & Public Works",
+    "rm_name": "Benard Wambui"
+  },
+  {
+    "excel_name": "State Department for Lands",
+    "new": true,
+    "cluster": null,
+    "classification": "State Department",
+    "ministry": "Ministry of Lands, Public Works, Housing and Urban Development",
+    "industry": "Lands, Housing & Public Works",
+    "rm_name": "Dennis Thuo"
+  },
+  {
+    "excel_name": "State Department for Interior",
+    "new": true,
+    "cluster": null,
+    "classification": "State Department",
+    "ministry": "Ministry of Interior and National Administration",
+    "industry": "Defence & Security",
+    "rm_name": "Evaline Waithera"
+  },
+  {
+    "excel_name": "State Department for Correctional Services",
+    "new": true,
+    "cluster": null,
+    "classification": "State Department",
+    "ministry": "Ministry of Interior and National Administration",
+    "industry": "Defence & Security",
+    "rm_name": "Felix Letia"
+  },
+  {
+    "excel_name": "State Department for Immigration Services",
+    "new": true,
+    "cluster": null,
+    "classification": "State Department",
+    "ministry": "Ministry of Interior and National Administration",
+    "industry": "Defence & Security",
+    "rm_name": "Grace Wambui"
+  },
+  {
+    "excel_name": "State Department for Energy",
+    "new": true,
+    "cluster": null,
+    "classification": "State Department",
+    "ministry": "Ministry of Energy and Petroleum",
+    "industry": "Energy & Petroleum",
+    "rm_name": "Jemimah Goiri"
+  },
+  {
+    "excel_name": "KPLC",
+    "existing_name": "Kenya Power and Lighting Company Ltd",
+    "industry": "Energy & Petroleum",
+    "rm_name": "Josephine Wambui"
+  },
+  {
+    "excel_name": "KENGEN",
+    "existing_name": "Kenya Electricity Generating Company",
+    "industry": "Energy & Petroleum",
+    "rm_name": "Peris Nduta"
+  },
+  {
+    "excel_name": "KETRACO",
+    "existing_name": "Kenya Electricity Transmission Company",
+    "industry": "Energy & Petroleum",
+    "rm_name": "Zamar Muthoni"
+  },
+  {
+    "excel_name": "REREC",
+    "existing_name": "Rural Electrification and Renewable Energy Corporation (REREC)",
+    "industry": "Energy & Petroleum",
+    "rm_name": "Ken Wambo"
+  },
+  {
+    "excel_name": "GDC",
+    "existing_name": "Geothermal Development Company (GDC)",
+    "industry": "Energy & Petroleum",
+    "rm_name": "Benard Wambui"
+  },
+  {
+    "excel_name": "State Department for Petroleum",
+    "new": true,
+    "cluster": null,
+    "classification": "State Department",
+    "ministry": "Ministry of Energy and Petroleum",
+    "industry": "Energy & Petroleum",
+    "rm_name": "Dennis Thuo"
+  },
+  {
+    "excel_name": "Kenya Pipeline",
+    "existing_name": "Kenya Pipeline Corporation",
+    "industry": "Energy & Petroleum",
+    "rm_name": "Evaline Waithera"
+  },
+  {
+    "excel_name": "NOCK",
+    "existing_name": "National Oil Corporation of Kenya (NOCK)",
+    "industry": "Energy & Petroleum",
+    "rm_name": "Felix Letia"
+  },
+  {
+    "excel_name": "CRBC",
+    "new": true,
+    "cluster": null,
+    "classification": "Private Company",
+    "ministry": null,
+    "industry": "Manufacturing & Industrial",
+    "rm_name": "Grace Wambui"
+  },
+  {
+    "excel_name": "JKUAT",
+    "existing_name": "Jomo Kenyatta University of Agriculture and Technology",
+    "industry": "Education & Research",
+    "rm_name": "Jemimah Goiri"
+  },
+  {
+    "excel_name": "Mama Ngina University",
+    "existing_name": "Mama Ngina University College",
+    "industry": "Education & Research",
+    "rm_name": "Josephine Wambui"
+  },
+  {
+    "excel_name": "University of Nairobi",
+    "existing_name": "University of Nairobi",
+    "industry": "Education & Research",
+    "rm_name": "Peris Nduta"
+  },
+  {
+    "excel_name": "Kenyatta University",
+    "existing_name": "Kenyatta University",
+    "industry": "Education & Research",
+    "rm_name": "Zamar Muthoni"
+  },
+  {
+    "excel_name": "National Irrigation Authority",
+    "existing_name": "National Irrigation Authority",
+    "industry": "Water & Irrigation",
+    "rm_name": "Ken Wambo"
+  },
+  {
+    "excel_name": "National Water Harvesting Authority",
+    "existing_name": "National Water Harvesting and Storage Authority",
+    "industry": "Water & Irrigation",
+    "rm_name": "Benard Wambui"
+  },
+  {
+    "excel_name": "NEMA",
+    "existing_name": "National Environment Management Authority",
+    "industry": "Environment",
+    "rm_name": "Dennis Thuo"
+  },
+  {
+    "excel_name": "KFS",
+    "existing_name": "Kenya Forest Service",
+    "industry": "Wildlife & Forestry",
+    "rm_name": "Evaline Waithera"
+  },
+  {
+    "excel_name": "Athi Water Works Authority",
+    "existing_name": "Athi Water Works Development Agency",
+    "industry": "Water & Irrigation",
+    "rm_name": "Felix Letia"
+  },
+  {
+    "excel_name": "Tana Water Works Authority",
+    "existing_name": "Tana Water Works Development Agency",
+    "industry": "Water & Irrigation",
+    "rm_name": "Grace Wambui"
+  },
+  {
+    "excel_name": "Central Rift Water Works Authority",
+    "existing_name": "Central Rift Valley Water Works Development Agency",
+    "industry": "Water & Irrigation",
+    "rm_name": "Jemimah Goiri"
+  },
+  {
+    "excel_name": "Kenyatta National Hospital",
+    "existing_name": "Kenyatta National Hospital",
+    "industry": "Health & Medical",
+    "rm_name": "Josephine Wambui"
+  },
+  {
+    "excel_name": "Kenyatta University Teaching & Referral Hospital",
+    "existing_name": "Kenyatta University Teaching and Referral Hospital",
+    "industry": "Education & Research",
+    "rm_name": "Peris Nduta"
+  },
+  {
+    "excel_name": "Telkom Kenya",
+    "existing_name": "Telkom Kenya Limited",
+    "industry": "Telecommunications & ICT",
+    "rm_name": "Zamar Muthoni"
+  },
+  {
+    "excel_name": "Safaricom",
+    "new": true,
+    "cluster": null,
+    "classification": "Private Company",
+    "ministry": null,
+    "industry": "Telecommunications & ICT",
+    "rm_name": "Ken Wambo"
+  },
+  {
+    "excel_name": "Kenya Literature Bureau",
+    "existing_name": "Kenya Literature Bureau",
+    "industry": "Media & Publishing",
+    "rm_name": "Benard Wambui"
+  },
+  {
+    "excel_name": "Executive Office of the President",
+    "new": true,
+    "cluster": null,
+    "classification": "Government Department",
+    "ministry": "The Presidency",
+    "industry": "Government & Public Administration",
+    "rm_name": "Dennis Thuo"
+  }
+]
