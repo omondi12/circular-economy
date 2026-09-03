@@ -1,0 +1,367 @@
+[
+  {
+    "name": "Kenya Police Service",
+    "classification": "State Corporation",
+    "ministry": "Ministry of Interior and National Administration"
+  },
+  {
+    "name": "Directorate of Criminal Investigations (DCI)",
+    "classification": "State Corporation",
+    "ministry": "Ministry of Interior and National Administration"
+  },
+  {
+    "name": "Kenya Prisons Service",
+    "classification": "State Corporation",
+    "ministry": "Ministry of Interior and National Administration"
+  },
+  {
+    "name": "Probation and Aftercare Service",
+    "classification": "State Corporation",
+    "ministry": "Ministry of Interior and National Administration"
+  },
+  {
+    "name": "National Registration Bureau",
+    "classification": "State Corporation",
+    "ministry": "Ministry of Interior and National Administration"
+  },
+  {
+    "name": "Kenya Citizens and Foreign Nationals Management Service",
+    "classification": "State Corporation",
+    "ministry": "Ministry of Interior and National Administration"
+  },
+  {
+    "name": "Kenya Defence Forces",
+    "classification": "State Corporation",
+    "ministry": "Ministry of Defence"
+  },
+  {
+    "name": "Referral Hospitals Authority",
+    "classification": "State Corporation",
+    "ministry": "Ministry of Health"
+  },
+  {
+    "name": "National Spinal Injury Hospital",
+    "classification": "State Corporation",
+    "ministry": "Ministry of Health"
+  },
+  {
+    "name": "Physiotherapy Council of Kenya",
+    "classification": "State Corporation",
+    "ministry": "Ministry of Health"
+  },
+  {
+    "name": "Kenya Nutritionists and Dieticians Institute",
+    "classification": "State Corporation",
+    "ministry": "Ministry of Health"
+  },
+  {
+    "name": "Government Chemist",
+    "classification": "State Corporation",
+    "ministry": "Ministry of Health"
+  },
+  {
+    "name": "National Public Health Laboratory Services",
+    "classification": "State Corporation",
+    "ministry": "Ministry of Health"
+  },
+  {
+    "name": "Kenya Institute of Special Education (KISE)",
+    "classification": "State Corporation",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "National Commission for Nomadic Education in Kenya",
+    "classification": "State Corporation",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "TVET Fund Board",
+    "classification": "State Corporation",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "National Research Fund",
+    "classification": "State Corporation",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Universities Funding Board",
+    "classification": "State Corporation",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kenya Institute of Highways and Building Technology (KIHBT)",
+    "classification": "State Corporation",
+    "ministry": null
+  },
+  {
+    "name": "Northern Corridor Transit and Transport Coordination Authority",
+    "classification": "State Corporation",
+    "ministry": null
+  },
+  {
+    "name": "Strategic Food Reserve Trust Fund",
+    "classification": "State Corporation",
+    "ministry": "Ministry of Agriculture and Livestock Development"
+  },
+  {
+    "name": "Mumias Sugar Company",
+    "classification": "State Corporation",
+    "ministry": "Ministry of Agriculture and Livestock Development"
+  },
+  {
+    "name": "Coffee Research Institute",
+    "classification": "State Corporation",
+    "ministry": "Ministry of Agriculture and Livestock Development"
+  },
+  {
+    "name": "Kenya Sugar Board",
+    "classification": "State Corporation",
+    "ministry": "Ministry of Agriculture and Livestock Development"
+  },
+  {
+    "name": "Huduma Kenya Secretariat / Huduma Centres",
+    "classification": "State Corporation",
+    "ministry": null
+  },
+  {
+    "name": "Women Enterprise Fund",
+    "classification": "State Corporation",
+    "ministry": null
+  },
+  {
+    "name": "Uwezo Fund",
+    "classification": "State Corporation",
+    "ministry": null
+  },
+  {
+    "name": "Public Private Partnership Directorate",
+    "classification": "State Corporation",
+    "ministry": "Ministry of Trade, Investments and Industry"
+  },
+  {
+    "name": "Industrial Development Bank Capital",
+    "classification": "State Corporation",
+    "ministry": "Ministry of Trade, Investments and Industry"
+  },
+  {
+    "name": "Kenya Wine Agencies Limited (KWAL)",
+    "classification": "State Corporation",
+    "ministry": "Ministry of Trade, Investments and Industry"
+  },
+  {
+    "name": "Kenya Industrial Training Institute",
+    "classification": "State Corporation",
+    "ministry": "Ministry of Trade, Investments and Industry"
+  },
+  {
+    "name": "Universal Service Fund Advisory Council",
+    "classification": "State Corporation",
+    "ministry": "Ministry of Information, Communications and the Digital Economy"
+  },
+  {
+    "name": "Sports, Arts and Social Development Fund",
+    "classification": "State Corporation",
+    "ministry": null
+  },
+  {
+    "name": "Kenya National Theatre",
+    "classification": "State Corporation",
+    "ministry": null
+  },
+  {
+    "name": "Ushanga Kenya Initiative",
+    "classification": "State Corporation",
+    "ministry": null
+  },
+  {
+    "name": "Permanent Presidential Music Commission",
+    "classification": "State Corporation",
+    "ministry": null
+  },
+  {
+    "name": "Kenya Meteorological Department",
+    "classification": "State Corporation",
+    "ministry": "Ministry of Environment and Forestry"
+  },
+  {
+    "name": "State Department for Cooperatives Development",
+    "classification": "State Corporation",
+    "ministry": "Ministry of Co-operatives and MSME Development"
+  },
+  {
+    "name": "Cooperative Tribunal",
+    "classification": "State Corporation",
+    "ministry": "Ministry of Co-operatives and MSME Development"
+  },
+  {
+    "name": "Directorate of Occupational Safety and Health Services (DOSHS)",
+    "classification": "State Corporation",
+    "ministry": "Ministry of Labour and Social Protection"
+  },
+  {
+    "name": "Fisheries Development Fund",
+    "classification": "State Corporation",
+    "ministry": "Ministry of Mining, Blue Economy and Maritime Affairs"
+  },
+  {
+    "name": "Kenya National Commission on Human Rights (KNCHR)",
+    "classification": "Constitutional Commission",
+    "ministry": null
+  },
+  {
+    "name": "Parliamentary Service Commission (PSC)",
+    "classification": "Constitutional Commission",
+    "ministry": null
+  },
+  {
+    "name": "Judicial Service Commission (JSC)",
+    "classification": "Constitutional Commission",
+    "ministry": null
+  },
+  {
+    "name": "Commission on Revenue Allocation (CRA)",
+    "classification": "Constitutional Commission",
+    "ministry": null
+  },
+  {
+    "name": "Public Service Commission (PSC-Kenya)",
+    "classification": "Constitutional Commission",
+    "ministry": null
+  },
+  {
+    "name": "Salaries and Remuneration Commission (SRC)",
+    "classification": "Constitutional Commission",
+    "ministry": null
+  },
+  {
+    "name": "Teachers Service Commission (TSC)",
+    "classification": "Constitutional Commission",
+    "ministry": null
+  },
+  {
+    "name": "National Police Service Commission (NPSC)",
+    "classification": "Constitutional Commission",
+    "ministry": null
+  },
+  {
+    "name": "Office of the Auditor-General",
+    "classification": "Independent Office",
+    "ministry": null
+  },
+  {
+    "name": "Office of the Controller of Budget",
+    "classification": "Independent Office",
+    "ministry": null
+  },
+  {
+    "name": "Ethics and Anti-Corruption Commission (EACC)",
+    "classification": "Constitutional Commission",
+    "ministry": null
+  },
+  {
+    "name": "Commission on Administrative Justice (Office of the Ombudsman)",
+    "classification": "Constitutional Commission",
+    "ministry": null
+  },
+  {
+    "name": "National Gender and Equality Commission (NGEC)",
+    "classification": "Constitutional Commission",
+    "ministry": null
+  },
+  {
+    "name": "Independent Policing Oversight Authority (IPOA)",
+    "classification": "Constitutional Commission",
+    "ministry": null
+  },
+  {
+    "name": "Office of the Director of Public Prosecutions (ODPP)",
+    "classification": "Independent Office",
+    "ministry": null
+  },
+  {
+    "name": "Central Bank of Kenya (CBK)",
+    "classification": "Constitutional Commission",
+    "ministry": null
+  },
+  {
+    "name": "Supreme Court of Kenya",
+    "classification": "Judiciary",
+    "ministry": null
+  },
+  {
+    "name": "Court of Appeal",
+    "classification": "Judiciary",
+    "ministry": null
+  },
+  {
+    "name": "High Court of Kenya",
+    "classification": "Judiciary",
+    "ministry": null
+  },
+  {
+    "name": "Employment and Labour Relations Court",
+    "classification": "Judiciary",
+    "ministry": null
+  },
+  {
+    "name": "Environment and Land Court",
+    "classification": "Judiciary",
+    "ministry": null
+  },
+  {
+    "name": "Magistrates' Courts",
+    "classification": "Judiciary",
+    "ministry": null
+  },
+  {
+    "name": "Kadhis' Courts",
+    "classification": "Judiciary",
+    "ministry": null
+  },
+  {
+    "name": "Small Claims Court",
+    "classification": "Judiciary",
+    "ministry": null
+  },
+  {
+    "name": "National Assembly",
+    "classification": "Legislature",
+    "ministry": null
+  },
+  {
+    "name": "Senate",
+    "classification": "Legislature",
+    "ministry": null
+  },
+  {
+    "name": "Parliamentary Budget Office",
+    "classification": "Legislature",
+    "ministry": null
+  },
+  {
+    "name": "University of Embu",
+    "classification": "Public University",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Open University of Kenya",
+    "classification": "Public University",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Nyandarua University College",
+    "classification": "Public University",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kabarnet University College",
+    "classification": "Public University",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Makueni University College",
+    "classification": "Public University",
+    "ministry": "Ministry of Education"
+  }
+]
