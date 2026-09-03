@@ -86,7 +86,15 @@
                                     <span class="inline-flex px-2 py-0.5 rounded-full bg-gold-50 text-gold-800 text-xs font-medium whitespace-nowrap">{{ $corp->classification ?? '—' }}</span>
                                 @endif
                             </td>
-                            <td class="px-4 py-3 text-ink-faint whitespace-nowrap">{{ $corp->ministry->name ?? '—' }}</td>
+                            <td class="px-4 py-3 whitespace-nowrap">
+                                @if ($corp->ministry)
+                                    <span class="text-ink-faint">{{ $corp->ministry->name }}</span>
+                                @elseif ($corp->ministryDisplay() === 'Independent')
+                                    <span class="italic text-ink-faint">Independent</span>
+                                @else
+                                    <span class="text-ink-faint">—</span>
+                                @endif
+                            </td>
                             <td class="px-4 py-3 whitespace-nowrap">
                                 @if ($corp->assignedRm)
                                     {{ $corp->assignedRm->name }}

@@ -13,7 +13,9 @@
             </div>
             <div class="bg-panel border border-border rounded-xl p-5 shadow-sm">
                 <p class="text-xs text-ink-faint mb-1.5">Ministry</p>
-                <p class="text-sm font-medium text-ink">{{ $corporation->ministry->name ?? '—' }}</p>
+                <p class="text-sm font-medium {{ ! $corporation->ministry && $corporation->ministryDisplay() === 'Independent' ? 'italic text-ink-faint' : 'text-ink' }}">
+                    {{ $corporation->ministryDisplay() }}
+                </p>
             </div>
             <div class="bg-panel border border-border rounded-xl p-5 shadow-sm">
                 <p class="text-xs text-ink-faint mb-1.5">Assigned RM</p>

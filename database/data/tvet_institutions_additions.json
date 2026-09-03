@@ -1,0 +1,3022 @@
+[
+  {
+    "name": "Baringo Technical College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Cheberen Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Emining Technical Training Institute",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kabartonjo Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kenya School of Government-Baringo Campus",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kituro Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Maji Moto Vocational Training Centers",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Marigat Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Mogotio Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Sogorik Vocational Training centre",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Sot Technical Training Institute",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Bingwa Youth Polytechnic",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Boito Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Chebilat Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Emkwen Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kabisoge Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kaboson Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kamung'ei Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kaplong Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kapsabul Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kaptebengwet Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kimarwandi Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kiplelji Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Komirmir Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Konoin Technical Training Institute",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Manaret Vocational Training Centre",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Seanin Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Siomo Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Siwot Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Solyot Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Sotik Technical Training Institute",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Tegat Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Apokor Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Bitobo Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Bukembe Vocational Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Chebukwabi Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Friends Vocational Training Centre- Mihuu",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kamasielo Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Khasoko Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Khelela Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kibabii Vocational Training Institute",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kisiwa Vocational Training Centre",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kisongo Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Lwandanyi Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Machakha Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Machwele Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Magemo Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Malakisi Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Matili Technical Training Institute",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Matulo Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Mufule Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Mungore Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Musakasa Technical Training Institute",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Muteremuko Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Naitiri Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Namirembe Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Sang'alo Institute of Science & Technology",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Sinoko Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Sirare Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Sirisia Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Sitabicha Vocational Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Sosio Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "St. Teresa Musoli Vocational Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "St. Theresa Kabula",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Tongaren Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Wabukhonyi Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Wekelekha Vocational Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Amaase Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Amagoro VTC",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Bumbe Technical Training Institute",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Busagwa Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Busia Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Butunyi Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Esidende Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Igara ADC Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Khayo Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Matayos Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Nambale Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Oserut Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "ST Marys Ganga VTC",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Chebara Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Chepkorio Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Chesongoch Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Flax Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Iten Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kapcherop Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kibirech Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kipchawat Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kiplabai Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kitany Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Koitilial Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Ena Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Gitare Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Jeremiah Nyaga Technical Training Institute",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Runyenjes TVC",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "St. Catherine Kigwambiti Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Homabay Youth Polytechnic",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Jwelu Youth Polytechnic",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kabuoch Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Lambwe Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Langi Youth Polytechnic",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Mawego Technical Training Institute",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Mboga Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Mfangano Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Ndiru Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Nyagwethe Vocational Training Centre",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Paul Mboya Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Rukongo Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Sero Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Sikri Technical & Vocational College for the Blind and Deaf",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Sindo Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "St. Anne Mawego Youth Polytechnic",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Waiga Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Wakiaga Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Waondo Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Uhuru Vocational Training College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Isinya Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Maasai Technical Training Institute",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Meto Vocational Training Centre",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Namelok Youth Polytechnic",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Olekasasi VTC",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Ruiru Gikonyo Memorial Institute for Technical Skills",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Bushiangala Technical Training Institute",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Butere TVC",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kabras County Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Lugala County Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Mabanga Youth Polytechnic",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Malaha County Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Mautuma Vocational Training Centre",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Mumbetsa County Polytechnic",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Nzoia County Polytechnic",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Raphael Malimili Youth Polytechnic",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Rural Craft Training Centre",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "S.A. Chombeli County Polytechnic",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Shagungu Vocational Training Centre",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Shamberere Technical Training Institute",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Shilolavakhali County Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Solongo Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "St. Maurice Mwira County Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "St. Peter's Emulakha Polytechnic",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "The Sigalagala National Polytechnic",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Bureti Technical Training Institute",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Chebirirbei Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kipsamumgut Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kiptere Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "St. Kizito Special Needs Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Toroton Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Gokoe Vocational Training Centre",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Gitiha Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Gituamba Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Juja Farm Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kagumo-ini Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kairi Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kamirithu Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kanyariri VTC",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Karatu Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Karingari VTC",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kinoo VTC",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Komothai Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Makongeni Educational Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Mangu Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Mbichi Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Muguga Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Munyu-ini Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Ndenderu Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Nyaga Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Nyanduma Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Riabai Vocational Training Centre",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Riuki Youth Polytechnic",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "St Bosco VTC",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "St. Joseph The Worker Thuita VTC",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Thika Technical Training Institute",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Thogoto Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Uthiru Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Wabeni Vocational Training Centre",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Gede Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Godoma Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Jilore Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kakuyuni Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Mapimo Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Mariakani Vocational Education and Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Mkwajuni Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Muyeye Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Mwabayanyundo Youth Polytechnic",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Mwamutsunga Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Vitengeni Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Weru Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kaitheri Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kamugua Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kiabwe VTC",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kiambatha Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kiamikuyu VTC",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kiamuthambi VTC",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kibingoti Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kimweas Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Mucii Wa Urata VTC",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Mutitu Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Ndiriti Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Keroka Technical Training Institute",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "The Kisii National Polytechnic",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "ACK Kigoche",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Archbishop Okoth Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Bondo TVC",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Chwa Youth Polytechnic",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Karateng Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Katito Youth Polytechnic",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kitambo Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Lung'a Youth Polytechnic",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Mariwa Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Nyang'oma Youth Polytechnic",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Obange Youth Polytechnic",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Railway Training Institute-Kisumu",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Ramogi Institute of Advanced Technology",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Sianda Youth Polytechnic",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "The Kisumu National Polytechnic",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Tom Mboya Labor College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Frances Taylor Youth Polytechnic",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Gai Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Ikutha Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Ithiani Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kamanyi Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kathivo Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Katse Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Katulani Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Katwala Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kinakoni Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kisasi Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kyatune Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kyuso Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Matinyani Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Mavia Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Migwani Family Helper Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Migwani Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Mui Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Mulango Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Mutomo Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Mutonguni Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Mwingi Baptist Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "St Joseph- Mwambiu Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Syongila Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Tseikuru Technical Training Institute",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Diani Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Makina Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Mamba Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Manda Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Mavirivirini Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Mazeras Youth Polytechnic",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Mrima Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Mwabungo Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Tiwi Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Ukunda Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Vanga Youth Polytechnic",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Nanyuki Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Sipili Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kituluni VTC",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "ABC Kivi Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Athi River Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Ekalakala Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kaluluni VTC",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kalumoni Vocational Training Centre",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Katangi Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Katine Technical Training Institute",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kimutwa Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kioyweni Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kithaayoni Vocational Training Centre",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kithuluni Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Komarok Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kyamutwoii S.A. Vocational Training Centre",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kyamwee Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kyeleni Vocational Training Centre",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kyemutheke Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kyevaluki Vocational Training Centre",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Lumbwa Salvation Army Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Lumbwa Vocational Training Centre",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Machakos Technical Institute for the Blind",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Masii Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Masinga Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Matuu Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Miseleni Salvation Army Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Mutondoni Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Mutuyu Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Ndalani Youth Polytechnic",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Ndithini Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Ngelani Vocational Training Centre",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "NYS Yatta School of Agriculture",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Vyulia Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Yathui VTC",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "ABCU Katuuni Youth Polytechnic",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "David Mbithi Wambuli Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Isovya Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Ivuleni Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kathonnzeni Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kauti Youth Polytechnic",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kisingo Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kyemwole Youth Polytechnic",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Mavindini VTC",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Ndeini VTC",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Nduluku Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Ng'etha Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Spring Hill Kwakakulu Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Tulimali Youth Polytechnic",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Ukia Youth Polytechnic",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Uvileni Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Wote Technical Training Institute",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Marafa Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Mandera Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Merille Vocational Training Centre",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Moyale Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Obbu Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Saku Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Umuro Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Chuka Technical Training Institute",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Ithamare Vocational Training Centre",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Githongo Youth Polytechnic",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Gitie Vocational Training College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kagwampungu Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kanyakine Vocational Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Karumo Technical Training Institute",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Karurune Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kianjai Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kiirua Technical Training Institute",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kiirua Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kithiiri Vocational Training College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kithoka Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Koome Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Maua Vocational Training College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Meru Institute of Business Studies",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Mitunguu Technical Training Institute",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Mituntu Vocational Training College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Mukiria Technical Training Institute",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Murugi Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Muthara Vocational Training Centre",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Mwiteria Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Nkabune Technical Training Institute",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Ruibi Youth Polytechnic",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Salama Vocational Training Centre",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "The Meru National Polytechnic",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Awendo Marindi Youth Polytechnic",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Biticha Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Bware VTC",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Chinato Vocational and Educational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Gamasisi Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kababu Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Macalder Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Manyatta Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Migori Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Ntimaru Youth Polytechnic",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Siala Technical Training Institute",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Uriri Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Ahmed Shahame Mwidani Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Bandari College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kenya School of Revenue Administration",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Mtongwe Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Mathioya Technical Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Baraka Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Gatanga Technical Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Gatara Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Gikindu Youth Polytechnic",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Gikomora Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Githagara Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Ichagaki VTC",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kaganda Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kahuti Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kamahuha Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kambara Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kambirwa Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kambiti Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kamukabi Youth Polytechnic",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kamune VTC",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kangari Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kangema Youth Polytechnic",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kanyaira Youth Polytechnic",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Karuru Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kibaaka Vocational Training Centre",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kigumo Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kiiriangoro VTC",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kirangari Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kirwara Vocational Training Centre",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Makomboki VTC",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Mbugiti Vocational Training Centre",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Michuki Technical Training Institute",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Mukangu VTC",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Mwagu Vocational Centre",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Ndutumi Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Njii-ithatu Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Rau Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Thuita VTC",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Wahundura Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Wanjohi Youth Polytechnic",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Administration Police Training College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Animal Health & Industry Training Institute (AHITI)",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Centre for Tourism Training and Research",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Defence Forces Technical College (DEFTEC)",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "East African School of Aviation",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "GSU Training School",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Institute for Meteorological Training and Research",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Institute of Energy Studies and Research",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kangemi VTC",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Karen Technical Training Institute for the Deaf",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kenya Institute of Surveying and Mapping",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kenya Technical Trainers College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kiwanja Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Meat Training Institute",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Nairobi Technical Training Institute",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "National Youth Service Institute of Business Studies",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "NYS Engineering Institute",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "NYS Textile and Garment Making Technical Institute",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "NYS Vocational Training Institute",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "P.C. Kinyanjui Technical Training Institute",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Railway Training Institute",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Regional Centre for Mapping of Development Resources",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "The Kabete National Polytechnic",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Waithaka Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Bahati Institute Of Business And Administration Studies",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Barut Youth Polytechnic",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Chemare VTC",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Cheptuech Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Dairy Training Institute",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Dundori VTC",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "House of Plenty Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kikopey Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "KWS Training Institute",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Lion Hill Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Mirera Vocational Training Centre",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Molo Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Morendat Institute of Oil and Gas",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Muteithia Vocational Training Centre",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Nakuru Youth Polytechnic",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "NYS Advanced Building School",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "NYS School of Catering",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "NYS School of Fashion Design",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Rift Valley Institute of Science and Technology",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Rift Valley Institute of Science and Technology- Nakuru Town",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Rongai Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "SAPTET VTC",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Subukia Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Wanyororo VTC",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Aldai Technical Training Institute",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Cheptarit Vocational Training Centre",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kaiboi Technical Training Institute",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kaplamai Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kaptel Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kurgung Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Mugen Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Ol'lessos Technical Training Institute",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Sigilai Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Sirwa Yala Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Augustine Kipsebwo Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Tengaratwet Vocational Training Cetre",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Enelerai Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Ilmotiok Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kapweria Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kilgoris Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Maasai Mara Technical & Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Nairegie Enkare Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Narok West Technical Training Institute",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Narok Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Leshau Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Nyandarua Institute of Science and Technology",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Bigege Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Bonyonyu Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Ekerubo Gietai Technical Training Institute",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "ELCK-Bobembe Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Gesima Vocational Training Centre",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kegwanda Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kenyerere Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kiang'ende Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kiendege Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kiobwoge Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kiogutwa Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Matongo Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Misambi Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Morako Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Nyaikuro Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Ritibo Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Ritongo Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "St Albert Bundo Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "St Stephen Ekerubo Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "St. Elizabeth Embaro Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "St. Peters Geteni Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kahoro Vocational Training Centre",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kinangop Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Lereshwa Youth Polytechnic",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Melangine Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Miharati Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Mukeu Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Ngorika Vocational Training Centre",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Njabini VTC",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Olkalou Youth Polytechnic",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Rurii Vocational Training Centre",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Shamata Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Gachika Youth Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Githiru Youth Polytechnic",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Karatina Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kenya Police College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Mathenge Technical Training Institute",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Mathira Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Mukurwe-ini Technical Training Institute",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Nairutia Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Rukira Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "The Nyeri National Polytechnic",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Watuka Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Maralal Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "St. Joseph's Technical Institute for the Deaf, Nyang'oma",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Aiden Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Boi Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Bondo Technical Training Institute",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kisendo Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kobong' Youth Polytechnic",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Liganywa Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Lucy Onono Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Mahaya Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Mindhine Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Ndere Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Ndira Youth Polytechnic",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Ng'iya Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Nyala Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Sega Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Siaya Institute of Technology",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Sigul Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Bungule Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Challa Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Chumvini Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Coast Institute of Technology",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Ghazi Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kidaya Ngerenyi Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kighombo Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kiloghwa Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Mbale Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Mnamu Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Msau Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Mselia Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Mwachawaza Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Mwagafwa VTC",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Mwambiti Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Mwanda Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Mwanjila Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Mwarungu Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Rong'e Juu Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Sagalla Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Tausa Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Taveta Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Voi Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Wongonyi Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Maziwa Youth Polytechnic",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "ACK Uthaini Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Marimanti Vocational Training Centre",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Muthambi Youth Polytechnic",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Ndunguri Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Nguruki Vocational Training Centre",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "NICA Karigini VTC",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Weru Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Andersen Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kapchepsir Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kiminini Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kitale Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kwanza Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Machungwa Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Matisi Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Matunda Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Section Six Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Sikhendu Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Sitatunga Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "St Joseph's Makutano Vocational Training",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "The Kitale National Polytechnic",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Waitaluk Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kaaleng Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kalokol Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Lodwar Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Lokichar Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Lokori Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Lorogum Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Ainabkoi Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Arise and Shine Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Eldoret Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Koshin Technical Training Institute",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Mioro Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Mugondoi Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Rift Valley Technical Training Institute",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Sergoek Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Sesia Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Boyani Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Busaina Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Ebusiralo Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Ematete Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Friends College Kaimosi Institute of Technology",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Gavudia Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Gimomoi Salvation Army Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Givigoi Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Jepkose Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kaimosi Friends Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Karadinin Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Keveye Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kitulu Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Lotego VTC",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Maseno School of Nursing",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Maseno Youth Polytechnic",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Muhudu Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "North Maragoli Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Nzalwa Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "South Maragoli Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "St. Peter's Hambale Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Vigetse Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kapenguria Vocational Training Center",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  }
+]

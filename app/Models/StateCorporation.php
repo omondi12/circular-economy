@@ -12,6 +12,17 @@ class StateCorporation extends Model
 
     public const PHASE_TWO = 2;
 
+    /**
+     * Classifications that are constitutionally/statutorily outside the
+     * ministry hierarchy entirely - a blank ministry here isn't a data
+     * gap, it's correct (per the Kenya public institutions register:
+     * "for independent bodies... it explicitly sits OUTSIDE any ministry
+     * rather than being forced into an inaccurate mapping").
+     */
+    private const NO_MINISTRY_CLASSIFICATIONS = [
+        'Constitutional Commission', 'Independent Office', 'Judiciary', 'Legislature',
+    ];
+
     protected $fillable = ['name', 'cluster', 'class', 'subclass', 'classification', 'ministry_id', 'phase', 'assigned_rm_id'];
 
     protected function casts(): array
@@ -37,6 +48,26 @@ class StateCorporation extends Model
     public function reports(): HasMany
     {
         return $this->hasMany(ClientReport::class);
+    }
+
+    /**
+     * "Independent" for bodies that genuinely have no ministry by design,
+     * the ministry name where one is set, or "—" for the small remainder
+     * whose ministry is a real unresolved gap (e.g. a ministry name that
+     * doesn't cleanly match after a cabinet reshuffle) - so the Clients
+     * page never shows a blank cell without explaining which case it is.
+     */
+    public function ministryDisplay(): string
+    {
+        if ($this->ministry) {
+            return $this->ministry->name;
+        }
+
+        if (in_array($this->classification, self::NO_MINISTRY_CLASSIFICATIONS, true)) {
+            return 'Independent';
+        }
+
+        return '—';
     }
 
     public function scopePhaseOne($query)

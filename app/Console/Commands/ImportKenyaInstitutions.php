@@ -9,34 +9,39 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 
 /**
- * Adds every client that was missing against a full Kenya public-sector
- * institutions register (2026-09-03, "kenya_public_institutions.xlsx" -
- * SAGAs/parastatals, public universities, constitutional commissions &
- * independent offices, judiciary, legislature). Cross-referenced by hand
- * against the existing ~438 clients: many entries in that register were
- * already present under a shorter/abbreviated/differently-punctuated
- * name (handled as a plain no-op, not listed in the data file here) -
- * this file is only the ~76 genuinely new ones.
+ * Adds every client that was missing against a Kenya public-sector
+ * institutions register - generic over which register, since the boss
+ * has supplied a couple of these now (2026-09-03: the general SAGAs/
+ * commissions/judiciary/legislature register; 2026-09-04: an updated
+ * register whose "public TVET/VTC" tab covers the county-level technical
+ * colleges and vocational training centres). Each register gets its own
+ * data file (see database/data/*.json) built the same way: cross-
+ * referenced by hand against the existing client list, so the file only
+ * lists genuinely new names, not the ones already present under a
+ * shorter/abbreviated/differently-punctuated name.
  *
  * Institutions that were vague/generic (e.g. "Tribunals (various)"),
  * operational sub-arms of a body already tracked under its own name
- * (e.g. a commission's "Secretariat"), or ones this register's own
- * source material left too uncertain to name confidently, were left out
- * entirely rather than guessed - see the account allocation task's data
- * file for a similar precedent of flagging rather than fabricating.
+ * (e.g. a commission's "Secretariat"), or ones a register's own source
+ * material left too uncertain to name confidently, were left out of the
+ * data file entirely rather than guessed - see the account allocation
+ * task's data file for a similar precedent of flagging rather than
+ * fabricating.
  *
  * No RM assignment happens here (unlike accounts:allocate) - these are
  * added unassigned, ready for the boss/admin to assign via Assign RMs.
  */
 class ImportKenyaInstitutions extends Command
 {
-    protected $signature = 'clients:import-missing {--dry-run : Show what would happen without saving}';
+    protected $signature = 'clients:import-missing
+        {--file=kenya_institutions_additions.json : Data file under database/data/ to import}
+        {--dry-run : Show what would happen without saving}';
 
-    protected $description = 'Add clients found in the Kenya public institutions register that are not yet in the system';
+    protected $description = 'Add clients found in a Kenya public institutions register data file that are not yet in the system';
 
     public function handle(): int
     {
-        $path = database_path('data/kenya_institutions_additions.json');
+        $path = database_path('data/'.$this->option('file'));
 
         if (! File::exists($path)) {
             $this->error("Data file not found: {$path}");
