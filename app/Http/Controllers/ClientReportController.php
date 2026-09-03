@@ -26,7 +26,9 @@ class ClientReportController extends Controller
     /**
      * Every report across every client, newest first - the boss's own
      * view for reading through what's been logged, distinct from the
-     * per-client index() below which is the data-entry surface.
+     * per-client index() below which is the data-entry surface. Public
+     * (2026-09-03, per the boss - he doesn't want to log in just to
+     * read reports); only logging a new report stays behind admin login.
      */
     public function all(Request $request): View
     {
@@ -46,7 +48,7 @@ class ClientReportController extends Controller
             ->paginate(25)
             ->withQueryString();
 
-        return view('admin.reports.index', [
+        return view('reports.index', [
             'reports' => $reports,
             'filters' => $filters,
             'rms' => $this->assignableRms(),

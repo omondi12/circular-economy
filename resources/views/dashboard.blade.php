@@ -48,7 +48,7 @@
             label="Client Reports" icon="calendar" tone="teal"
             :value="number_format($reportCount)"
             hint="Daily engagement reports logged by RMs"
-            :href="route('admin.reports.index')"
+            :href="route('reports.index')"
         />
     </div>
 

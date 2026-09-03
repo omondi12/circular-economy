@@ -20,6 +20,7 @@ Route::get('/state-corporations', [DashboardController::class, 'stateCorporation
 Route::get('/state-corporations/{stateCorporation}', [DashboardController::class, 'stateCorporationShow'])->name('state-corporations.show');
 Route::get('/material-items', [DashboardController::class, 'materialItemsIndex'])->name('material-items.index');
 Route::get('/feasibility-study', [DashboardController::class, 'feasibilityStudyIndex'])->name('feasibility-study.index');
+Route::get('/reports', [ClientReportController::class, 'all'])->name('reports.index');
 
 Route::prefix('collections')->name('collections.')->group(function () {
     Route::get('/', [CollectionController::class, 'index'])->name('index');
@@ -54,7 +55,6 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin'])->grou
     Route::post('/assign-rms/ministries/{ministry}', [AdminController::class, 'assignMinistryRm'])->name('assign-rms.ministries.update');
     Route::post('/assign-rms/clients/{stateCorporation}', [AdminController::class, 'assignClientRm'])->name('assign-rms.clients.update');
 
-    Route::get('/reports', [ClientReportController::class, 'all'])->name('reports.index');
     Route::get('/clients/{client}/reports', [ClientReportController::class, 'index'])->name('clients.reports.index');
     Route::post('/clients/{client}/reports', [ClientReportController::class, 'store'])->name('clients.reports.store');
 });

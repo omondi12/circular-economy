@@ -2,12 +2,12 @@
         <x-page-header
             title="Client Reports"
             :subtitle="number_format($totalReports).' daily engagement report(s) logged across all clients.'"
-            :back="route('admin.dashboard')"
-            back-label="Back to admin"
+            :back="route('dashboard')"
+            back-label="Back to dashboard"
         />
 
         {{-- Filters --}}
-        <form method="GET" action="{{ route('admin.reports.index') }}" class="mb-6 bg-panel border border-border rounded-xl p-4 shadow-sm flex flex-wrap gap-3 items-end">
+        <form method="GET" action="{{ route('reports.index') }}" class="mb-6 bg-panel border border-border rounded-xl p-4 shadow-sm flex flex-wrap gap-3 items-end">
             <div class="flex flex-col gap-1 flex-1 min-w-[200px]">
                 <label for="q" class="text-xs text-ink-faint">Client</label>
                 <input
@@ -41,7 +41,7 @@
                 <button type="submit" class="px-4 py-2 rounded-md bg-brand-700 hover:bg-brand-800 text-white text-sm font-medium transition-colors shadow-sm shadow-brand-900/20">
                     Filter
                 </button>
-                <a href="{{ route('admin.reports.index') }}" class="px-4 py-2 rounded-md border border-border text-sm hover:bg-panel-muted transition-colors">
+                <a href="{{ route('reports.index') }}" class="px-4 py-2 rounded-md border border-border text-sm hover:bg-panel-muted transition-colors">
                     Reset
                 </a>
             </div>
