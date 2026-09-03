@@ -8,7 +8,7 @@
             <div class="inline-flex rounded-lg border border-border bg-white p-1 text-sm">
                 @foreach ([null => 'All', 1 => 'Phase 1', 2 => 'Phase 2'] as $value => $label)
                     <a
-                        href="{{ route('state-corporations.index', array_filter(['phase' => $value, 'q' => $filters['q'], 'classification' => $filters['classification']])) }}"
+                        href="{{ route('state-corporations.index', array_filter(['phase' => $value, 'q' => $filters['q'], 'classification' => $filters['classification'], 'rm' => $filters['rm']])) }}"
                         @class([
                             'px-3 py-1.5 rounded-md font-medium transition-colors',
                             'bg-brand-700 text-white' => $filters['phase'] === $value,
@@ -35,6 +35,17 @@
                         <option value="{{ $c }}" @selected($filters['classification'] === $c)>{{ $c }}</option>
                     @endforeach
                 </select>
+                <select
+                    name="rm" onchange="this.form.submit()"
+                    class="rounded-lg border border-border bg-white px-3 py-2.5 text-sm text-ink focus:outline-none focus:ring-2 focus:ring-brand-600/30 focus:border-brand-600"
+                >
+                    <option value="">All RMs</option>
+                    <option value="assigned" @selected($filters['rm'] === 'assigned')>Assigned (has an RM)</option>
+                    <option value="unassigned" @selected($filters['rm'] === 'unassigned')>Unassigned</option>
+                    @foreach ($rms as $rm)
+                        <option value="{{ $rm->id }}" @selected((string) $filters['rm'] === (string) $rm->id)>{{ $rm->name }}</option>
+                    @endforeach
+                </select>
                 <div class="relative flex-1 max-w-md">
                     <input
                         type="text" name="q" value="{{ $filters['q'] }}"
@@ -55,6 +66,7 @@
                         <th class="px-4 py-2 font-medium">Name</th>
                         <th class="px-4 py-2 font-medium">Classification</th>
                         <th class="px-4 py-2 font-medium">Ministry</th>
+                        <th class="px-4 py-2 font-medium">RM</th>
                         <th class="px-4 py-2 font-medium">Cluster</th>
                         <th class="px-4 py-2 font-medium">Class</th>
                         <th class="px-4 py-2 font-medium">Sub-Class</th>
@@ -75,6 +87,13 @@
                                 @endif
                             </td>
                             <td class="px-4 py-3 text-ink-faint whitespace-nowrap">{{ $corp->ministry->name ?? '—' }}</td>
+                            <td class="px-4 py-3 whitespace-nowrap">
+                                @if ($corp->assignedRm)
+                                    {{ $corp->assignedRm->name }}
+                                @else
+                                    <span class="text-ink-faint">—</span>
+                                @endif
+                            </td>
                             <td class="px-4 py-3 text-ink-faint">{{ $corp->cluster ?? '—' }}</td>
                             <td class="px-4 py-3 text-ink-faint">{{ $corp->class ?? '—' }}</td>
                             <td class="px-4 py-3 text-ink-faint">{{ $corp->subclass ?? '—' }}</td>
@@ -88,7 +107,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="7" class="px-4 py-8 text-center text-ink-faint">No clients match this filter.</td>
+                            <td colspan="8" class="px-4 py-8 text-center text-ink-faint">No clients match this filter.</td>
                         </tr>
                     @endforelse
                 </tbody>

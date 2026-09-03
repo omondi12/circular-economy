@@ -6,6 +6,7 @@ use App\Models\ClientReport;
 use App\Models\Collection;
 use App\Models\GovernmentEntity;
 use App\Models\StateCorporation;
+use App\Models\User;
 use App\Support\WasteCategories;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
@@ -249,11 +250,19 @@ class DashboardController extends Controller
 
         $classification = $request->string('classification')->toString() ?: null;
 
+        // 'assigned' / 'unassigned' are boolean filters; anything else is
+        // treated as an RM id, so the same dropdown can filter down to one
+        // specific RM's clients too.
+        $rm = $request->string('rm')->toString() ?: null;
+
         $corporations = StateCorporation::query()
-            ->with('ministry')
+            ->with(['ministry', 'assignedRm'])
             ->when($phase, fn ($q, $v) => $q->where('phase', $v))
             ->when($classification, fn ($q, $v) => $q->where('classification', $v))
             ->when($search, fn ($q, $v) => $q->where('name', 'like', "%{$v}%"))
+            ->when($rm === 'assigned', fn ($q) => $q->whereNotNull('assigned_rm_id'))
+            ->when($rm === 'unassigned', fn ($q) => $q->whereNull('assigned_rm_id'))
+            ->when($rm && ! in_array($rm, ['assigned', 'unassigned'], true), fn ($q, $v) => $q->where('assigned_rm_id', $v))
             ->orderBy('phase')
             ->orderBy('cluster')
             ->orderBy('name')
@@ -265,7 +274,12 @@ class DashboardController extends Controller
             'phase2Count' => StateCorporation::phaseTwo()->count(),
             'classifications' => StateCorporation::query()
                 ->select('classification')->distinct()->orderBy('classification')->pluck('classification'),
-            'filters' => ['phase' => $phase, 'q' => $search, 'classification' => $classification],
+            'rms' => User::where('role', User::ROLE_RM)
+                ->where('is_active', true)
+                ->where('email', 'like', '%@amacplc.com')
+                ->orderBy('name')
+                ->get(),
+            'filters' => ['phase' => $phase, 'q' => $search, 'classification' => $classification, 'rm' => $rm],
         ]);
     }
 
