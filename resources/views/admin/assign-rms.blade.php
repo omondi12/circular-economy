@@ -105,6 +105,7 @@
                             <th class="px-4 py-2 font-medium">Client</th>
                             <th class="px-4 py-2 font-medium">Currently Assigned</th>
                             <th class="px-4 py-2 font-medium">Assign To</th>
+                            <th class="px-4 py-2 font-medium">Action</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-border">
@@ -130,10 +131,15 @@
                                         </select>
                                     </form>
                                 </td>
+                                <td class="px-4 py-3 whitespace-nowrap">
+                                    <a href="{{ route('admin.clients.reports.index', $client) }}" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-md bg-gold-50 text-gold-700 text-xs font-medium hover:bg-gold-100 transition-colors">
+                                        Report
+                                    </a>
+                                </td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="3" class="px-4 py-8 text-center text-ink-faint">No clients match this filter.</td>
+                                <td colspan="4" class="px-4 py-8 text-center text-ink-faint">No clients match this filter.</td>
                             </tr>
                         @endforelse
                     </tbody>

@@ -34,6 +34,11 @@ class StateCorporation extends Model
         return $this->hasMany(Collection::class);
     }
 
+    public function reports(): HasMany
+    {
+        return $this->hasMany(ClientReport::class);
+    }
+
     public function scopePhaseOne($query)
     {
         return $query->where('phase', self::PHASE_ONE);
