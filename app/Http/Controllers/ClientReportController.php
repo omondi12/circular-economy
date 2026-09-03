@@ -23,6 +23,38 @@ use Illuminate\Validation\Rule;
  */
 class ClientReportController extends Controller
 {
+    /**
+     * Every report across every client, newest first - the boss's own
+     * view for reading through what's been logged, distinct from the
+     * per-client index() below which is the data-entry surface.
+     */
+    public function all(Request $request): View
+    {
+        $filters = [
+            'q' => $request->string('q')->toString() ?: null,
+            'rm_id' => $request->string('rm_id')->toString() ?: null,
+            'current_stage' => $request->string('current_stage')->toString() ?: null,
+        ];
+
+        $reports = ClientReport::query()
+            ->with(['client', 'rm', 'createdBy'])
+            ->when($filters['q'], fn ($q, $v) => $q->whereHas('client', fn ($cq) => $cq->where('name', 'like', "%{$v}%")))
+            ->when($filters['rm_id'], fn ($q, $v) => $q->where('rm_id', $v))
+            ->when($filters['current_stage'], fn ($q, $v) => $q->where('current_stage', $v))
+            ->orderByDesc('report_date')
+            ->orderByDesc('id')
+            ->paginate(25)
+            ->withQueryString();
+
+        return view('admin.reports.index', [
+            'reports' => $reports,
+            'filters' => $filters,
+            'rms' => $this->assignableRms(),
+            'stages' => ClientReportOptions::STAGES,
+            'totalReports' => ClientReport::count(),
+        ]);
+    }
+
     public function index(StateCorporation $client): View
     {
         $reports = $client->reports()

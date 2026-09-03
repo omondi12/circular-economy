@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\AuditLog;
+use App\Models\ClientReport;
 use App\Models\Collection;
 use App\Models\GovernmentEntity;
 use App\Models\StateCorporation;
@@ -22,6 +23,7 @@ class AdminController extends Controller
         return view('admin.dashboard', [
             'userCount' => User::where('role', User::ROLE_RM)->count(),
             'submissionCount' => Collection::count(),
+            'reportCount' => ClientReport::count(),
             'recentAuditLog' => AuditLog::with('user')->latest()->limit(10)->get(),
         ]);
     }
