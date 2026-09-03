@@ -19,7 +19,7 @@
     @endif
 
     {{-- Stat cards --}}
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-10">
         <x-stat-tile
             label="Ministries" icon="landmark" tone="rose"
             :value="number_format($ministryTotal)"
@@ -43,6 +43,12 @@
             :value="number_format($totalSubmissions)"
             hint="RM submissions - by agent, materials, ministry or state corporation"
             :href="route('feasibility-study.index')"
+        />
+        <x-stat-tile
+            label="Client Reports" icon="calendar" tone="teal"
+            :value="number_format($reportCount)"
+            hint="Daily engagement reports logged by RMs"
+            :href="route('admin.reports.index')"
         />
     </div>
 

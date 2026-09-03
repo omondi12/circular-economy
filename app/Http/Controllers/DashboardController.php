@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ClientReport;
 use App\Models\Collection;
 use App\Models\GovernmentEntity;
 use App\Models\StateCorporation;
@@ -43,6 +44,8 @@ class DashboardController extends Controller
 
         $materialItemCount = collect(WasteCategories::lots())->sum(fn (array $lot) => count($lot['categories']));
 
+        $reportCount = ClientReport::count();
+
         $recent = Collection::query()
             ->orderByDesc('collection_date')
             ->orderByDesc('id')
@@ -56,6 +59,7 @@ class DashboardController extends Controller
             'stateCorpPhase1' => $stateCorpPhase1,
             'stateCorpPhase2' => $stateCorpPhase2,
             'materialItemCount' => $materialItemCount,
+            'reportCount' => $reportCount,
             'recent' => $recent,
         ]);
     }
