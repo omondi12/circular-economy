@@ -1,0 +1,797 @@
+[
+  {
+    "name": "Ahmed Shahame Mwidani Technical Training Institute",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Aldai Technical Training Institute",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Belgut Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Bomet Central Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Bondo Technical Training Institute",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Borabu Technical Training Institute",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Bungoma North Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Bunyala Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Bureti Technical Training Institute",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Bushiangala Technical Training Institute",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Butere Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Butula Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Chamasiri Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Chanzeywe Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Chepalungu Technical Training Institute",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Chepsirei Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Cherangany Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Chuka Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Coast Institute of Technology",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "David Wambuli Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Dr. Daniel Wako Murende Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Ebukanga Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Ekerubo Gietai Technical Training Institute",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Eldama Ravine Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Emgwen Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Emining Technical Training Institute",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Emsos Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Emurua Dikirr Technical Training Institute",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Endebess Technical Training Institute",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Fayya Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Gatanga Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Gatundu South Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Githunguri Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Gitwebe Technical Training Institute",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Godoma Technical Training Institute",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Heroes Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Ikutha Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kaelo Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kajiado East Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kajiado West Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kakrao Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kamukunji Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kandara Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kapchepkor Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kapcherop Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Karen Technical Training Institute for the Deaf",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Karumo Technical Training Institute",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kasarani Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Katine Technical Training Institute",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kendege Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kerio Valley Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Keroka Technical Training Institute",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Khwisero Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kibwezi West Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kieni Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kigumo Technical Training Institute",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kiirua Technical Training Institute",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kimasian Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kiminini Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kinango Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kinangop Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kipipiri Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kipkabus Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kipsinende Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kiptaragon Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kirinyaga Central Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kitelakapel Technical Training Institute",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kitutu Masaba Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Kongoni Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Konoin Technical Training Institute",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Koshin Technical Training Institute",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Laikipia East Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Laikipia North Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Laisamis Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Lari Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Likoni Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Limuru Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Lodwar Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Lungalunga Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Maasai Mara Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Mabera Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Machakos Technical Institute For The Blind",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Mandera Technical Training Institute",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Manyatta Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Masinga Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Mathenge Technical Training Institute",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Mathioya Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Mathira Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Matili Technical Training Institute",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Mbeere North Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Merti Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Mochongoi Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Moiben Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Molo Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Msambweni Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Mukiria Technical Training Institute",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Mukurwei-ini Technical Training Institute",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Mulango Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Mumias West Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Mungatsi Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Muraga Technical Training Institute",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Murang'a Technical Training Institute",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Musakasa Technical Training Institute",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Mwala Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Mwea Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Nachu Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Naivasha Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Narok West Technical Training Institute",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Navakholo Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Ndaragwa Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Ndia Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Ngong Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Njoro Technical Training Institute",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Nkabune Technical Training Institute",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "North Horr Technical Training Institute",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Nuu Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Nyakach Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Okame Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Omuga Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Orogare Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "PC Kinyanjui Technical Training Institute",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Rachuonyo Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Ramogi Institute of Advanced Technology",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Rangwe Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Rarieda Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Riamo Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Riatirimba Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Rift Valley Technical Training Institute",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Riragia Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Ruiru Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Runyenjes Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Sabatia Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Samburu Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Seme Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Siala Technical Training Institute",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Sikri Technical and Vocational College for the Blind and Deaf",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Sirisia Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Siruti Technical and Vocational College - Awendo",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Sot Technical Training Institute",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Sotik Technical Training Institute",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "St. Josephs Technical Institute for The Deaf-Nyangoma",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Tana River Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Tetu Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Tharaka Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Thika Technical Training Institute",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Tigania East Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Tindiret Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Total Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Turbo Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Turkana East Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Ugenya Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Ugunja Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Uriri Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Wanga Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Webuye West Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Weru Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Wote Technical Training Institute",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Wumingu Technical and Vocational College",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  },
+  {
+    "name": "Ziwa Technical Training Institute",
+    "classification": "TVET Institution",
+    "ministry": "Ministry of Education"
+  }
+]
