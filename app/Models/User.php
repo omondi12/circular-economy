@@ -23,6 +23,14 @@ class User extends Authenticatable
     public const ROLE_RM = 'rm';
 
     /**
+     * Demo accounts (DemoDataSeeder) all share this domain - excluded
+     * rather than requiring a specific real domain like @amacplc.com, so
+     * a real RM onboarded with any working email (e.g. a personal Gmail
+     * address) is still picked up everywhere assignable RMs are listed.
+     */
+    private const DEMO_EMAIL_DOMAIN = '@demo.amac-circular.local';
+
+    /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>
@@ -59,5 +67,17 @@ class User extends Authenticatable
     public function isRm(): bool
     {
         return $this->role === self::ROLE_RM;
+    }
+
+    /**
+     * Active, real (non-demo) RM accounts - the pool used everywhere an
+     * RM can be assigned a ministry or client (Assign RMs, RM Performance,
+     * client reports, the distribute commands).
+     */
+    public function scopeAssignableRms($query)
+    {
+        return $query->where('role', self::ROLE_RM)
+            ->where('is_active', true)
+            ->where('email', 'not like', '%'.self::DEMO_EMAIL_DOMAIN);
     }
 }

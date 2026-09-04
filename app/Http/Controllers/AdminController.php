@@ -72,16 +72,12 @@ class AdminController extends Controller
      * Per-RM performance: their assigned ministry portfolio (see
      * DistributeMinistries) alongside their actual submission activity, so
      * the boss can see who's covering what and how active they are.
-     * Scoped to real (@amacplc.com) accounts only, matching the
-     * ministry-distribution scope - demo accounts don't carry a
-     * meaningful "performance."
+     * Scoped to real (non-demo) accounts only - demo accounts don't
+     * carry a meaningful "performance."
      */
     public function rmPerformance(): View
     {
-        $rms = User::where('role', User::ROLE_RM)
-            ->where('email', 'like', '%@amacplc.com')
-            ->orderBy('name')
-            ->get()
+        $rms = User::assignableRms()->orderBy('name')->get()
             ->map(function (User $rm) {
                 $submissions = Collection::where('user_id', $rm->id);
 
@@ -105,20 +101,15 @@ class AdminController extends Controller
      * `assigned_rm_id` - ministries (previously only settable via the
      * ministries:distribute CLI script) and clients (previously not
      * settable at all). One page, two tabs, since the boss asked for both
-     * in the same place. The RM list is scoped to active @amacplc.com
-     * accounts, matching ministries:distribute's own scope - demo
-     * accounts aren't real assignees.
+     * in the same place. The RM list is scoped to active, real (non-demo)
+     * accounts - demo accounts aren't real assignees.
      */
     public function assignRms(Request $request): View
     {
         $view = $request->string('view')->toString();
         $view = in_array($view, ['ministries', 'clients'], true) ? $view : 'ministries';
 
-        $rms = User::where('role', User::ROLE_RM)
-            ->where('is_active', true)
-            ->where('email', 'like', '%@amacplc.com')
-            ->orderBy('name')
-            ->get();
+        $rms = User::assignableRms()->orderBy('name')->get();
 
         if ($view === 'clients') {
             $search = $request->string('q')->toString() ?: null;

@@ -30,14 +30,10 @@ class DistributeClients extends Command
 
     public function handle(): int
     {
-        $rms = User::where('role', User::ROLE_RM)
-            ->where('is_active', true)
-            ->where('email', 'like', '%@amacplc.com')
-            ->orderBy('name')
-            ->get();
+        $rms = User::assignableRms()->orderBy('name')->get();
 
         if ($rms->isEmpty()) {
-            $this->error('No active @amacplc.com RM accounts found.');
+            $this->error('No active, real (non-demo) RM accounts found.');
 
             return self::FAILURE;
         }

@@ -274,11 +274,7 @@ class DashboardController extends Controller
             'phase2Count' => StateCorporation::phaseTwo()->count(),
             'classifications' => StateCorporation::query()
                 ->select('classification')->distinct()->orderBy('classification')->pluck('classification'),
-            'rms' => User::where('role', User::ROLE_RM)
-                ->where('is_active', true)
-                ->where('email', 'like', '%@amacplc.com')
-                ->orderBy('name')
-                ->get(),
+            'rms' => User::assignableRms()->orderBy('name')->get(),
             'filters' => ['phase' => $phase, 'q' => $search, 'classification' => $classification, 'rm' => $rm],
         ]);
     }

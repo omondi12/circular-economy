@@ -104,15 +104,11 @@ class ClientReportController extends Controller
     }
 
     /**
-     * Same active @amacplc.com scope used by Assign RMs, so the "RM Name"
-     * dropdown here only ever offers real assignees.
+     * Same active, real (non-demo) scope used by Assign RMs, so the "RM
+     * Name" dropdown here only ever offers real assignees.
      */
     private function assignableRms()
     {
-        return User::where('role', User::ROLE_RM)
-            ->where('is_active', true)
-            ->where('email', 'like', '%@amacplc.com')
-            ->orderBy('name')
-            ->get();
+        return User::assignableRms()->orderBy('name')->get();
     }
 }
