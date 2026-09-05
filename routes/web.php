@@ -40,8 +40,10 @@ Route::prefix('rm')->name('rm.')->middleware(['auth', 'role:rm,admin'])->group(f
     Route::post('/collections', [RmDashboardController::class, 'store'])->name('collections.store');
 });
 
-// Admin area - manage RM accounts and review the audit log.
-Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin'])->group(function () {
+// Admin area - manage RM accounts and review the audit log. Supervisors get
+// the same access as admins here (2026-09-05 decision), just under their
+// own login so their actions are attributed to them, not shared credentials.
+Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin,supervisor'])->group(function () {
     Route::get('/', [AdminController::class, 'dashboard'])->name('dashboard');
     Route::get('/users', [AdminController::class, 'users'])->name('users');
     Route::get('/users/create', [AdminController::class, 'createUser'])->name('users.create');

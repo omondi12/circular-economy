@@ -22,6 +22,9 @@ class AdminController extends Controller
     {
         return view('admin.dashboard', [
             'userCount' => User::where('role', User::ROLE_RM)->count(),
+            'supervisorCount' => User::where('role', User::ROLE_SUPERVISOR)->count(),
+            'assignedClientCount' => StateCorporation::whereNotNull('assigned_rm_id')->count(),
+            'unassignedClientCount' => StateCorporation::whereNull('assigned_rm_id')->count(),
             'submissionCount' => Collection::count(),
             'reportCount' => ClientReport::count(),
             'recentAuditLog' => AuditLog::with('user')->latest()->limit(10)->get(),
@@ -31,7 +34,8 @@ class AdminController extends Controller
     public function users(): View
     {
         return view('admin.users', [
-            'users' => User::where('role', User::ROLE_RM)->orderBy('name')->get(),
+            'users' => User::whereIn('role', [User::ROLE_RM, User::ROLE_SUPERVISOR])
+                ->orderBy('role')->orderBy('name')->get(),
         ]);
     }
 
@@ -46,17 +50,19 @@ class AdminController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255', 'unique:users,email'],
             'password' => ['required', Password::min(8)],
+            'role' => ['required', Rule::in([User::ROLE_RM, User::ROLE_SUPERVISOR])],
         ]);
 
         $user = User::create([
             ...$data,
-            'role' => User::ROLE_RM,
             'is_active' => true,
         ]);
 
-        AuditLog::record('user.created', $user, ['name' => $user->name, 'email' => $user->email]);
+        AuditLog::record('user.created', $user, ['name' => $user->name, 'email' => $user->email, 'role' => $user->role]);
 
-        return redirect()->route('admin.users')->with('status', "RM account created for {$user->name}.");
+        $roleLabel = $user->isSupervisor() ? 'Supervisor' : 'RM';
+
+        return redirect()->route('admin.users')->with('status', "{$roleLabel} account created for {$user->name}.");
     }
 
     public function toggleUser(User $user): RedirectResponse
@@ -236,7 +242,7 @@ class AdminController extends Controller
             'entries' => $entries,
             'filters' => $filters,
             'actions' => AuditLog::query()->distinct()->orderBy('action')->pluck('action'),
-            'rms' => User::where('role', User::ROLE_RM)->orderBy('name')->get(),
+            'rms' => User::whereIn('role', [User::ROLE_RM, User::ROLE_SUPERVISOR, User::ROLE_ADMIN])->orderBy('name')->get(),
         ]);
     }
 }

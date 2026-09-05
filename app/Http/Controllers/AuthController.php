@@ -38,7 +38,7 @@ class AuthController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(Auth::user()->isAdmin() ? route('admin.dashboard') : route('rm.dashboard'));
+        return redirect()->intended(Auth::user()->canAccessAdminArea() ? route('admin.dashboard') : route('rm.dashboard'));
     }
 
     public function logout(Request $request): RedirectResponse

@@ -22,6 +22,8 @@ class User extends Authenticatable
 
     public const ROLE_RM = 'rm';
 
+    public const ROLE_SUPERVISOR = 'supervisor';
+
     /**
      * Demo accounts (DemoDataSeeder) all share this domain - excluded
      * rather than requiring a specific real domain like @amacplc.com, so
@@ -67,6 +69,21 @@ class User extends Authenticatable
     public function isRm(): bool
     {
         return $this->role === self::ROLE_RM;
+    }
+
+    public function isSupervisor(): bool
+    {
+        return $this->role === self::ROLE_SUPERVISOR;
+    }
+
+    /**
+     * Supervisors get the same admin-area access as admins (per the boss's
+     * decision, 2026-09-05) - a distinct role so their actions are their
+     * own in the audit log, rather than everyone sharing the admin login.
+     */
+    public function canAccessAdminArea(): bool
+    {
+        return in_array($this->role, [self::ROLE_ADMIN, self::ROLE_SUPERVISOR], true);
     }
 
     /**

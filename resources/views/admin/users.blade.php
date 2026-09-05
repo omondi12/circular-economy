@@ -1,4 +1,4 @@
-<x-layout title="Relationship Managers">
+<x-layout title="Team Accounts">
         @if (session('status'))
             <div class="mb-6 rounded-lg bg-brand-50 border border-brand-600/30 text-brand-800 text-sm px-4 py-3">
                 {{ session('status') }}
@@ -7,8 +7,8 @@
 
         <div class="flex items-center justify-between mb-6">
             <x-page-header
-                title="Relationship Managers"
-                :subtitle="$users->count().' RM account(s).'"
+                title="Team Accounts"
+                :subtitle="$users->count().' account(s) - Relationship Managers and Supervisors.'"
                 :back="route('admin.dashboard')"
                 back-label="Back to admin"
             />
@@ -16,7 +16,7 @@
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                 </svg>
-                New RM Account
+                New Account
             </a>
         </div>
 
@@ -26,6 +26,7 @@
                     <tr>
                         <th class="px-4 py-2 font-medium">Name</th>
                         <th class="px-4 py-2 font-medium">Email</th>
+                        <th class="px-4 py-2 font-medium">Role</th>
                         <th class="px-4 py-2 font-medium">Status</th>
                         <th class="px-4 py-2 font-medium">Action</th>
                     </tr>
@@ -35,6 +36,13 @@
                         <tr class="hover:bg-panel-muted transition-colors">
                             <td class="px-4 py-3 font-medium">{{ $user->name }}</td>
                             <td class="px-4 py-3 text-ink-faint">{{ $user->email }}</td>
+                            <td class="px-4 py-3">
+                                @if ($user->isSupervisor())
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded-full bg-violet-100 text-violet-800 text-xs font-medium">Supervisor</span>
+                                @else
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded-full bg-panel-muted text-ink-muted text-xs font-medium">RM</span>
+                                @endif
+                            </td>
                             <td class="px-4 py-3">
                                 @if ($user->is_active)
                                     <span class="inline-flex items-center px-2 py-0.5 rounded-full bg-brand-50 text-brand-800 text-xs font-medium">Active</span>
@@ -53,7 +61,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="4" class="px-4 py-8 text-center text-ink-faint">No RM accounts yet.</td>
+                            <td colspan="5" class="px-4 py-8 text-center text-ink-faint">No accounts yet.</td>
                         </tr>
                     @endforelse
                 </tbody>

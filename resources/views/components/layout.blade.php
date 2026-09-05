@@ -40,9 +40,9 @@
 
                 <div class="flex items-center gap-2">
                     @auth
-                        <a href="{{ auth()->user()->isAdmin() ? route('admin.dashboard') : route('rm.dashboard') }}" class="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-brand-700 text-white text-sm font-semibold hover:bg-brand-800 transition-colors shadow-sm">
+                        <a href="{{ auth()->user()->canAccessAdminArea() ? route('admin.dashboard') : route('rm.dashboard') }}" class="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-brand-700 text-white text-sm font-semibold hover:bg-brand-800 transition-colors shadow-sm">
                             <x-icon name="layout-dashboard" size="15" />
-                            {{ auth()->user()->isAdmin() ? __('Admin') : __('My Dashboard') }}
+                            {{ auth()->user()->canAccessAdminArea() ? __('Admin') : __('My Dashboard') }}
                         </a>
                         <span class="hidden md:inline-flex items-center justify-center w-8 h-8 rounded-full bg-gold-100 text-gold-700 text-xs font-bold shrink-0" title="{{ auth()->user()->name }}">
                             {{ collect(explode(' ', auth()->user()->name))->map(fn($p) => mb_substr($p, 0, 1))->take(2)->implode('') }}
