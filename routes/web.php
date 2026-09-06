@@ -48,6 +48,8 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin,supervis
     Route::get('/users', [AdminController::class, 'users'])->name('users');
     Route::get('/users/create', [AdminController::class, 'createUser'])->name('users.create');
     Route::post('/users', [AdminController::class, 'storeUser'])->name('users.store');
+    Route::get('/users/{user}/edit', [AdminController::class, 'editUser'])->name('users.edit');
+    Route::put('/users/{user}', [AdminController::class, 'updateUser'])->name('users.update');
     Route::post('/users/{user}/toggle', [AdminController::class, 'toggleUser'])->name('users.toggle');
     Route::get('/audit-log', [AdminController::class, 'auditLog'])->name('audit-log');
     Route::get('/rm-performance', [AdminController::class, 'rmPerformance'])->name('rm-performance');

@@ -59,12 +59,17 @@
                                 @endif
                             </td>
                             <td class="px-4 py-3">
-                                <form method="POST" action="{{ route('admin.users.toggle', $user) }}">
-                                    @csrf
-                                    <button type="submit" class="text-xs font-medium {{ $user->is_active ? 'text-danger hover:text-danger' : 'text-brand-700 hover:text-brand-800' }}">
-                                        {{ $user->is_active ? 'Deactivate' : 'Reactivate' }}
-                                    </button>
-                                </form>
+                                <div class="flex items-center gap-3">
+                                    <a href="{{ route('admin.users.edit', $user) }}" class="text-xs font-medium text-brand-700 hover:text-brand-800">
+                                        Edit
+                                    </a>
+                                    <form method="POST" action="{{ route('admin.users.toggle', $user) }}">
+                                        @csrf
+                                        <button type="submit" class="text-xs font-medium {{ $user->is_active ? 'text-danger hover:text-danger' : 'text-brand-700 hover:text-brand-800' }}">
+                                            {{ $user->is_active ? 'Deactivate' : 'Reactivate' }}
+                                        </button>
+                                    </form>
+                                </div>
                             </td>
                         </tr>
                     @empty

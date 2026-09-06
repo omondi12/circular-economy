@@ -115,6 +115,83 @@ class AdminController extends Controller
     }
 
     /**
+     * Edit an existing account - the one function the boss asked for to
+     * switch an existing account's role (e.g. an RM promoted to
+     * Supervisor) without recreating it. Admins can edit anyone's role,
+     * supervisor and details; a supervisor can edit their own RM's name/
+     * email/password only - role and team assignment stay admin-only,
+     * same boundary as everywhere else (2026-09-06).
+     */
+    public function editUser(User $user): View
+    {
+        $viewer = auth()->user();
+        $isOwnRm = $user->isRm() && $user->supervisor_id === $viewer->id;
+        abort_unless($viewer->isAdmin() || $isOwnRm, 403);
+
+        return view('admin.edit-user', [
+            'editedUser' => $user,
+            'supervisors' => $viewer->isAdmin()
+                ? User::where('role', User::ROLE_SUPERVISOR)->orderBy('name')->get()
+                : collect(),
+        ]);
+    }
+
+    public function updateUser(Request $request, User $user): RedirectResponse
+    {
+        $viewer = auth()->user();
+        $isOwnRm = $user->isRm() && $user->supervisor_id === $viewer->id;
+        abort_unless($viewer->isAdmin() || $isOwnRm, 403);
+
+        $rules = [
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'email', 'max:255', Rule::unique('users', 'email')->ignore($user->id)],
+            'password' => ['nullable', Password::min(8)],
+        ];
+
+        if ($viewer->isAdmin()) {
+            $rules['role'] = ['required', Rule::in([User::ROLE_RM, User::ROLE_SUPERVISOR])];
+            $rules['supervisor_id'] = ['nullable', 'integer', 'exists:users,id'];
+        }
+
+        $data = $request->validate($rules);
+
+        if (empty($data['password'])) {
+            unset($data['password']);
+        }
+
+        if ($viewer->isAdmin() && ($data['role'] ?? null) === User::ROLE_SUPERVISOR) {
+            // A supervisor doesn't have a supervisor of their own.
+            $data['supervisor_id'] = null;
+        }
+
+        $previousRole = $user->role;
+        $user->update($data);
+
+        // Switched away from RM - anything they held as an RM is now a
+        // dangling reference to a non-RM account, so free it back up.
+        if ($previousRole === User::ROLE_RM && $user->role !== User::ROLE_RM) {
+            StateCorporation::where('assigned_rm_id', $user->id)->update(['assigned_rm_id' => null]);
+            GovernmentEntity::where('assigned_rm_id', $user->id)->update(['assigned_rm_id' => null]);
+        }
+
+        // Switched away from Supervisor - their RMs need reassigning, not
+        // left silently reporting to an account that's no longer one.
+        if ($previousRole === User::ROLE_SUPERVISOR && $user->role !== User::ROLE_SUPERVISOR) {
+            User::where('supervisor_id', $user->id)->update(['supervisor_id' => null]);
+        }
+
+        AuditLog::record('user.updated', $user, [
+            'name' => $user->name,
+            'email' => $user->email,
+            'role' => $user->role,
+            'previous_role' => $previousRole,
+            'supervisor' => $user->supervisor?->name,
+        ]);
+
+        return redirect()->route('admin.users')->with('status', "{$user->name} updated.");
+    }
+
+    /**
      * Per-RM performance: their assigned ministry portfolio (see
      * DistributeMinistries) alongside their actual submission activity, so
      * the boss can see who's covering what and how active they are.
