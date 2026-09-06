@@ -56,6 +56,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin,supervis
     Route::post('/assign-rms/ministries/distribute', [AdminController::class, 'distributeMinistries'])->name('assign-rms.ministries.distribute');
     Route::post('/assign-rms/ministries/{ministry}', [AdminController::class, 'assignMinistryRm'])->name('assign-rms.ministries.update');
     Route::post('/assign-rms/clients/{stateCorporation}', [AdminController::class, 'assignClientRm'])->name('assign-rms.clients.update');
+    Route::post('/assign-rms/supervisor/{user}', [AdminController::class, 'assignRmSupervisor'])->name('assign-rms.supervisor.update');
 
     Route::get('/clients/{client}/reports', [ClientReportController::class, 'index'])->name('clients.reports.index');
     Route::post('/clients/{client}/reports', [ClientReportController::class, 'store'])->name('clients.reports.store');

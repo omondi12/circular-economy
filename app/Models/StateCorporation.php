@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class StateCorporation extends Model
 {
@@ -78,5 +79,34 @@ class StateCorporation extends Model
     public function scopePhaseTwo($query)
     {
         return $query->where('phase', self::PHASE_TWO);
+    }
+
+    /**
+     * Restricts to clients a supervisor can manage: assigned to one of
+     * their own RMs, or still unassigned (so they can pick it up for their
+     * team). Admins are unrestricted. Used only in the admin area - the
+     * public Clients page stays a full, unscoped register.
+     */
+    public function scopeVisibleTo($query, User $viewer)
+    {
+        if (! $viewer->isSupervisor()) {
+            return $query;
+        }
+
+        $rmIds = $viewer->rms()->pluck('id');
+
+        return $query->where(function ($q) use ($rmIds) {
+            $q->whereIn('assigned_rm_id', $rmIds)->orWhereNull('assigned_rm_id');
+        });
+    }
+
+    /**
+     * The contact person from this client's most recent engagement report,
+     * if any - shown on the public Clients page rather than a separate
+     * manually-maintained field, since the report log already captures it.
+     */
+    public function latestReport(): HasOne
+    {
+        return $this->hasOne(ClientReport::class)->latestOfMany(['report_date', 'id']);
     }
 }

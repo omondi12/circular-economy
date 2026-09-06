@@ -67,6 +67,8 @@
                         <th class="px-4 py-2 font-medium">Classification</th>
                         <th class="px-4 py-2 font-medium">Ministry</th>
                         <th class="px-4 py-2 font-medium">RM</th>
+                        <th class="px-4 py-2 font-medium">Supervisor</th>
+                        <th class="px-4 py-2 font-medium">Contact Person</th>
                         <th class="px-4 py-2 font-medium">Cluster</th>
                         <th class="px-4 py-2 font-medium">Class</th>
                         <th class="px-4 py-2 font-medium">Sub-Class</th>
@@ -102,6 +104,12 @@
                                     <span class="text-ink-faint">—</span>
                                 @endif
                             </td>
+                            <td class="px-4 py-3 whitespace-nowrap text-ink-faint">
+                                {{ $corp->assignedRm?->supervisor?->name ?? '—' }}
+                            </td>
+                            <td class="px-4 py-3 whitespace-nowrap text-ink-faint">
+                                {{ $corp->latestReport?->contact_person ?? '—' }}
+                            </td>
                             <td class="px-4 py-3 text-ink-faint">{{ $corp->cluster ?? '—' }}</td>
                             <td class="px-4 py-3 text-ink-faint">{{ $corp->class ?? '—' }}</td>
                             <td class="px-4 py-3 text-ink-faint">{{ $corp->subclass ?? '—' }}</td>
@@ -115,7 +123,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="8" class="px-4 py-8 text-center text-ink-faint">No clients match this filter.</td>
+                            <td colspan="10" class="px-4 py-8 text-center text-ink-faint">No clients match this filter.</td>
                         </tr>
                     @endforelse
                 </tbody>

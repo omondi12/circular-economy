@@ -265,13 +265,13 @@ class DashboardController extends Controller
         $rm = $request->string('rm')->toString() ?: null;
 
         $corporations = StateCorporation::query()
-            ->with(['ministry', 'assignedRm'])
+            ->with(['ministry', 'assignedRm.supervisor', 'latestReport'])
             ->when($phase, fn ($q, $v) => $q->where('phase', $v))
             ->when($classification, fn ($q, $v) => $q->where('classification', $v))
             ->when($search, fn ($q, $v) => $q->where('name', 'like', "%{$v}%"))
             ->when($rm === 'assigned', fn ($q) => $q->whereNotNull('assigned_rm_id'))
             ->when($rm === 'unassigned', fn ($q) => $q->whereNull('assigned_rm_id'))
-            ->when($rm && ! in_array($rm, ['assigned', 'unassigned'], true), fn ($q, $v) => $q->where('assigned_rm_id', $v))
+            ->when($rm && ! in_array($rm, ['assigned', 'unassigned'], true), fn ($q) => $q->where('assigned_rm_id', $rm))
             ->orderBy('phase')
             ->orderBy('cluster')
             ->orderBy('name')

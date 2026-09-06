@@ -51,7 +51,7 @@ class ClientReportController extends Controller
         return view('reports.index', [
             'reports' => $reports,
             'filters' => $filters,
-            'rms' => $this->assignableRms(),
+            'rms' => User::assignableRms()->orderBy('name')->get(),
             'stages' => ClientReportOptions::STAGES,
             'totalReports' => ClientReport::count(),
         ]);
@@ -59,6 +59,8 @@ class ClientReportController extends Controller
 
     public function index(StateCorporation $client): View
     {
+        abort_unless(StateCorporation::whereKey($client->id)->visibleTo(auth()->user())->exists(), 403);
+
         $reports = $client->reports()
             ->with(['rm', 'createdBy'])
             ->orderByDesc('report_date')
@@ -76,6 +78,8 @@ class ClientReportController extends Controller
 
     public function store(Request $request, StateCorporation $client): RedirectResponse
     {
+        abort_unless(StateCorporation::whereKey($client->id)->visibleTo(auth()->user())->exists(), 403);
+
         $data = $request->validate([
             'rm_id' => ['nullable', 'integer', 'exists:users,id'],
             'report_date' => ['required', 'date'],
@@ -104,11 +108,12 @@ class ClientReportController extends Controller
     }
 
     /**
-     * Same active, real (non-demo) scope used by Assign RMs, so the "RM
-     * Name" dropdown here only ever offers real assignees.
+     * The RM dropdown for logging a report against one client - scoped to
+     * the viewer's own team when they're a supervisor, same as everywhere
+     * else in the admin area (2026-09-06).
      */
     private function assignableRms()
     {
-        return User::assignableRms()->orderBy('name')->get();
+        return User::visibleRmsFor(auth()->user())->orderBy('name')->get();
     }
 }

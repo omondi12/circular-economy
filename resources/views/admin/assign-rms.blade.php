@@ -13,7 +13,7 @@
         />
 
         <div class="inline-flex flex-wrap rounded-lg border border-border bg-white p-1 text-sm mb-6">
-            @foreach (['ministries' => 'Ministries', 'clients' => 'Clients'] as $key => $label)
+            @foreach ((auth()->user()->isAdmin() ? ['ministries' => 'Ministries', 'clients' => 'Clients', 'supervisors' => 'Supervisors'] : ['ministries' => 'Ministries', 'clients' => 'Clients']) as $key => $label)
                 <a
                     href="{{ route('admin.assign-rms', ['view' => $key]) }}"
                     @class([
@@ -30,15 +30,17 @@
         @if ($view === 'ministries')
             <div class="flex items-center justify-between mb-4">
                 <p class="text-sm text-ink-faint">{{ $ministries->count() }} ministries.</p>
-                <form
-                    method="POST" action="{{ route('admin.assign-rms.ministries.distribute') }}"
-                    onsubmit="return confirm('This recomputes every ministry\'s assignment from scratch (2 named exceptions + round-robin), overwriting any manual assignments made above. Continue?')"
-                >
-                    @csrf
-                    <button type="submit" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-gold-600 hover:bg-gold-700 text-white text-sm font-semibold transition-colors shadow-sm">
-                        Distribute Automatically
-                    </button>
-                </form>
+                @if (auth()->user()->isAdmin())
+                    <form
+                        method="POST" action="{{ route('admin.assign-rms.ministries.distribute') }}"
+                        onsubmit="return confirm('This recomputes every ministry\'s assignment from scratch (2 named exceptions + round-robin), overwriting any manual assignments made above. Continue?')"
+                    >
+                        @csrf
+                        <button type="submit" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-gold-600 hover:bg-gold-700 text-white text-sm font-semibold transition-colors shadow-sm">
+                            Distribute Automatically
+                        </button>
+                    </form>
+                @endif
             </div>
 
             <div class="bg-panel border border-border rounded-xl overflow-hidden shadow-sm overflow-x-auto">
@@ -78,7 +80,7 @@
                     </tbody>
                 </table>
             </div>
-        @else
+        @elseif ($view === 'clients')
             <form method="GET" class="mb-4">
                 <input type="hidden" name="view" value="clients">
                 <div class="relative max-w-md">
@@ -148,6 +150,46 @@
 
             <div class="mt-4">
                 {{ $clients->links() }}
+            </div>
+        @else
+            <p class="text-sm text-ink-faint mb-4">{{ $allRms->count() }} RM(s). Moves an RM to a different supervisor's team - use this to sort out RMs that existed before their supervisor did.</p>
+
+            <div class="bg-panel border border-border rounded-xl overflow-hidden shadow-sm overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead class="bg-brand-50 text-left text-ink-faint">
+                        <tr>
+                            <th class="px-4 py-2 font-medium">RM</th>
+                            <th class="px-4 py-2 font-medium">Currently Reports To</th>
+                            <th class="px-4 py-2 font-medium">Assign To Supervisor</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-border">
+                        @forelse ($allRms as $rm)
+                            <tr class="hover:bg-panel-muted transition-colors">
+                                <td class="px-4 py-3 font-medium">{{ $rm->name }}</td>
+                                <td class="px-4 py-3 text-ink-muted">{{ $rm->supervisor->name ?? '—' }}</td>
+                                <td class="px-4 py-3">
+                                    <form method="POST" action="{{ route('admin.assign-rms.supervisor.update', $rm) }}">
+                                        @csrf
+                                        <select
+                                            name="supervisor_id" onchange="this.form.submit()"
+                                            class="rounded-lg border border-border bg-white px-3 py-1.5 text-sm text-ink focus:outline-none focus:ring-2 focus:ring-brand-600/30 focus:border-brand-600"
+                                        >
+                                            <option value="">— Unassigned —</option>
+                                            @foreach ($supervisors as $supervisor)
+                                                <option value="{{ $supervisor->id }}" @selected($rm->supervisor_id === $supervisor->id)>{{ $supervisor->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </form>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="3" class="px-4 py-8 text-center text-ink-faint">No RMs yet.</td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
             </div>
         @endif
 </x-layout>

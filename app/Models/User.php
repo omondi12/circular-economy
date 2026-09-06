@@ -7,11 +7,12 @@ use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-#[Fillable(['name', 'email', 'password', 'role', 'is_active'])]
+#[Fillable(['name', 'email', 'password', 'role', 'is_active', 'supervisor_id'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
@@ -61,6 +62,24 @@ class User extends Authenticatable
         return $this->hasMany(StateCorporation::class, 'assigned_rm_id');
     }
 
+    /**
+     * The supervisor an RM reports to (2026-09-06: each RM now belongs to
+     * exactly one supervisor, who does that RM's client reporting).
+     */
+    public function supervisor(): BelongsTo
+    {
+        return $this->belongsTo(self::class, 'supervisor_id');
+    }
+
+    /**
+     * The RMs under this supervisor. Only meaningful for a supervisor
+     * account - an RM's own `rms()` is always empty.
+     */
+    public function rms(): HasMany
+    {
+        return $this->hasMany(self::class, 'supervisor_id');
+    }
+
     public function isAdmin(): bool
     {
         return $this->role === self::ROLE_ADMIN;
@@ -96,5 +115,23 @@ class User extends Authenticatable
         return $query->where('role', self::ROLE_RM)
             ->where('is_active', true)
             ->where('email', 'not like', '%'.self::DEMO_EMAIL_DOMAIN);
+    }
+
+    /**
+     * Assignable RMs a given viewer is allowed to see/assign - an admin
+     * sees every RM (unchanged); a supervisor sees only their own team, per
+     * the boss's "they can only see the ones that are theirs" (2026-09-06).
+     * The RM dropdown on Assign RMs, RM Performance, client reports, and
+     * the Team Accounts list all filter through this one place.
+     */
+    public function scopeVisibleRmsFor($query, self $viewer)
+    {
+        $query->assignableRms();
+
+        if ($viewer->isSupervisor()) {
+            $query->where('supervisor_id', $viewer->id);
+        }
+
+        return $query;
     }
 }

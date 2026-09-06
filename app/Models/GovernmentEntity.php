@@ -40,4 +40,22 @@ class GovernmentEntity extends Model
     {
         return $query->where('level', self::LEVEL_MINISTRY);
     }
+
+    /**
+     * Same supervisor scoping as StateCorporation::scopeVisibleTo - a
+     * supervisor manages only ministries assigned to their own RMs, or
+     * still unassigned. Admins are unrestricted.
+     */
+    public function scopeVisibleTo($query, User $viewer)
+    {
+        if (! $viewer->isSupervisor()) {
+            return $query;
+        }
+
+        $rmIds = $viewer->rms()->pluck('id');
+
+        return $query->where(function ($q) use ($rmIds) {
+            $q->whereIn('assigned_rm_id', $rmIds)->orWhereNull('assigned_rm_id');
+        });
+    }
 }

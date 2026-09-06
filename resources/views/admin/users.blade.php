@@ -8,7 +8,7 @@
         <div class="flex items-center justify-between mb-6">
             <x-page-header
                 title="Team Accounts"
-                :subtitle="$users->count().' account(s) - Relationship Managers and Supervisors.'"
+                :subtitle="auth()->user()->isAdmin() ? $users->count().' account(s) - Relationship Managers and Supervisors.' : $users->count().' RM(s) on your team.'"
                 :back="route('admin.dashboard')"
                 back-label="Back to admin"
             />
@@ -27,6 +27,9 @@
                         <th class="px-4 py-2 font-medium">Name</th>
                         <th class="px-4 py-2 font-medium">Email</th>
                         <th class="px-4 py-2 font-medium">Role</th>
+                        @if (auth()->user()->isAdmin())
+                            <th class="px-4 py-2 font-medium">Supervisor</th>
+                        @endif
                         <th class="px-4 py-2 font-medium">Status</th>
                         <th class="px-4 py-2 font-medium">Action</th>
                     </tr>
@@ -43,6 +46,11 @@
                                     <span class="inline-flex items-center px-2 py-0.5 rounded-full bg-panel-muted text-ink-muted text-xs font-medium">RM</span>
                                 @endif
                             </td>
+                            @if (auth()->user()->isAdmin())
+                                <td class="px-4 py-3 text-ink-faint">
+                                    {{ $user->isRm() ? ($user->supervisor->name ?? '—') : '—' }}
+                                </td>
+                            @endif
                             <td class="px-4 py-3">
                                 @if ($user->is_active)
                                     <span class="inline-flex items-center px-2 py-0.5 rounded-full bg-brand-50 text-brand-800 text-xs font-medium">Active</span>
@@ -61,7 +69,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5" class="px-4 py-8 text-center text-ink-faint">No accounts yet.</td>
+                            <td colspan="{{ auth()->user()->isAdmin() ? 6 : 5 }}" class="px-4 py-8 text-center text-ink-faint">No accounts yet.</td>
                         </tr>
                     @endforelse
                 </tbody>

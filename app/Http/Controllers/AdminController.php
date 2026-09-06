@@ -31,34 +31,71 @@ class AdminController extends Controller
         ]);
     }
 
+    /**
+     * Team Accounts: an admin sees every RM and Supervisor (with who each
+     * RM reports to); a supervisor sees only their own RMs - "they can
+     * only see the ones that are theirs" (2026-09-06).
+     */
     public function users(): View
     {
-        return view('admin.users', [
-            'users' => User::whereIn('role', [User::ROLE_RM, User::ROLE_SUPERVISOR])
-                ->orderBy('role')->orderBy('name')->get(),
-        ]);
+        $viewer = auth()->user();
+
+        $users = $viewer->isSupervisor()
+            ? User::visibleRmsFor($viewer)->orderBy('name')->get()
+            : User::whereIn('role', [User::ROLE_RM, User::ROLE_SUPERVISOR])
+                ->with('supervisor')->orderBy('role')->orderBy('name')->get();
+
+        return view('admin.users', ['users' => $users]);
     }
 
     public function createUser(): View
     {
-        return view('admin.create-user');
+        return view('admin.create-user', [
+            'supervisors' => auth()->user()->isAdmin()
+                ? User::where('role', User::ROLE_SUPERVISOR)->orderBy('name')->get()
+                : collect(),
+        ]);
     }
 
+    /**
+     * A supervisor creating an account can only ever create their own RM
+     * (role and supervisor are forced, not taken from the request); an
+     * admin can create either an RM (optionally assigning it straight to a
+     * supervisor) or a Supervisor. This is the one function that lets a
+     * supervisor build their own team (2026-09-06).
+     */
     public function storeUser(Request $request): RedirectResponse
     {
-        $data = $request->validate([
+        $viewer = auth()->user();
+
+        $rules = [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255', 'unique:users,email'],
             'password' => ['required', Password::min(8)],
-            'role' => ['required', Rule::in([User::ROLE_RM, User::ROLE_SUPERVISOR])],
-        ]);
+        ];
 
-        $user = User::create([
-            ...$data,
-            'is_active' => true,
-        ]);
+        if ($viewer->isAdmin()) {
+            $rules['role'] = ['required', Rule::in([User::ROLE_RM, User::ROLE_SUPERVISOR])];
+            $rules['supervisor_id'] = ['nullable', 'integer', 'exists:users,id'];
+        }
 
-        AuditLog::record('user.created', $user, ['name' => $user->name, 'email' => $user->email, 'role' => $user->role]);
+        $data = $request->validate($rules);
+
+        if ($viewer->isSupervisor()) {
+            $data['role'] = User::ROLE_RM;
+            $data['supervisor_id'] = $viewer->id;
+        } elseif (($data['role'] ?? null) !== User::ROLE_RM) {
+            $data['supervisor_id'] = null;
+        }
+
+        $user = User::create([...$data, 'is_active' => true]);
+
+        AuditLog::record('user.created', $user, [
+            'name' => $user->name,
+            'email' => $user->email,
+            'role' => $user->role,
+            'supervisor' => $user->supervisor?->name,
+        ]);
 
         $roleLabel = $user->isSupervisor() ? 'Supervisor' : 'RM';
 
@@ -67,6 +104,9 @@ class AdminController extends Controller
 
     public function toggleUser(User $user): RedirectResponse
     {
+        $viewer = auth()->user();
+        abort_unless($viewer->isAdmin() || ($user->isRm() && $user->supervisor_id === $viewer->id), 403);
+
         $user->update(['is_active' => ! $user->is_active]);
 
         AuditLog::record($user->is_active ? 'user.activated' : 'user.deactivated', $user);
@@ -83,7 +123,7 @@ class AdminController extends Controller
      */
     public function rmPerformance(): View
     {
-        $rms = User::assignableRms()->orderBy('name')->get()
+        $rms = User::visibleRmsFor(auth()->user())->orderBy('name')->get()
             ->map(function (User $rm) {
                 $submissions = Collection::where('user_id', $rm->id);
 
@@ -106,21 +146,38 @@ class AdminController extends Controller
      * Manual RM assignment for both portfolios that carry an
      * `assigned_rm_id` - ministries (previously only settable via the
      * ministries:distribute CLI script) and clients (previously not
-     * settable at all). One page, two tabs, since the boss asked for both
-     * in the same place. The RM list is scoped to active, real (non-demo)
-     * accounts - demo accounts aren't real assignees.
+     * settable at all), plus (admin-only) which supervisor each RM
+     * reports to. A supervisor only ever sees/assigns their own team's
+     * ministries and clients - "they can only see the ones that are
+     * theirs" (2026-09-06); the Supervisors tab is admin-only since it
+     * moves RMs between teams.
      */
     public function assignRms(Request $request): View
     {
-        $view = $request->string('view')->toString();
-        $view = in_array($view, ['ministries', 'clients'], true) ? $view : 'ministries';
+        $viewer = auth()->user();
 
-        $rms = User::assignableRms()->orderBy('name')->get();
+        $validViews = $viewer->isAdmin() ? ['ministries', 'clients', 'supervisors'] : ['ministries', 'clients'];
+        $view = $request->string('view')->toString();
+        $view = in_array($view, $validViews, true) ? $view : 'ministries';
+
+        if ($view === 'supervisors') {
+            $allRms = User::where('role', User::ROLE_RM)->with('supervisor')->orderBy('name')->get();
+            $supervisors = User::where('role', User::ROLE_SUPERVISOR)->orderBy('name')->get();
+
+            return view('admin.assign-rms', [
+                'view' => $view,
+                'allRms' => $allRms,
+                'supervisors' => $supervisors,
+            ]);
+        }
+
+        $rms = User::visibleRmsFor($viewer)->orderBy('name')->get();
 
         if ($view === 'clients') {
             $search = $request->string('q')->toString() ?: null;
 
             $clients = StateCorporation::query()
+                ->visibleTo($viewer)
                 ->with('assignedRm')
                 ->when($search, fn ($q, $v) => $q->where('name', 'like', "%{$v}%"))
                 ->orderBy('name')
@@ -135,7 +192,7 @@ class AdminController extends Controller
             ]);
         }
 
-        $ministries = GovernmentEntity::ministries()->orderBy('id')->with('assignedRm')->get();
+        $ministries = GovernmentEntity::ministries()->visibleTo($viewer)->orderBy('id')->with('assignedRm')->get();
 
         return view('admin.assign-rms', [
             'view' => $view,
@@ -153,12 +210,16 @@ class AdminController extends Controller
     {
         abort_unless($ministry->level === GovernmentEntity::LEVEL_MINISTRY, 404);
 
+        $viewer = auth()->user();
+        abort_unless(GovernmentEntity::whereKey($ministry->id)->visibleTo($viewer)->exists(), 403);
+
         $data = $request->validate([
             'assigned_rm_id' => ['nullable', 'integer', 'exists:users,id'],
         ]);
 
         $previousRm = $ministry->assignedRm?->name;
-        $newRm = $data['assigned_rm_id'] ? User::find($data['assigned_rm_id']) : null;
+        $newRm = $data['assigned_rm_id'] ? User::visibleRmsFor($viewer)->find($data['assigned_rm_id']) : null;
+        abort_if($data['assigned_rm_id'] && ! $newRm, 403);
 
         $ministry->update(['assigned_rm_id' => $newRm?->id]);
 
@@ -181,12 +242,16 @@ class AdminController extends Controller
      */
     public function assignClientRm(Request $request, StateCorporation $stateCorporation): RedirectResponse
     {
+        $viewer = auth()->user();
+        abort_unless(StateCorporation::whereKey($stateCorporation->id)->visibleTo($viewer)->exists(), 403);
+
         $data = $request->validate([
             'assigned_rm_id' => ['nullable', 'integer', 'exists:users,id'],
         ]);
 
         $previousRm = $stateCorporation->assignedRm?->name;
-        $newRm = $data['assigned_rm_id'] ? User::find($data['assigned_rm_id']) : null;
+        $newRm = $data['assigned_rm_id'] ? User::visibleRmsFor($viewer)->find($data['assigned_rm_id']) : null;
+        abort_if($data['assigned_rm_id'] && ! $newRm, 403);
 
         $stateCorporation->update(['assigned_rm_id' => $newRm?->id]);
 
@@ -210,6 +275,8 @@ class AdminController extends Controller
      */
     public function distributeMinistries(): RedirectResponse
     {
+        abort_unless(auth()->user()->isAdmin(), 403);
+
         $exitCode = Artisan::call('ministries:distribute');
 
         if ($exitCode !== 0) {
@@ -222,6 +289,38 @@ class AdminController extends Controller
         AuditLog::record('ministries.distributed');
 
         return redirect()->route('admin.assign-rms')->with('status', 'Ministries re-distributed across RMs.');
+    }
+
+    /**
+     * Admin-only: moves an RM to a different supervisor's team (or back to
+     * unassigned). This is the function the boss asked for to sort out the
+     * RMs that already existed before supervisors did (2026-09-06).
+     */
+    public function assignRmSupervisor(Request $request, User $user): RedirectResponse
+    {
+        abort_unless(auth()->user()->isAdmin(), 403);
+        abort_unless($user->isRm(), 404);
+
+        $data = $request->validate([
+            'supervisor_id' => ['nullable', 'integer', 'exists:users,id'],
+        ]);
+
+        $newSupervisor = $data['supervisor_id'] ? User::where('role', User::ROLE_SUPERVISOR)->find($data['supervisor_id']) : null;
+        abort_if($data['supervisor_id'] && ! $newSupervisor, 422);
+
+        $previousSupervisor = $user->supervisor?->name;
+
+        $user->update(['supervisor_id' => $newSupervisor?->id]);
+
+        AuditLog::record('user.supervisor_assigned', $user, [
+            'rm' => $user->name,
+            'previous_supervisor' => $previousSupervisor,
+            'new_supervisor' => $newSupervisor?->name,
+        ]);
+
+        return back()->with('status', $newSupervisor
+            ? "{$user->name} now reports to {$newSupervisor->name}."
+            : "{$user->name} is now unassigned to a supervisor.");
     }
 
     public function auditLog(Request $request): View
