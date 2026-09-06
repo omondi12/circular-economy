@@ -42,6 +42,11 @@ class DashboardController extends Controller
         $stateCorpTotal = StateCorporation::count();
         $stateCorpPhase1 = StateCorporation::phaseOne()->count();
         $stateCorpPhase2 = StateCorporation::phaseTwo()->count();
+        $assignedClientCount = StateCorporation::whereNotNull('assigned_rm_id')->count();
+        $unassignedClientCount = StateCorporation::whereNull('assigned_rm_id')->count();
+
+        $rmCount = User::where('role', User::ROLE_RM)->count();
+        $supervisorCount = User::where('role', User::ROLE_SUPERVISOR)->count();
 
         $materialItemCount = collect(WasteCategories::lots())->sum(fn (array $lot) => count($lot['categories']));
 
@@ -59,6 +64,10 @@ class DashboardController extends Controller
             'stateCorpTotal' => $stateCorpTotal,
             'stateCorpPhase1' => $stateCorpPhase1,
             'stateCorpPhase2' => $stateCorpPhase2,
+            'assignedClientCount' => $assignedClientCount,
+            'unassignedClientCount' => $unassignedClientCount,
+            'rmCount' => $rmCount,
+            'supervisorCount' => $supervisorCount,
             'materialItemCount' => $materialItemCount,
             'reportCount' => $reportCount,
             'recent' => $recent,

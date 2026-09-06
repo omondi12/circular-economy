@@ -52,4 +52,29 @@
         />
     </div>
 
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
+        <x-stat-tile
+            label="Assigned Clients" icon="circle-check" tone="green"
+            :value="number_format($assignedClientCount)"
+            hint="Have an RM assigned"
+            :href="route('state-corporations.index', ['rm' => 'assigned'])"
+        />
+        <x-stat-tile
+            label="Unassigned Clients" icon="inbox" tone="rose"
+            :value="number_format($unassignedClientCount)"
+            hint="Still need an RM"
+            :href="route('state-corporations.index', ['rm' => 'unassigned'])"
+        />
+        <x-stat-tile
+            label="Relationship Managers" icon="building" tone="teal"
+            :value="number_format($rmCount)"
+            hint="Active RM accounts"
+        />
+        <x-stat-tile
+            label="Supervisors" icon="user" tone="violet"
+            :value="number_format($supervisorCount)"
+            hint="Active Supervisor accounts"
+        />
+    </div>
+
 </x-layout>
