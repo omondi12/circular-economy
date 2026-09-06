@@ -80,17 +80,7 @@ class ClientReportController extends Controller
     {
         abort_unless(StateCorporation::whereKey($client->id)->visibleTo(auth()->user())->exists(), 403);
 
-        $data = $request->validate([
-            'rm_id' => ['nullable', 'integer', 'exists:users,id'],
-            'report_date' => ['required', 'date'],
-            'engagement_type' => ['required', Rule::in(ClientReportOptions::ENGAGEMENT_TYPES)],
-            'contact_person' => ['nullable', 'string', 'max:255'],
-            'outcome' => ['required', 'string', 'max:2000'],
-            'current_stage' => ['required', Rule::in(ClientReportOptions::STAGES)],
-            'next_action' => ['nullable', 'string', 'max:255'],
-            'follow_up_date' => ['nullable', 'date'],
-            'comments' => ['nullable', 'string', 'max:2000'],
-        ]);
+        $data = $request->validate($this->reportRules());
 
         $report = $client->reports()->create([
             ...$data,
@@ -105,6 +95,56 @@ class ClientReportController extends Controller
 
         return redirect()->route('admin.clients.reports.index', $client)
             ->with('status', "Report logged for {$client->name}.");
+    }
+
+    /**
+     * Editing a logged report - admin role only, per the boss (2026-09-07):
+     * unlike the rest of the admin area, this is deliberately narrower than
+     * "admin or supervisor" - a supervisor can log a fresh report for their
+     * own team, but not rewrite one already on record.
+     */
+    public function editReport(ClientReport $report): View
+    {
+        abort_unless(auth()->user()->isAdmin(), 403);
+
+        return view('admin.reports.edit', [
+            'report' => $report->load('client'),
+            'rms' => User::assignableRms()->orderBy('name')->get(),
+            'engagementTypes' => ClientReportOptions::ENGAGEMENT_TYPES,
+            'stages' => ClientReportOptions::STAGES,
+        ]);
+    }
+
+    public function updateReport(Request $request, ClientReport $report): RedirectResponse
+    {
+        abort_unless(auth()->user()->isAdmin(), 403);
+
+        $data = $request->validate($this->reportRules());
+
+        $report->update($data);
+
+        AuditLog::record('client.report_updated', $report, [
+            'client' => $report->client?->name,
+            'report_date' => $data['report_date'],
+            'current_stage' => $data['current_stage'],
+        ]);
+
+        return redirect()->route('reports.index')->with('status', 'Report updated.');
+    }
+
+    private function reportRules(): array
+    {
+        return [
+            'rm_id' => ['nullable', 'integer', 'exists:users,id'],
+            'report_date' => ['required', 'date'],
+            'engagement_type' => ['required', Rule::in(ClientReportOptions::ENGAGEMENT_TYPES)],
+            'contact_person' => ['nullable', 'string', 'max:255'],
+            'outcome' => ['required', 'string', 'max:2000'],
+            'current_stage' => ['required', Rule::in(ClientReportOptions::STAGES)],
+            'next_action' => ['nullable', 'string', 'max:255'],
+            'follow_up_date' => ['nullable', 'date'],
+            'comments' => ['nullable', 'string', 'max:2000'],
+        ];
     }
 
     /**

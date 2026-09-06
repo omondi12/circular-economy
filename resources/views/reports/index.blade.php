@@ -82,11 +82,18 @@
                             </td>
                             <td class="px-4 py-3 whitespace-nowrap text-ink-faint">{{ $report->createdBy->name ?? '—' }}</td>
                             <td class="px-4 py-3 whitespace-nowrap">
-                                @if ($report->client)
-                                    <a href="{{ route('admin.clients.reports.index', $report->client) }}" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-md bg-brand-50 text-brand-800 text-xs font-medium hover:bg-brand-100 transition-colors">
-                                        View
-                                    </a>
-                                @endif
+                                <div class="flex items-center gap-2">
+                                    @if ($report->client)
+                                        <a href="{{ route('admin.clients.reports.index', $report->client) }}" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-md bg-brand-50 text-brand-800 text-xs font-medium hover:bg-brand-100 transition-colors">
+                                            View
+                                        </a>
+                                    @endif
+                                    @if (auth()->check() && auth()->user()->isAdmin())
+                                        <a href="{{ route('admin.reports.edit', $report) }}" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-md bg-gold-50 text-gold-700 text-xs font-medium hover:bg-gold-100 transition-colors">
+                                            Edit
+                                        </a>
+                                    @endif
+                                </div>
                             </td>
                         </tr>
                     @empty

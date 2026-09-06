@@ -69,11 +69,13 @@
             label="Relationship Managers" icon="building" tone="teal"
             :value="number_format($rmCount)"
             hint="Active RM accounts"
+            :href="route('relationship-managers.index')"
         />
         <x-stat-tile
             label="Supervisors" icon="user" tone="violet"
             :value="number_format($supervisorCount)"
             hint="Active Supervisor accounts"
+            :href="route('supervisors.index')"
         />
     </div>
 

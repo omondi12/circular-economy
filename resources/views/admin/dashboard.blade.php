@@ -25,24 +25,38 @@
         </header>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
-            <x-stat-tile label="Assigned Clients" :value="number_format($assignedClientCount)" hint="Have an RM assigned" icon="circle-check" tone="green" :href="route('admin.assign-rms', ['view' => 'clients'])" />
+            <x-stat-tile
+                :label="$isSupervisor ? 'My Assigned Clients' : 'Assigned Clients'"
+                :value="number_format($assignedClientCount)" hint="Have an RM assigned" icon="circle-check" tone="green"
+                :href="route('admin.assign-rms', ['view' => 'clients'])"
+            />
             <x-stat-tile label="Unassigned Clients" :value="number_format($unassignedClientCount)" hint="Still need an RM" icon="inbox" tone="rose" :href="route('admin.assign-rms', ['view' => 'clients'])" />
-            <x-stat-tile label="Relationship Managers" :value="number_format($userCount)" hint="Tap to manage accounts" icon="building" tone="teal" :href="route('admin.users')" />
-            <x-stat-tile label="Supervisors" :value="number_format($supervisorCount)" hint="Tap to manage accounts" icon="user" tone="violet" :href="route('admin.users')" />
+            <x-stat-tile
+                :label="$isSupervisor ? 'My Relationship Managers' : 'Relationship Managers'"
+                :value="number_format($userCount)" hint="Tap to manage accounts" icon="building" tone="teal"
+                :href="route('admin.users')"
+            />
+            @if ($isSupervisor)
+                <x-stat-tile label="My Client Reports" :value="number_format($reportCount)" hint="Reports logged for your team's clients" icon="calendar" tone="violet" :href="route('reports.index')" />
+            @else
+                <x-stat-tile label="Supervisors" :value="number_format($supervisorCount)" hint="Tap to manage accounts" icon="user" tone="violet" :href="route('admin.users')" />
+            @endif
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4 mb-6">
             <x-stat-tile label="Total Submissions" :value="number_format($submissionCount)" hint="Across all RMs and legacy data" icon="document" tone="gold" :href="route('dashboard')" />
-            <x-stat-tile label="RM Performance" value="View" hint="Ministries and activity per RM" icon="landmark" tone="violet" :href="route('admin.rm-performance')" />
-            <x-stat-tile label="Assign RMs" value="Manage" hint="Assign or shift RMs across ministries and clients" icon="user" tone="rose" :href="route('admin.assign-rms')" />
-            <x-stat-tile label="Clients & Reports" value="View" hint="All clients - assign an RM or log a daily report" icon="building-community" tone="gold" :href="route('admin.assign-rms', ['view' => 'clients'])" />
-            <x-stat-tile label="Client Reports" :value="number_format($reportCount)" hint="Browse every daily engagement report logged" icon="calendar" tone="violet" :href="route('reports.index')" />
-            <x-stat-tile label="Audit Log" value="View" hint="Every account and submission action" icon="scale" tone="teal" :href="route('admin.audit-log')" />
+            <x-stat-tile label="RM Performance" value="View" :hint="$isSupervisor ? 'Ministries and activity per RM on your team' : 'Ministries and activity per RM'" icon="landmark" tone="violet" :href="route('admin.rm-performance')" />
+            <x-stat-tile label="Assign RMs" value="Manage" :hint="$isSupervisor ? 'Assign or shift your RMs across ministries and clients' : 'Assign or shift RMs across ministries and clients'" icon="user" tone="rose" :href="route('admin.assign-rms')" />
+            <x-stat-tile label="Clients & Reports" value="View" :hint="$isSupervisor ? 'Your team\'s clients - assign an RM or log a daily report' : 'All clients - assign an RM or log a daily report'" icon="building-community" tone="gold" :href="route('admin.assign-rms', ['view' => 'clients'])" />
+            @unless ($isSupervisor)
+                <x-stat-tile label="Client Reports" :value="number_format($reportCount)" hint="Browse every daily engagement report logged" icon="calendar" tone="violet" :href="route('reports.index')" />
+            @endunless
+            <x-stat-tile label="Audit Log" value="View" :hint="$isSupervisor ? 'Actions related to your team' : 'Every account and submission action'" icon="scale" tone="teal" :href="route('admin.audit-log')" />
         </div>
 
         <div class="bg-panel border border-border rounded-xl overflow-hidden shadow-sm">
             <div class="px-5 py-4 border-b border-border flex items-center justify-between">
-                <h2 class="text-sm font-semibold uppercase tracking-wide text-ink-muted">Recent Activity</h2>
+                <h2 class="text-sm font-semibold uppercase tracking-wide text-ink-muted">Recent Activity{{ $isSupervisor ? ' - Your Team' : '' }}</h2>
                 <a href="{{ route('admin.audit-log') }}" class="text-sm text-brand-700 hover:text-brand-800 font-medium">View full log →</a>
             </div>
             <table class="w-full text-sm">

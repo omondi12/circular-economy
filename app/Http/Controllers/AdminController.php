@@ -18,16 +18,37 @@ use Illuminate\Validation\Rules\Password;
 
 class AdminController extends Controller
 {
+    /**
+     * A supervisor only ever sees figures about their own team here - their
+     * own RM headcount, their own team's assigned clients, their own
+     * team's reports, and a Recent Activity feed scoped the same way as
+     * the Audit Log (see AuditLog::scopeVisibleTo). Org-wide peer data
+     * (other supervisors, the total RM headcount) isn't "theirs" so it's
+     * left off entirely rather than shown as a bare number (2026-09-07 -
+     * a supervisor account was seeing every figure exactly like an admin,
+     * which this closes). Admins are unrestricted.
+     */
     public function dashboard(): View
     {
+        $viewer = auth()->user();
+        $isSupervisor = $viewer->isSupervisor();
+        $rmIds = $isSupervisor ? $viewer->rms()->pluck('id') : null;
+
         return view('admin.dashboard', [
-            'userCount' => User::where('role', User::ROLE_RM)->count(),
+            'isSupervisor' => $isSupervisor,
+            'userCount' => $isSupervisor
+                ? User::where('supervisor_id', $viewer->id)->count()
+                : User::where('role', User::ROLE_RM)->count(),
             'supervisorCount' => User::where('role', User::ROLE_SUPERVISOR)->count(),
-            'assignedClientCount' => StateCorporation::whereNotNull('assigned_rm_id')->count(),
+            'assignedClientCount' => $isSupervisor
+                ? StateCorporation::whereIn('assigned_rm_id', $rmIds)->count()
+                : StateCorporation::whereNotNull('assigned_rm_id')->count(),
             'unassignedClientCount' => StateCorporation::whereNull('assigned_rm_id')->count(),
             'submissionCount' => Collection::count(),
-            'reportCount' => ClientReport::count(),
-            'recentAuditLog' => AuditLog::with('user')->latest()->limit(10)->get(),
+            'reportCount' => $isSupervisor
+                ? ClientReport::whereHas('client', fn ($q) => $q->visibleTo($viewer))->count()
+                : ClientReport::count(),
+            'recentAuditLog' => AuditLog::visibleTo($viewer)->with('user')->latest()->limit(10)->get(),
         ]);
     }
 
@@ -400,25 +421,37 @@ class AdminController extends Controller
             : "{$user->name} is now unassigned to a supervisor.");
     }
 
+    /**
+     * Scoped the same way as the dashboard's Recent Activity - a
+     * supervisor only sees entries about their own team, never other
+     * supervisors' (2026-09-07).
+     */
     public function auditLog(Request $request): View
     {
+        $viewer = auth()->user();
+
         $filters = [
             'action' => $request->string('action')->toString() ?: null,
             'user_id' => $request->string('user_id')->toString() ?: null,
         ];
 
-        $entries = AuditLog::with('user')
+        $entries = AuditLog::visibleTo($viewer)
+            ->with('user')
             ->when($filters['action'], fn ($q, $v) => $q->where('action', $v))
             ->when($filters['user_id'], fn ($q, $v) => $q->where('user_id', $v))
             ->latest()
             ->paginate(30)
             ->withQueryString();
 
+        $who = $viewer->isSupervisor()
+            ? User::where('supervisor_id', $viewer->id)->orWhere('id', $viewer->id)
+            : User::whereIn('role', [User::ROLE_RM, User::ROLE_SUPERVISOR, User::ROLE_ADMIN]);
+
         return view('admin.audit-log', [
             'entries' => $entries,
             'filters' => $filters,
-            'actions' => AuditLog::query()->distinct()->orderBy('action')->pluck('action'),
-            'rms' => User::whereIn('role', [User::ROLE_RM, User::ROLE_SUPERVISOR, User::ROLE_ADMIN])->orderBy('name')->get(),
+            'actions' => AuditLog::visibleTo($viewer)->distinct()->orderBy('action')->pluck('action'),
+            'rms' => $who->orderBy('name')->get(),
         ]);
     }
 }

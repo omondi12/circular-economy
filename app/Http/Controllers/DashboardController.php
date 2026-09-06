@@ -289,6 +289,46 @@ class DashboardController extends Controller
     }
 
     /**
+     * The public "Relationship Managers" register - who each RM is, who
+     * they report to, and how many clients they carry. Behind the
+     * homepage's Relationship Managers stat card, which linked nowhere
+     * until now (2026-09-07).
+     */
+    public function relationshipManagersIndex(): View
+    {
+        $rms = User::assignableRms()
+            ->with('supervisor')
+            ->withCount(['assignedStateCorporations as client_count'])
+            ->orderBy('name')
+            ->get();
+
+        return view('relationship-managers.index', ['rms' => $rms]);
+    }
+
+    /**
+     * The public "Supervisors" register - each supervisor's team size and
+     * the total clients under them. Behind the homepage's Supervisors stat
+     * card, which linked nowhere until now (2026-09-07).
+     */
+    public function supervisorsIndex(): View
+    {
+        $supervisors = User::where('role', User::ROLE_SUPERVISOR)
+            ->orderBy('name')
+            ->get()
+            ->map(function (User $supervisor) {
+                $rmIds = $supervisor->rms()->pluck('id');
+
+                return [
+                    'supervisor' => $supervisor,
+                    'rmCount' => $rmIds->count(),
+                    'clientCount' => StateCorporation::whereIn('assigned_rm_id', $rmIds)->count(),
+                ];
+            });
+
+        return view('supervisors.index', ['supervisors' => $supervisors]);
+    }
+
+    /**
      * One client's (state corporation / county / polytechnic / etc.) full
      * detail page - classification, ministry, cluster/class, assigned RM,
      * and every submission recorded against it. Mirrors the ministry
