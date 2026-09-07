@@ -390,6 +390,31 @@ class AdminController extends Controller
     }
 
     /**
+     * Brings clients:rebalance into the admin UI - the Clients tab's own
+     * "Distribute Automatically", matching the Ministries tab (2026-09-07,
+     * the boss asked for this to be visible there too). Admin-only, same
+     * as the ministries version: it recomputes across every RM system-wide,
+     * crossing supervisor team boundaries, not just one supervisor's team.
+     */
+    public function distributeClients(): RedirectResponse
+    {
+        abort_unless(auth()->user()->isAdmin(), 403);
+
+        $exitCode = Artisan::call('clients:rebalance');
+
+        if ($exitCode !== 0) {
+            $lastLine = collect(explode("\n", trim(Artisan::output())))->filter()->last();
+
+            return redirect()->route('admin.assign-rms', ['view' => 'clients'])
+                ->with('error', 'Distribution failed: '.($lastLine ?: 'see the server log for details.'));
+        }
+
+        AuditLog::record('clients.distributed');
+
+        return redirect()->route('admin.assign-rms', ['view' => 'clients'])->with('status', 'Clients re-distributed across RMs.');
+    }
+
+    /**
      * Admin-only: moves an RM to a different supervisor's team (or back to
      * unassigned). This is the function the boss asked for to sort out the
      * RMs that already existed before supervisors did (2026-09-06).

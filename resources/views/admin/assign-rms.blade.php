@@ -81,6 +81,20 @@
                 </table>
             </div>
         @elseif ($view === 'clients')
+            @if (auth()->user()->isAdmin())
+                <div class="flex items-center justify-end mb-4">
+                    <form
+                        method="POST" action="{{ route('admin.assign-rms.clients.distribute') }}"
+                        onsubmit="return confirm('This rebalances every non-pilot client evenly across all active RMs, overwriting any manual assignments made above (the boss\'s own named pilot clients are left untouched). Continue?')"
+                    >
+                        @csrf
+                        <button type="submit" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-gold-600 hover:bg-gold-700 text-white text-sm font-semibold transition-colors shadow-sm">
+                            Distribute Automatically
+                        </button>
+                    </form>
+                </div>
+            @endif
+
             <form method="GET" class="mb-4">
                 <input type="hidden" name="view" value="clients">
                 <div class="relative max-w-md">

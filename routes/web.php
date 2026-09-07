@@ -59,6 +59,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin,supervis
     Route::get('/assign-rms', [AdminController::class, 'assignRms'])->name('assign-rms');
     Route::post('/assign-rms/ministries/distribute', [AdminController::class, 'distributeMinistries'])->name('assign-rms.ministries.distribute');
     Route::post('/assign-rms/ministries/{ministry}', [AdminController::class, 'assignMinistryRm'])->name('assign-rms.ministries.update');
+    Route::post('/assign-rms/clients/distribute', [AdminController::class, 'distributeClients'])->name('assign-rms.clients.distribute');
     Route::post('/assign-rms/clients/{stateCorporation}', [AdminController::class, 'assignClientRm'])->name('assign-rms.clients.update');
     Route::post('/assign-rms/supervisor/{user}', [AdminController::class, 'assignRmSupervisor'])->name('assign-rms.supervisor.update');
 
