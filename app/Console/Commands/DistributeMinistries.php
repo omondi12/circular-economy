@@ -9,13 +9,17 @@ use Illuminate\Support\Facades\DB;
 
 /**
  * One ministry -> one RM, so the boss can see per-RM performance. Two RMs
- * have named exceptions (their own portfolio picked directly by the boss);
+ * had named exceptions (their own portfolio picked directly by the boss);
  * the rest of the 22 ministries are split round-robin, in ministry-id
- * order, across the remaining real (@amacplc.com) RM accounts - the demo
- * accounts (@demo.amac-circular.local) are excluded from the distribution
- * entirely, per the boss's confirmation. Re-running this command always
- * recomputes the full assignment from scratch, so it stays correct if the
- * RM roster changes later.
+ * order, across the remaining real (non-demo) RM accounts. Re-running this
+ * command always recomputes the full assignment from scratch, so it stays
+ * correct if the RM roster changes later.
+ *
+ * A named exception silently folds back into the normal round-robin pool
+ * if that email no longer belongs to an active RM (2026-09-07: this broke
+ * outright - "no active RM found" - the moment Josephine Wambui and Dennis
+ * Thuo were promoted to Supervisor, since they'd hard-failed the whole
+ * command instead of just no longer applying).
  */
 class DistributeMinistries extends Command
 {
@@ -40,10 +44,7 @@ class DistributeMinistries extends Command
     public function handle(): int
     {
         $ministries = GovernmentEntity::ministries()->orderBy('id')->get();
-        $realRms = User::where('role', User::ROLE_RM)
-            ->where('email', 'like', '%@amacplc.com')
-            ->orderBy('id')
-            ->get();
+        $realRms = User::assignableRms()->orderBy('id')->get();
 
         $assignments = [];
         $namedMinistryIds = [];
@@ -52,9 +53,10 @@ class DistributeMinistries extends Command
             $rm = $realRms->firstWhere('email', $email);
 
             if ($rm === null) {
-                $this->error("No active @amacplc.com RM found with email {$email}.");
-
-                return self::FAILURE;
+                // No longer an active RM (e.g. promoted to Supervisor) -
+                // their ministries just join the normal round-robin pool
+                // below instead of blocking the whole distribution.
+                continue;
             }
 
             foreach ($nameNeedles as $needle) {
