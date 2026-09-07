@@ -17,14 +17,25 @@ use Illuminate\Support\Facades\File;
  * reshuffles the poolable set instead).
  *
  * Leaves the 62 clients from the boss's own named WhatsApp-excel mapping
- * (database/data/account_allocations.json) untouched no matter how
- * unbalanced that makes their specific RMs - "poolable" is everything
- * else. For the poolable set, computes one even target per RM (poolable
- * total / RM count), unassigns whichever RMs are over that target down
- * to it, then hands every freed-up (or previously null) client to
- * whichever RM currently has the fewest - the same convergence approach
- * as clients:distribute, just run over a set that includes clients
- * pulled back from already-assigned RMs, not only null ones.
+ * (database/data/account_allocations.json) untouched *as long as they're
+ * currently assigned* - no matter how unbalanced that makes their specific
+ * RMs. "poolable" is everything else, PLUS any protected client that has
+ * no RM right now regardless of the reason (2026-09-08: several of these
+ * excel entries named Josephine Wambui, Dennis Thuo and Ken Wambu, who
+ * were later promoted to Supervisor - promoting an RM frees whatever they
+ * held, per AdminController::updateUser - and those freed pilot clients
+ * were then getting silently skipped forever by this command, since
+ * "protected" used to mean "never touch this name" even once nothing was
+ * actually protecting it). Protection only ever meant "don't disturb an
+ * existing deliberate pick" - it was never meant to permanently block a
+ * client from ever getting an RM.
+ *
+ * For the poolable set, computes one even target per RM (poolable total /
+ * RM count), unassigns whichever RMs are over that target down to it,
+ * then hands every freed-up (or previously null) client to whichever RM
+ * currently has the fewest - the same convergence approach as
+ * clients:distribute, just run over a set that includes clients pulled
+ * back from already-assigned RMs, not only null ones.
  */
 class RebalanceClients extends Command
 {
@@ -50,7 +61,7 @@ class RebalanceClients extends Command
             return self::FAILURE;
         }
 
-        $poolable = StateCorporation::whereNotIn('name', $protectedNames)->count();
+        $poolable = StateCorporation::where(fn ($q) => $q->whereNotIn('name', $protectedNames)->orWhereNull('assigned_rm_id'))->count();
         $target = intdiv($poolable, $rms->count());
         $remainder = $poolable % $rms->count();
 
@@ -92,8 +103,9 @@ class RebalanceClients extends Command
                 $namesById[$rm->id] = $rm->name;
             }
 
-            $toPlace = StateCorporation::whereNotIn('name', $protectedNames)
-                ->whereNull('assigned_rm_id')
+            // No protected-name filter here - a client with no RM has
+            // nothing left to protect, whatever the reason it lost one.
+            $toPlace = StateCorporation::whereNull('assigned_rm_id')
                 ->orderBy('name')
                 ->get();
 
@@ -132,7 +144,12 @@ class RebalanceClients extends Command
 
         $this->newLine();
         $protectedCount = count($protectedNames);
-        $this->info(($dryRun ? '[DRY RUN - nothing saved] ' : '')."Done: {$released} released from over-target RMs, {$toPlace->count()} (re)assigned across {$rms->count()} RMs. {$protectedCount} pilot clients left untouched.");
+        $protectedFilled = $toPlace->pluck('name')->intersect($protectedNames)->count();
+        $stillProtected = $protectedCount - $protectedFilled;
+        $extra = $protectedFilled > 0
+            ? " ({$protectedFilled} of those were pilot clients with no RM at all - previously stuck, now filled like any other.)"
+            : '';
+        $this->info(($dryRun ? '[DRY RUN - nothing saved] ' : '')."Done: {$released} released from over-target RMs, {$toPlace->count()} (re)assigned across {$rms->count()} RMs. {$stillProtected} pilot clients left untouched.{$extra}");
 
         return self::SUCCESS;
     }
