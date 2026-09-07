@@ -57,10 +57,15 @@ class ClientReportController extends Controller
         ]);
     }
 
+    /**
+     * Any admin-area user can view/log a report for any client (2026-09-08
+     * - the boss wants supervisors able to see every report, not just
+     * their own team's, since they're the ones transcribing what RMs
+     * report to them). Only editing an existing report stays restricted
+     * (see editReport/updateReport).
+     */
     public function index(StateCorporation $client): View
     {
-        abort_unless(StateCorporation::whereKey($client->id)->visibleTo(auth()->user())->exists(), 403);
-
         $reports = $client->reports()
             ->with(['rm', 'createdBy'])
             ->orderByDesc('report_date')
@@ -78,8 +83,6 @@ class ClientReportController extends Controller
 
     public function store(Request $request, StateCorporation $client): RedirectResponse
     {
-        abort_unless(StateCorporation::whereKey($client->id)->visibleTo(auth()->user())->exists(), 403);
-
         $data = $request->validate($this->reportRules());
 
         $report = $client->reports()->create([
@@ -98,14 +101,15 @@ class ClientReportController extends Controller
     }
 
     /**
-     * Editing a logged report - admin role only, per the boss (2026-09-07):
-     * unlike the rest of the admin area, this is deliberately narrower than
-     * "admin or supervisor" - a supervisor can log a fresh report for their
-     * own team, but not rewrite one already on record.
+     * Editing a logged report: admins can edit any report; a supervisor
+     * can only edit one they personally logged themselves (2026-09-08) -
+     * they can now view and log a report against any client, but
+     * correcting an entry stays limited to whoever actually typed it in,
+     * not just anyone on the same or a different team.
      */
     public function editReport(ClientReport $report): View
     {
-        abort_unless(auth()->user()->isAdmin(), 403);
+        $this->authorizeReportEdit($report);
 
         return view('admin.reports.edit', [
             'report' => $report->load('client'),
@@ -117,7 +121,7 @@ class ClientReportController extends Controller
 
     public function updateReport(Request $request, ClientReport $report): RedirectResponse
     {
-        abort_unless(auth()->user()->isAdmin(), 403);
+        $this->authorizeReportEdit($report);
 
         $data = $request->validate($this->reportRules());
 
@@ -149,12 +153,19 @@ class ClientReportController extends Controller
     }
 
     /**
-     * The RM dropdown for logging a report against one client - scoped to
-     * the viewer's own team when they're a supervisor, same as everywhere
-     * else in the admin area (2026-09-06).
+     * The RM dropdown for logging a report - unrestricted (2026-09-08):
+     * since a supervisor can now log a report against any client, the RM
+     * they pick shouldn't be artificially limited to their own team.
      */
     private function assignableRms()
     {
-        return User::visibleRmsFor(auth()->user())->orderBy('name')->get();
+        return User::assignableRms()->orderBy('name')->get();
+    }
+
+    private function authorizeReportEdit(ClientReport $report): void
+    {
+        $viewer = auth()->user();
+
+        abort_unless($viewer->isAdmin() || $report->created_by === $viewer->id, 403);
     }
 }

@@ -88,7 +88,7 @@
                                             View
                                         </a>
                                     @endif
-                                    @if (auth()->check() && auth()->user()->isAdmin())
+                                    @if (auth()->check() && (auth()->user()->isAdmin() || $report->created_by === auth()->id()))
                                         <a href="{{ route('admin.reports.edit', $report) }}" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-md bg-gold-50 text-gold-700 text-xs font-medium hover:bg-gold-100 transition-colors">
                                             Edit
                                         </a>

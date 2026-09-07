@@ -45,8 +45,11 @@ class AdminController extends Controller
                 : StateCorporation::whereNotNull('assigned_rm_id')->count(),
             'unassignedClientCount' => StateCorporation::whereNull('assigned_rm_id')->count(),
             'submissionCount' => Collection::count(),
+            // Reports are no longer team-scoped (2026-09-08 - any
+            // supervisor can view/log a report for any client) - "My
+            // Client Reports" now means what they've personally logged.
             'reportCount' => $isSupervisor
-                ? ClientReport::whereHas('client', fn ($q) => $q->visibleTo($viewer))->count()
+                ? ClientReport::where('created_by', $viewer->id)->count()
                 : ClientReport::count(),
             'recentAuditLog' => AuditLog::visibleTo($viewer)->with('user')->latest()->limit(10)->get(),
         ]);

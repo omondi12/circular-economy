@@ -37,7 +37,7 @@
                 :href="route('admin.users')"
             />
             @if ($isSupervisor)
-                <x-stat-tile label="My Client Reports" :value="number_format($reportCount)" hint="Reports logged for your team's clients" icon="calendar" tone="violet" :href="route('reports.index')" />
+                <x-stat-tile label="My Client Reports" :value="number_format($reportCount)" hint="Reports you've personally logged" icon="calendar" tone="violet" :href="route('reports.index')" />
             @else
                 <x-stat-tile label="Supervisors" :value="number_format($supervisorCount)" hint="Tap to manage accounts" icon="user" tone="violet" :href="route('admin.users')" />
             @endif
