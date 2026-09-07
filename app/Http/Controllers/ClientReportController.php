@@ -139,6 +139,7 @@ class ClientReportController extends Controller
             'report_date' => ['required', 'date'],
             'engagement_type' => ['required', Rule::in(ClientReportOptions::ENGAGEMENT_TYPES)],
             'contact_person' => ['nullable', 'string', 'max:255'],
+            'contact_person_phone' => ['nullable', 'string', 'max:30'],
             'outcome' => ['required', 'string', 'max:2000'],
             'current_stage' => ['required', Rule::in(ClientReportOptions::STAGES)],
             'next_action' => ['nullable', 'string', 'max:255'],

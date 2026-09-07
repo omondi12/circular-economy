@@ -14,6 +14,7 @@ class ClientReport extends Model
         'report_date',
         'engagement_type',
         'contact_person',
+        'contact_person_phone',
         'outcome',
         'current_stage',
         'next_action',

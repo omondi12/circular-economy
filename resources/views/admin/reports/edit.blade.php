@@ -78,6 +78,22 @@
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-[220px_1fr] border-b border-border">
+                    <label for="contact_person_phone" class="bg-gold-50 px-4 py-3 text-sm font-semibold text-ink-muted flex items-center">
+                        Contact Person Phone
+                    </label>
+                    <div class="px-4 py-2 flex flex-col justify-center">
+                        <input
+                            type="text" id="contact_person_phone" name="contact_person_phone" value="{{ old('contact_person_phone', $report->contact_person_phone) }}"
+                            placeholder="e.g. 0712 345 678"
+                            class="w-full border-0 focus:ring-0 text-sm py-1.5 px-0 text-ink placeholder:text-ink-faint"
+                        >
+                        @error('contact_person_phone')
+                            <p class="text-xs text-danger mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-[220px_1fr] border-b border-border">
                     <label for="outcome" class="bg-gold-50 px-4 py-3 text-sm font-semibold text-ink-muted flex items-center">
                         Outcome / Feedback <span class="text-danger ml-1">*</span>
                     </label>
