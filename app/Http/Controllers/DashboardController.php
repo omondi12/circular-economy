@@ -254,28 +254,7 @@ class DashboardController extends Controller
      */
     public function stateCorporationsIndex(Request $request): View
     {
-        $phase = $request->integer('phase') ?: null;
-        $search = $request->string('q')->toString() ?: null;
-
-        $classification = $request->string('classification')->toString() ?: null;
-
-        // 'assigned' / 'unassigned' are boolean filters; anything else is
-        // treated as an RM id, so the same dropdown can filter down to one
-        // specific RM's clients too.
-        $rm = $request->string('rm')->toString() ?: null;
-
-        $corporations = StateCorporation::query()
-            ->with(['ministry', 'assignedRm.supervisor', 'latestReport'])
-            ->when($phase, fn ($q, $v) => $q->where('phase', $v))
-            ->when($classification, fn ($q, $v) => $q->where('classification', $v))
-            ->when($search, fn ($q, $v) => $q->where('name', 'like', "%{$v}%"))
-            ->when($rm === 'assigned', fn ($q) => $q->whereNotNull('assigned_rm_id'))
-            ->when($rm === 'unassigned', fn ($q) => $q->whereNull('assigned_rm_id'))
-            ->when($rm && ! in_array($rm, ['assigned', 'unassigned'], true), fn ($q) => $q->where('assigned_rm_id', $rm))
-            ->orderBy('phase')
-            ->orderBy('cluster')
-            ->orderBy('name')
-            ->get();
+        $corporations = $this->stateCorporationsQuery($request)->get();
 
         return view('state-corporations.index', [
             'corporations' => $corporations,
@@ -284,8 +263,84 @@ class DashboardController extends Controller
             'classifications' => StateCorporation::query()
                 ->select('classification')->distinct()->orderBy('classification')->pluck('classification'),
             'rms' => User::assignableRms()->orderBy('name')->get(),
-            'filters' => ['phase' => $phase, 'q' => $search, 'classification' => $classification, 'rm' => $rm],
+            'filters' => $this->stateCorporationsFilters($request),
         ]);
+    }
+
+    /**
+     * Same filtered list as stateCorporationsIndex, as a CSV download -
+     * the RMs' own "export my clients" button, which just filters the
+     * public Clients page down to themselves first (2026-09-14). Public,
+     * same as the page it's exporting from; "Excel" here means a CSV that
+     * opens in Excel, not a real .xlsx, since nothing in this app needs a
+     * spreadsheet library beyond that.
+     */
+    public function stateCorporationsExport(Request $request): \Symfony\Component\HttpFoundation\StreamedResponse
+    {
+        $corporations = $this->stateCorporationsQuery($request)
+            ->get();
+
+        $filename = 'clients-'.now()->format('Y-m-d').'.csv';
+
+        return response()->streamDownload(function () use ($corporations) {
+            $handle = fopen('php://output', 'w');
+
+            // A UTF-8 BOM so Excel doesn't mangle names with accents/special characters.
+            fwrite($handle, "\xEF\xBB\xBF");
+
+            fputcsv($handle, ['Name', 'Classification', 'Ministry', 'RM', 'Supervisor', 'Contact Person', 'Cluster', 'Class', 'Sub-Class', 'Phase']);
+
+            foreach ($corporations as $corp) {
+                fputcsv($handle, [
+                    $corp->name,
+                    $corp->classification,
+                    $corp->ministryDisplay(),
+                    $corp->assignedRm->name ?? '',
+                    $corp->assignedRm?->supervisor?->name ?? '',
+                    $corp->latestReport?->contact_person ?? '',
+                    $corp->cluster,
+                    $corp->class,
+                    $corp->subclass,
+                    $corp->phase === 1 ? 'Phase 1' : 'Phase 2',
+                ]);
+            }
+
+            fclose($handle);
+        }, $filename, [
+            'Content-Type' => 'text/csv; charset=UTF-8',
+        ]);
+    }
+
+    private function stateCorporationsQuery(Request $request)
+    {
+        $filters = $this->stateCorporationsFilters($request);
+
+        return StateCorporation::query()
+            ->with(['ministry', 'assignedRm.supervisor', 'latestReport'])
+            ->when($filters['phase'], fn ($q, $v) => $q->where('phase', $v))
+            ->when($filters['classification'], fn ($q, $v) => $q->where('classification', $v))
+            ->when($filters['q'], fn ($q, $v) => $q->where('name', 'like', "%{$v}%"))
+            ->when($filters['rm'] === 'assigned', fn ($q) => $q->whereNotNull('assigned_rm_id'))
+            ->when($filters['rm'] === 'unassigned', fn ($q) => $q->whereNull('assigned_rm_id'))
+            ->when($filters['rm'] && ! in_array($filters['rm'], ['assigned', 'unassigned'], true), fn ($q) => $q->where('assigned_rm_id', $filters['rm']))
+            ->orderBy('phase')
+            ->orderBy('cluster')
+            ->orderBy('name');
+    }
+
+    /**
+     * 'assigned' / 'unassigned' are boolean rm filters; anything else is
+     * treated as an RM id, so the same dropdown can filter down to one
+     * specific RM's clients too.
+     */
+    private function stateCorporationsFilters(Request $request): array
+    {
+        return [
+            'phase' => $request->integer('phase') ?: null,
+            'q' => $request->string('q')->toString() ?: null,
+            'classification' => $request->string('classification')->toString() ?: null,
+            'rm' => $request->string('rm')->toString() ?: null,
+        ];
     }
 
     /**
