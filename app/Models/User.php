@@ -62,6 +62,11 @@ class User extends Authenticatable
         return $this->hasMany(StateCorporation::class, 'assigned_rm_id');
     }
 
+    public function requisitions(): HasMany
+    {
+        return $this->hasMany(Requisition::class, 'requester_id');
+    }
+
     /**
      * The supervisor an RM reports to (2026-09-06: each RM now belongs to
      * exactly one supervisor, who does that RM's client reporting).

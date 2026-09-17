@@ -52,7 +52,7 @@
         />
     </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-10">
         <x-stat-tile
             label="Assigned Clients" icon="circle-check" tone="green"
             :value="number_format($assignedClientCount)"
@@ -76,6 +76,12 @@
             :value="number_format($supervisorCount)"
             hint="Active Supervisor accounts"
             :href="route('supervisors.index')"
+        />
+        <x-stat-tile
+            label="Facilitation" icon="calendar" tone="gold"
+            value="View"
+            hint="Transport &amp; airtime requests (PIN required)"
+            :href="route('requisitions.public')"
         />
     </div>
 

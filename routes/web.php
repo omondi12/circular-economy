@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ClientReportController;
 use App\Http\Controllers\CollectionController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\RequisitionController;
 use App\Http\Controllers\RmDashboardController;
 use Illuminate\Support\Facades\Route;
 
@@ -25,6 +26,12 @@ Route::get('/material-items', [DashboardController::class, 'materialItemsIndex']
 Route::get('/feasibility-study', [DashboardController::class, 'feasibilityStudyIndex'])->name('feasibility-study.index');
 Route::get('/reports', [ClientReportController::class, 'all'])->name('reports.index');
 
+// Public, PIN-gated (not a login - a system-generated PIN handed to the
+// boss, per his brief, since admin accounts are shared among several
+// people). See RequisitionController's class docblock.
+Route::get('/facilitation', [RequisitionController::class, 'publicIndex'])->name('requisitions.public');
+Route::post('/facilitation/unlock', [RequisitionController::class, 'unlockPublic'])->name('requisitions.public.unlock');
+
 Route::prefix('collections')->name('collections.')->group(function () {
     Route::get('/', [CollectionController::class, 'index'])->name('index');
     Route::get('/{collection}', [CollectionController::class, 'show'])->name('show');
@@ -41,6 +48,14 @@ Route::prefix('rm')->name('rm.')->middleware(['auth', 'role:rm,admin'])->group(f
     Route::get('/', [RmDashboardController::class, 'index'])->name('dashboard');
     Route::get('/collections/create', [RmDashboardController::class, 'create'])->name('collections.create');
     Route::post('/collections', [RmDashboardController::class, 'store'])->name('collections.store');
+});
+
+// A requester's own facilitation (transport/airtime) requests - both RMs
+// and Supervisors request for themselves; admins can reach it too
+// (harmless, they just won't have anything to request in practice).
+Route::prefix('requisitions')->name('requisitions.')->middleware(['auth', 'role:rm,supervisor,admin'])->group(function () {
+    Route::get('/', [RequisitionController::class, 'mine'])->name('mine');
+    Route::post('/', [RequisitionController::class, 'store'])->name('store');
 });
 
 // Admin area - manage RM accounts and review the audit log. Supervisors get
@@ -69,4 +84,11 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin,supervis
 
     Route::get('/reports/{report}/edit', [ClientReportController::class, 'editReport'])->name('reports.edit');
     Route::put('/reports/{report}', [ClientReportController::class, 'updateReport'])->name('reports.update');
+
+    Route::get('/requisitions', [RequisitionController::class, 'adminIndex'])->name('requisitions.index');
+    Route::post('/requisitions/pin/regenerate', [RequisitionController::class, 'regeneratePin'])->name('requisitions.pin.regenerate');
+    Route::post('/requisitions/{requisition}/transport/approve', [RequisitionController::class, 'approveTransport'])->name('requisitions.transport.approve');
+    Route::post('/requisitions/{requisition}/transport/decline', [RequisitionController::class, 'declineTransport'])->name('requisitions.transport.decline');
+    Route::post('/requisitions/{requisition}/airtime/approve', [RequisitionController::class, 'approveAirtime'])->name('requisitions.airtime.approve');
+    Route::post('/requisitions/{requisition}/airtime/decline', [RequisitionController::class, 'declineAirtime'])->name('requisitions.airtime.decline');
 });

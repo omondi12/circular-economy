@@ -36,6 +36,9 @@
                     <a href="{{ route('material-items.index') }}" @class(['px-3 py-2 rounded-lg text-sm font-medium transition-colors', 'bg-brand-50 text-brand-800' => request()->routeIs('material-items.*'), 'text-ink-muted hover:text-ink hover:bg-panel-muted' => ! request()->routeIs('material-items.*')])>{{ __('Materials') }}</a>
                     <a href="{{ route('feasibility-study.index') }}" @class(['px-3 py-2 rounded-lg text-sm font-medium transition-colors', 'bg-brand-50 text-brand-800' => request()->routeIs('feasibility-study.*'), 'text-ink-muted hover:text-ink hover:bg-panel-muted' => ! request()->routeIs('feasibility-study.*')])>{{ __('Feasibility Study') }}</a>
                     <a href="{{ route('collections.index') }}" @class(['px-3 py-2 rounded-lg text-sm font-medium transition-colors', 'bg-brand-50 text-brand-800' => request()->routeIs('collections.*'), 'text-ink-muted hover:text-ink hover:bg-panel-muted' => ! request()->routeIs('collections.*')])>{{ __('Submissions') }}</a>
+                    @auth
+                        <a href="{{ route('requisitions.mine') }}" @class(['px-3 py-2 rounded-lg text-sm font-medium transition-colors', 'bg-brand-50 text-brand-800' => request()->routeIs('requisitions.mine'), 'text-ink-muted hover:text-ink hover:bg-panel-muted' => ! request()->routeIs('requisitions.mine')])>{{ __('Requisitions') }}</a>
+                    @endauth
                 </nav>
 
                 <div class="flex items-center gap-2">

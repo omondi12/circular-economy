@@ -52,6 +52,12 @@
                 <x-stat-tile label="Client Reports" :value="number_format($reportCount)" hint="Browse every daily engagement report logged" icon="calendar" tone="violet" :href="route('reports.index')" />
                 <x-stat-tile label="Download Clients" value="Excel" hint="Every client in the system, as a spreadsheet" icon="file-text" tone="green" :href="route('state-corporations.export')" />
             @endunless
+            <x-stat-tile
+                label="Requisitions" :value="number_format($requisitionPendingCount)"
+                :hint="$isSupervisor ? 'My pending transport/airtime requests' : 'Pending transport/airtime requests to approve'"
+                icon="calendar" tone="rose"
+                :href="$isSupervisor ? route('requisitions.mine') : route('admin.requisitions.index')"
+            />
             <x-stat-tile label="Audit Log" value="View" :hint="$isSupervisor ? 'Actions related to your team' : 'Every account and submission action'" icon="scale" tone="teal" :href="route('admin.audit-log')" />
         </div>
 

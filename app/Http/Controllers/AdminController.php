@@ -6,6 +6,7 @@ use App\Models\AuditLog;
 use App\Models\ClientReport;
 use App\Models\Collection;
 use App\Models\GovernmentEntity;
+use App\Models\Requisition;
 use App\Models\StateCorporation;
 use App\Models\User;
 use Illuminate\Contracts\View\View;
@@ -51,6 +52,13 @@ class AdminController extends Controller
             'reportCount' => $isSupervisor
                 ? ClientReport::where('created_by', $viewer->id)->count()
                 : ClientReport::count(),
+            // Admins see every pending requisition (theirs to approve); a
+            // supervisor sees their own pending requests instead, since
+            // only admins approve - the tile links to a different page
+            // for each (see admin/dashboard.blade.php).
+            'requisitionPendingCount' => $isSupervisor
+                ? Requisition::where('requester_id', $viewer->id)->where(fn ($q) => $q->where('transport_status', Requisition::STATUS_PENDING)->orWhere('airtime_status', Requisition::STATUS_PENDING))->count()
+                : Requisition::where(fn ($q) => $q->where('transport_status', Requisition::STATUS_PENDING)->orWhere('airtime_status', Requisition::STATUS_PENDING))->count(),
             'recentAuditLog' => AuditLog::visibleTo($viewer)->with('user')->latest()->limit(10)->get(),
         ]);
     }
