@@ -76,6 +76,9 @@
             <a href="{{ route('material-items.index') }}" class="block px-3 py-2 rounded-lg text-sm font-medium text-ink-muted hover:bg-panel-muted">{{ __('Materials') }}</a>
             <a href="{{ route('feasibility-study.index') }}" class="block px-3 py-2 rounded-lg text-sm font-medium text-ink-muted hover:bg-panel-muted">{{ __('Feasibility Study') }}</a>
             <a href="{{ route('collections.index') }}" class="block px-3 py-2 rounded-lg text-sm font-medium text-ink-muted hover:bg-panel-muted">{{ __('Submissions') }}</a>
+            @auth
+                <a href="{{ route('requisitions.mine') }}" class="block px-3 py-2 rounded-lg text-sm font-medium text-ink-muted hover:bg-panel-muted">{{ __('Requisitions') }}</a>
+            @endauth
         </div>
     </header>
 
