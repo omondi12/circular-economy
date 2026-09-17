@@ -50,6 +50,7 @@
             <x-stat-tile label="Clients & Reports" value="View" :hint="$isSupervisor ? 'Your team\'s clients - assign an RM or log a daily report' : 'All clients - assign an RM or log a daily report'" icon="building-community" tone="gold" :href="route('admin.assign-rms', ['view' => 'clients'])" />
             @unless ($isSupervisor)
                 <x-stat-tile label="Client Reports" :value="number_format($reportCount)" hint="Browse every daily engagement report logged" icon="calendar" tone="violet" :href="route('reports.index')" />
+                <x-stat-tile label="Download Clients" value="Excel" hint="Every client in the system, as a spreadsheet" icon="file-text" tone="green" :href="route('state-corporations.export')" />
             @endunless
             <x-stat-tile label="Audit Log" value="View" :hint="$isSupervisor ? 'Actions related to your team' : 'Every account and submission action'" icon="scale" tone="teal" :href="route('admin.audit-log')" />
         </div>
