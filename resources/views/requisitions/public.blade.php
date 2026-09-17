@@ -18,7 +18,7 @@
             <table class="w-full text-sm">
                 <thead class="bg-brand-50 text-left text-ink-faint">
                     <tr>
-                        <th class="px-3 py-2 font-medium whitespace-nowrap">RM Name</th>
+                        <th class="px-3 py-2 font-medium whitespace-nowrap">Name</th>
                         <th class="px-3 py-2 font-medium">Institution</th>
                         <th class="px-3 py-2 font-medium whitespace-nowrap">Working Day</th>
                         <th class="px-3 py-2 font-medium whitespace-nowrap">Transport Requested</th>
