@@ -38,18 +38,41 @@
             <form method="POST" action="{{ route('requisitions.store') }}">
                 @csrf
 
-                <div class="grid grid-cols-1 sm:grid-cols-[220px_1fr] border-b border-border">
-                    <label for="institution_visiting" class="bg-gold-50 px-4 py-3 text-sm font-semibold text-ink-muted flex items-center">
-                        Institution Visiting <span class="text-danger ml-1">*</span>
+                <div
+                    class="grid grid-cols-1 sm:grid-cols-[220px_1fr] border-b border-border"
+                    x-data="{ institutions: {{ old('institutions') ? json_encode(old('institutions')) : '[""]' }} }"
+                >
+                    <label class="bg-gold-50 px-4 py-3 text-sm font-semibold text-ink-muted flex items-start sm:items-center">
+                        Institution(s) Visiting <span class="text-danger ml-1">*</span>
                     </label>
-                    <div class="px-4 py-2 flex flex-col justify-center">
-                        <input
-                            type="text" id="institution_visiting" name="institution_visiting" required
-                            value="{{ old('institution_visiting') }}"
-                            placeholder="e.g. Kenya Revenue Authority"
-                            class="w-full border-0 focus:ring-0 text-sm py-1.5 px-0 text-ink placeholder:text-ink-faint"
+                    <div class="px-4 py-2 flex flex-col justify-center gap-2">
+                        <template x-for="(institution, i) in institutions" :key="i">
+                            <div class="flex items-center gap-2">
+                                <input
+                                    type="text" :name="'institutions[' + i + ']'" required
+                                    x-model="institutions[i]"
+                                    placeholder="e.g. Kenya Revenue Authority"
+                                    class="w-full border-0 focus:ring-0 text-sm py-1.5 px-0 text-ink placeholder:text-ink-faint"
+                                >
+                                <button
+                                    type="button" x-show="institutions.length > 1" x-cloak
+                                    @click="institutions.splice(i, 1)"
+                                    class="shrink-0 text-ink-faint hover:text-danger"
+                                >
+                                    <x-icon name="x" size="14" />
+                                </button>
+                            </div>
+                        </template>
+                        <button
+                            type="button" @click="institutions.push('')"
+                            class="self-start text-xs font-medium text-brand-700 hover:text-brand-800"
                         >
-                        @error('institution_visiting')
+                            + Add another institution
+                        </button>
+                        @error('institutions')
+                            <p class="text-xs text-danger mt-1">{{ $message }}</p>
+                        @enderror
+                        @error('institutions.*')
                             <p class="text-xs text-danger mt-1">{{ $message }}</p>
                         @enderror
                     </div>

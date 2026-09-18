@@ -51,7 +51,8 @@ class RequisitionController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $data = $request->validate([
-            'institution_visiting' => ['required', 'string', 'max:255'],
+            'institutions' => ['required', 'array', 'min:1'],
+            'institutions.*' => ['required', 'string', 'max:255'],
             'working_day' => ['required', 'date'],
             'transport_amount_requested' => ['required', 'numeric', 'min:0'],
             'airtime_amount_requested' => ['required', 'numeric', 'min:0'],
@@ -59,9 +60,18 @@ class RequisitionController extends Controller
 
         $now = now();
 
+        // Stored as one comma-separated string (no schema/display change
+        // needed elsewhere) - an RM/Supervisor can visit several
+        // institutions in one day but it's still one day's facilitation
+        // request (2026-09-18).
+        $institutionVisiting = collect($data['institutions'])
+            ->map(fn ($name) => trim($name))
+            ->filter()
+            ->implode(', ');
+
         $requisition = Requisition::create([
             'requester_id' => Auth::id(),
-            'institution_visiting' => $data['institution_visiting'],
+            'institution_visiting' => $institutionVisiting,
             'working_day' => $data['working_day'],
             'transport_requested_at' => $now,
             'transport_amount_requested' => $data['transport_amount_requested'],
