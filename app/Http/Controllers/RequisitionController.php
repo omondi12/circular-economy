@@ -124,6 +124,68 @@ class RequisitionController extends Controller
         ]);
     }
 
+    /**
+     * Admin-only: every requisition with at least one approved track
+     * (transport and/or airtime), as a CSV for the boss/finance - the
+     * "send this to finance" button on the admin requisitions page
+     * (2026-09-18). Still-pending or declined-only requests are excluded
+     * since there's nothing approved on them to pay.
+     */
+    public function exportApproved(Request $request): \Symfony\Component\HttpFoundation\StreamedResponse
+    {
+        abort_unless(Auth::user()->isAdmin(), 403);
+
+        $requesterId = $request->string('requester_id')->toString() ?: null;
+
+        $requisitions = Requisition::query()
+            ->with(['requester', 'transportApprovedBy', 'airtimeApprovedBy'])
+            ->where(fn ($q) => $q->where('transport_status', Requisition::STATUS_APPROVED)->orWhere('airtime_status', Requisition::STATUS_APPROVED))
+            ->when($requesterId, fn ($q, $v) => $q->where('requester_id', $v))
+            ->orderBy('working_day')
+            ->orderBy('requester_id')
+            ->get();
+
+        $requesterTotals = $this->requesterTotals();
+        $filename = 'approved-facilitation-'.now()->format('Y-m-d').'.csv';
+
+        return response()->streamDownload(function () use ($requisitions, $requesterTotals) {
+            $handle = fopen('php://output', 'w');
+            fwrite($handle, "\xEF\xBB\xBF");
+
+            fputcsv($handle, [
+                'Name', 'Institution', 'Working Day',
+                'Transport Requested', 'Transport Approved By', 'Transport Paid', 'Transport Balance',
+                'Airtime Requested', 'Airtime Approved By', 'Airtime Paid', 'Airtime Balance',
+                'Total for Day', 'Cumulative Facilitation', 'Days Facilitated',
+            ]);
+
+            foreach ($requisitions as $req) {
+                $totals = $requesterTotals[$req->requester_id] ?? ['days' => 0, 'cumulative' => 0];
+
+                fputcsv($handle, [
+                    $req->requester?->name,
+                    $req->institution_visiting,
+                    $req->working_day->format('d M Y'),
+                    (float) $req->transport_amount_requested,
+                    $req->transport_status === Requisition::STATUS_APPROVED ? $req->transportApprovedBy?->name : $req->transport_status,
+                    (float) $req->transport_paid_amount,
+                    $req->transportBalance(),
+                    (float) $req->airtime_amount_requested,
+                    $req->airtime_status === Requisition::STATUS_APPROVED ? $req->airtimeApprovedBy?->name : $req->airtime_status,
+                    (float) $req->airtime_paid_amount,
+                    $req->airtimeBalance(),
+                    $req->totalRequestedForDay(),
+                    $totals['cumulative'],
+                    $totals['days'],
+                ]);
+            }
+
+            fclose($handle);
+        }, $filename, [
+            'Content-Type' => 'text/csv; charset=UTF-8',
+        ]);
+    }
+
     public function approveTransport(Request $request, Requisition $requisition): RedirectResponse
     {
         abort_unless(Auth::user()->isAdmin(), 403);

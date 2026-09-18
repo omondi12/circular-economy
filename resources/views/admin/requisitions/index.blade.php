@@ -5,12 +5,22 @@
             </div>
         @endif
 
-        <x-page-header
-            title="Requisitions"
-            subtitle="Every RM/Supervisor transport and airtime request. Only admins can approve or decline."
-            :back="route('admin.dashboard')"
-            back-label="Back to admin"
-        />
+        <div class="flex items-start justify-between gap-4 mb-6">
+            <x-page-header
+                title="Requisitions"
+                subtitle="Every RM/Supervisor transport and airtime request. Only admins can approve or decline."
+                :back="route('admin.dashboard')"
+                back-label="Back to admin"
+            />
+            <a
+                href="{{ route('admin.requisitions.export', array_filter(['requester_id' => $filters['requester_id']])) }}"
+                class="shrink-0 inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-lg border border-border bg-white text-sm font-medium text-ink hover:bg-panel-muted transition-colors"
+                title="Download every approved transport/airtime request as a spreadsheet, for the boss or finance"
+            >
+                <x-icon name="file-text" size="16" />
+                Export Approved
+            </a>
+        </div>
 
         <div class="grid grid-cols-2 lg:grid-cols-5 gap-4 mb-6">
             <x-stat-tile label="Total Requests" :value="number_format($stats['totalCount'])" icon="calendar" tone="teal" />

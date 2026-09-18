@@ -86,6 +86,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin,supervis
     Route::put('/reports/{report}', [ClientReportController::class, 'updateReport'])->name('reports.update');
 
     Route::get('/requisitions', [RequisitionController::class, 'adminIndex'])->name('requisitions.index');
+    Route::get('/requisitions/export', [RequisitionController::class, 'exportApproved'])->name('requisitions.export');
     Route::post('/requisitions/pin/regenerate', [RequisitionController::class, 'regeneratePin'])->name('requisitions.pin.regenerate');
     Route::post('/requisitions/{requisition}/transport/approve', [RequisitionController::class, 'approveTransport'])->name('requisitions.transport.approve');
     Route::post('/requisitions/{requisition}/transport/decline', [RequisitionController::class, 'declineTransport'])->name('requisitions.transport.decline');
