@@ -314,6 +314,8 @@ class AdminController extends Controller
 
         if ($view === 'clients') {
             $search = $request->string('q')->toString() ?: null;
+            $status = $request->string('status')->toString();
+            $status = in_array($status, ['assigned', 'unassigned'], true) ? $status : null;
 
             // No pagination here (2026-09-19) - RMs/supervisors were
             // reporting clients "missing" that were really just sitting
@@ -324,6 +326,8 @@ class AdminController extends Controller
                 ->visibleTo($viewer)
                 ->with(['assignedRm', 'ministry'])
                 ->when($search, fn ($q, $v) => $q->where('name', 'like', "%{$v}%"))
+                ->when($status === 'assigned', fn ($q) => $q->whereNotNull('assigned_rm_id'))
+                ->when($status === 'unassigned', fn ($q) => $q->whereNull('assigned_rm_id'))
                 ->orderBy('name')
                 ->get();
 
@@ -332,6 +336,7 @@ class AdminController extends Controller
                 'rms' => $rms,
                 'clients' => $clients,
                 'search' => $search,
+                'status' => $status,
             ]);
         }
 

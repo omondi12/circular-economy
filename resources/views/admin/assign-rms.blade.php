@@ -97,19 +97,30 @@
 
             <form method="GET" class="mb-4">
                 <input type="hidden" name="view" value="clients">
-                <div class="relative max-w-md">
-                    <input
-                        type="text" name="q" value="{{ $search }}"
-                        placeholder="Search clients by name…"
-                        class="w-full rounded-lg border border-border bg-white pl-4 pr-24 py-2.5 text-sm text-ink placeholder:text-ink-faint focus:outline-none focus:ring-2 focus:ring-brand-600/30 focus:border-brand-600"
+                <div class="flex flex-wrap items-center gap-3">
+                    <div class="relative max-w-md flex-1 min-w-[220px]">
+                        <input
+                            type="text" name="q" value="{{ $search }}"
+                            placeholder="Search clients by name…"
+                            class="w-full rounded-lg border border-border bg-white pl-4 pr-24 py-2.5 text-sm text-ink placeholder:text-ink-faint focus:outline-none focus:ring-2 focus:ring-brand-600/30 focus:border-brand-600"
+                        >
+                        <button type="submit" class="absolute right-1.5 top-1/2 -translate-y-1/2 px-3 py-1.5 rounded-md bg-brand-700 text-white text-xs font-medium hover:bg-brand-800 transition-colors">
+                            Search
+                        </button>
+                    </div>
+
+                    <select
+                        name="status" onchange="this.form.submit()"
+                        class="rounded-lg border border-border bg-white px-3 py-2.5 text-sm text-ink focus:outline-none focus:ring-2 focus:ring-brand-600/30 focus:border-brand-600"
                     >
-                    <button type="submit" class="absolute right-1.5 top-1/2 -translate-y-1/2 px-3 py-1.5 rounded-md bg-brand-700 text-white text-xs font-medium hover:bg-brand-800 transition-colors">
-                        Search
-                    </button>
+                        <option value="" @selected(! $status)>All clients</option>
+                        <option value="assigned" @selected($status === 'assigned')>Assigned only</option>
+                        <option value="unassigned" @selected($status === 'unassigned')>Unassigned only</option>
+                    </select>
                 </div>
-                @if ($search)
+                @if ($search || $status)
                     <a href="{{ route('admin.assign-rms', ['view' => 'clients']) }}" class="inline-block mt-2 text-xs text-ink-faint hover:text-ink-muted">
-                        Clear search ({{ $clients->count() }} match{{ $clients->count() === 1 ? '' : 'es' }})
+                        Clear filters ({{ $clients->count() }} match{{ $clients->count() === 1 ? '' : 'es' }})
                     </a>
                 @else
                     <p class="mt-2 text-xs text-ink-faint">Showing all {{ $clients->count() }} client(s) visible to you - no pagination, so nothing is hidden on another page.</p>
