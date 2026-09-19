@@ -1,4 +1,4 @@
-@props(['label', 'value', 'hint' => null, 'icon' => 'scale', 'tone' => 'green', 'href' => null])
+@props(['label', 'value', 'hint' => null, 'icon' => 'scale', 'tone' => 'green', 'href' => null, 'compact' => false])
 
 @php
     $tones = [
@@ -29,37 +29,38 @@
 <{{ $tag }}
     @if ($href) href="{{ $href }}" @endif
     @class([
-        'group relative block overflow-hidden rounded-2xl bg-gradient-to-br p-5 shadow-lg transition-all duration-200',
+        'group relative block overflow-hidden rounded-2xl bg-gradient-to-br shadow-lg transition-all duration-200',
+        $compact ? 'p-3.5' : 'p-5',
         $style['grad'],
         'hover:-translate-y-1 hover:shadow-xl' => $href,
     ])
-    style="box-shadow: 0 16px 32px -14px {{ $style['glow'] }}"
+    style="box-shadow: 0 {{ $compact ? '10px 20px -12px' : '16px 32px -14px' }} {{ $style['glow'] }}"
     @if ($isAnimatable) x-data="{ shown: 0, target: {{ (int) $numericValue }} }" x-init="let start=null; const dur=900; function step(ts){ if(!start) start=ts; const p=Math.min((ts-start)/dur,1); shown=Math.round((1-Math.pow(1-p,3))*target); if(p<1) requestAnimationFrame(step);} requestAnimationFrame(step);" @endif
 >
     {{-- Stamp-ring watermark, the "official register" motif --}}
-    <svg class="absolute -bottom-6 -right-6 w-32 h-32 opacity-[0.12] rotate-[-12deg]" viewBox="0 0 100 100">
+    <svg class="absolute -bottom-6 -right-6 {{ $compact ? 'w-20 h-20' : 'w-32 h-32' }} opacity-[0.12] rotate-[-12deg]" viewBox="0 0 100 100">
         <circle cx="50" cy="50" r="46" fill="none" stroke="white" stroke-width="1.5" stroke-dasharray="3 3"/>
         <circle cx="50" cy="50" r="38" fill="none" stroke="white" stroke-width="1"/>
     </svg>
-    <div class="absolute -top-8 -right-8 w-28 h-28 rounded-full bg-white/10 blur-2xl"></div>
+    <div @class(['absolute -top-8 -right-8 rounded-full bg-white/10 blur-2xl', $compact ? 'w-20 h-20' : 'w-28 h-28'])></div>
 
     <div class="relative flex items-center justify-between">
-        <div class="flex items-center gap-3">
-            <div class="w-10 h-10 shrink-0 rounded-full bg-white/15 ring-1 ring-white/30 backdrop-blur-sm flex items-center justify-center">
-                <x-icon :name="$iconName" size="17" class="text-white" />
+        <div @class(['flex items-center min-w-0', $compact ? 'gap-2' : 'gap-3'])>
+            <div @class(['shrink-0 rounded-full bg-white/15 ring-1 ring-white/30 backdrop-blur-sm flex items-center justify-center', $compact ? 'w-7 h-7' : 'w-10 h-10'])>
+                <x-icon :name="$iconName" :size="$compact ? 13 : 17" class="text-white" />
             </div>
-            <p class="text-sm text-white/85">{{ $label }}</p>
+            <p @class(['text-white/85 truncate', $compact ? 'text-xs' : 'text-sm'])>{{ $label }}</p>
         </div>
         @if ($href)
-            <x-icon name="arrow-right" class="text-white/50 group-hover:text-white/90 group-hover:translate-x-0.5 transition-all shrink-0" />
+            <x-icon name="arrow-right" :size="$compact ? 14 : 18" class="text-white/50 group-hover:text-white/90 group-hover:translate-x-0.5 transition-all shrink-0" />
         @endif
     </div>
     @if ($isAnimatable)
-        <p class="relative mt-3 font-display text-3xl text-white tabular-nums" x-text="shown.toLocaleString()"></p>
+        <p @class(['relative font-display text-white tabular-nums', $compact ? 'mt-2 text-lg' : 'mt-3 text-3xl']) x-text="shown.toLocaleString()"></p>
     @else
-        <p class="relative mt-3 font-display text-3xl text-white tabular-nums">{{ $value }}</p>
+        <p @class(['relative font-display text-white tabular-nums', $compact ? 'mt-2 text-lg' : 'mt-3 text-3xl'])>{{ $value }}</p>
     @endif
     @if ($hint)
-        <p class="relative mt-1 text-xs text-white/60">{{ $hint }}</p>
+        <p @class(['relative text-white/60', $compact ? 'mt-0.5 text-[10px]' : 'mt-1 text-xs'])>{{ $hint }}</p>
     @endif
 </{{ $tag }}>
