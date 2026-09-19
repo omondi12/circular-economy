@@ -1,4 +1,4 @@
-@props(['label', 'amount', 'pendingCount', 'declinedCount', 'tone' => 'gold', 'icon' => 'scale', 'compact' => false])
+@props(['label', 'amount', 'pendingCount', 'declinedCount', 'tone' => 'gold', 'icon' => 'scale'])
 
 @php
     $tones = [
@@ -22,32 +22,34 @@
 @endphp
 
 <div
-    @class(['group relative block overflow-hidden rounded-2xl bg-gradient-to-br shadow-lg', $style['grad'], $compact ? 'p-3.5' : 'p-5'])
-    style="box-shadow: 0 {{ $compact ? '10px 20px -12px' : '16px 32px -14px' }} {{ $style['glow'] }}"
+    class="group relative block overflow-hidden rounded-2xl p-5 bg-gradient-to-br shadow-lg {{ $style['grad'] }}"
+    style="box-shadow: 0 16px 32px -14px {{ $style['glow'] }}"
 >
-    <svg class="absolute -bottom-6 -right-6 {{ $compact ? 'w-20 h-20' : 'w-32 h-32' }} opacity-[0.12] rotate-[-12deg]" viewBox="0 0 100 100">
+    <svg class="absolute -bottom-6 -right-6 w-32 h-32 opacity-[0.12] rotate-[-12deg]" viewBox="0 0 100 100">
         <circle cx="50" cy="50" r="46" fill="none" stroke="white" stroke-width="1.5" stroke-dasharray="3 3"/>
         <circle cx="50" cy="50" r="38" fill="none" stroke="white" stroke-width="1"/>
     </svg>
-    <div @class(['absolute -top-8 -right-8 rounded-full bg-white/10 blur-2xl', $compact ? 'w-20 h-20' : 'w-28 h-28'])></div>
+    <div class="absolute -top-8 -right-8 w-28 h-28 rounded-full bg-white/10 blur-2xl"></div>
 
-    <div @class(['relative flex items-center', $compact ? 'gap-2' : 'gap-3'])>
-        <div @class(['shrink-0 rounded-full bg-white/15 ring-1 ring-white/30 backdrop-blur-sm flex items-center justify-center', $compact ? 'w-7 h-7' : 'w-10 h-10'])>
-            <x-icon :name="$iconName" :size="$compact ? 13 : 17" class="text-white" />
+    <div class="relative flex items-center gap-3">
+        <div class="shrink-0 w-10 h-10 rounded-full bg-white/15 ring-1 ring-white/30 backdrop-blur-sm flex items-center justify-center">
+            <x-icon :name="$iconName" size="17" class="text-white" />
         </div>
-        <p @class(['text-white/85 truncate', $compact ? 'text-xs' : 'text-sm'])>{{ $label }}</p>
+        <p class="text-white/85 text-sm truncate">{{ $label }}</p>
     </div>
 
-    <p @class(['relative font-display text-white tabular-nums', $compact ? 'mt-2 text-lg' : 'mt-3 text-3xl'])>KES {{ number_format($amount, 0) }}</p>
+    <p class="relative mt-3 font-display text-3xl text-white tabular-nums">KES {{ number_format($amount, 0) }}</p>
 
-    <div @class(['relative border-t border-white/20 flex items-center', $compact ? 'mt-2 pt-2 gap-4' : 'mt-3 pt-3 gap-6'])>
-        <div>
-            <p class="text-[10px] text-white/60 uppercase tracking-wide">Pending</p>
-            <p @class(['font-display text-white tabular-nums', $compact ? 'text-sm' : 'text-lg'])>{{ number_format($pendingCount) }}</p>
+    <div class="relative mt-3 pt-3 border-t border-white/20 flex flex-wrap items-center gap-2">
+        <div class="inline-flex items-center gap-1.5 rounded-lg bg-white/10 px-2.5 py-1.5">
+            <span class="w-1.5 h-1.5 rounded-full bg-amber-300"></span>
+            <span class="text-[10px] font-medium text-white/75 uppercase tracking-wide">Pending</span>
+            <span class="text-sm font-display text-white tabular-nums">{{ number_format($pendingCount) }}</span>
         </div>
-        <div>
-            <p class="text-[10px] text-white/60 uppercase tracking-wide">Declined</p>
-            <p @class(['font-display text-white tabular-nums', $compact ? 'text-sm' : 'text-lg'])>{{ number_format($declinedCount) }}</p>
+        <div class="inline-flex items-center gap-1.5 rounded-lg bg-white/10 px-2.5 py-1.5">
+            <span class="w-1.5 h-1.5 rounded-full bg-rose-300"></span>
+            <span class="text-[10px] font-medium text-white/75 uppercase tracking-wide">Declined</span>
+            <span class="text-sm font-display text-white tabular-nums">{{ number_format($declinedCount) }}</span>
         </div>
     </div>
 </div>

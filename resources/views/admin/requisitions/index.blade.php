@@ -22,29 +22,27 @@
             </a>
         </div>
 
-        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 mb-5">
-            <x-stat-tile compact label="Total Requests" :value="number_format($stats['totalCount'])" icon="calendar" tone="teal" />
+        <div class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 mb-6">
+            <x-stat-tile label="Total Requests" :value="number_format($stats['totalCount'])" icon="calendar" tone="teal" />
             <x-requisition-summary-tile
-                compact
                 label="Total Requested" :amount="$stats['totalRequested']"
                 :pendingCount="$stats['pendingCount']" :declinedCount="$stats['declinedCount']"
             />
-            <x-stat-tile compact label="Approved" :value="'KES '.number_format($stats['totalApproved'], 0)" hint="Authorized, not necessarily paid" icon="circle-check" tone="violet" />
-            <x-stat-tile compact label="Total Paid" :value="'KES '.number_format($stats['totalPaid'], 0)" hint="Actually disbursed" icon="circle-check" tone="green" />
-            <x-stat-tile compact label="Outstanding" :value="'KES '.number_format($stats['totalBalance'], 0)" hint="Approved but not yet paid" icon="alert-triangle" tone="rose" />
+            <x-stat-tile label="Approved" :value="'KES '.number_format($stats['totalApproved'], 0)" hint="Authorized, not necessarily paid" icon="circle-check" tone="violet" />
+            <x-stat-tile label="Total Paid" :value="'KES '.number_format($stats['totalPaid'], 0)" hint="Actually disbursed" icon="circle-check" tone="green" />
+            <x-stat-tile label="Outstanding" :value="'KES '.number_format($stats['totalBalance'], 0)" hint="Approved but not yet paid" icon="alert-triangle" tone="rose" />
         </div>
 
-        <h2 class="text-xs font-semibold uppercase tracking-wide text-ink-faint mb-2">Today ({{ now()->format('D, d M Y') }})</h2>
-        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 mb-6">
-            <x-stat-tile compact label="Requests Today" :value="number_format($todayStats['totalCount'])" icon="calendar" tone="teal" />
+        <h2 class="text-xs font-semibold uppercase tracking-wide text-ink-faint mb-3">Today ({{ now()->format('D, d M Y') }})</h2>
+        <div class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 mb-6">
+            <x-stat-tile label="Requests Today" :value="number_format($todayStats['totalCount'])" icon="calendar" tone="teal" />
             <x-requisition-summary-tile
-                compact
                 label="Requested Today" :amount="$todayStats['totalRequested']"
                 :pendingCount="$todayStats['pendingCount']" :declinedCount="$todayStats['declinedCount']"
             />
-            <x-stat-tile compact label="Approved Today" :value="'KES '.number_format($todayStats['totalApproved'], 0)" hint="Authorized, not necessarily paid" icon="circle-check" tone="violet" />
-            <x-stat-tile compact label="Paid Today" :value="'KES '.number_format($todayStats['totalPaid'], 0)" hint="Actually disbursed" icon="circle-check" tone="green" />
-            <x-stat-tile compact label="Outstanding Today" :value="'KES '.number_format($todayStats['totalBalance'], 0)" hint="Approved but not yet paid" icon="alert-triangle" tone="rose" />
+            <x-stat-tile label="Approved Today" :value="'KES '.number_format($todayStats['totalApproved'], 0)" hint="Authorized, not necessarily paid" icon="circle-check" tone="violet" />
+            <x-stat-tile label="Paid Today" :value="'KES '.number_format($todayStats['totalPaid'], 0)" hint="Actually disbursed" icon="circle-check" tone="green" />
+            <x-stat-tile label="Outstanding Today" :value="'KES '.number_format($todayStats['totalBalance'], 0)" hint="Approved but not yet paid" icon="alert-triangle" tone="rose" />
         </div>
 
         <div class="bg-panel border border-border rounded-xl p-4 shadow-sm mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
