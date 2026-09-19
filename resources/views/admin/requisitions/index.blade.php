@@ -40,12 +40,14 @@
                     <p class="text-sm text-ink-faint">No PIN generated yet.</p>
                 @endif
             </div>
-            <form method="POST" action="{{ route('admin.requisitions.pin.regenerate') }}" onsubmit="return confirm('This invalidates the current PIN - anyone using it will need the new one. Continue?')">
-                @csrf
-                <button type="submit" class="px-4 py-2 rounded-lg border border-border text-sm font-medium hover:bg-panel-muted transition-colors">
-                    {{ $pin ? 'Regenerate PIN' : 'Generate PIN' }}
-                </button>
-            </form>
+            @if (auth()->user()->isAdmin())
+                <form method="POST" action="{{ route('admin.requisitions.pin.regenerate') }}" onsubmit="return confirm('This invalidates the current PIN - anyone using it will need the new one. Continue?')">
+                    @csrf
+                    <button type="submit" class="px-4 py-2 rounded-lg border border-border text-sm font-medium hover:bg-panel-muted transition-colors">
+                        {{ $pin ? 'Regenerate PIN' : 'Generate PIN' }}
+                    </button>
+                </form>
+            @endif
         </div>
 
         <form method="GET" class="mb-4 flex flex-wrap gap-2 items-center">
@@ -82,7 +84,10 @@
                 </thead>
                 <tbody class="divide-y divide-border">
                     @forelse ($requisitions as $req)
-                        @php $totals = $requesterTotals[$req->requester_id] ?? ['days' => 0, 'cumulative' => 0]; @endphp
+                        @php
+                            $totals = $requesterTotals[$req->requester_id] ?? ['days' => 0, 'cumulative' => 0];
+                            $canApprove = auth()->user()->canApproveRequisition($req);
+                        @endphp
                         <tr class="hover:bg-panel-muted transition-colors align-top">
                             <td class="px-3 py-3 font-medium whitespace-nowrap">{{ $req->requester->name ?? '—' }}</td>
                             <td class="px-3 py-3 max-w-[200px]"><div class="line-clamp-2">{{ $req->institution_visiting }}</div></td>
@@ -94,22 +99,26 @@
                             <td class="px-3 py-3 min-w-[220px]">
                                 <x-requisition-status-badge :status="$req->transport_status" />
                                 @if ($req->transport_status === 'pending')
-                                    <div class="flex items-center gap-1 mt-2">
-                                        <form method="POST" action="{{ route('admin.requisitions.transport.approve', $req) }}">
-                                            @csrf
-                                            <button type="submit" class="px-2 py-1 rounded-md bg-brand-700 hover:bg-brand-800 text-white text-xs font-medium">Approve</button>
-                                        </form>
-                                        <form method="POST" action="{{ route('admin.requisitions.transport.decline', $req) }}" onsubmit="return confirm('Decline this transport request?')">
-                                            @csrf
-                                            <button type="submit" class="px-2 py-1 rounded-md border border-border text-xs font-medium hover:bg-panel-muted">Decline</button>
-                                        </form>
-                                    </div>
+                                    @if ($canApprove)
+                                        <div class="flex items-center gap-1 mt-2">
+                                            <form method="POST" action="{{ route('admin.requisitions.transport.approve', $req) }}">
+                                                @csrf
+                                                <button type="submit" class="px-2 py-1 rounded-md bg-brand-700 hover:bg-brand-800 text-white text-xs font-medium">Approve</button>
+                                            </form>
+                                            <form method="POST" action="{{ route('admin.requisitions.transport.decline', $req) }}" onsubmit="return confirm('Decline this transport request?')">
+                                                @csrf
+                                                <button type="submit" class="px-2 py-1 rounded-md border border-border text-xs font-medium hover:bg-panel-muted">Decline</button>
+                                            </form>
+                                        </div>
+                                    @else
+                                        <p class="text-xs text-ink-faint mt-1">Awaiting approval</p>
+                                    @endif
                                 @else
                                     <div class="text-xs text-ink-faint mt-1">
                                         {{ $req->transportApprovedBy->name ?? '—' }}
                                         <div class="tabular-nums">Paid: {{ number_format($req->transport_paid_amount, 0) }} · Bal: {{ number_format($req->transportBalance(), 0) }}</div>
                                     </div>
-                                    @if ($req->transport_status === 'approved' && $req->transportBalance() > 0)
+                                    @if ($req->transport_status === 'approved' && $req->transportBalance() > 0 && $canApprove)
                                         <form method="POST" action="{{ route('admin.requisitions.transport.pay', $req) }}" class="flex items-center gap-1 mt-2">
                                             @csrf
                                             <input type="number" step="0.01" min="0" max="{{ $req->transport_amount_requested }}" name="paid_amount" value="{{ $req->transport_amount_requested }}" class="w-20 rounded-md border-border text-xs py-1 px-1.5">
@@ -125,22 +134,26 @@
                             <td class="px-3 py-3 min-w-[220px]">
                                 <x-requisition-status-badge :status="$req->airtime_status" />
                                 @if ($req->airtime_status === 'pending')
-                                    <div class="flex items-center gap-1 mt-2">
-                                        <form method="POST" action="{{ route('admin.requisitions.airtime.approve', $req) }}">
-                                            @csrf
-                                            <button type="submit" class="px-2 py-1 rounded-md bg-brand-700 hover:bg-brand-800 text-white text-xs font-medium">Approve</button>
-                                        </form>
-                                        <form method="POST" action="{{ route('admin.requisitions.airtime.decline', $req) }}" onsubmit="return confirm('Decline this airtime request?')">
-                                            @csrf
-                                            <button type="submit" class="px-2 py-1 rounded-md border border-border text-xs font-medium hover:bg-panel-muted">Decline</button>
-                                        </form>
-                                    </div>
+                                    @if ($canApprove)
+                                        <div class="flex items-center gap-1 mt-2">
+                                            <form method="POST" action="{{ route('admin.requisitions.airtime.approve', $req) }}">
+                                                @csrf
+                                                <button type="submit" class="px-2 py-1 rounded-md bg-brand-700 hover:bg-brand-800 text-white text-xs font-medium">Approve</button>
+                                            </form>
+                                            <form method="POST" action="{{ route('admin.requisitions.airtime.decline', $req) }}" onsubmit="return confirm('Decline this airtime request?')">
+                                                @csrf
+                                                <button type="submit" class="px-2 py-1 rounded-md border border-border text-xs font-medium hover:bg-panel-muted">Decline</button>
+                                            </form>
+                                        </div>
+                                    @else
+                                        <p class="text-xs text-ink-faint mt-1">Awaiting approval</p>
+                                    @endif
                                 @else
                                     <div class="text-xs text-ink-faint mt-1">
                                         {{ $req->airtimeApprovedBy->name ?? '—' }}
                                         <div class="tabular-nums">Paid: {{ number_format($req->airtime_paid_amount, 0) }} · Bal: {{ number_format($req->airtimeBalance(), 0) }}</div>
                                     </div>
-                                    @if ($req->airtime_status === 'approved' && $req->airtimeBalance() > 0)
+                                    @if ($req->airtime_status === 'approved' && $req->airtimeBalance() > 0 && $canApprove)
                                         <form method="POST" action="{{ route('admin.requisitions.airtime.pay', $req) }}" class="flex items-center gap-1 mt-2">
                                             @csrf
                                             <input type="number" step="0.01" min="0" max="{{ $req->airtime_amount_requested }}" name="paid_amount" value="{{ $req->airtime_amount_requested }}" class="w-20 rounded-md border-border text-xs py-1 px-1.5">

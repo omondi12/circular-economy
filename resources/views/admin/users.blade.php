@@ -8,7 +8,7 @@
         <div class="flex items-center justify-between mb-6">
             <x-page-header
                 title="Team Accounts"
-                :subtitle="auth()->user()->isAdmin() ? $users->count().' account(s) - Relationship Managers and Supervisors.' : $users->count().' RM(s) on your team.'"
+                :subtitle="auth()->user()->isAdmin() ? $users->count().' account(s) - Relationship Managers, Supervisors and Office Admins.' : $users->count().' RM(s) on your team.'"
                 :back="route('admin.dashboard')"
                 back-label="Back to admin"
             />
@@ -42,6 +42,8 @@
                             <td class="px-4 py-3">
                                 @if ($user->isSupervisor())
                                     <span class="inline-flex items-center px-2 py-0.5 rounded-full bg-violet-100 text-violet-800 text-xs font-medium">Supervisor</span>
+                                @elseif ($user->isOfficeAdmin())
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded-full bg-gold-100 text-gold-700 text-xs font-medium">Office Admin</span>
                                 @else
                                     <span class="inline-flex items-center px-2 py-0.5 rounded-full bg-panel-muted text-ink-muted text-xs font-medium">RM</span>
                                 @endif

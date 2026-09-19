@@ -26,6 +26,16 @@ class User extends Authenticatable
     public const ROLE_SUPERVISOR = 'supervisor';
 
     /**
+     * A staff role focused on Requisitions only (2026-09-19): can approve/
+     * decline/pay RM and Supervisor requests, and can submit their own -
+     * but their own request needs a Supervisor's (or Admin's) approval,
+     * never another Office Admin's, since office admins have no oversight
+     * authority over each other. Deliberately does NOT get the rest of
+     * /admin (clients, ministries, team accounts, audit log).
+     */
+    public const ROLE_OFFICE_ADMIN = 'office_admin';
+
+    /**
      * Demo accounts (DemoDataSeeder) all share this domain - excluded
      * rather than requiring a specific real domain like @amacplc.com, so
      * a real RM onboarded with any working email (e.g. a personal Gmail
@@ -100,14 +110,88 @@ class User extends Authenticatable
         return $this->role === self::ROLE_SUPERVISOR;
     }
 
+    public function isOfficeAdmin(): bool
+    {
+        return $this->role === self::ROLE_OFFICE_ADMIN;
+    }
+
     /**
      * Supervisors get the same admin-area access as admins (per the boss's
      * decision, 2026-09-05) - a distinct role so their actions are their
      * own in the audit log, rather than everyone sharing the admin login.
+     * Office Admins are deliberately excluded - see the ROLE_OFFICE_ADMIN
+     * docblock.
      */
     public function canAccessAdminArea(): bool
     {
         return in_array($this->role, [self::ROLE_ADMIN, self::ROLE_SUPERVISOR], true);
+    }
+
+    /**
+     * Who can reach the requisitions approval page/actions at all - admins
+     * and supervisors (as before), plus Office Admins now (2026-09-19).
+     * Whether they can approve one specific request is a narrower question
+     * - see canApproveRequisition() below.
+     */
+    public function canApproveRequisitions(): bool
+    {
+        return in_array($this->role, [self::ROLE_ADMIN, self::ROLE_SUPERVISOR, self::ROLE_OFFICE_ADMIN], true);
+    }
+
+    /**
+     * Per-request approval authorization (2026-09-19) - the single source
+     * of truth used by both RequisitionController (to authorize the
+     * action) and the admin/public requisition views (to decide whether to
+     * even show the Approve/Decline/Paid buttons for that row). Admins are
+     * unrestricted, including approving their own - same as everywhere
+     * else in the app. Supervisors and Office Admins can approve anyone's
+     * request except their own; an Office Admin's request additionally
+     * needs a Supervisor (or Admin) - not another Office Admin, since
+     * office admins have no oversight authority over each other.
+     */
+    public function canApproveRequisition(Requisition $requisition): bool
+    {
+        if (! $this->canApproveRequisitions()) {
+            return false;
+        }
+
+        if ($this->isAdmin()) {
+            return true;
+        }
+
+        if ($requisition->requester_id === $this->id) {
+            return false;
+        }
+
+        if ($this->isOfficeAdmin() && $requisition->requester?->isOfficeAdmin()) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Where this account lands after login and what the nav's primary
+     * button points to - centralized here since it now differs per role
+     * (Office Admin has no use for the full admin dashboard, only
+     * Requisitions).
+     */
+    public function homeRouteName(): string
+    {
+        return match ($this->role) {
+            self::ROLE_ADMIN, self::ROLE_SUPERVISOR => 'admin.dashboard',
+            self::ROLE_OFFICE_ADMIN => 'admin.requisitions.index',
+            default => 'rm.dashboard',
+        };
+    }
+
+    public function homeLabel(): string
+    {
+        return match ($this->role) {
+            self::ROLE_ADMIN, self::ROLE_SUPERVISOR => 'Admin',
+            self::ROLE_OFFICE_ADMIN => 'Requisitions',
+            default => 'My Dashboard',
+        };
     }
 
     /**

@@ -74,7 +74,7 @@ class AdminController extends Controller
 
         $users = $viewer->isSupervisor()
             ? User::visibleRmsFor($viewer)->orderBy('name')->get()
-            : User::whereIn('role', [User::ROLE_RM, User::ROLE_SUPERVISOR])
+            : User::whereIn('role', [User::ROLE_RM, User::ROLE_SUPERVISOR, User::ROLE_OFFICE_ADMIN])
                 ->with('supervisor')->orderBy('role')->orderBy('name')->get();
 
         return view('admin.users', ['users' => $users]);
@@ -107,7 +107,7 @@ class AdminController extends Controller
         ];
 
         if ($viewer->isAdmin()) {
-            $rules['role'] = ['required', Rule::in([User::ROLE_RM, User::ROLE_SUPERVISOR])];
+            $rules['role'] = ['required', Rule::in([User::ROLE_RM, User::ROLE_SUPERVISOR, User::ROLE_OFFICE_ADMIN])];
             $rules['supervisor_id'] = ['nullable', 'integer', 'exists:users,id'];
         }
 
@@ -129,7 +129,11 @@ class AdminController extends Controller
             'supervisor' => $user->supervisor?->name,
         ]);
 
-        $roleLabel = $user->isSupervisor() ? 'Supervisor' : 'RM';
+        $roleLabel = match (true) {
+            $user->isSupervisor() => 'Supervisor',
+            $user->isOfficeAdmin() => 'Office Admin',
+            default => 'RM',
+        };
 
         return redirect()->route('admin.users')->with('status', "{$roleLabel} account created for {$user->name}.");
     }
@@ -181,7 +185,7 @@ class AdminController extends Controller
         ];
 
         if ($viewer->isAdmin()) {
-            $rules['role'] = ['required', Rule::in([User::ROLE_RM, User::ROLE_SUPERVISOR])];
+            $rules['role'] = ['required', Rule::in([User::ROLE_RM, User::ROLE_SUPERVISOR, User::ROLE_OFFICE_ADMIN])];
             $rules['supervisor_id'] = ['nullable', 'integer', 'exists:users,id'];
         }
 
@@ -191,8 +195,8 @@ class AdminController extends Controller
             unset($data['password']);
         }
 
-        if ($viewer->isAdmin() && ($data['role'] ?? null) === User::ROLE_SUPERVISOR) {
-            // A supervisor doesn't have a supervisor of their own.
+        if ($viewer->isAdmin() && ($data['role'] ?? null) !== User::ROLE_RM) {
+            // Only an RM reports to a supervisor.
             $data['supervisor_id'] = null;
         }
 
@@ -481,7 +485,7 @@ class AdminController extends Controller
 
         $who = $viewer->isSupervisor()
             ? User::where('supervisor_id', $viewer->id)->orWhere('id', $viewer->id)
-            : User::whereIn('role', [User::ROLE_RM, User::ROLE_SUPERVISOR, User::ROLE_ADMIN]);
+            : User::whereIn('role', [User::ROLE_RM, User::ROLE_SUPERVISOR, User::ROLE_OFFICE_ADMIN, User::ROLE_ADMIN]);
 
         return view('admin.audit-log', [
             'entries' => $entries,

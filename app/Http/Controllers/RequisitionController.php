@@ -13,10 +13,14 @@ use Illuminate\Support\Facades\Auth;
 
 /**
  * Daily transport + airtime facilitation requests, per the boss's brief
- * (2026-09-17). RMs and Supervisors request for themselves; only admins
- * approve/decline. Three surfaces share the same underlying data:
+ * (2026-09-17, extended 2026-09-19). RMs, Supervisors and Office Admins
+ * request for themselves; admins, supervisors and office admins can all
+ * approve/decline/pay (see authorizeApproval() for the per-request rules -
+ * nobody approves their own, and an Office Admin's request needs a
+ * Supervisor or Admin, never another Office Admin). Three surfaces share
+ * the same underlying data:
  *  - /requisitions        - a requester's own history + new-request form
- *  - /admin/requisitions  - admin-only, every request, approve/decline
+ *  - /admin/requisitions  - every request, stat breakdown, approve/decline/pay
  *  - /facilitation        - public, PIN-gated read-only breakdown for the
  *                           boss, since admin accounts are shared among
  *                           several people and he doesn't want to need one
@@ -91,14 +95,14 @@ class RequisitionController extends Controller
     }
 
     /**
-     * Admin-only: every request, a stat breakdown, and the approve/decline
-     * actions. Shares the middleware group with Supervisors (same as the
-     * rest of /admin) but "only the admins can approve" means this one
-     * page stays admin-only inside it, same pattern as distributeMinistries.
+     * Every request, a stat breakdown, and the approve/decline/pay actions -
+     * reachable by anyone who can approve requisitions (admin, supervisor,
+     * office admin). Individual actions still run their own per-request
+     * authorization (see authorizeApproval()).
      */
     public function adminIndex(Request $request): View
     {
-        abort_unless(Auth::user()->isAdmin(), 403);
+        abort_unless(Auth::user()->canApproveRequisitions(), 403);
 
         $filters = [
             'status' => $request->string('status')->toString() ?: null,
@@ -118,22 +122,22 @@ class RequisitionController extends Controller
             'requisitions' => $requisitions,
             'stats' => $this->stats(),
             'requesterTotals' => $this->requesterTotals(),
-            'requesters' => User::whereIn('role', [User::ROLE_RM, User::ROLE_SUPERVISOR])->orderBy('name')->get(),
+            'requesters' => User::whereIn('role', [User::ROLE_RM, User::ROLE_SUPERVISOR, User::ROLE_OFFICE_ADMIN])->orderBy('name')->get(),
             'filters' => $filters,
             'pin' => Setting::get(self::PIN_SETTING_KEY),
         ]);
     }
 
     /**
-     * Admin-only: every requisition with at least one approved track
-     * (transport and/or airtime), as a CSV for the boss/finance - the
-     * "send this to finance" button on the admin requisitions page
-     * (2026-09-18). Still-pending or declined-only requests are excluded
-     * since there's nothing approved on them to pay.
+     * Every requisition with at least one approved track (transport and/or
+     * airtime), as a CSV for the boss/finance - the "send this to finance"
+     * button on the admin requisitions page (2026-09-18). Still-pending or
+     * declined-only requests are excluded since there's nothing approved
+     * on them to pay.
      */
     public function exportApproved(Request $request): \Symfony\Component\HttpFoundation\StreamedResponse
     {
-        abort_unless(Auth::user()->isAdmin(), 403);
+        abort_unless(Auth::user()->canApproveRequisitions(), 403);
 
         $requesterId = $request->string('requester_id')->toString() ?: null;
 
@@ -195,7 +199,7 @@ class RequisitionController extends Controller
      */
     public function approveTransport(Requisition $requisition): RedirectResponse
     {
-        abort_unless(Auth::user()->isAdmin(), 403);
+        $this->authorizeApproval($requisition);
 
         $requisition->update([
             'transport_status' => Requisition::STATUS_APPROVED,
@@ -210,7 +214,7 @@ class RequisitionController extends Controller
 
     public function payTransport(Request $request, Requisition $requisition): RedirectResponse
     {
-        abort_unless(Auth::user()->isAdmin(), 403);
+        $this->authorizeApproval($requisition);
         abort_unless($requisition->transport_status === Requisition::STATUS_APPROVED, 422);
 
         $data = $request->validate([
@@ -232,7 +236,7 @@ class RequisitionController extends Controller
 
     public function declineTransport(Requisition $requisition): RedirectResponse
     {
-        abort_unless(Auth::user()->isAdmin(), 403);
+        $this->authorizeApproval($requisition);
 
         $requisition->update([
             'transport_status' => Requisition::STATUS_DECLINED,
@@ -248,7 +252,7 @@ class RequisitionController extends Controller
 
     public function approveAirtime(Requisition $requisition): RedirectResponse
     {
-        abort_unless(Auth::user()->isAdmin(), 403);
+        $this->authorizeApproval($requisition);
 
         $requisition->update([
             'airtime_status' => Requisition::STATUS_APPROVED,
@@ -263,7 +267,7 @@ class RequisitionController extends Controller
 
     public function payAirtime(Request $request, Requisition $requisition): RedirectResponse
     {
-        abort_unless(Auth::user()->isAdmin(), 403);
+        $this->authorizeApproval($requisition);
         abort_unless($requisition->airtime_status === Requisition::STATUS_APPROVED, 422);
 
         $data = $request->validate([
@@ -285,7 +289,7 @@ class RequisitionController extends Controller
 
     public function declineAirtime(Requisition $requisition): RedirectResponse
     {
-        abort_unless(Auth::user()->isAdmin(), 403);
+        $this->authorizeApproval($requisition);
 
         $requisition->update([
             'airtime_status' => Requisition::STATUS_DECLINED,
@@ -347,6 +351,15 @@ class RequisitionController extends Controller
         $request->session()->put(self::PIN_SESSION_KEY, true);
 
         return redirect()->route('requisitions.public');
+    }
+
+    /**
+     * See User::canApproveRequisition() for the actual rules - kept here
+     * as a thin wrapper so every action method has one consistent call.
+     */
+    private function authorizeApproval(Requisition $requisition): void
+    {
+        abort_unless(Auth::user()->canApproveRequisition($requisition), 403);
     }
 
     private function stats(): array

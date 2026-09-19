@@ -50,10 +50,11 @@ Route::prefix('rm')->name('rm.')->middleware(['auth', 'role:rm,admin'])->group(f
     Route::post('/collections', [RmDashboardController::class, 'store'])->name('collections.store');
 });
 
-// A requester's own facilitation (transport/airtime) requests - both RMs
-// and Supervisors request for themselves; admins can reach it too
-// (harmless, they just won't have anything to request in practice).
-Route::prefix('requisitions')->name('requisitions.')->middleware(['auth', 'role:rm,supervisor,admin'])->group(function () {
+// A requester's own facilitation (transport/airtime) requests - RMs,
+// Supervisors and Office Admins all request for themselves; admins can
+// reach it too (harmless, they just won't have anything to request in
+// practice).
+Route::prefix('requisitions')->name('requisitions.')->middleware(['auth', 'role:rm,supervisor,office_admin,admin'])->group(function () {
     Route::get('/', [RequisitionController::class, 'mine'])->name('mine');
     Route::post('/', [RequisitionController::class, 'store'])->name('store');
 });
@@ -84,7 +85,15 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin,supervis
 
     Route::get('/reports/{report}/edit', [ClientReportController::class, 'editReport'])->name('reports.edit');
     Route::put('/reports/{report}', [ClientReportController::class, 'updateReport'])->name('reports.update');
+});
 
+// Requisition approvals - admin, supervisor, AND office_admin (2026-09-19)
+// can all view/approve/decline/pay. Kept as its own group (still under
+// /admin/... URLs for continuity) rather than inside the main admin group
+// above, since an Office Admin should NOT reach the rest of /admin
+// (clients, ministries, team accounts, audit log) - see the
+// ROLE_OFFICE_ADMIN docblock on the User model.
+Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin,supervisor,office_admin'])->group(function () {
     Route::get('/requisitions', [RequisitionController::class, 'adminIndex'])->name('requisitions.index');
     Route::get('/requisitions/export', [RequisitionController::class, 'exportApproved'])->name('requisitions.export');
     Route::post('/requisitions/pin/regenerate', [RequisitionController::class, 'regeneratePin'])->name('requisitions.pin.regenerate');

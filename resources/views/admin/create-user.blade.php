@@ -1,7 +1,7 @@
 <x-layout title="New Account">
         <x-page-header
             title="New Account"
-            :subtitle="auth()->user()->isAdmin() ? 'Create login credentials for a Relationship Manager or Supervisor.' : 'Create login credentials for a new RM on your team.'"
+            :subtitle="auth()->user()->isAdmin() ? 'Create login credentials for a Relationship Manager, Supervisor or Office Admin.' : 'Create login credentials for a new RM on your team.'"
             :back="route('admin.users')"
             back-label="Back to accounts"
         />
@@ -25,6 +25,10 @@
                             <label class="inline-flex items-center gap-2 text-sm">
                                 <input type="radio" name="role" value="supervisor" class="text-brand-700 focus:ring-brand-600">
                                 Supervisor
+                            </label>
+                            <label class="inline-flex items-center gap-2 text-sm">
+                                <input type="radio" name="role" value="office_admin" class="text-brand-700 focus:ring-brand-600">
+                                Office Admin
                             </label>
                         </div>
                     </div>

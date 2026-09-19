@@ -27,11 +27,15 @@
                                 <input type="radio" name="role" value="supervisor" class="text-brand-700 focus:ring-brand-600" @checked($editedUser->isSupervisor())>
                                 Supervisor
                             </label>
+                            <label class="inline-flex items-center gap-2 text-sm">
+                                <input type="radio" name="role" value="office_admin" class="text-brand-700 focus:ring-brand-600" @checked($editedUser->isOfficeAdmin())>
+                                Office Admin
+                            </label>
                         </div>
                         @if ($editedUser->isRm())
-                            <p class="text-xs text-ink-faint mt-2">Switching this account to Supervisor will free up any clients or ministries currently assigned to them as an RM.</p>
-                        @else
-                            <p class="text-xs text-ink-faint mt-2">Switching this account to RM will unassign any RMs currently reporting to them.</p>
+                            <p class="text-xs text-ink-faint mt-2">Switching this account away from RM will free up any clients or ministries currently assigned to them.</p>
+                        @elseif ($editedUser->isSupervisor())
+                            <p class="text-xs text-ink-faint mt-2">Switching this account away from Supervisor will unassign any RMs currently reporting to them.</p>
                         @endif
                     </div>
 
