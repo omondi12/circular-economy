@@ -121,6 +121,7 @@
                     <thead class="bg-brand-50 text-left text-ink-faint">
                         <tr>
                             <th class="px-4 py-2 font-medium">Client</th>
+                            <th class="px-4 py-2 font-medium">Ministry</th>
                             <th class="px-4 py-2 font-medium">Currently Assigned</th>
                             <th class="px-4 py-2 font-medium">Assign To</th>
                             <th class="px-4 py-2 font-medium">Action</th>
@@ -131,6 +132,9 @@
                             <tr class="hover:bg-panel-muted transition-colors">
                                 <td class="px-4 py-3 font-medium max-w-md">
                                     <div class="line-clamp-2">{{ $client->name }}</div>
+                                </td>
+                                <td class="px-4 py-3 text-ink-faint whitespace-nowrap max-w-xs">
+                                    <div class="line-clamp-2">{{ $client->ministryDisplay() }}</div>
                                 </td>
                                 <td class="px-4 py-3 text-ink-muted">
                                     {{ $client->assignedRm->name ?? '—' }}
@@ -157,7 +161,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="4" class="px-4 py-8 text-center text-ink-faint">No clients match this filter.</td>
+                                <td colspan="5" class="px-4 py-8 text-center text-ink-faint">No clients match this filter.</td>
                             </tr>
                         @endforelse
                     </tbody>
