@@ -6,12 +6,13 @@
             back-label="Back to dashboard"
         />
 
-        <div class="grid grid-cols-2 lg:grid-cols-5 gap-4 mb-6">
+        <div class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4 mb-6">
             <x-stat-tile label="Total Requests" :value="number_format($stats['totalCount'])" icon="calendar" tone="teal" />
             <x-stat-tile label="Pending" :value="number_format($stats['pendingCount'])" icon="inbox" tone="rose" />
+            <x-stat-tile label="Declined" :value="number_format($stats['declinedCount'])" icon="x" tone="violet" />
             <x-stat-tile label="Total Requested" :value="'KES '.number_format($stats['totalRequested'], 0)" hint="Transport + airtime" icon="scale" tone="gold" />
             <x-stat-tile label="Total Paid" :value="'KES '.number_format($stats['totalPaid'], 0)" icon="circle-check" tone="green" />
-            <x-stat-tile label="Outstanding" :value="'KES '.number_format($stats['totalBalance'], 0)" hint="Approved/requested but not yet paid" icon="alert-triangle" tone="violet" />
+            <x-stat-tile label="Outstanding" :value="'KES '.number_format($stats['totalBalance'], 0)" hint="Approved/requested but not yet paid" icon="alert-triangle" tone="rose" />
         </div>
 
         <div class="bg-panel border border-border rounded-xl overflow-hidden shadow-sm overflow-x-auto">

@@ -315,11 +315,15 @@ class RequisitionController extends Controller
         $totals = Requisition::query()->selectRaw('
             COUNT(*) as total_count,
             SUM(CASE WHEN transport_status = ? OR airtime_status = ? THEN 1 ELSE 0 END) as pending_count,
+            SUM(CASE WHEN transport_status = ? OR airtime_status = ? THEN 1 ELSE 0 END) as declined_count,
             SUM(transport_amount_requested) as transport_requested,
             SUM(transport_paid_amount) as transport_paid,
             SUM(airtime_amount_requested) as airtime_requested,
             SUM(airtime_paid_amount) as airtime_paid
-        ', [Requisition::STATUS_PENDING, Requisition::STATUS_PENDING])->first();
+        ', [
+            Requisition::STATUS_PENDING, Requisition::STATUS_PENDING,
+            Requisition::STATUS_DECLINED, Requisition::STATUS_DECLINED,
+        ])->first();
 
         $transportRequested = (float) ($totals->transport_requested ?? 0);
         $transportPaid = (float) ($totals->transport_paid ?? 0);
@@ -329,6 +333,7 @@ class RequisitionController extends Controller
         return [
             'totalCount' => (int) ($totals->total_count ?? 0),
             'pendingCount' => (int) ($totals->pending_count ?? 0),
+            'declinedCount' => (int) ($totals->declined_count ?? 0),
             'transportRequested' => $transportRequested,
             'transportPaid' => $transportPaid,
             'airtimeRequested' => $airtimeRequested,
