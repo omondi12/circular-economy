@@ -366,14 +366,26 @@ class AdminController extends Controller
 
         $ministry->update(['assigned_rm_id' => $newRm?->id]);
 
+        // Assigning an RM to a ministry also links them to every client
+        // under it (2026-09-19, per the boss) - the ministry assignment is
+        // the umbrella, clients follow it, same "picking always shifts"
+        // rule as assigning a client directly. Only cascades on assignment,
+        // not on clearing the ministry back to unassigned.
+        $clientsUpdated = 0;
+        if ($newRm) {
+            $clientsUpdated = StateCorporation::where('ministry_id', $ministry->id)
+                ->update(['assigned_rm_id' => $newRm->id]);
+        }
+
         AuditLog::record('ministry.rm_assigned', $ministry, [
             'ministry' => $ministry->name,
             'previous_rm' => $previousRm,
             'new_rm' => $newRm?->name,
+            'clients_linked' => $clientsUpdated,
         ]);
 
         return back()->with('status', $newRm
-            ? "{$ministry->name} assigned to {$newRm->name}."
+            ? "{$ministry->name} assigned to {$newRm->name} ({$clientsUpdated} client(s) under it linked too)."
             : "{$ministry->name} unassigned.");
     }
 
