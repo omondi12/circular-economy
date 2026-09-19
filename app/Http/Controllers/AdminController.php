@@ -289,13 +289,17 @@ class AdminController extends Controller
         if ($view === 'clients') {
             $search = $request->string('q')->toString() ?: null;
 
+            // No pagination here (2026-09-19) - RMs/supervisors were
+            // reporting clients "missing" that were really just sitting
+            // beyond page 1 (each supervisor's team runs 150-200+ rows).
+            // The full team fits comfortably in one page; search still
+            // narrows it down when useful.
             $clients = StateCorporation::query()
                 ->visibleTo($viewer)
                 ->with('assignedRm')
                 ->when($search, fn ($q, $v) => $q->where('name', 'like', "%{$v}%"))
                 ->orderBy('name')
-                ->paginate(50)
-                ->withQueryString();
+                ->get();
 
             return view('admin.assign-rms', [
                 'view' => $view,

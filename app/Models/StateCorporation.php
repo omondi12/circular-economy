@@ -94,9 +94,12 @@ class StateCorporation extends Model
         }
 
         $rmIds = $viewer->rms()->pluck('id');
+        $orphanedRmIds = User::orphanedRms()->pluck('id');
 
-        return $query->where(function ($q) use ($rmIds) {
-            $q->whereIn('assigned_rm_id', $rmIds)->orWhereNull('assigned_rm_id');
+        return $query->where(function ($q) use ($rmIds, $orphanedRmIds) {
+            $q->whereIn('assigned_rm_id', $rmIds)
+                ->orWhereNull('assigned_rm_id')
+                ->orWhereIn('assigned_rm_id', $orphanedRmIds);
         });
     }
 

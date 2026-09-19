@@ -109,8 +109,10 @@
                 </div>
                 @if ($search)
                     <a href="{{ route('admin.assign-rms', ['view' => 'clients']) }}" class="inline-block mt-2 text-xs text-ink-faint hover:text-ink-muted">
-                        Clear search ({{ $clients->total() }} match{{ $clients->total() === 1 ? '' : 'es' }})
+                        Clear search ({{ $clients->count() }} match{{ $clients->count() === 1 ? '' : 'es' }})
                     </a>
+                @else
+                    <p class="mt-2 text-xs text-ink-faint">Showing all {{ $clients->count() }} client(s) visible to you - no pagination, so nothing is hidden on another page.</p>
                 @endif
             </form>
 
@@ -162,9 +164,6 @@
                 </table>
             </div>
 
-            <div class="mt-4">
-                {{ $clients->links() }}
-            </div>
         @else
             <p class="text-sm text-ink-faint mb-4">{{ $allRms->count() }} RM(s). Moves an RM to a different supervisor's team - use this to sort out RMs that existed before their supervisor did.</p>
 

@@ -95,6 +95,21 @@ class User extends Authenticatable
         return $this->hasMany(self::class, 'supervisor_id');
     }
 
+    /**
+     * RMs with no supervisor at all (2026-09-19: this happens whenever an
+     * RM's supervisor is converted to a different role - updateUser()
+     * correctly frees the RM rather than leaving them reporting to a
+     * non-supervisor, but that RM's clients/ministries would then be
+     * invisible to *every* supervisor's visibleTo() scope forever, since
+     * they belong to nobody's team. StateCorporation/GovernmentEntity
+     * scopeVisibleTo() treat these the same as unassigned - visible to
+     * any supervisor - so nothing gets silently orphaned out of view.
+     */
+    public function scopeOrphanedRms($query)
+    {
+        return $query->where('role', self::ROLE_RM)->whereNull('supervisor_id');
+    }
+
     public function isAdmin(): bool
     {
         return $this->role === self::ROLE_ADMIN;
