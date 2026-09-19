@@ -136,7 +136,7 @@
                                         <form method="POST" action="{{ route('admin.requisitions.transport.pay', $req) }}" class="flex items-center gap-1 mt-2">
                                             @csrf
                                             <input type="number" step="0.01" min="0" max="{{ $req->transport_amount_requested }}" name="paid_amount" value="{{ $req->transport_amount_requested }}" class="w-20 rounded-md border-border text-xs py-1 px-1.5">
-                                            <button type="submit" class="px-2 py-1 rounded-md bg-gold-600 hover:bg-gold-700 text-white text-xs font-medium">Paid</button>
+                                            <button type="submit" class="px-2 py-1 rounded-md border border-gold-700 bg-gold-600 hover:bg-gold-700 text-white text-xs font-medium">Paid</button>
                                         </form>
                                     @endif
                                 @endif
@@ -171,7 +171,7 @@
                                         <form method="POST" action="{{ route('admin.requisitions.airtime.pay', $req) }}" class="flex items-center gap-1 mt-2">
                                             @csrf
                                             <input type="number" step="0.01" min="0" max="{{ $req->airtime_amount_requested }}" name="paid_amount" value="{{ $req->airtime_amount_requested }}" class="w-20 rounded-md border-border text-xs py-1 px-1.5">
-                                            <button type="submit" class="px-2 py-1 rounded-md bg-gold-600 hover:bg-gold-700 text-white text-xs font-medium">Paid</button>
+                                            <button type="submit" class="px-2 py-1 rounded-md border border-gold-700 bg-gold-600 hover:bg-gold-700 text-white text-xs font-medium">Paid</button>
                                         </form>
                                     @endif
                                 @endif
