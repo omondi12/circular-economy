@@ -378,31 +378,51 @@ class RequisitionController extends Controller
             COUNT(*) as total_count,
             SUM(CASE WHEN transport_status = ? OR airtime_status = ? THEN 1 ELSE 0 END) as pending_count,
             SUM(CASE WHEN transport_status = ? OR airtime_status = ? THEN 1 ELSE 0 END) as declined_count,
-            SUM(transport_amount_requested) as transport_requested,
+            SUM(CASE WHEN transport_status != ? THEN transport_amount_requested ELSE 0 END) as transport_requested,
+            SUM(CASE WHEN transport_status = ? THEN transport_amount_requested ELSE 0 END) as transport_approved,
             SUM(transport_paid_amount) as transport_paid,
-            SUM(airtime_amount_requested) as airtime_requested,
+            SUM(CASE WHEN airtime_status != ? THEN airtime_amount_requested ELSE 0 END) as airtime_requested,
+            SUM(CASE WHEN airtime_status = ? THEN airtime_amount_requested ELSE 0 END) as airtime_approved,
             SUM(airtime_paid_amount) as airtime_paid
         ', [
                 Requisition::STATUS_PENDING, Requisition::STATUS_PENDING,
                 Requisition::STATUS_DECLINED, Requisition::STATUS_DECLINED,
+                Requisition::STATUS_DECLINED, Requisition::STATUS_APPROVED,
+                Requisition::STATUS_DECLINED, Requisition::STATUS_APPROVED,
             ])->first();
 
+        // "Requested" excludes declined tracks - a declined request was
+        // never real spend, so it shouldn't inflate what's requested
+        // (2026-09-19). "Approved" is its own figure, separate from
+        // "Paid" - approving only authorizes an amount, it doesn't mean
+        // the money has actually gone out (see payTransport/payAirtime).
         $transportRequested = (float) ($totals->transport_requested ?? 0);
+        $transportApproved = (float) ($totals->transport_approved ?? 0);
         $transportPaid = (float) ($totals->transport_paid ?? 0);
         $airtimeRequested = (float) ($totals->airtime_requested ?? 0);
+        $airtimeApproved = (float) ($totals->airtime_approved ?? 0);
         $airtimePaid = (float) ($totals->airtime_paid ?? 0);
+
+        $totalApproved = $transportApproved + $airtimeApproved;
+        $totalPaid = $transportPaid + $airtimePaid;
 
         return [
             'totalCount' => (int) ($totals->total_count ?? 0),
             'pendingCount' => (int) ($totals->pending_count ?? 0),
             'declinedCount' => (int) ($totals->declined_count ?? 0),
             'transportRequested' => $transportRequested,
+            'transportApproved' => $transportApproved,
             'transportPaid' => $transportPaid,
             'airtimeRequested' => $airtimeRequested,
+            'airtimeApproved' => $airtimeApproved,
             'airtimePaid' => $airtimePaid,
             'totalRequested' => $transportRequested + $airtimeRequested,
-            'totalPaid' => $transportPaid + $airtimePaid,
-            'totalBalance' => ($transportRequested + $airtimeRequested) - ($transportPaid + $airtimePaid),
+            'totalApproved' => $totalApproved,
+            'totalPaid' => $totalPaid,
+            // Approved-but-unpaid, not requested-but-unpaid - a still-
+            // pending request isn't "outstanding" money, and a declined
+            // one is never owed at all.
+            'totalBalance' => $totalApproved - $totalPaid,
         ];
     }
 
