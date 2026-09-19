@@ -21,7 +21,7 @@ class StateCorporation extends Model
      * rather than being forced into an inaccurate mapping").
      */
     private const NO_MINISTRY_CLASSIFICATIONS = [
-        'Constitutional Commission', 'Independent Office', 'Judiciary', 'Legislature',
+        'Constitutional Commission', 'Independent Office', 'Judiciary', 'Legislature', 'Private Company',
     ];
 
     protected $fillable = ['name', 'cluster', 'class', 'subclass', 'classification', 'ministry_id', 'phase', 'assigned_rm_id'];
@@ -62,6 +62,10 @@ class StateCorporation extends Model
     {
         if ($this->ministry) {
             return $this->ministry->name;
+        }
+
+        if ($this->classification === 'Private Company') {
+            return 'Private company';
         }
 
         if (in_array($this->classification, self::NO_MINISTRY_CLASSIFICATIONS, true)) {
