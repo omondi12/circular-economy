@@ -186,25 +186,48 @@ class RequisitionController extends Controller
         ]);
     }
 
-    public function approveTransport(Request $request, Requisition $requisition): RedirectResponse
+    /**
+     * Approving no longer records a payment (2026-09-19) - it just
+     * authorizes the amount. Whether it's actually been paid, in full or
+     * partially, is a separate step via payTransport/payAirtime, since
+     * approval and disbursement don't happen at the same moment in
+     * practice.
+     */
+    public function approveTransport(Requisition $requisition): RedirectResponse
     {
         abort_unless(Auth::user()->isAdmin(), 403);
-
-        $data = $request->validate(['paid_amount' => ['required', 'numeric', 'min:0']]);
 
         $requisition->update([
             'transport_status' => Requisition::STATUS_APPROVED,
             'transport_approved_by_id' => Auth::id(),
             'transport_approved_at' => now(),
-            'transport_paid_amount' => $data['paid_amount'],
         ]);
 
-        AuditLog::record('requisition.transport_approved', $requisition, [
-            'requester' => $requisition->requester?->name,
-            'paid_amount' => (float) $data['paid_amount'],
-        ]);
+        AuditLog::record('requisition.transport_approved', $requisition, ['requester' => $requisition->requester?->name]);
 
         return back()->with('status', 'Transport approved.');
+    }
+
+    public function payTransport(Request $request, Requisition $requisition): RedirectResponse
+    {
+        abort_unless(Auth::user()->isAdmin(), 403);
+        abort_unless($requisition->transport_status === Requisition::STATUS_APPROVED, 422);
+
+        $data = $request->validate([
+            'paid_amount' => ['required', 'numeric', 'min:0', 'max:'.$requisition->transport_amount_requested],
+        ]);
+
+        $requisition->update(['transport_paid_amount' => $data['paid_amount']]);
+
+        $full = (float) $data['paid_amount'] >= (float) $requisition->transport_amount_requested;
+
+        AuditLog::record('requisition.transport_paid', $requisition, [
+            'requester' => $requisition->requester?->name,
+            'paid_amount' => (float) $data['paid_amount'],
+            'full' => $full,
+        ]);
+
+        return back()->with('status', $full ? 'Transport paid in full.' : 'Transport partially paid.');
     }
 
     public function declineTransport(Requisition $requisition): RedirectResponse
@@ -223,25 +246,41 @@ class RequisitionController extends Controller
         return back()->with('status', 'Transport declined.');
     }
 
-    public function approveAirtime(Request $request, Requisition $requisition): RedirectResponse
+    public function approveAirtime(Requisition $requisition): RedirectResponse
     {
         abort_unless(Auth::user()->isAdmin(), 403);
-
-        $data = $request->validate(['paid_amount' => ['required', 'numeric', 'min:0']]);
 
         $requisition->update([
             'airtime_status' => Requisition::STATUS_APPROVED,
             'airtime_approved_by_id' => Auth::id(),
             'airtime_approved_at' => now(),
-            'airtime_paid_amount' => $data['paid_amount'],
         ]);
 
-        AuditLog::record('requisition.airtime_approved', $requisition, [
-            'requester' => $requisition->requester?->name,
-            'paid_amount' => (float) $data['paid_amount'],
-        ]);
+        AuditLog::record('requisition.airtime_approved', $requisition, ['requester' => $requisition->requester?->name]);
 
         return back()->with('status', 'Airtime approved.');
+    }
+
+    public function payAirtime(Request $request, Requisition $requisition): RedirectResponse
+    {
+        abort_unless(Auth::user()->isAdmin(), 403);
+        abort_unless($requisition->airtime_status === Requisition::STATUS_APPROVED, 422);
+
+        $data = $request->validate([
+            'paid_amount' => ['required', 'numeric', 'min:0', 'max:'.$requisition->airtime_amount_requested],
+        ]);
+
+        $requisition->update(['airtime_paid_amount' => $data['paid_amount']]);
+
+        $full = (float) $data['paid_amount'] >= (float) $requisition->airtime_amount_requested;
+
+        AuditLog::record('requisition.airtime_paid', $requisition, [
+            'requester' => $requisition->requester?->name,
+            'paid_amount' => (float) $data['paid_amount'],
+            'full' => $full,
+        ]);
+
+        return back()->with('status', $full ? 'Airtime paid in full.' : 'Airtime partially paid.');
     }
 
     public function declineAirtime(Requisition $requisition): RedirectResponse

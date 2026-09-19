@@ -95,9 +95,8 @@
                                 <x-requisition-status-badge :status="$req->transport_status" />
                                 @if ($req->transport_status === 'pending')
                                     <div class="flex items-center gap-1 mt-2">
-                                        <form method="POST" action="{{ route('admin.requisitions.transport.approve', $req) }}" class="flex items-center gap-1">
+                                        <form method="POST" action="{{ route('admin.requisitions.transport.approve', $req) }}">
                                             @csrf
-                                            <input type="number" step="0.01" min="0" name="paid_amount" value="{{ $req->transport_amount_requested }}" class="w-20 rounded-md border-border text-xs py-1 px-1.5">
                                             <button type="submit" class="px-2 py-1 rounded-md bg-brand-700 hover:bg-brand-800 text-white text-xs font-medium">Approve</button>
                                         </form>
                                         <form method="POST" action="{{ route('admin.requisitions.transport.decline', $req) }}" onsubmit="return confirm('Decline this transport request?')">
@@ -110,6 +109,13 @@
                                         {{ $req->transportApprovedBy->name ?? '—' }}
                                         <div class="tabular-nums">Paid: {{ number_format($req->transport_paid_amount, 0) }} · Bal: {{ number_format($req->transportBalance(), 0) }}</div>
                                     </div>
+                                    @if ($req->transport_status === 'approved' && $req->transportBalance() > 0)
+                                        <form method="POST" action="{{ route('admin.requisitions.transport.pay', $req) }}" class="flex items-center gap-1 mt-2">
+                                            @csrf
+                                            <input type="number" step="0.01" min="0" max="{{ $req->transport_amount_requested }}" name="paid_amount" value="{{ $req->transport_amount_requested }}" class="w-20 rounded-md border-border text-xs py-1 px-1.5">
+                                            <button type="submit" class="px-2 py-1 rounded-md bg-gold-600 hover:bg-gold-700 text-white text-xs font-medium">Paid</button>
+                                        </form>
+                                    @endif
                                 @endif
                             </td>
                             <td class="px-3 py-3 whitespace-nowrap text-ink-muted">
@@ -120,9 +126,8 @@
                                 <x-requisition-status-badge :status="$req->airtime_status" />
                                 @if ($req->airtime_status === 'pending')
                                     <div class="flex items-center gap-1 mt-2">
-                                        <form method="POST" action="{{ route('admin.requisitions.airtime.approve', $req) }}" class="flex items-center gap-1">
+                                        <form method="POST" action="{{ route('admin.requisitions.airtime.approve', $req) }}">
                                             @csrf
-                                            <input type="number" step="0.01" min="0" name="paid_amount" value="{{ $req->airtime_amount_requested }}" class="w-20 rounded-md border-border text-xs py-1 px-1.5">
                                             <button type="submit" class="px-2 py-1 rounded-md bg-brand-700 hover:bg-brand-800 text-white text-xs font-medium">Approve</button>
                                         </form>
                                         <form method="POST" action="{{ route('admin.requisitions.airtime.decline', $req) }}" onsubmit="return confirm('Decline this airtime request?')">
@@ -135,6 +140,13 @@
                                         {{ $req->airtimeApprovedBy->name ?? '—' }}
                                         <div class="tabular-nums">Paid: {{ number_format($req->airtime_paid_amount, 0) }} · Bal: {{ number_format($req->airtimeBalance(), 0) }}</div>
                                     </div>
+                                    @if ($req->airtime_status === 'approved' && $req->airtimeBalance() > 0)
+                                        <form method="POST" action="{{ route('admin.requisitions.airtime.pay', $req) }}" class="flex items-center gap-1 mt-2">
+                                            @csrf
+                                            <input type="number" step="0.01" min="0" max="{{ $req->airtime_amount_requested }}" name="paid_amount" value="{{ $req->airtime_amount_requested }}" class="w-20 rounded-md border-border text-xs py-1 px-1.5">
+                                            <button type="submit" class="px-2 py-1 rounded-md bg-gold-600 hover:bg-gold-700 text-white text-xs font-medium">Paid</button>
+                                        </form>
+                                    @endif
                                 @endif
                             </td>
                             <td class="px-3 py-3 whitespace-nowrap font-medium tabular-nums">KES {{ number_format($req->totalRequestedForDay(), 0) }}</td>
