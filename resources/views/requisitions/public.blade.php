@@ -15,6 +15,16 @@
             <x-stat-tile label="Outstanding" :value="'KES '.number_format($stats['totalBalance'], 0)" hint="Approved/requested but not yet paid" icon="alert-triangle" tone="rose" />
         </div>
 
+        <h2 class="text-xs font-semibold uppercase tracking-wide text-ink-faint mb-3">Today ({{ now()->format('D, d M Y') }})</h2>
+        <div class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4 mb-6">
+            <x-stat-tile label="Requests Today" :value="number_format($todayStats['totalCount'])" icon="calendar" tone="teal" />
+            <x-stat-tile label="Pending" :value="number_format($todayStats['pendingCount'])" icon="inbox" tone="rose" />
+            <x-stat-tile label="Declined" :value="number_format($todayStats['declinedCount'])" icon="x" tone="violet" />
+            <x-stat-tile label="Requested Today" :value="'KES '.number_format($todayStats['totalRequested'], 0)" hint="Transport + airtime" icon="scale" tone="gold" />
+            <x-stat-tile label="Paid Today" :value="'KES '.number_format($todayStats['totalPaid'], 0)" icon="circle-check" tone="green" />
+            <x-stat-tile label="Outstanding Today" :value="'KES '.number_format($todayStats['totalBalance'], 0)" hint="Approved/requested but not yet paid" icon="alert-triangle" tone="rose" />
+        </div>
+
         <div class="bg-panel border border-border rounded-xl overflow-hidden shadow-sm overflow-x-auto">
             <table class="w-full text-sm">
                 <thead class="bg-brand-50 text-left text-ink-faint">

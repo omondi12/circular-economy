@@ -121,6 +121,7 @@ class RequisitionController extends Controller
         return view('admin.requisitions.index', [
             'requisitions' => $requisitions,
             'stats' => $this->stats(),
+            'todayStats' => $this->stats(now()->toDateString()),
             'requesterTotals' => $this->requesterTotals(),
             'requesters' => User::whereIn('role', [User::ROLE_RM, User::ROLE_SUPERVISOR, User::ROLE_OFFICE_ADMIN])->orderBy('name')->get(),
             'filters' => $filters,
@@ -334,6 +335,7 @@ class RequisitionController extends Controller
         return view('requisitions.public', [
             'requisitions' => $requisitions,
             'stats' => $this->stats(),
+            'todayStats' => $this->stats(now()->toDateString()),
             'requesterTotals' => $this->requesterTotals(),
         ]);
     }
@@ -362,9 +364,17 @@ class RequisitionController extends Controller
         abort_unless(Auth::user()->canApproveRequisition($requisition), 403);
     }
 
-    private function stats(): array
+    /**
+     * $workingDay narrows this to one day's requests ("Today", on the
+     * admin/public breakdown pages, 2026-09-19) - same shape either way,
+     * just a where() added to the same query, so the two stat rows can
+     * never drift apart in what they count.
+     */
+    private function stats(?string $workingDay = null): array
     {
-        $totals = Requisition::query()->selectRaw('
+        $totals = Requisition::query()
+            ->when($workingDay, fn ($q, $v) => $q->where('working_day', $v))
+            ->selectRaw('
             COUNT(*) as total_count,
             SUM(CASE WHEN transport_status = ? OR airtime_status = ? THEN 1 ELSE 0 END) as pending_count,
             SUM(CASE WHEN transport_status = ? OR airtime_status = ? THEN 1 ELSE 0 END) as declined_count,
@@ -373,9 +383,9 @@ class RequisitionController extends Controller
             SUM(airtime_amount_requested) as airtime_requested,
             SUM(airtime_paid_amount) as airtime_paid
         ', [
-            Requisition::STATUS_PENDING, Requisition::STATUS_PENDING,
-            Requisition::STATUS_DECLINED, Requisition::STATUS_DECLINED,
-        ])->first();
+                Requisition::STATUS_PENDING, Requisition::STATUS_PENDING,
+                Requisition::STATUS_DECLINED, Requisition::STATUS_DECLINED,
+            ])->first();
 
         $transportRequested = (float) ($totals->transport_requested ?? 0);
         $transportPaid = (float) ($totals->transport_paid ?? 0);
