@@ -71,6 +71,15 @@
                                             {{ $user->is_active ? 'Deactivate' : 'Reactivate' }}
                                         </button>
                                     </form>
+                                    @if (auth()->user()->isAdmin())
+                                        <form method="POST" action="{{ route('admin.users.destroy', $user) }}" onsubmit="return confirm('Permanently delete {{ $user->name }}? This removes their account entirely - any clients/ministries assigned to them are freed, and any requests they submitted are deleted too. This cannot be undone.')">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="text-xs font-medium text-danger hover:text-danger">
+                                                Delete
+                                            </button>
+                                        </form>
+                                    @endif
                                 </div>
                             </td>
                         </tr>

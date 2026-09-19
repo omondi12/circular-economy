@@ -151,6 +151,32 @@ class AdminController extends Controller
     }
 
     /**
+     * Admin-only, permanent. Every foreign key that can point at a user
+     * (assigned_rm_id on clients/ministries, supervisor_id on their RMs,
+     * rm_id/created_by on client reports, user_id on collections,
+     * approved_by on requisitions) is nullOnDelete at the DB level, so
+     * deleting the account frees all of it automatically - the one
+     * exception is requisitions.requester_id, which cascades: any
+     * requisition *they themselves submitted* is deleted along with them,
+     * not just unlinked, since "delete entirely" (2026-09-19) means their
+     * own request history goes too.
+     */
+    public function destroyUser(User $user): RedirectResponse
+    {
+        abort_unless(auth()->user()->isAdmin(), 403);
+        abort_if($user->isAdmin(), 403);
+
+        $name = $user->name;
+        $role = $user->role;
+
+        AuditLog::record('user.deleted', null, ['name' => $name, 'email' => $user->email, 'role' => $role]);
+
+        $user->delete();
+
+        return redirect()->route('admin.users')->with('status', "{$name} deleted.");
+    }
+
+    /**
      * Edit an existing account - the one function the boss asked for to
      * switch an existing account's role (e.g. an RM promoted to
      * Supervisor) without recreating it. Admins can edit anyone's role,
