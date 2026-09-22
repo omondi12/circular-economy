@@ -56,11 +56,11 @@
                             <td class="px-3 py-3 font-medium whitespace-nowrap">{{ $req->requester->name ?? '—' }}</td>
                             <td class="px-3 py-3 max-w-[180px]"><div class="line-clamp-2">{{ $req->institution_visiting }}</div></td>
                             <td class="px-3 py-3 whitespace-nowrap text-ink-muted">{{ $req->working_day->format('D, d M Y') }}</td>
-                            <td class="px-3 py-3 whitespace-nowrap tabular-nums text-ink-muted">KES {{ number_format($req->transport_amount_requested, 0) }}</td>
+                            <td class="px-3 py-3 whitespace-nowrap tabular-nums text-ink-muted">KES {{ number_format($req->categoryTotalRequested('transport'), 0) }}</td>
                             <td class="px-3 py-3 whitespace-nowrap text-ink-muted">{{ $req->transportApprovedBy->name ?? '—' }}</td>
                             <td class="px-3 py-3 whitespace-nowrap tabular-nums text-ink-muted">KES {{ number_format($req->transport_paid_amount, 0) }}</td>
                             <td class="px-3 py-3 whitespace-nowrap tabular-nums text-ink-muted">KES {{ number_format($req->transportBalance(), 0) }}</td>
-                            <td class="px-3 py-3 whitespace-nowrap tabular-nums text-ink-muted">KES {{ number_format($req->airtime_amount_requested, 0) }}</td>
+                            <td class="px-3 py-3 whitespace-nowrap tabular-nums text-ink-muted">KES {{ number_format($req->categoryTotalRequested('airtime'), 0) }}</td>
                             <td class="px-3 py-3 whitespace-nowrap text-ink-muted">{{ $req->airtimeApprovedBy->name ?? '—' }}</td>
                             <td class="px-3 py-3 whitespace-nowrap tabular-nums text-ink-muted">KES {{ number_format($req->airtime_paid_amount, 0) }}</td>
                             <td class="px-3 py-3 whitespace-nowrap tabular-nums text-ink-muted">KES {{ number_format($req->airtimeBalance(), 0) }}</td>

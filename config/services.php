@@ -35,4 +35,11 @@ return [
         ],
     ],
 
+    'nawiri_payroll' => [
+        'base_url' => rtrim((string) env('NAWIRI_PAYROLL_BASE_URL', 'https://nawiri-server-production.up.railway.app'), '/'),
+        'timeout' => (int) env('NAWIRI_PAYROLL_TIMEOUT', 35),
+        'reconcile_after_seconds' => (int) env('NAWIRI_PAYROLL_RECONCILE_AFTER', 60),
+        'reversal_window_hours' => (int) env('NAWIRI_PAYROLL_REVERSAL_WINDOW_HOURS', 72),
+    ],
+
 ];

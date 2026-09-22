@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ClientReportController;
 use App\Http\Controllers\CollectionController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\NawiriTreasuryController;
 use App\Http\Controllers\RequisitionController;
 use App\Http\Controllers\RmDashboardController;
 use Illuminate\Support\Facades\Route;
@@ -88,6 +89,13 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin,supervis
     Route::put('/reports/{report}', [ClientReportController::class, 'updateReport'])->name('reports.update');
 });
 
+// The treasury credentials can move money, so only a full admin may view
+// or replace them. Supervisors and Office Admins remain outside this area.
+Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin'])->group(function () {
+    Route::get('/nawiri-treasury', [NawiriTreasuryController::class, 'edit'])->name('nawiri-treasury.edit');
+    Route::put('/nawiri-treasury', [NawiriTreasuryController::class, 'update'])->name('nawiri-treasury.update');
+});
+
 // Requisition approvals - admin, supervisor, AND office_admin (2026-09-19)
 // can all view/approve/decline/pay. Kept as its own group (still under
 // /admin/... URLs for continuity) rather than inside the main admin group
@@ -104,4 +112,5 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin,supervis
     Route::post('/requisitions/{requisition}/airtime/approve', [RequisitionController::class, 'approveAirtime'])->name('requisitions.airtime.approve');
     Route::post('/requisitions/{requisition}/airtime/decline', [RequisitionController::class, 'declineAirtime'])->name('requisitions.airtime.decline');
     Route::post('/requisitions/{requisition}/airtime/pay', [RequisitionController::class, 'payAirtime'])->name('requisitions.airtime.pay');
+    Route::post('/requisition-payments/{payment}/reconcile', [RequisitionController::class, 'reconcilePayment'])->name('requisition-payments.reconcile');
 });

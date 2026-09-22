@@ -59,6 +59,9 @@
                 :href="$isSupervisor ? route('requisitions.mine') : route('admin.requisitions.index')"
             />
             <x-stat-tile label="Audit Log" value="View" :hint="$isSupervisor ? 'Actions related to your team' : 'Every account and submission action'" icon="scale" tone="teal" :href="route('admin.audit-log')" />
+            @unless ($isSupervisor)
+                <x-stat-tile label="Nawiri Treasury" value="Configure" hint="Choose the funded account used for payments" icon="building-bank" tone="green" :href="route('admin.nawiri-treasury.edit')" />
+            @endunless
         </div>
 
         <div class="bg-panel border border-border rounded-xl overflow-hidden shadow-sm">

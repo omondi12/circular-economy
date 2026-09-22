@@ -13,6 +13,7 @@
             <div class="bg-panel border border-border rounded-xl overflow-hidden shadow-sm">
                 <x-form-field label="Full Name" name="name" :value="$editedUser->name" required />
                 <x-form-field label="Email" name="email" type="email" :value="$editedUser->email" required />
+                <x-form-field label="Nawiri Phone Number" name="phone_number" type="tel" :value="$editedUser->phone_number" placeholder="0712345678" required />
                 <x-form-field label="New Password" name="password" type="password" placeholder="Leave blank to keep the current password" />
 
                 @if (auth()->user()->isAdmin())

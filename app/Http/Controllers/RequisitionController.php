@@ -2,14 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\NawiriPayrollException;
 use App\Models\AuditLog;
 use App\Models\Requisition;
+use App\Models\RequisitionPayment;
 use App\Models\Setting;
 use App\Models\User;
+use App\Services\RequisitionPaymentService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 /**
  * Daily transport + airtime facilitation requests, per the boss's brief
@@ -54,12 +58,23 @@ class RequisitionController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
+        $request->merge([
+            'recipient_phone_numbers' => collect($request->input('recipient_phone_numbers', []))
+                ->map(fn ($phone) => $this->normalizeKenyanPhone($phone))
+                ->filter()
+                ->unique()
+                ->values()
+                ->all(),
+        ]);
+
         $data = $request->validate([
             'institutions' => ['required', 'array', 'min:1'],
             'institutions.*' => ['required', 'string', 'max:255'],
             'working_day' => ['required', 'date'],
-            'transport_amount_requested' => ['required', 'numeric', 'min:0'],
-            'airtime_amount_requested' => ['required', 'numeric', 'min:0'],
+            'recipient_phone_numbers' => ['required', 'array', 'min:1', 'max:20'],
+            'recipient_phone_numbers.*' => ['required', 'regex:/^254(?:7|1)\d{8}$/', 'distinct'],
+            'transport_amount_requested' => ['required', 'numeric', 'integer', 'min:0'],
+            'airtime_amount_requested' => ['required', 'numeric', 'integer', 'min:0'],
         ]);
 
         $now = now();
@@ -77,6 +92,7 @@ class RequisitionController extends Controller
             'requester_id' => Auth::id(),
             'institution_visiting' => $institutionVisiting,
             'working_day' => $data['working_day'],
+            'recipient_phone_numbers' => $data['recipient_phone_numbers'],
             'transport_requested_at' => $now,
             'transport_amount_requested' => $data['transport_amount_requested'],
             'airtime_requested_at' => $now,
@@ -87,6 +103,7 @@ class RequisitionController extends Controller
             'requester' => Auth::user()->name,
             'institution_visiting' => $requisition->institution_visiting,
             'working_day' => $requisition->working_day->toDateString(),
+            'recipient_phone_numbers' => $requisition->recipientPhoneNumbers(),
             'transport_amount_requested' => (float) $requisition->transport_amount_requested,
             'airtime_amount_requested' => (float) $requisition->airtime_amount_requested,
         ]);
@@ -110,7 +127,7 @@ class RequisitionController extends Controller
         ];
 
         $requisitions = Requisition::query()
-            ->with(['requester', 'transportApprovedBy', 'airtimeApprovedBy'])
+            ->with(['requester', 'transportApprovedBy', 'airtimeApprovedBy', 'payments'])
             ->when($filters['status'] === 'pending', fn ($q) => $q->where(fn ($q2) => $q2->where('transport_status', Requisition::STATUS_PENDING)->orWhere('airtime_status', Requisition::STATUS_PENDING)))
             ->when($filters['requester_id'], fn ($q, $v) => $q->where('requester_id', $v))
             ->orderByDesc('working_day')
@@ -136,7 +153,7 @@ class RequisitionController extends Controller
      * declined-only requests are excluded since there's nothing approved
      * on them to pay.
      */
-    public function exportApproved(Request $request): \Symfony\Component\HttpFoundation\StreamedResponse
+    public function exportApproved(Request $request): StreamedResponse
     {
         abort_unless(Auth::user()->canApproveRequisitions(), 403);
 
@@ -158,7 +175,7 @@ class RequisitionController extends Controller
             fwrite($handle, "\xEF\xBB\xBF");
 
             fputcsv($handle, [
-                'Name', 'Institution', 'Working Day',
+                'Name', 'Institution', 'Working Day', 'Nawiri Recipients',
                 'Transport Requested', 'Transport Approved By', 'Transport Paid', 'Transport Balance',
                 'Airtime Requested', 'Airtime Approved By', 'Airtime Paid', 'Airtime Balance',
                 'Total for Day', 'Cumulative Facilitation', 'Days Facilitated',
@@ -171,11 +188,12 @@ class RequisitionController extends Controller
                     $req->requester?->name,
                     $req->institution_visiting,
                     $req->working_day->format('d M Y'),
-                    (float) $req->transport_amount_requested,
+                    implode(', ', $req->recipientPhoneNumbers()),
+                    $req->categoryTotalRequested(RequisitionPayment::CATEGORY_TRANSPORT),
                     $req->transport_status === Requisition::STATUS_APPROVED ? $req->transportApprovedBy?->name : $req->transport_status,
                     (float) $req->transport_paid_amount,
                     $req->transportBalance(),
-                    (float) $req->airtime_amount_requested,
+                    $req->categoryTotalRequested(RequisitionPayment::CATEGORY_AIRTIME),
                     $req->airtime_status === Requisition::STATUS_APPROVED ? $req->airtimeApprovedBy?->name : $req->airtime_status,
                     (float) $req->airtime_paid_amount,
                     $req->airtimeBalance(),
@@ -213,26 +231,12 @@ class RequisitionController extends Controller
         return back()->with('status', 'Transport approved.');
     }
 
-    public function payTransport(Request $request, Requisition $requisition): RedirectResponse
+    public function payTransport(Requisition $requisition, RequisitionPaymentService $payments): RedirectResponse
     {
-        $this->authorizeApproval($requisition);
+        abort_unless(Auth::user()->isAdmin(), 403);
         abort_unless($requisition->transport_status === Requisition::STATUS_APPROVED, 422);
 
-        $data = $request->validate([
-            'paid_amount' => ['required', 'numeric', 'min:0', 'max:'.$requisition->transport_amount_requested],
-        ]);
-
-        $requisition->update(['transport_paid_amount' => $data['paid_amount']]);
-
-        $full = (float) $data['paid_amount'] >= (float) $requisition->transport_amount_requested;
-
-        AuditLog::record('requisition.transport_paid', $requisition, [
-            'requester' => $requisition->requester?->name,
-            'paid_amount' => (float) $data['paid_amount'],
-            'full' => $full,
-        ]);
-
-        return back()->with('status', $full ? 'Transport paid in full.' : 'Transport partially paid.');
+        return $this->payRecipients($requisition, RequisitionPayment::CATEGORY_TRANSPORT, $payments);
     }
 
     public function declineTransport(Requisition $requisition): RedirectResponse
@@ -266,26 +270,33 @@ class RequisitionController extends Controller
         return back()->with('status', 'Airtime approved.');
     }
 
-    public function payAirtime(Request $request, Requisition $requisition): RedirectResponse
+    public function payAirtime(Requisition $requisition, RequisitionPaymentService $payments): RedirectResponse
     {
-        $this->authorizeApproval($requisition);
+        abort_unless(Auth::user()->isAdmin(), 403);
         abort_unless($requisition->airtime_status === Requisition::STATUS_APPROVED, 422);
 
-        $data = $request->validate([
-            'paid_amount' => ['required', 'numeric', 'min:0', 'max:'.$requisition->airtime_amount_requested],
+        return $this->payRecipients($requisition, RequisitionPayment::CATEGORY_AIRTIME, $payments);
+    }
+
+    public function reconcilePayment(
+        RequisitionPayment $payment,
+        RequisitionPaymentService $payments,
+    ): RedirectResponse {
+        abort_unless(Auth::user()->isAdmin(), 403);
+
+        try {
+            $payment = $payments->reconcile($payment);
+        } catch (NawiriPayrollException $exception) {
+            return back()->withErrors(['payment' => $exception->getMessage()]);
+        }
+
+        AuditLog::record('requisition.payment_reconciled', $payment->requisition, [
+            'payment_id' => $payment->id,
+            'payment_status' => $payment->status,
+            'nawiri_payment_id' => $payment->nawiri_payment_id,
         ]);
 
-        $requisition->update(['airtime_paid_amount' => $data['paid_amount']]);
-
-        $full = (float) $data['paid_amount'] >= (float) $requisition->airtime_amount_requested;
-
-        AuditLog::record('requisition.airtime_paid', $requisition, [
-            'requester' => $requisition->requester?->name,
-            'paid_amount' => (float) $data['paid_amount'],
-            'full' => $full,
-        ]);
-
-        return back()->with('status', $full ? 'Airtime paid in full.' : 'Airtime partially paid.');
+        return $this->paymentRedirect($payment);
     }
 
     public function declineAirtime(Requisition $requisition): RedirectResponse
@@ -364,6 +375,130 @@ class RequisitionController extends Controller
         abort_unless(Auth::user()->canApproveRequisition($requisition), 403);
     }
 
+    private function payRecipients(
+        Requisition $requisition,
+        string $category,
+        RequisitionPaymentService $payments,
+    ): RedirectResponse {
+        $requisition->loadMissing(['requester', 'payments']);
+        $recipientBalances = $requisition->payableRecipientBalances($category);
+
+        if ($recipientBalances === []) {
+            if ($requisition->activePayment($category)) {
+                return back()->with('warning', 'Every unpaid recipient already has a transfer being checked. Do not pay again.');
+            }
+
+            return back()->withErrors(['payment' => 'There are no unpaid recipients for this payment.']);
+        }
+
+        $submitted = [];
+        $failures = [];
+
+        foreach ($recipientBalances as $phoneNumber => $amount) {
+            try {
+                $payment = $payments->initiate(
+                    $requisition,
+                    $category,
+                    $amount,
+                    Auth::user(),
+                    $phoneNumber,
+                );
+                $submitted[] = $payment;
+                $this->auditPaymentAttempt($requisition, $payment);
+            } catch (NawiriPayrollException $exception) {
+                $payment = RequisitionPayment::query()
+                    ->where('requisition_id', $requisition->id)
+                    ->where('category', $category)
+                    ->where('phone_number', $phoneNumber)
+                    ->latest('id')
+                    ->first();
+
+                if ($payment) {
+                    $this->auditPaymentAttempt($requisition, $payment);
+                }
+
+                if ($exception->outcomeUnknown && $payment) {
+                    $submitted[] = $payment;
+                } else {
+                    $failures[$phoneNumber] = $exception->getMessage();
+                }
+            }
+        }
+
+        $completedCount = collect($submitted)
+            ->where('status', RequisitionPayment::STATUS_COMPLETED)
+            ->count();
+        $processingCount = count($submitted) - $completedCount;
+        $parts = [];
+
+        if ($completedCount > 0) {
+            $parts[] = $completedCount.' recipient'.($completedCount === 1 ? '' : 's').' paid';
+        }
+        if ($processingCount > 0) {
+            $parts[] = $processingCount.' transfer'.($processingCount === 1 ? '' : 's').' being checked automatically';
+        }
+        if ($failures !== []) {
+            $parts[] = count($failures).' failed';
+        }
+
+        $message = ucfirst(implode(', ', $parts)).'.';
+
+        if ($failures !== []) {
+            $message .= ' Retry Pay to send only to the unpaid recipient'.(count($failures) === 1 ? '' : 's').'.';
+
+            if ($submitted === []) {
+                $message .= ' '.implode(' ', array_values($failures));
+
+                return back()->withErrors(['payment' => $message]);
+            }
+
+            return back()->with('warning', $message);
+        }
+
+        if ($processingCount > 0) {
+            return back()->with('warning', $message);
+        }
+
+        return back()->with('status', $message);
+    }
+
+    private function auditPaymentAttempt(Requisition $requisition, RequisitionPayment $payment): void
+    {
+        AuditLog::record('requisition.'.$payment->category.'_payment_submitted', $requisition, [
+            'requester' => $requisition->requester?->name,
+            'paid_amount' => $payment->amount_minor / 100,
+            'payment_id' => $payment->id,
+            'payment_status' => $payment->status,
+            'nawiri_payment_id' => $payment->nawiri_payment_id,
+            'recipient_phone' => $payment->phone_number,
+        ]);
+    }
+
+    private function paymentStatusMessage(RequisitionPayment $payment): string
+    {
+        return match ($payment->status) {
+            RequisitionPayment::STATUS_COMPLETED => 'Nawiri confirmed the payment.',
+            RequisitionPayment::STATUS_FAILED => 'Nawiri reported that the payment failed.',
+            RequisitionPayment::STATUS_PENDING_RECONCILIATION => 'Transfer sent. Nawiri is checking the payment rail automatically. No further action is needed.',
+            default => 'Transfer sent. JamboPay is processing the wallet movement. No further action is needed.',
+        };
+    }
+
+    private function paymentRedirect(RequisitionPayment $payment): RedirectResponse
+    {
+        if ($payment->status === RequisitionPayment::STATUS_COMPLETED) {
+            return back()->with('status', $this->paymentStatusMessage($payment));
+        }
+
+        if ($payment->status === RequisitionPayment::STATUS_FAILED) {
+            return back()->withErrors([
+                'payment' => $payment->failure_reason ?: $this->paymentStatusMessage($payment),
+            ]);
+        }
+
+        return back()->with('warning', $this->paymentStatusMessage($payment));
+    }
+
     /**
      * $workingDay narrows this to one day's requests ("Today", on the
      * admin/public breakdown pages, 2026-09-19) - same shape either way,
@@ -372,44 +507,40 @@ class RequisitionController extends Controller
      */
     private function stats(?string $workingDay = null): array
     {
-        $totals = Requisition::query()
+        $requisitions = Requisition::query()
             ->when($workingDay, fn ($q, $v) => $q->where('working_day', $v))
-            ->selectRaw('
-            COUNT(*) as total_count,
-            SUM(CASE WHEN transport_status = ? OR airtime_status = ? THEN 1 ELSE 0 END) as pending_count,
-            SUM(CASE WHEN transport_status = ? OR airtime_status = ? THEN 1 ELSE 0 END) as declined_count,
-            SUM(CASE WHEN transport_status != ? THEN transport_amount_requested ELSE 0 END) as transport_requested,
-            SUM(CASE WHEN transport_status = ? THEN transport_amount_requested ELSE 0 END) as transport_approved,
-            SUM(transport_paid_amount) as transport_paid,
-            SUM(CASE WHEN airtime_status != ? THEN airtime_amount_requested ELSE 0 END) as airtime_requested,
-            SUM(CASE WHEN airtime_status = ? THEN airtime_amount_requested ELSE 0 END) as airtime_approved,
-            SUM(airtime_paid_amount) as airtime_paid
-        ', [
-                Requisition::STATUS_PENDING, Requisition::STATUS_PENDING,
-                Requisition::STATUS_DECLINED, Requisition::STATUS_DECLINED,
-                Requisition::STATUS_DECLINED, Requisition::STATUS_APPROVED,
-                Requisition::STATUS_DECLINED, Requisition::STATUS_APPROVED,
-            ])->first();
+            ->with('requester:id,phone_number')
+            ->get();
 
         // "Requested" excludes declined tracks - a declined request was
         // never real spend, so it shouldn't inflate what's requested
         // (2026-09-19). "Approved" is its own figure, separate from
         // "Paid" - approving only authorizes an amount, it doesn't mean
         // the money has actually gone out (see payTransport/payAirtime).
-        $transportRequested = (float) ($totals->transport_requested ?? 0);
-        $transportApproved = (float) ($totals->transport_approved ?? 0);
-        $transportPaid = (float) ($totals->transport_paid ?? 0);
-        $airtimeRequested = (float) ($totals->airtime_requested ?? 0);
-        $airtimeApproved = (float) ($totals->airtime_approved ?? 0);
-        $airtimePaid = (float) ($totals->airtime_paid ?? 0);
+        $transportRequested = $requisitions->sum(fn (Requisition $requisition) => $requisition->transport_status !== Requisition::STATUS_DECLINED
+            ? $requisition->categoryTotalRequested(RequisitionPayment::CATEGORY_TRANSPORT)
+            : 0);
+        $transportApproved = $requisitions->sum(fn (Requisition $requisition) => $requisition->transport_status === Requisition::STATUS_APPROVED
+            ? $requisition->categoryTotalRequested(RequisitionPayment::CATEGORY_TRANSPORT)
+            : 0);
+        $transportPaid = $requisitions->sum(fn (Requisition $requisition) => (float) $requisition->transport_paid_amount);
+        $airtimeRequested = $requisitions->sum(fn (Requisition $requisition) => $requisition->airtime_status !== Requisition::STATUS_DECLINED
+            ? $requisition->categoryTotalRequested(RequisitionPayment::CATEGORY_AIRTIME)
+            : 0);
+        $airtimeApproved = $requisitions->sum(fn (Requisition $requisition) => $requisition->airtime_status === Requisition::STATUS_APPROVED
+            ? $requisition->categoryTotalRequested(RequisitionPayment::CATEGORY_AIRTIME)
+            : 0);
+        $airtimePaid = $requisitions->sum(fn (Requisition $requisition) => (float) $requisition->airtime_paid_amount);
 
         $totalApproved = $transportApproved + $airtimeApproved;
         $totalPaid = $transportPaid + $airtimePaid;
 
         return [
-            'totalCount' => (int) ($totals->total_count ?? 0),
-            'pendingCount' => (int) ($totals->pending_count ?? 0),
-            'declinedCount' => (int) ($totals->declined_count ?? 0),
+            'totalCount' => $requisitions->count(),
+            'pendingCount' => $requisitions->filter(fn (Requisition $requisition) => $requisition->transport_status === Requisition::STATUS_PENDING
+                || $requisition->airtime_status === Requisition::STATUS_PENDING)->count(),
+            'declinedCount' => $requisitions->filter(fn (Requisition $requisition) => $requisition->transport_status === Requisition::STATUS_DECLINED
+                || $requisition->airtime_status === Requisition::STATUS_DECLINED)->count(),
             'transportRequested' => $transportRequested,
             'transportApproved' => $transportApproved,
             'transportPaid' => $transportPaid,
@@ -435,11 +566,27 @@ class RequisitionController extends Controller
     private function requesterTotals(): array
     {
         return Requisition::query()
-            ->selectRaw('requester_id, COUNT(*) as days, SUM(transport_amount_requested + airtime_amount_requested) as cumulative')
-            ->groupBy('requester_id')
+            ->with('requester:id,phone_number')
             ->get()
-            ->keyBy('requester_id')
-            ->map(fn ($row) => ['days' => (int) $row->days, 'cumulative' => (float) $row->cumulative])
+            ->groupBy('requester_id')
+            ->map(fn ($requisitions) => [
+                'days' => $requisitions->count(),
+                'cumulative' => $requisitions->sum(fn (Requisition $requisition) => $requisition->totalRequestedForDay()),
+            ])
             ->all();
+    }
+
+    private function normalizeKenyanPhone(mixed $value): string
+    {
+        $phone = preg_replace('/\D+/', '', (string) $value) ?? '';
+
+        if (str_starts_with($phone, '0')) {
+            return '254'.substr($phone, 1);
+        }
+        if (strlen($phone) === 9 && in_array($phone[0] ?? '', ['7', '1'], true)) {
+            return '254'.$phone;
+        }
+
+        return $phone;
     }
 }
