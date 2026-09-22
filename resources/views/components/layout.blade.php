@@ -97,6 +97,15 @@
         </div>
     @endif
 
+    @if (session('warning'))
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-6">
+            <div class="rounded-lg bg-amber-50 border border-amber-300 text-amber-900 text-sm px-4 py-3 flex items-center gap-2">
+                <x-icon name="clock" />
+                {{ session('warning') }}
+            </div>
+        </div>
+    @endif
+
     <main class="flex-1 w-full {{ $wide ? 'max-w-[100rem]' : 'max-w-7xl' }} mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {{ $slot }}
     </main>

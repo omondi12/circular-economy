@@ -94,9 +94,50 @@
                     </div>
                 </div>
 
+				<div
+					class="grid grid-cols-1 sm:grid-cols-[220px_1fr] border-b border-border"
+					x-data="{ recipientPhones: @js(old('recipient_phone_numbers') ?: [auth()->user()->phone_number ?: '']) }"
+				>
+					<label class="bg-gold-50 px-4 py-3 text-sm font-semibold text-ink-muted flex items-start sm:items-center">
+						Nawiri recipient number(s) <span class="text-danger ml-1">*</span>
+					</label>
+					<div class="px-4 py-2 flex flex-col justify-center gap-2">
+						<template x-for="(phone, i) in recipientPhones" :key="i">
+							<div class="flex items-center gap-2">
+								<input
+									type="tel" :name="'recipient_phone_numbers[' + i + ']'" required
+									x-model="recipientPhones[i]"
+									placeholder="e.g. 0712345678"
+									class="w-full border-0 focus:ring-0 text-sm py-1.5 px-0 text-ink placeholder:text-ink-faint"
+								>
+								<button
+									type="button" x-show="recipientPhones.length > 1" x-cloak
+									@click="recipientPhones.splice(i, 1)"
+									class="shrink-0 text-ink-faint hover:text-danger"
+								>
+									<x-icon name="x" size="14" />
+								</button>
+							</div>
+						</template>
+						<button
+							type="button" @click="recipientPhones.push('')"
+							class="self-start text-xs font-medium text-brand-700 hover:text-brand-800"
+						>
+							+ Add another recipient
+						</button>
+						<p class="text-xs text-ink-faint">Use the phone number registered on each recipient's Nawiri account.</p>
+						@error('recipient_phone_numbers')
+							<p class="text-xs text-danger">{{ $message }}</p>
+						@enderror
+						@error('recipient_phone_numbers.*')
+							<p class="text-xs text-danger">{{ $message }}</p>
+						@enderror
+					</div>
+				</div>
+
                 <div class="grid grid-cols-1 sm:grid-cols-[220px_1fr] border-b border-border">
                     <label for="transport_amount_requested" class="bg-gold-50 px-4 py-3 text-sm font-semibold text-ink-muted flex items-center">
-                        Transport Amount <span class="text-danger ml-1">*</span>
+                        Transport per recipient <span class="text-danger ml-1">*</span>
                     </label>
                     <div class="px-4 py-2 flex flex-col justify-center">
                         <input
@@ -104,6 +145,7 @@
                             value="{{ old('transport_amount_requested', $defaultTransport) }}"
                             class="w-full border-0 focus:ring-0 text-sm py-1.5 px-0 text-ink"
                         >
+                        <p class="text-xs text-ink-faint">Each Nawiri number receives this amount.</p>
                         @error('transport_amount_requested')
                             <p class="text-xs text-danger mt-1">{{ $message }}</p>
                         @enderror
@@ -112,7 +154,7 @@
 
                 <div class="grid grid-cols-1 sm:grid-cols-[220px_1fr]">
                     <label for="airtime_amount_requested" class="bg-gold-50 px-4 py-3 text-sm font-semibold text-ink-muted flex items-center">
-                        Airtime Amount <span class="text-danger ml-1">*</span>
+                        Airtime per recipient <span class="text-danger ml-1">*</span>
                     </label>
                     <div class="px-4 py-2 flex flex-col justify-center">
                         <input
@@ -120,6 +162,7 @@
                             value="{{ old('airtime_amount_requested', $defaultAirtime) }}"
                             class="w-full border-0 focus:ring-0 text-sm py-1.5 px-0 text-ink"
                         >
+                        <p class="text-xs text-ink-faint">Each Nawiri number receives this amount.</p>
                         @error('airtime_amount_requested')
                             <p class="text-xs text-danger mt-1">{{ $message }}</p>
                         @enderror
@@ -149,11 +192,17 @@
                     @forelse ($requisitions as $req)
                         <tr class="hover:bg-panel-muted transition-colors align-top">
                             <td class="px-4 py-3 whitespace-nowrap text-ink-muted">{{ $req->working_day->format('D, d M Y') }}</td>
-                            <td class="px-4 py-3 font-medium max-w-xs"><div class="line-clamp-2">{{ $req->institution_visiting }}</div></td>
+                            <td class="px-4 py-3 font-medium max-w-xs">
+                                <div class="line-clamp-2">{{ $req->institution_visiting }}</div>
+                                <div class="mt-1 text-xs font-normal text-ink-faint">Nawiri: {{ implode(', ', $req->recipientPhoneNumbers()) }}</div>
+                            </td>
                             <td class="px-4 py-3 whitespace-nowrap">
                                 <x-requisition-status-badge :status="$req->transport_status" />
                                 <div class="text-xs text-ink-faint mt-1 tabular-nums">
-                                    KES {{ number_format($req->transport_amount_requested, 0) }}
+                                    KES {{ number_format($req->transport_amount_requested, 0) }}{{ $req->recipientCount() > 1 ? ' each' : '' }}
+                                    @if ($req->recipientCount() > 1)
+                                        · {{ number_format($req->categoryTotalRequested('transport'), 0) }} total
+                                    @endif
                                     @if ($req->transport_status === 'approved')
                                         · paid {{ number_format($req->transport_paid_amount, 0) }}
                                     @endif
@@ -162,7 +211,10 @@
                             <td class="px-4 py-3 whitespace-nowrap">
                                 <x-requisition-status-badge :status="$req->airtime_status" />
                                 <div class="text-xs text-ink-faint mt-1 tabular-nums">
-                                    KES {{ number_format($req->airtime_amount_requested, 0) }}
+                                    KES {{ number_format($req->airtime_amount_requested, 0) }}{{ $req->recipientCount() > 1 ? ' each' : '' }}
+                                    @if ($req->recipientCount() > 1)
+                                        · {{ number_format($req->categoryTotalRequested('airtime'), 0) }} total
+                                    @endif
                                     @if ($req->airtime_status === 'approved')
                                         · paid {{ number_format($req->airtime_paid_amount, 0) }}
                                     @endif

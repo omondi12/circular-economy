@@ -12,6 +12,7 @@
             <div class="bg-panel border border-border rounded-xl overflow-hidden shadow-sm">
                 <x-form-field label="Full Name" name="name" required />
                 <x-form-field label="Email" name="email" type="email" required />
+                <x-form-field label="Nawiri Phone Number" name="phone_number" type="tel" placeholder="0712345678" required />
                 <x-form-field label="Password" name="password" type="password" required />
 
                 @if (auth()->user()->isAdmin())

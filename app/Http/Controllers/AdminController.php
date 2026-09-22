@@ -13,7 +13,6 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
 
@@ -99,10 +98,14 @@ class AdminController extends Controller
     public function storeUser(Request $request): RedirectResponse
     {
         $viewer = auth()->user();
+        $request->merge([
+            'phone_number' => $this->normalizeKenyanPhone($request->input('phone_number')),
+        ]);
 
         $rules = [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255', 'unique:users,email'],
+            'phone_number' => ['required', 'regex:/^254(?:7|1)\d{8}$/', 'unique:users,phone_number'],
             'password' => ['required', Password::min(8)],
         ];
 
@@ -203,10 +206,14 @@ class AdminController extends Controller
         $viewer = auth()->user();
         $isOwnRm = $user->isRm() && $user->supervisor_id === $viewer->id;
         abort_unless($viewer->isAdmin() || $isOwnRm, 403);
+        $request->merge([
+            'phone_number' => $this->normalizeKenyanPhone($request->input('phone_number')),
+        ]);
 
         $rules = [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255', Rule::unique('users', 'email')->ignore($user->id)],
+            'phone_number' => ['required', 'regex:/^254(?:7|1)\d{8}$/', Rule::unique('users', 'phone_number')->ignore($user->id)],
             'password' => ['nullable', Password::min(8)],
         ];
 
@@ -251,6 +258,20 @@ class AdminController extends Controller
         ]);
 
         return redirect()->route('admin.users')->with('status', "{$user->name} updated.");
+    }
+
+    private function normalizeKenyanPhone(mixed $value): string
+    {
+        $phone = preg_replace('/\D+/', '', (string) $value) ?? '';
+
+        if (str_starts_with($phone, '0')) {
+            return '254'.substr($phone, 1);
+        }
+        if (strlen($phone) === 9 && in_array($phone[0] ?? '', ['7', '1'], true)) {
+            return '254'.$phone;
+        }
+
+        return $phone;
     }
 
     /**
