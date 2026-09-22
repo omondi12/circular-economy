@@ -48,6 +48,10 @@ Route::prefix('rm')->name('rm.')->middleware(['auth', 'role:rm,admin'])->group(f
     Route::get('/', [RmDashboardController::class, 'index'])->name('dashboard');
     Route::get('/collections/create', [RmDashboardController::class, 'create'])->name('collections.create');
     Route::post('/collections', [RmDashboardController::class, 'store'])->name('collections.store');
+
+    Route::get('/clients', [ClientReportController::class, 'rmClients'])->name('clients.index');
+    Route::get('/clients/{client}/reports', [ClientReportController::class, 'rmShow'])->name('clients.reports.index');
+    Route::post('/clients/{client}/reports', [ClientReportController::class, 'rmStore'])->name('clients.reports.store');
 });
 
 // A requester's own facilitation (transport/airtime) requests - RMs,
