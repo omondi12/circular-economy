@@ -54,12 +54,13 @@ Route::get('/login', [AuthController::class, 'showLogin'])->name('login')->middl
 Route::post('/login', [AuthController::class, 'login'])->middleware('guest');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
 
-// Every logged-in account's own small profile page (photo upload) -
-// available to any role, not just RMs.
+// Every logged-in account's own small profile page (photo upload, own
+// Nawiri phone number) - available to any role, not just RMs.
 Route::prefix('account')->name('account.')->middleware('auth')->group(function () {
     Route::get('/profile', [AccountController::class, 'edit'])->name('profile.edit');
     Route::post('/profile', [AccountController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [AccountController::class, 'destroy'])->name('profile.destroy');
+    Route::post('/phone', [AccountController::class, 'updatePhone'])->name('phone.update');
 });
 
 // RM area - each RM sees only their own submissions and can record new

@@ -54,4 +54,28 @@
                 </form>
             @endif
         </div>
+
+        <div class="bg-panel border border-border rounded-xl shadow-sm p-6 max-w-lg mt-6">
+            <h2 class="font-semibold text-ink mb-1">Nawiri Phone Number</h2>
+            <p class="text-sm text-ink-faint mb-4">
+                The phone number registered to your own Nawiri wallet - transport and airtime facilitation payments are sent here.
+            </p>
+
+            <form method="POST" action="{{ route('account.phone.update') }}" class="space-y-3">
+                @csrf
+                <label for="phone_number" class="block text-sm font-medium text-ink-muted">Phone number</label>
+                <input
+                    type="tel" id="phone_number" name="phone_number" placeholder="0712345678"
+                    value="{{ old('phone_number', $user->phone_number) }}"
+                    class="w-full rounded-lg border border-border px-3 py-2.5 text-sm text-ink placeholder:text-ink-faint focus:outline-none focus:ring-2 focus:ring-brand-600/30 focus:border-brand-600"
+                >
+                @error('phone_number')
+                    <p class="text-xs text-danger">{{ $message }}</p>
+                @enderror
+
+                <button type="submit" class="px-5 py-2.5 rounded-lg bg-brand-700 hover:bg-brand-800 text-white text-sm font-semibold transition-colors shadow-sm">
+                    Save Phone Number
+                </button>
+            </form>
+        </div>
 </x-layout>
