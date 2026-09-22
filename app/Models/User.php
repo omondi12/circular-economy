@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-#[Fillable(['name', 'email', 'password', 'role', 'is_active', 'supervisor_id'])]
+#[Fillable(['name', 'email', 'password', 'role', 'is_active', 'supervisor_id', 'profile_photo_path'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
@@ -55,6 +55,16 @@ class User extends Authenticatable
             'password' => 'hashed',
             'is_active' => 'boolean',
         ];
+    }
+
+    public function profilePhotoUrl(): ?string
+    {
+        return $this->profile_photo_path ? \Illuminate\Support\Facades\Storage::disk('public')->url($this->profile_photo_path) : null;
+    }
+
+    public function initials(): string
+    {
+        return collect(explode(' ', $this->name))->map(fn ($p) => mb_substr($p, 0, 1))->take(2)->implode('');
     }
 
     public function collections(): HasMany

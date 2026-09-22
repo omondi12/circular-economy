@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AccountController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ClientReportController;
@@ -21,6 +22,7 @@ Route::get('/state-corporations', [DashboardController::class, 'stateCorporation
 Route::get('/state-corporations/export', [DashboardController::class, 'stateCorporationsExport'])->name('state-corporations.export');
 Route::get('/state-corporations/{stateCorporation}', [DashboardController::class, 'stateCorporationShow'])->name('state-corporations.show');
 Route::get('/relationship-managers', [DashboardController::class, 'relationshipManagersIndex'])->name('relationship-managers.index');
+Route::get('/relationship-managers/{rm}', [DashboardController::class, 'relationshipManagerShow'])->name('relationship-managers.show');
 Route::get('/supervisors', [DashboardController::class, 'supervisorsIndex'])->name('supervisors.index');
 Route::get('/material-items', [DashboardController::class, 'materialItemsIndex'])->name('material-items.index');
 Route::get('/feasibility-study', [DashboardController::class, 'feasibilityStudyIndex'])->name('feasibility-study.index');
@@ -40,6 +42,14 @@ Route::prefix('collections')->name('collections.')->group(function () {
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login')->middleware('guest');
 Route::post('/login', [AuthController::class, 'login'])->middleware('guest');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
+
+// Every logged-in account's own small profile page (photo upload) -
+// available to any role, not just RMs.
+Route::prefix('account')->name('account.')->middleware('auth')->group(function () {
+    Route::get('/profile', [AccountController::class, 'edit'])->name('profile.edit');
+    Route::post('/profile', [AccountController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [AccountController::class, 'destroy'])->name('profile.destroy');
+});
 
 // RM area - each RM sees only their own submissions and can record new
 // collections. Admins can reach the same area too (useful for testing/

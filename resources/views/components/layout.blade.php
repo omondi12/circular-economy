@@ -47,9 +47,15 @@
                             <x-icon name="layout-dashboard" size="15" />
                             {{ __(auth()->user()->homeLabel()) }}
                         </a>
-                        <span class="hidden md:inline-flex items-center justify-center w-8 h-8 rounded-full bg-gold-100 text-gold-700 text-xs font-bold shrink-0" title="{{ auth()->user()->name }}">
-                            {{ collect(explode(' ', auth()->user()->name))->map(fn($p) => mb_substr($p, 0, 1))->take(2)->implode('') }}
-                        </span>
+                        <a href="{{ route('account.profile.edit') }}" class="hidden md:block shrink-0" title="{{ auth()->user()->name }} — My Profile">
+                            @if (auth()->user()->profilePhotoUrl())
+                                <img src="{{ auth()->user()->profilePhotoUrl() }}" alt="{{ auth()->user()->name }}" class="w-8 h-8 rounded-full object-cover ring-1 ring-border">
+                            @else
+                                <span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-gold-100 text-gold-700 text-xs font-bold">
+                                    {{ auth()->user()->initials() }}
+                                </span>
+                            @endif
+                        </a>
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
                             <button type="submit" class="p-2 rounded-lg text-ink-faint hover:text-ink hover:bg-panel-muted transition-colors" title="{{ __('Log out') }}">
