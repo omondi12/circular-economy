@@ -57,9 +57,16 @@ class User extends Authenticatable
         ];
     }
 
+    /**
+     * Served through a Laravel route rather than the public/storage
+     * symlink - the production webserver (OpenLiteSpeed/CyberPanel)
+     * doesn't follow that symlink for static files without a server-level
+     * config change, which would touch every site on the box. Streaming
+     * it through PHP sidesteps that entirely.
+     */
     public function profilePhotoUrl(): ?string
     {
-        return $this->profile_photo_path ? \Illuminate\Support\Facades\Storage::disk('public')->url($this->profile_photo_path) : null;
+        return $this->profile_photo_path ? route('photos.show', ['path' => $this->profile_photo_path]) : null;
     }
 
     public function initials(): string

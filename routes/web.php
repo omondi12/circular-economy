@@ -9,6 +9,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\RequisitionController;
 use App\Http\Controllers\RmDashboardController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 
 // Public - boss/anyone can view the dashboard and browse submissions, but
 // cannot submit data anymore. Data entry requires an RM login.
@@ -27,6 +28,15 @@ Route::get('/supervisors', [DashboardController::class, 'supervisorsIndex'])->na
 Route::get('/material-items', [DashboardController::class, 'materialItemsIndex'])->name('material-items.index');
 Route::get('/feasibility-study', [DashboardController::class, 'feasibilityStudyIndex'])->name('feasibility-study.index');
 Route::get('/reports', [ClientReportController::class, 'all'])->name('reports.index');
+
+// Streams a file from the public disk through PHP instead of relying on
+// the public/storage symlink - the production webserver doesn't follow
+// it for static files (see User::profilePhotoUrl()).
+Route::get('/photos/{path}', function (string $path) {
+    abort_unless(Storage::disk('public')->exists($path), 404);
+
+    return Storage::disk('public')->response($path);
+})->where('path', '.*')->name('photos.show');
 
 // Public, PIN-gated (not a login - a system-generated PIN handed to the
 // boss, per his brief, since admin accounts are shared among several
