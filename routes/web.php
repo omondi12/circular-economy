@@ -61,6 +61,7 @@ Route::prefix('account')->name('account.')->middleware('auth')->group(function (
     Route::post('/profile', [AccountController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [AccountController::class, 'destroy'])->name('profile.destroy');
     Route::post('/phone', [AccountController::class, 'updatePhone'])->name('phone.update');
+    Route::post('/password', [AccountController::class, 'updatePassword'])->name('password.update');
 });
 
 // RM area - each RM sees only their own submissions and can record new

@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Password;
 
 /**
  * Every logged-in account's own small profile page - a photo, and (since
@@ -65,5 +66,17 @@ class AccountController extends Controller
         }
 
         return redirect()->route('account.profile.edit')->with('status', 'Profile photo removed.');
+    }
+
+    public function updatePassword(Request $request): RedirectResponse
+    {
+        $data = $request->validate([
+            'current_password' => ['required', 'current_password'],
+            'password' => ['required', 'confirmed', Password::min(8)],
+        ]);
+
+        Auth::user()->update(['password' => $data['password']]);
+
+        return redirect()->route('account.profile.edit')->with('status', 'Password updated.');
     }
 }

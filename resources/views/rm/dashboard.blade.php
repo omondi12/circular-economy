@@ -30,6 +30,10 @@
                         <x-icon name="calendar" size="16" />
                         My Requisitions
                     </a>
+                    <a href="{{ route('account.profile.edit') }}" class="inline-flex items-center gap-2 px-5 py-3 rounded-lg bg-white/15 ring-1 ring-white/25 text-white text-sm font-semibold hover:bg-white/25 transition-colors">
+                        <x-icon name="user" size="16" />
+                        My Profile
+                    </a>
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
                         <button type="submit" class="px-4 py-3 rounded-lg bg-white/15 ring-1 ring-white/25 text-white text-sm font-medium hover:bg-white/25 transition-colors">

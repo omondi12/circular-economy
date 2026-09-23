@@ -1,7 +1,7 @@
 <x-layout title="My Profile">
         <x-page-header
             title="My Profile"
-            subtitle="Your photo, shown wherever your account appears in the system."
+            subtitle="Your photo, Nawiri phone number and password."
             :back="route(auth()->user()->homeRouteName())"
             back-label="Back"
         />
@@ -75,6 +75,48 @@
 
                 <button type="submit" class="px-5 py-2.5 rounded-lg bg-brand-700 hover:bg-brand-800 text-white text-sm font-semibold transition-colors shadow-sm">
                     Save Phone Number
+                </button>
+            </form>
+        </div>
+
+        <div class="bg-panel border border-border rounded-xl shadow-sm p-6 max-w-lg mt-6">
+            <h2 class="font-semibold text-ink mb-1">Password</h2>
+            <p class="text-sm text-ink-faint mb-4">Change the password you use to log in.</p>
+
+            <form method="POST" action="{{ route('account.password.update') }}" class="space-y-3">
+                @csrf
+                <div>
+                    <label for="current_password" class="block text-sm font-medium text-ink-muted mb-1">Current password</label>
+                    <input
+                        type="password" id="current_password" name="current_password" required
+                        class="w-full rounded-lg border border-border px-3 py-2.5 text-sm text-ink focus:outline-none focus:ring-2 focus:ring-brand-600/30 focus:border-brand-600"
+                    >
+                    @error('current_password')
+                        <p class="text-xs text-danger mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <div>
+                    <label for="password" class="block text-sm font-medium text-ink-muted mb-1">New password</label>
+                    <input
+                        type="password" id="password" name="password" required minlength="8"
+                        class="w-full rounded-lg border border-border px-3 py-2.5 text-sm text-ink focus:outline-none focus:ring-2 focus:ring-brand-600/30 focus:border-brand-600"
+                    >
+                    @error('password')
+                        <p class="text-xs text-danger mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <div>
+                    <label for="password_confirmation" class="block text-sm font-medium text-ink-muted mb-1">Confirm new password</label>
+                    <input
+                        type="password" id="password_confirmation" name="password_confirmation" required minlength="8"
+                        class="w-full rounded-lg border border-border px-3 py-2.5 text-sm text-ink focus:outline-none focus:ring-2 focus:ring-brand-600/30 focus:border-brand-600"
+                    >
+                </div>
+
+                <button type="submit" class="px-5 py-2.5 rounded-lg bg-brand-700 hover:bg-brand-800 text-white text-sm font-semibold transition-colors shadow-sm">
+                    Update Password
                 </button>
             </form>
         </div>
