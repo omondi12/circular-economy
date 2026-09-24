@@ -147,6 +147,7 @@ class RequisitionController extends Controller
             'institutions' => ['required', 'array', 'min:1'],
             'institutions.*' => ['required', 'string', 'max:255'],
             'working_day' => ['required', 'date'],
+            'requested_date' => ['required', 'date'],
             'recipient_phone_numbers' => ['required', 'array', 'min:1', 'max:20'],
             'recipient_phone_numbers.*' => ['required', 'regex:/^254(?:7|1)\d{8}$/', 'distinct'],
             'transport_amount_requested' => ['required', 'numeric', 'integer', 'min:0'],
@@ -158,9 +159,18 @@ class RequisitionController extends Controller
             ->filter()
             ->implode(', ');
 
+        // Keeps each field's own time-of-day, just moves it onto the
+        // corrected calendar date - the mistake being fixed is almost
+        // always "wrong day", not "wrong time".
+        $requestedDate = \Illuminate\Support\Carbon::parse($data['requested_date']);
+        $newTransportRequestedAt = $requisition->transport_requested_at->copy()->setDate($requestedDate->year, $requestedDate->month, $requestedDate->day);
+        $newAirtimeRequestedAt = $requisition->airtime_requested_at->copy()->setDate($requestedDate->year, $requestedDate->month, $requestedDate->day);
+
         $before = [
             'institution_visiting' => $requisition->institution_visiting,
             'working_day' => $requisition->working_day->toDateString(),
+            'transport_requested_at' => $requisition->transport_requested_at->toDateTimeString(),
+            'airtime_requested_at' => $requisition->airtime_requested_at->toDateTimeString(),
             'recipient_phone_numbers' => implode(', ', $requisition->recipientPhoneNumbers()),
             'transport_amount_requested' => (float) $requisition->transport_amount_requested,
             'airtime_amount_requested' => (float) $requisition->airtime_amount_requested,
@@ -169,6 +179,8 @@ class RequisitionController extends Controller
         $requisition->update([
             'institution_visiting' => $institutionVisiting,
             'working_day' => $data['working_day'],
+            'transport_requested_at' => $newTransportRequestedAt,
+            'airtime_requested_at' => $newAirtimeRequestedAt,
             'recipient_phone_numbers' => $data['recipient_phone_numbers'],
             'transport_amount_requested' => $data['transport_amount_requested'],
             'airtime_amount_requested' => $data['airtime_amount_requested'],
@@ -180,6 +192,8 @@ class RequisitionController extends Controller
             'after' => [
                 'institution_visiting' => $requisition->institution_visiting,
                 'working_day' => $requisition->working_day->toDateString(),
+                'transport_requested_at' => $requisition->transport_requested_at->toDateTimeString(),
+                'airtime_requested_at' => $requisition->airtime_requested_at->toDateTimeString(),
                 'recipient_phone_numbers' => implode(', ', $requisition->recipientPhoneNumbers()),
                 'transport_amount_requested' => (float) $requisition->transport_amount_requested,
                 'airtime_amount_requested' => (float) $requisition->airtime_amount_requested,

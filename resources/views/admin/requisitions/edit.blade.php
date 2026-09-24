@@ -71,6 +71,23 @@
                     </div>
                 </div>
 
+                <div class="grid grid-cols-1 sm:grid-cols-[220px_1fr] border-b border-border">
+                    <label for="requested_date" class="bg-gold-50 px-4 py-3 text-sm font-semibold text-ink-muted flex items-start sm:items-center">
+                        Requested Date
+                    </label>
+                    <div class="px-4 py-2 flex flex-col justify-center">
+                        <input
+                            type="date" id="requested_date" name="requested_date" required
+                            value="{{ old('requested_date', $requisition->transport_requested_at->toDateString()) }}"
+                            class="w-full border-0 focus:ring-0 text-sm py-1.5 px-0 text-ink"
+                        >
+                        <p class="text-xs text-ink-faint">The date shown under "Transport Requested" / "Airtime Requested" in the table - the time of day is kept as-is.</p>
+                        @error('requested_date')
+                            <p class="text-xs text-danger mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+                </div>
+
                 <div
                     class="grid grid-cols-1 sm:grid-cols-[220px_1fr] border-b border-border"
                     x-data="{ recipientPhones: {{ old('recipient_phone_numbers') ? json_encode(old('recipient_phone_numbers')) : json_encode($requisition->recipientPhoneNumbers() ?: ['']) }} }"
