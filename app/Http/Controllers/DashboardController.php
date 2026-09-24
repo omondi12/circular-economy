@@ -289,13 +289,14 @@ class DashboardController extends Controller
             // A UTF-8 BOM so Excel doesn't mangle names with accents/special characters.
             fwrite($handle, "\xEF\xBB\xBF");
 
-            fputcsv($handle, ['Name', 'Classification', 'Ministry', 'RM', 'Supervisor', 'Contact Person', 'Cluster', 'Class', 'Sub-Class', 'Phase']);
+            fputcsv($handle, ['Name', 'Classification', 'Ministry', 'State Department', 'RM', 'Supervisor', 'Contact Person', 'Cluster', 'Class', 'Sub-Class', 'Phase']);
 
             foreach ($corporations as $corp) {
                 fputcsv($handle, [
                     $corp->name,
                     $corp->classification,
                     $corp->ministryDisplay(),
+                    $corp->stateDepartmentDisplay(),
                     $corp->assignedRm->name ?? '',
                     $corp->assignedRm?->supervisor?->name ?? '',
                     $corp->latestReport?->contact_person ?? '',
@@ -317,7 +318,7 @@ class DashboardController extends Controller
         $filters = $this->stateCorporationsFilters($request);
 
         return StateCorporation::query()
-            ->with(['ministry', 'assignedRm.supervisor', 'latestReport'])
+            ->with(['ministry.parent', 'assignedRm.supervisor', 'latestReport'])
             ->when($filters['phase'], fn ($q, $v) => $q->where('phase', $v))
             ->when($filters['classification'], fn ($q, $v) => $q->where('classification', $v))
             ->when($filters['q'], fn ($q, $v) => $q->where('name', 'like', "%{$v}%"))

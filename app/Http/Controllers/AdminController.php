@@ -332,7 +332,7 @@ class AdminController extends Controller
             // narrows it down when useful.
             $clients = StateCorporation::query()
                 ->visibleTo($viewer)
-                ->with(['assignedRm', 'ministry'])
+                ->with(['assignedRm', 'ministry.parent'])
                 ->when($search, fn ($q, $v) => $q->where('name', 'like', "%{$v}%"))
                 ->when($status === 'assigned', fn ($q) => $q->whereNotNull('assigned_rm_id'))
                 ->when($status === 'unassigned', fn ($q) => $q->whereNull('assigned_rm_id'))

@@ -75,6 +75,7 @@
                         <th class="px-4 py-2 font-medium">Name</th>
                         <th class="px-4 py-2 font-medium">Classification</th>
                         <th class="px-4 py-2 font-medium">Ministry</th>
+                        <th class="px-4 py-2 font-medium">State Department</th>
                         <th class="px-4 py-2 font-medium">RM</th>
                         <th class="px-4 py-2 font-medium">Supervisor</th>
                         <th class="px-4 py-2 font-medium">Contact Person</th>
@@ -106,6 +107,9 @@
                                     <span class="text-ink-faint">—</span>
                                 @endif
                             </td>
+                            <td class="px-4 py-3 whitespace-nowrap text-ink-faint">
+                                {{ $corp->stateDepartmentDisplay() }}
+                            </td>
                             <td class="px-4 py-3 whitespace-nowrap">
                                 @if ($corp->assignedRm)
                                     {{ $corp->assignedRm->name }}
@@ -132,7 +136,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="10" class="px-4 py-8 text-center text-ink-faint">No clients match this filter.</td>
+                            <td colspan="11" class="px-4 py-8 text-center text-ink-faint">No clients match this filter.</td>
                         </tr>
                     @endforelse
                 </tbody>
