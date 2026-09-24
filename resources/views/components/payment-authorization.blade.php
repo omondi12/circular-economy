@@ -1,6 +1,6 @@
 @props(['payment'])
 
-@if ($payment->isActive() && auth()->user()->canPayRequisitions())
+@if ($payment->isActive() && auth()->user()->canPayRequisition($payment->requisition))
     <div class="mt-2 space-y-2 text-xs" data-payment-poll
          data-url="{{ route('admin.requisition-payments.reconcile', $payment) }}"
          data-state="{{ json_encode($payment->pollingState()) }}">

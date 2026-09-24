@@ -153,6 +153,23 @@ class User extends Authenticatable
     }
 
     /**
+     * Per-request Pay authorization (2026-09-25) - Office Admin can pay
+     * anyone's approved request except their own, same self-exclusion
+     * already applied to approval via canApproveRequisition(). Without
+     * this, Pay only checked the role, so an Office Admin who submitted
+     * their own request could approve-and-pay themselves once a
+     * supervisor/admin approved it - a gap the boss asked to close.
+     */
+    public function canPayRequisition(Requisition $requisition): bool
+    {
+        if (! $this->canPayRequisitions()) {
+            return false;
+        }
+
+        return $requisition->requester_id !== $this->id;
+    }
+
+    /**
      * Supervisors get the same admin-area access as admins (per the boss's
      * decision, 2026-09-05) - a distinct role so their actions are their
      * own in the audit log, rather than everyone sharing the admin login.

@@ -325,7 +325,7 @@ class RequisitionController extends Controller
 
     public function payTransport(Requisition $requisition, RequisitionPaymentService $payments): RedirectResponse
     {
-        abort_unless(Auth::user()->canPayRequisitions(), 403);
+        abort_unless(Auth::user()->canPayRequisition($requisition), 403);
         abort_unless($requisition->transport_status === Requisition::STATUS_APPROVED, 422);
 
         return $this->payRecipients($requisition, RequisitionPayment::CATEGORY_TRANSPORT, $payments);
@@ -364,7 +364,7 @@ class RequisitionController extends Controller
 
     public function payAirtime(Requisition $requisition, RequisitionPaymentService $payments): RedirectResponse
     {
-        abort_unless(Auth::user()->canPayRequisitions(), 403);
+        abort_unless(Auth::user()->canPayRequisition($requisition), 403);
         abort_unless($requisition->airtime_status === Requisition::STATUS_APPROVED, 422);
 
         return $this->payRecipients($requisition, RequisitionPayment::CATEGORY_AIRTIME, $payments);
