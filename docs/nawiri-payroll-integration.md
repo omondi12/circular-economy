@@ -57,3 +57,16 @@ to Nawiri. The requisition remains unpaid while Nawiri reports `SUBMITTED` or
 
 If the request times out, use Reconcile. Reconciliation checks the original
 Nawiri transfer and does not create a second transfer.
+
+Requisition actions update the page in place, preserving filters and scroll
+position. If an action's result cannot be confirmed, use Refresh status before
+trying again. The browser never retries a payment submission automatically.
+
+## Frontend checks
+
+Run `bun run build` when deploying frontend changes. Generated files in
+`public/build` are not committed.
+
+With Bun and `agent-browser` installed, run `bun run test:browser` for the
+requisition action and scroll checks. This uses a local fixture with simulated
+responses. It does not connect to Nawiri or send money.

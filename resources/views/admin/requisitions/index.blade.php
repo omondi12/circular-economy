@@ -1,9 +1,17 @@
-<x-layout title="Requisitions" wide>
-    @if ($errors->has('payment'))
-        <div class="mb-5 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">
-            {{ $errors->first('payment') }}
+<x-layout title="Requisitions" wide :show-flash="false">
+    <div data-requisition-page>
+        @php
+            $actionMessage = $errors->any() ? implode(' ', $errors->all()) : (session('warning') ?? session('status'));
+        @endphp
+        <div data-requisition-feedback role="status" aria-live="polite" tabindex="-1"
+             @class(['fixed bottom-6 left-1/2 -translate-x-1/2 z-50 w-[calc(100%-2rem)] max-w-xl rounded-xl border bg-white p-4 text-sm shadow-lg', 'hidden' => ! $actionMessage])>
+            <p data-action-message>{{ $actionMessage }}</p>
+            <div class="mt-2 flex gap-4">
+                <button type="button" data-requisition-refresh class="font-medium text-brand-700 underline">Refresh status</button>
+                <button type="button" data-dismiss-feedback class="text-ink-muted underline">Dismiss</button>
+            </div>
         </div>
-    @endif
+        <div data-requisition-content>
         <div class="flex items-start justify-between gap-4 mb-6">
             <x-page-header
                 title="Requisitions"
@@ -90,7 +98,7 @@
             @endif
         </form>
 
-        <div class="bg-panel border border-border rounded-xl overflow-hidden shadow-sm overflow-x-auto">
+        <div data-requisition-table class="bg-panel border border-border rounded-xl overflow-hidden shadow-sm overflow-x-auto">
             <table class="w-full text-sm">
                 <thead class="bg-brand-50 text-left text-ink-faint">
                     <tr>
@@ -122,7 +130,7 @@
                             $airtimePayable = $req->payableRecipientBalances('airtime');
                             $recipientCount = $req->recipientCount();
                         @endphp
-                        <tr class="hover:bg-panel-muted transition-colors align-top">
+                        <tr id="requisition-{{ $req->id }}" data-requisition-row class="hover:bg-panel-muted transition-colors align-top">
                             <td class="px-3 py-3 font-medium whitespace-nowrap">
                                 {{ $req->requester->name ?? '—' }}
 								@if ($recipientPhones !== [])
@@ -259,54 +267,17 @@
         @if ($requisitions->getCollection()->contains(fn ($requisition) => $requisition->activePayment('transport') || $requisition->activePayment('airtime')))
             <div
                 id="payment-update-banner"
-                class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 hidden items-center gap-3 rounded-full bg-brand-800 text-white text-sm px-5 py-3 shadow-lg shadow-brand-900/30"
+                class="fixed top-20 left-1/2 -translate-x-1/2 z-50 hidden items-center gap-3 rounded-full bg-brand-800 text-white text-sm px-5 py-3 shadow-lg shadow-brand-900/30"
             >
                 <span>A payment status changed.</span>
-                <button type="button" onclick="window.location.reload()" class="px-3 py-1 rounded-full bg-white/15 hover:bg-white/25 font-medium transition-colors">
+                <button type="button" data-requisition-refresh class="px-3 py-1 rounded-full bg-white/15 hover:bg-white/25 font-medium transition-colors">
                     Refresh
                 </button>
                 <button type="button" onclick="document.getElementById('payment-update-banner').classList.add('hidden')" class="text-white/60 hover:text-white">
                     <x-icon name="x" size="14" />
                 </button>
             </div>
-            <script>
-                (() => {
-                    // Polls each active payment in turn and, on a status change,
-                    // surfaces a dismissible "Refresh" banner instead of forcing
-                    // window.location.reload() - a hard reload was snapping
-                    // anyone's scroll position back to the top mid-scroll
-                    // whenever any visitor's payment changed state (2026-09-25).
-                    const payments = [...document.querySelectorAll('[data-payment-poll]')];
-                    const banner = document.getElementById('payment-update-banner');
-                    let index = 0;
-                    let notified = false;
-                    const editing = () => [...document.querySelectorAll('input[name="otp"]')]
-                        .some(input => input.value !== '' || document.activeElement === input);
-                    async function poll() {
-                        if (!payments.length || notified) return;
-                        const payment = payments[index++ % payments.length];
-                        try {
-                            const response = await fetch(payment.dataset.url, {
-                                method: 'POST',
-                                headers: {'Accept': 'application/json', 'X-CSRF-TOKEN': @js(csrf_token())},
-                                signal: AbortSignal.timeout(65000),
-                            });
-                            if (response.ok) {
-                                const state = await response.json();
-                                if (JSON.stringify(state) !== JSON.stringify(JSON.parse(payment.dataset.state)) && !editing()) {
-                                    notified = true;
-                                    banner.classList.remove('hidden');
-                                    banner.classList.add('flex');
-                                    return;
-                                }
-                            }
-                        } catch (_) {
-                            // Keep the payment visible and retry the status check later.
-                        }
-                        window.setTimeout(poll, 10000);
-                    }
-                    window.setTimeout(poll, 10000);
-                })();
-            </script>
         @endif
+        </div>
+    </div>
 </x-layout>
