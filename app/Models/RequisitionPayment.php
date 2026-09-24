@@ -70,4 +70,23 @@ class RequisitionPayment extends Model
     {
         return $this->amount_minor / 100;
     }
+
+    public function requiresOtp(): bool
+    {
+        return $this->isActive() && $this->nawiri_payment_id
+            && data_get($this->provider_response, 'payment.requiresOtp') === true
+            && is_string($this->otpReference()) && $this->otpReference() !== '';
+    }
+
+    public function otpReference(): ?string
+    {
+        $reference = data_get($this->provider_response, 'payment.otpReference');
+
+        return is_string($reference) ? $reference : null;
+    }
+
+    public function pollingState(): array
+    {
+        return ['status' => $this->status, 'requiresOtp' => $this->requiresOtp(), 'reference' => $this->otpReference()];
+    }
 }

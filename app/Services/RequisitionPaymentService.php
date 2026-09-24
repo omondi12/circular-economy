@@ -88,6 +88,24 @@ class RequisitionPaymentService
         return $this->applyResponse($payment, $response);
     }
 
+    public function authorize(RequisitionPayment $payment, string $reference, ?string $otp): RequisitionPayment
+    {
+        $payment->refresh();
+        if ($payment->status === RequisitionPayment::STATUS_COMPLETED) {
+            return $payment;
+        }
+        if (! $payment->requiresOtp() || $payment->otpReference() !== $reference) {
+            throw ValidationException::withMessages(['payment' => 'This payment is not awaiting that OTP. Check its status.']);
+        }
+
+        // Rejected or uncertain OTP requests must not release the payment for another Pay attempt.
+        $response = $otp === null
+            ? $this->client->resendOtp($payment, $reference)
+            : $this->client->authorize($payment, $reference, $otp);
+
+        return $this->applyResponse($payment, $response);
+    }
+
     private function submitExisting(RequisitionPayment $payment): RequisitionPayment
     {
         try {

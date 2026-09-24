@@ -142,5 +142,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin,supervis
         Route::post('/requisitions/{requisition}/transport/pay', [RequisitionController::class, 'payTransport'])->name('requisitions.transport.pay');
         Route::post('/requisitions/{requisition}/airtime/pay', [RequisitionController::class, 'payAirtime'])->name('requisitions.airtime.pay');
         Route::post('/requisition-payments/{payment}/reconcile', [RequisitionController::class, 'reconcilePayment'])->name('requisition-payments.reconcile');
+        Route::post('/requisition-payments/{payment}/authorize', [RequisitionController::class, 'authorizePayment'])->middleware('throttle:10,1')->name('requisition-payments.authorize');
+        Route::post('/requisition-payments/{payment}/otp', [RequisitionController::class, 'resendPaymentOtp'])->middleware('throttle:3,1')->name('requisition-payments.otp');
     });
 });
