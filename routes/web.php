@@ -115,9 +115,8 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin,supervis
     Route::put('/reports/{report}', [ClientReportController::class, 'updateReport'])->name('reports.update');
 });
 
-// The treasury credentials can move money, so only a full admin may view
-// or replace them. Supervisors and Office Admins remain outside this area.
-Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin'])->group(function () {
+// Admins and Office Admins can configure the treasury used for payments.
+Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin,office_admin'])->group(function () {
     Route::get('/nawiri-treasury', [NawiriTreasuryController::class, 'edit'])->name('nawiri-treasury.edit');
     Route::put('/nawiri-treasury', [NawiriTreasuryController::class, 'update'])->name('nawiri-treasury.update');
 });
