@@ -112,6 +112,82 @@ class RequisitionController extends Controller
     }
 
     /**
+     * Admin/Office Admin correction of a requisition's own submitted
+     * details (2026-09-24, per the boss - repeated date/amount mistakes
+     * were otherwise needing a direct database fix every time).
+     * Deliberately does not touch approval/payment state - see
+     * canEditRequisitions() on the User model for why.
+     */
+    public function edit(Requisition $requisition): View
+    {
+        abort_unless(Auth::user()->canEditRequisitions(), 403);
+
+        return view('admin.requisitions.edit', [
+            'requisition' => $requisition,
+            'institutions' => explode(', ', $requisition->institution_visiting),
+        ]);
+    }
+
+    public function update(Request $request, Requisition $requisition): RedirectResponse
+    {
+        abort_unless(Auth::user()->canEditRequisitions(), 403);
+
+        $request->merge([
+            'recipient_phone_numbers' => collect($request->input('recipient_phone_numbers', []))
+                ->map(fn ($phone) => $this->normalizeKenyanPhone($phone))
+                ->filter()
+                ->unique()
+                ->values()
+                ->all(),
+        ]);
+
+        $data = $request->validate([
+            'institutions' => ['required', 'array', 'min:1'],
+            'institutions.*' => ['required', 'string', 'max:255'],
+            'working_day' => ['required', 'date'],
+            'recipient_phone_numbers' => ['required', 'array', 'min:1', 'max:20'],
+            'recipient_phone_numbers.*' => ['required', 'regex:/^254(?:7|1)\d{8}$/', 'distinct'],
+            'transport_amount_requested' => ['required', 'numeric', 'integer', 'min:0'],
+            'airtime_amount_requested' => ['required', 'numeric', 'integer', 'min:0'],
+        ]);
+
+        $institutionVisiting = collect($data['institutions'])
+            ->map(fn ($name) => trim($name))
+            ->filter()
+            ->implode(', ');
+
+        $before = [
+            'institution_visiting' => $requisition->institution_visiting,
+            'working_day' => $requisition->working_day->toDateString(),
+            'recipient_phone_numbers' => implode(', ', $requisition->recipientPhoneNumbers()),
+            'transport_amount_requested' => (float) $requisition->transport_amount_requested,
+            'airtime_amount_requested' => (float) $requisition->airtime_amount_requested,
+        ];
+
+        $requisition->update([
+            'institution_visiting' => $institutionVisiting,
+            'working_day' => $data['working_day'],
+            'recipient_phone_numbers' => $data['recipient_phone_numbers'],
+            'transport_amount_requested' => $data['transport_amount_requested'],
+            'airtime_amount_requested' => $data['airtime_amount_requested'],
+        ]);
+
+        AuditLog::record('requisition.edited', $requisition, [
+            'requester' => $requisition->requester?->name,
+            'before' => $before,
+            'after' => [
+                'institution_visiting' => $requisition->institution_visiting,
+                'working_day' => $requisition->working_day->toDateString(),
+                'recipient_phone_numbers' => implode(', ', $requisition->recipientPhoneNumbers()),
+                'transport_amount_requested' => (float) $requisition->transport_amount_requested,
+                'airtime_amount_requested' => (float) $requisition->airtime_amount_requested,
+            ],
+        ]);
+
+        return redirect()->route('admin.requisitions.index')->with('status', "Requisition for {$requisition->requester?->name} updated.");
+    }
+
+    /**
      * Every request, a stat breakdown, and the approve/decline/pay actions -
      * reachable by anyone who can approve requisitions (admin, supervisor,
      * office admin). Individual actions still run their own per-request

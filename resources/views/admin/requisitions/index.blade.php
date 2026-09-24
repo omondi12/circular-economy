@@ -112,6 +112,7 @@
                             $totals = $requesterTotals[$req->requester_id] ?? ['days' => 0, 'cumulative' => 0];
                             $canApprove = auth()->user()->canApproveRequisition($req);
                             $canPay = auth()->user()->canPayRequisitions();
+                            $canEdit = auth()->user()->canEditRequisitions();
                             $transportActivePayment = $req->activePayment('transport');
                             $airtimeActivePayment = $req->activePayment('airtime');
 							$recipientPhones = $req->recipientPhoneNumbers();
@@ -126,6 +127,12 @@
                                 {{ $req->requester->name ?? '—' }}
 								@if ($recipientPhones !== [])
 									<div class="text-xs font-normal text-ink-faint">{{ implode(', ', $recipientPhones) }} · Nawiri recipient(s)</div>
+                                @endif
+                                @if ($canEdit)
+                                    <a href="{{ route('admin.requisitions.edit', $req) }}" class="inline-flex items-center gap-1 mt-1 text-xs font-medium text-brand-700 hover:text-brand-800">
+                                        <x-icon name="file-text" size="11" />
+                                        Edit
+                                    </a>
                                 @endif
                             </td>
                             <td class="px-3 py-3 max-w-[200px]"><div class="line-clamp-2">{{ $req->institution_visiting }}</div></td>

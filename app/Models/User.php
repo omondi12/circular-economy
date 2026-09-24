@@ -184,6 +184,21 @@ class User extends Authenticatable
     }
 
     /**
+     * Who can correct a requisition's own submitted details (institution,
+     * working day, recipient number(s), requested amounts) after the fact
+     * - added 2026-09-24 so mistakes (a mistyped date, wrong institution)
+     * don't need a direct database fix every time. Deliberately does NOT
+     * cover approval/payment state - those stay governed by
+     * Approve/Decline/Pay so the audit trail and Nawiri payment ledger
+     * stay consistent. Same admin + Office Admin pairing as
+     * canPayRequisitions().
+     */
+    public function canEditRequisitions(): bool
+    {
+        return in_array($this->role, [self::ROLE_ADMIN, self::ROLE_OFFICE_ADMIN], true);
+    }
+
+    /**
      * Per-request approval authorization (2026-09-19) - the single source
      * of truth used by both RequisitionController (to authorize the
      * action) and the admin/public requisition views (to decide whether to

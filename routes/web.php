@@ -131,6 +131,8 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin'])->grou
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin,supervisor,office_admin'])->group(function () {
     Route::get('/requisitions', [RequisitionController::class, 'adminIndex'])->name('requisitions.index');
     Route::get('/requisitions/export', [RequisitionController::class, 'exportApproved'])->name('requisitions.export');
+    Route::get('/requisitions/{requisition}/edit', [RequisitionController::class, 'edit'])->name('requisitions.edit');
+    Route::put('/requisitions/{requisition}', [RequisitionController::class, 'update'])->name('requisitions.update');
     Route::post('/requisitions/pin/regenerate', [RequisitionController::class, 'regeneratePin'])->name('requisitions.pin.regenerate');
     Route::post('/requisitions/{requisition}/transport/approve', [RequisitionController::class, 'approveTransport'])->name('requisitions.transport.approve');
     Route::post('/requisitions/{requisition}/transport/decline', [RequisitionController::class, 'declineTransport'])->name('requisitions.transport.decline');
