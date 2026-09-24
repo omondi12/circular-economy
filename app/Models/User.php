@@ -130,6 +130,11 @@ class User extends Authenticatable
         return $this->role === self::ROLE_OFFICE_ADMIN;
     }
 
+    public function canPayRequisitions(): bool
+    {
+        return $this->isOfficeAdmin();
+    }
+
     /**
      * Supervisors get the same admin-area access as admins (per the boss's
      * decision, 2026-09-05) - a distinct role so their actions are their
@@ -157,7 +162,7 @@ class User extends Authenticatable
      * Per-request approval authorization (2026-09-19) - the single source
      * of truth used by both RequisitionController (to authorize the
      * action) and the admin/public requisition views (to decide whether to
-     * even show the Approve/Decline/Paid buttons for that row). Admins are
+     * show the Approve/Decline buttons for that row). Admins are
      * unrestricted, including approving their own - same as everywhere
      * else in the app. Supervisors and Office Admins can approve anyone's
      * request except their own; an Office Admin's request additionally

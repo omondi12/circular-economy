@@ -19,12 +19,13 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
  * Daily transport + airtime facilitation requests, per the boss's brief
  * (2026-09-17, extended 2026-09-19). RMs, Supervisors and Office Admins
  * request for themselves; admins, supervisors and office admins can all
- * approve/decline/pay (see authorizeApproval() for the per-request rules -
+ * approve or decline, while only office admins can pay (see
+ * authorizeApproval() for the per-request rules -
  * nobody approves their own, and an Office Admin's request needs a
  * Supervisor or Admin, never another Office Admin). Three surfaces share
  * the same underlying data:
  *  - /requisitions        - a requester's own history + new-request form
- *  - /admin/requisitions  - every request, stat breakdown, approve/decline/pay
+ *  - /admin/requisitions  - every request, stat breakdown, approval and payment
  *  - /facilitation        - public, PIN-gated read-only breakdown for the
  *                           boss, since admin accounts are shared among
  *                           several people and he doesn't want to need one
@@ -112,7 +113,7 @@ class RequisitionController extends Controller
     }
 
     /**
-     * Every request, a stat breakdown, and the approve/decline/pay actions -
+     * Every request, a stat breakdown, and the approval/payment actions -
      * reachable by anyone who can approve requisitions (admin, supervisor,
      * office admin). Individual actions still run their own per-request
      * authorization (see authorizeApproval()).
@@ -233,7 +234,7 @@ class RequisitionController extends Controller
 
     public function payTransport(Requisition $requisition, RequisitionPaymentService $payments): RedirectResponse
     {
-        abort_unless(Auth::user()->isAdmin(), 403);
+        abort_unless(Auth::user()->canPayRequisitions(), 403);
         abort_unless($requisition->transport_status === Requisition::STATUS_APPROVED, 422);
 
         return $this->payRecipients($requisition, RequisitionPayment::CATEGORY_TRANSPORT, $payments);
@@ -272,7 +273,7 @@ class RequisitionController extends Controller
 
     public function payAirtime(Requisition $requisition, RequisitionPaymentService $payments): RedirectResponse
     {
-        abort_unless(Auth::user()->isAdmin(), 403);
+        abort_unless(Auth::user()->canPayRequisitions(), 403);
         abort_unless($requisition->airtime_status === Requisition::STATUS_APPROVED, 422);
 
         return $this->payRecipients($requisition, RequisitionPayment::CATEGORY_AIRTIME, $payments);
@@ -282,7 +283,7 @@ class RequisitionController extends Controller
         RequisitionPayment $payment,
         RequisitionPaymentService $payments,
     ): RedirectResponse {
-        abort_unless(Auth::user()->isAdmin(), 403);
+        abort_unless(Auth::user()->canPayRequisitions(), 403);
 
         try {
             $payment = $payments->reconcile($payment);

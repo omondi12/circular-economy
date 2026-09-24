@@ -97,8 +97,9 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin'])->grou
 });
 
 // Requisition approvals - admin, supervisor, AND office_admin (2026-09-19)
-// can all view/approve/decline/pay. Kept as its own group (still under
-// /admin/... URLs for continuity) rather than inside the main admin group
+// can all view, approve, and decline. Only Office Admins can pay. Kept as
+// its own group (still under /admin/... URLs for continuity) rather than
+// inside the main admin group
 // above, since an Office Admin should NOT reach the rest of /admin
 // (clients, ministries, team accounts, audit log) - see the
 // ROLE_OFFICE_ADMIN docblock on the User model.
@@ -108,9 +109,12 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin,supervis
     Route::post('/requisitions/pin/regenerate', [RequisitionController::class, 'regeneratePin'])->name('requisitions.pin.regenerate');
     Route::post('/requisitions/{requisition}/transport/approve', [RequisitionController::class, 'approveTransport'])->name('requisitions.transport.approve');
     Route::post('/requisitions/{requisition}/transport/decline', [RequisitionController::class, 'declineTransport'])->name('requisitions.transport.decline');
-    Route::post('/requisitions/{requisition}/transport/pay', [RequisitionController::class, 'payTransport'])->name('requisitions.transport.pay');
     Route::post('/requisitions/{requisition}/airtime/approve', [RequisitionController::class, 'approveAirtime'])->name('requisitions.airtime.approve');
     Route::post('/requisitions/{requisition}/airtime/decline', [RequisitionController::class, 'declineAirtime'])->name('requisitions.airtime.decline');
-    Route::post('/requisitions/{requisition}/airtime/pay', [RequisitionController::class, 'payAirtime'])->name('requisitions.airtime.pay');
-    Route::post('/requisition-payments/{payment}/reconcile', [RequisitionController::class, 'reconcilePayment'])->name('requisition-payments.reconcile');
+
+    Route::middleware('role:office_admin')->group(function () {
+        Route::post('/requisitions/{requisition}/transport/pay', [RequisitionController::class, 'payTransport'])->name('requisitions.transport.pay');
+        Route::post('/requisitions/{requisition}/airtime/pay', [RequisitionController::class, 'payAirtime'])->name('requisitions.airtime.pay');
+        Route::post('/requisition-payments/{payment}/reconcile', [RequisitionController::class, 'reconcilePayment'])->name('requisition-payments.reconcile');
+    });
 });

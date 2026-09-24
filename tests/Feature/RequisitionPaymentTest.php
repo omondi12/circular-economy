@@ -37,7 +37,7 @@ class RequisitionPaymentTest extends TestCase
         ]);
     }
 
-    public function test_admin_pay_button_submits_an_idempotent_nawiri_payout_without_marking_it_paid_early(): void
+    public function test_office_admin_pay_button_submits_an_idempotent_nawiri_payout_without_marking_it_paid_early(): void
     {
         [$admin, $requisition] = $this->approvedRequisition();
 
@@ -164,7 +164,7 @@ class RequisitionPaymentTest extends TestCase
         $this->assertSame('0.00', $requisition->fresh()->transport_paid_amount);
     }
 
-    public function test_non_admin_approver_cannot_move_money(): void
+    public function test_supervisor_cannot_move_money(): void
     {
         [, $requisition] = $this->approvedRequisition();
         $supervisor = User::factory()->create([
@@ -181,6 +181,72 @@ class RequisitionPaymentTest extends TestCase
 
         $this->assertDatabaseCount('requisition_payments', 0);
         Http::assertNothingSent();
+    }
+
+    public function test_regular_admin_cannot_move_money(): void
+    {
+        [, $requisition] = $this->approvedRequisition();
+        $admin = User::factory()->create([
+            'role' => User::ROLE_ADMIN,
+            'phone_number' => '254700000005',
+        ]);
+
+        Http::fake();
+
+        $this->actingAs($admin)
+            ->post(route('admin.requisitions.transport.pay', $requisition))
+            ->assertForbidden();
+
+        $this->assertDatabaseCount('requisition_payments', 0);
+        Http::assertNothingSent();
+    }
+
+    public function test_regular_admin_cannot_reconcile_a_payment(): void
+    {
+        [$officeAdmin, $requisition] = $this->approvedRequisition();
+        $admin = User::factory()->create([
+            'role' => User::ROLE_ADMIN,
+            'phone_number' => '254700000006',
+        ]);
+        $payment = RequisitionPayment::create([
+            'requisition_id' => $requisition->id,
+            'initiated_by_id' => $officeAdmin->id,
+            'category' => RequisitionPayment::CATEGORY_TRANSPORT,
+            'amount_minor' => 150000,
+            'phone_number' => '254733333333',
+            'provider' => 'NAWIRI_WALLET',
+            'status' => RequisitionPayment::STATUS_SUBMITTED,
+            'idempotency_key' => 'regular-admin-cannot-reconcile',
+            'nawiri_payment_id' => '20000000-0000-4000-8000-000000000001',
+        ]);
+
+        Http::fake();
+
+        $this->actingAs($admin)
+            ->post(route('admin.requisition-payments.reconcile', $payment))
+            ->assertForbidden();
+
+        Http::assertNothingSent();
+    }
+
+    public function test_only_office_admin_sees_payment_controls(): void
+    {
+        [$officeAdmin, $requisition] = $this->approvedRequisition();
+        $admin = User::factory()->create([
+            'role' => User::ROLE_ADMIN,
+            'phone_number' => '254700000007',
+        ]);
+
+        $this->actingAs($admin)
+            ->get(route('admin.requisitions.index'))
+            ->assertOk()
+            ->assertDontSee('Pay 1 recipient', false);
+
+        $this->actingAs($officeAdmin)
+            ->get(route('admin.requisitions.index'))
+            ->assertOk()
+            ->assertSee('Pay 1 recipient', false)
+            ->assertSee(route('admin.requisitions.transport.pay', $requisition), false);
     }
 
     public function test_requester_can_supply_multiple_nawiri_recipient_numbers(): void
@@ -263,7 +329,7 @@ class RequisitionPaymentTest extends TestCase
         $this->assertSame('0.00', $requisition->fresh()->transport_paid_amount);
     }
 
-    public function test_admin_pay_action_ignores_tampered_recipient_and_amount_fields(): void
+    public function test_office_admin_pay_action_ignores_tampered_recipient_and_amount_fields(): void
     {
         [$admin, $requisition] = $this->approvedRequisition();
 
@@ -383,7 +449,7 @@ class RequisitionPaymentTest extends TestCase
     private function approvedRequisition(array $recipientPhoneNumbers = ['254733333333'], int $transportAmount = 1500): array
     {
         $admin = User::factory()->create([
-            'role' => User::ROLE_ADMIN,
+            'role' => User::ROLE_OFFICE_ADMIN,
             'phone_number' => '254700000001',
         ]);
         $requester = User::factory()->create([

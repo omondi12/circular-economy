@@ -45,8 +45,8 @@ be paid until its requester has a Nawiri phone number.
 
 ## Payment behavior
 
-Only an admin can press Pay. Supervisors and office admins can keep using the
-existing approval actions, but they cannot move money.
+Only an office admin can press Pay or reconcile a wallet transfer. Regular
+admins and supervisors can use the approval screens but cannot move money.
 
 One click creates a payment record with a unique idempotency key and submits it
 to Nawiri. The requisition remains unpaid while Nawiri reports `SUBMITTED` or

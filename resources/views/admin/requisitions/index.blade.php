@@ -7,7 +7,7 @@
         <div class="flex items-start justify-between gap-4 mb-6">
             <x-page-header
                 title="Requisitions"
-                subtitle="Every RM/Supervisor transport and airtime request. Only admins can approve or decline."
+                subtitle="Admins, supervisors and office admins can review approvals. Only office admins can make payments."
                 :back="route('admin.dashboard')"
                 back-label="Back to admin"
             />
@@ -111,7 +111,7 @@
                         @php
                             $totals = $requesterTotals[$req->requester_id] ?? ['days' => 0, 'cumulative' => 0];
                             $canApprove = auth()->user()->canApproveRequisition($req);
-                            $canPay = auth()->user()->isAdmin();
+                            $canPay = auth()->user()->canPayRequisitions();
                             $transportActivePayment = $req->activePayment('transport');
                             $airtimeActivePayment = $req->activePayment('airtime');
 							$recipientPhones = $req->recipientPhoneNumbers();
