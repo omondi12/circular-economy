@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AccountController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ClientReportController;
@@ -9,6 +10,7 @@ use App\Http\Controllers\NawiriTreasuryController;
 use App\Http\Controllers\RequisitionController;
 use App\Http\Controllers\RmDashboardController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 
 // Public - boss/anyone can view the dashboard and browse submissions, but
 // cannot submit data anymore. Data entry requires an RM login.
@@ -22,10 +24,20 @@ Route::get('/state-corporations', [DashboardController::class, 'stateCorporation
 Route::get('/state-corporations/export', [DashboardController::class, 'stateCorporationsExport'])->name('state-corporations.export');
 Route::get('/state-corporations/{stateCorporation}', [DashboardController::class, 'stateCorporationShow'])->name('state-corporations.show');
 Route::get('/relationship-managers', [DashboardController::class, 'relationshipManagersIndex'])->name('relationship-managers.index');
+Route::get('/relationship-managers/{rm}', [DashboardController::class, 'relationshipManagerShow'])->name('relationship-managers.show');
 Route::get('/supervisors', [DashboardController::class, 'supervisorsIndex'])->name('supervisors.index');
 Route::get('/material-items', [DashboardController::class, 'materialItemsIndex'])->name('material-items.index');
 Route::get('/feasibility-study', [DashboardController::class, 'feasibilityStudyIndex'])->name('feasibility-study.index');
 Route::get('/reports', [ClientReportController::class, 'all'])->name('reports.index');
+
+// Streams a file from the public disk through PHP instead of relying on
+// the public/storage symlink - the production webserver doesn't follow
+// it for static files (see User::profilePhotoUrl()).
+Route::get('/photos/{path}', function (string $path) {
+    abort_unless(Storage::disk('public')->exists($path), 404);
+
+    return Storage::disk('public')->response($path);
+})->where('path', '.*')->name('photos.show');
 
 // Public, PIN-gated (not a login - a system-generated PIN handed to the
 // boss, per his brief, since admin accounts are shared among several
@@ -42,6 +54,16 @@ Route::get('/login', [AuthController::class, 'showLogin'])->name('login')->middl
 Route::post('/login', [AuthController::class, 'login'])->middleware('guest');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
 
+// Every logged-in account's own small profile page (photo upload, own
+// Nawiri phone number) - available to any role, not just RMs.
+Route::prefix('account')->name('account.')->middleware('auth')->group(function () {
+    Route::get('/profile', [AccountController::class, 'edit'])->name('profile.edit');
+    Route::post('/profile', [AccountController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [AccountController::class, 'destroy'])->name('profile.destroy');
+    Route::post('/phone', [AccountController::class, 'updatePhone'])->name('phone.update');
+    Route::post('/password', [AccountController::class, 'updatePassword'])->name('password.update');
+});
+
 // RM area - each RM sees only their own submissions and can record new
 // collections. Admins can reach the same area too (useful for testing/
 // helping an RM), gated by role:rm,admin.
@@ -49,6 +71,10 @@ Route::prefix('rm')->name('rm.')->middleware(['auth', 'role:rm,admin'])->group(f
     Route::get('/', [RmDashboardController::class, 'index'])->name('dashboard');
     Route::get('/collections/create', [RmDashboardController::class, 'create'])->name('collections.create');
     Route::post('/collections', [RmDashboardController::class, 'store'])->name('collections.store');
+
+    Route::get('/clients', [ClientReportController::class, 'rmClients'])->name('clients.index');
+    Route::get('/clients/{client}/reports', [ClientReportController::class, 'rmShow'])->name('clients.reports.index');
+    Route::post('/clients/{client}/reports', [ClientReportController::class, 'rmStore'])->name('clients.reports.store');
 });
 
 // A requester's own facilitation (transport/airtime) requests - RMs,

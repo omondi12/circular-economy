@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\ClientReport;
 use App\Models\Collection;
 use App\Models\GovernmentEntity;
+use App\Models\Requisition;
 use App\Models\StateCorporation;
 use App\Models\User;
 use App\Support\WasteCategories;
@@ -288,13 +289,14 @@ class DashboardController extends Controller
             // A UTF-8 BOM so Excel doesn't mangle names with accents/special characters.
             fwrite($handle, "\xEF\xBB\xBF");
 
-            fputcsv($handle, ['Name', 'Classification', 'Ministry', 'RM', 'Supervisor', 'Contact Person', 'Cluster', 'Class', 'Sub-Class', 'Phase']);
+            fputcsv($handle, ['Name', 'Classification', 'Ministry', 'State Department', 'RM', 'Supervisor', 'Contact Person', 'Cluster', 'Class', 'Sub-Class', 'Phase']);
 
             foreach ($corporations as $corp) {
                 fputcsv($handle, [
                     $corp->name,
                     $corp->classification,
                     $corp->ministryDisplay(),
+                    $corp->stateDepartmentDisplay(),
                     $corp->assignedRm->name ?? '',
                     $corp->assignedRm?->supervisor?->name ?? '',
                     $corp->latestReport?->contact_person ?? '',
@@ -316,7 +318,7 @@ class DashboardController extends Controller
         $filters = $this->stateCorporationsFilters($request);
 
         return StateCorporation::query()
-            ->with(['ministry', 'assignedRm.supervisor', 'latestReport'])
+            ->with(['ministry.parent', 'assignedRm.supervisor', 'latestReport'])
             ->when($filters['phase'], fn ($q, $v) => $q->where('phase', $v))
             ->when($filters['classification'], fn ($q, $v) => $q->where('classification', $v))
             ->when($filters['q'], fn ($q, $v) => $q->where('name', 'like', "%{$v}%"))
@@ -353,11 +355,55 @@ class DashboardController extends Controller
     {
         $rms = User::assignableRms()
             ->with('supervisor')
-            ->withCount(['assignedStateCorporations as client_count'])
+            ->withCount(['assignedStateCorporations as client_count', 'collections as collection_count', 'requisitions as requisition_count'])
             ->orderBy('name')
             ->get();
 
-        return view('relationship-managers.index', ['rms' => $rms]);
+        return view('relationship-managers.index', [
+            'rms' => $rms,
+            'totalClients' => (int) $rms->sum('client_count'),
+            'totalCollections' => (int) $rms->sum('collection_count'),
+            'totalFacilitations' => (int) $rms->sum('requisition_count'),
+            'pendingFacilitations' => Requisition::whereIn('requester_id', $rms->pluck('id'))
+                ->where(fn ($q) => $q->where('transport_status', Requisition::STATUS_PENDING)->orWhere('airtime_status', Requisition::STATUS_PENDING))
+                ->count(),
+        ]);
+    }
+
+    /**
+     * One RM's full portfolio - photo, basic info, every client assigned to
+     * them, every collection they've recorded, and every facilitation
+     * request they've made (2026-09-22, per the boss - a single page to
+     * "summarize everything about that RM" instead of hunting across the
+     * Clients, Submissions and Facilitation pages separately). Facilitation
+     * amounts stay behind the same PIN gate as the Facilitation page itself
+     * - this page doesn't bypass it.
+     */
+    public function relationshipManagerShow(User $rm): View
+    {
+        abort_unless($rm->role === User::ROLE_RM, 404);
+
+        $clients = $rm->assignedStateCorporations()->with('ministry')->orderBy('name')->get();
+        $ministries = $rm->assignedMinistries()->orderBy('name')->get();
+
+        $collections = $rm->collections()->orderByDesc('collection_date')->orderByDesc('id')->limit(20)->get();
+        $totalCollections = $rm->collections()->count();
+        $totalQuantity = $rm->collections()->sum('quantity');
+
+        $requisitions = $rm->requisitions()->orderByDesc('working_day')->orderByDesc('id')->get();
+        $pendingCount = $requisitions->filter(fn (Requisition $r) => $r->transport_status === Requisition::STATUS_PENDING || $r->airtime_status === Requisition::STATUS_PENDING)->count();
+
+        return view('relationship-managers.show', [
+            'rm' => $rm,
+            'clients' => $clients,
+            'ministries' => $ministries,
+            'collections' => $collections,
+            'totalCollections' => $totalCollections,
+            'totalQuantity' => $totalQuantity,
+            'requisitions' => $requisitions,
+            'pendingCount' => $pendingCount,
+            'facilitationUnlocked' => (bool) session('requisition_unlocked'),
+        ]);
     }
 
     /**

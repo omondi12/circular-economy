@@ -75,6 +75,33 @@ class StateCorporation extends Model
         return '—';
     }
 
+    /**
+     * The state department this client falls under - one level down from
+     * ministryDisplay() (2026-09-24, per the boss). $ministry can be
+     * assigned at any level (ministry, state department, or institution),
+     * so this walks up from an institution to its department, shows a
+     * department directly, or "—" when the client is assigned straight to
+     * a ministry (no specific department) or has no ministry at all.
+     */
+    public function stateDepartmentDisplay(): string
+    {
+        $entity = $this->ministry;
+
+        if (! $entity) {
+            return '—';
+        }
+
+        if ($entity->level === GovernmentEntity::LEVEL_STATE_DEPARTMENT) {
+            return $entity->name;
+        }
+
+        if ($entity->level === GovernmentEntity::LEVEL_INSTITUTION && $entity->parent?->level === GovernmentEntity::LEVEL_STATE_DEPARTMENT) {
+            return $entity->parent->name;
+        }
+
+        return '—';
+    }
+
     public function scopePhaseOne($query)
     {
         return $query->where('phase', self::PHASE_ONE);

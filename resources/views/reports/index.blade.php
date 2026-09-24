@@ -47,65 +47,138 @@
             </div>
         </form>
 
-        <div class="bg-panel border border-border rounded-xl overflow-hidden shadow-sm overflow-x-auto">
-            <table class="w-full text-sm">
-                <thead class="bg-brand-50 text-left text-ink-faint">
-                    <tr>
-                        <th class="px-4 py-2 font-medium">Date</th>
-                        <th class="px-4 py-2 font-medium">Client</th>
-                        <th class="px-4 py-2 font-medium">RM</th>
-                        <th class="px-4 py-2 font-medium">Type</th>
-                        <th class="px-4 py-2 font-medium">Stage</th>
-                        <th class="px-4 py-2 font-medium">Outcome</th>
-                        <th class="px-4 py-2 font-medium">Follow-up</th>
-                        <th class="px-4 py-2 font-medium">Logged By</th>
-                        <th class="px-4 py-2 font-medium">Action</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-border">
-                    @forelse ($reports as $report)
-                        <tr class="hover:bg-panel-muted transition-colors align-top">
-                            <td class="px-4 py-3 whitespace-nowrap text-ink-muted">{{ $report->report_date->format('d M Y') }}</td>
-                            <td class="px-4 py-3 font-medium max-w-xs">
-                                <div class="line-clamp-2">{{ $report->client->name ?? '—' }}</div>
-                            </td>
-                            <td class="px-4 py-3 whitespace-nowrap">{{ $report->rm->name ?? '—' }}</td>
-                            <td class="px-4 py-3 whitespace-nowrap text-ink-muted">{{ $report->engagement_type }}</td>
-                            <td class="px-4 py-3">
-                                <span class="inline-flex px-2 py-0.5 rounded-full bg-brand-50 text-brand-800 text-xs font-medium whitespace-nowrap">{{ $report->current_stage }}</span>
-                            </td>
-                            <td class="px-4 py-3 max-w-xs">
-                                <div class="line-clamp-3 text-ink-muted">{{ $report->outcome }}</div>
-                            </td>
-                            <td class="px-4 py-3 whitespace-nowrap text-ink-muted">
-                                {{ $report->follow_up_date?->format('d M Y') ?? '—' }}
-                            </td>
-                            <td class="px-4 py-3 whitespace-nowrap text-ink-faint">{{ $report->createdBy->name ?? '—' }}</td>
-                            <td class="px-4 py-3 whitespace-nowrap">
-                                <div class="flex items-center gap-2">
-                                    @if ($report->client)
-                                        <a href="{{ route('admin.clients.reports.index', $report->client) }}" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-md bg-brand-50 text-brand-800 text-xs font-medium hover:bg-brand-100 transition-colors">
-                                            View
-                                        </a>
-                                    @endif
-                                    @if (auth()->check() && (auth()->user()->isAdmin() || $report->created_by === auth()->id()))
-                                        <a href="{{ route('admin.reports.edit', $report) }}" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-md bg-gold-50 text-gold-700 text-xs font-medium hover:bg-gold-100 transition-colors">
-                                            Edit
-                                        </a>
-                                    @endif
-                                </div>
-                            </td>
-                        </tr>
-                    @empty
+        <div x-data="{ activeReport: null }">
+            <div class="bg-panel border border-border rounded-xl overflow-hidden shadow-sm overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead class="bg-brand-50 text-left text-ink-faint">
                         <tr>
-                            <td colspan="9" class="px-4 py-8 text-center text-ink-faint">No reports match these filters.</td>
+                            <th class="px-4 py-2 font-medium">Date</th>
+                            <th class="px-4 py-2 font-medium">Client</th>
+                            <th class="px-4 py-2 font-medium">RM</th>
+                            <th class="px-4 py-2 font-medium">Type</th>
+                            <th class="px-4 py-2 font-medium">Stage</th>
+                            <th class="px-4 py-2 font-medium">Outcome</th>
+                            <th class="px-4 py-2 font-medium">Follow-up</th>
+                            <th class="px-4 py-2 font-medium">Logged By</th>
+                            <th class="px-4 py-2 font-medium">Action</th>
                         </tr>
-                    @endforelse
-                </tbody>
-            </table>
-        </div>
+                    </thead>
+                    <tbody class="divide-y divide-border">
+                        @forelse ($reports as $report)
+                            <tr class="hover:bg-panel-muted transition-colors align-top">
+                                <td class="px-4 py-3 whitespace-nowrap text-ink-muted">{{ $report->report_date->format('d M Y') }}</td>
+                                <td class="px-4 py-3 font-medium max-w-xs">
+                                    <div class="line-clamp-2">{{ $report->client->name ?? '—' }}</div>
+                                </td>
+                                <td class="px-4 py-3 whitespace-nowrap">{{ $report->rm->name ?? '—' }}</td>
+                                <td class="px-4 py-3 whitespace-nowrap text-ink-muted">{{ $report->engagement_type }}</td>
+                                <td class="px-4 py-3">
+                                    <span class="inline-flex px-2 py-0.5 rounded-full bg-brand-50 text-brand-800 text-xs font-medium whitespace-nowrap">{{ $report->current_stage }}</span>
+                                </td>
+                                <td class="px-4 py-3 max-w-xs">
+                                    <div class="line-clamp-3 text-ink-muted">{{ $report->outcome }}</div>
+                                </td>
+                                <td class="px-4 py-3 whitespace-nowrap text-ink-muted">
+                                    {{ $report->follow_up_date?->format('d M Y') ?? '—' }}
+                                </td>
+                                <td class="px-4 py-3 whitespace-nowrap text-ink-faint">{{ $report->createdBy->name ?? '—' }}</td>
+                                <td class="px-4 py-3 whitespace-nowrap">
+                                    <div class="flex items-center gap-2">
+                                        <button type="button" @click="activeReport = {{ $report->id }}" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-md bg-brand-50 text-brand-800 text-xs font-medium hover:bg-brand-100 transition-colors">
+                                            View
+                                        </button>
+                                        @if (auth()->check() && (auth()->user()->isAdmin() || $report->created_by === auth()->id()))
+                                            <a href="{{ route('admin.reports.edit', $report) }}" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-md bg-gold-50 text-gold-700 text-xs font-medium hover:bg-gold-100 transition-colors">
+                                                Edit
+                                            </a>
+                                        @endif
+                                    </div>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="9" class="px-4 py-8 text-center text-ink-faint">No reports match these filters.</td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
 
-        <div class="mt-4">
-            {{ $reports->links() }}
+            <div class="mt-4">
+                {{ $reports->links() }}
+            </div>
+
+            {{-- Full-report view modals - one per row, shown by matching report id --}}
+            @foreach ($reports as $report)
+                <div
+                    x-show="activeReport === {{ $report->id }}" x-cloak
+                    @click.self="activeReport = null" @keydown.escape.window="activeReport = null"
+                    class="fixed inset-0 z-50 bg-black/40 flex items-center justify-center p-4"
+                >
+                    <div class="bg-white rounded-xl shadow-xl max-w-lg w-full max-h-[85vh] overflow-y-auto">
+                        <div class="flex items-start justify-between gap-3 px-5 py-4 border-b border-border">
+                            <div>
+                                <h3 class="font-semibold text-ink">{{ $report->client->name ?? 'Report' }}</h3>
+                                <p class="text-xs text-ink-faint mt-0.5">{{ $report->report_date->format('d M Y') }} · {{ $report->engagement_type }}</p>
+                            </div>
+                            <button type="button" @click="activeReport = null" class="shrink-0 p-1.5 rounded-md text-ink-faint hover:text-ink hover:bg-panel-muted transition-colors">
+                                <x-icon name="x" size="18" />
+                            </button>
+                        </div>
+                        <div class="px-5 py-4 space-y-4 text-sm">
+                            <div class="grid grid-cols-2 gap-3">
+                                <div>
+                                    <p class="text-xs text-ink-faint uppercase tracking-wide">RM</p>
+                                    <p class="text-ink mt-0.5">{{ $report->rm->name ?? '—' }}</p>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-ink-faint uppercase tracking-wide">Stage</p>
+                                    <p class="mt-0.5">
+                                        <span class="inline-flex px-2 py-0.5 rounded-full bg-brand-50 text-brand-800 text-xs font-medium">{{ $report->current_stage }}</span>
+                                    </p>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-ink-faint uppercase tracking-wide">Contact Person</p>
+                                    <p class="text-ink mt-0.5">{{ $report->contact_person ?? '—' }}</p>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-ink-faint uppercase tracking-wide">Contact Phone</p>
+                                    <p class="text-ink mt-0.5">{{ $report->contact_person_phone ?? '—' }}</p>
+                                </div>
+                            </div>
+
+                            <div>
+                                <p class="text-xs text-ink-faint uppercase tracking-wide mb-1">Outcome / Feedback</p>
+                                <p class="text-ink whitespace-pre-line">{{ $report->outcome }}</p>
+                            </div>
+
+                            @if ($report->next_action)
+                                <div>
+                                    <p class="text-xs text-ink-faint uppercase tracking-wide mb-1">Next Action</p>
+                                    <p class="text-ink">{{ $report->next_action }}</p>
+                                </div>
+                            @endif
+
+                            <div class="grid grid-cols-2 gap-3">
+                                <div>
+                                    <p class="text-xs text-ink-faint uppercase tracking-wide">Follow-up Date</p>
+                                    <p class="text-ink mt-0.5">{{ $report->follow_up_date?->format('d M Y') ?? '—' }}</p>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-ink-faint uppercase tracking-wide">Logged By</p>
+                                    <p class="text-ink mt-0.5">{{ $report->createdBy->name ?? '—' }}</p>
+                                </div>
+                            </div>
+
+                            @if ($report->comments)
+                                <div>
+                                    <p class="text-xs text-ink-faint uppercase tracking-wide mb-1">Comments</p>
+                                    <p class="text-ink whitespace-pre-line">{{ $report->comments }}</p>
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+            @endforeach
         </div>
 </x-layout>

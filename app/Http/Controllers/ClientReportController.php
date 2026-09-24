@@ -10,6 +10,7 @@ use App\Support\ClientReportOptions;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
 /**
@@ -134,6 +135,83 @@ class ClientReportController extends Controller
         ]);
 
         return redirect()->route('reports.index')->with('status', 'Report updated.');
+    }
+
+    /**
+     * An RM's own client list, for picking who to log a report against
+     * (2026-09-22, per the boss - RMs weren't self-reporting at all, only
+     * an admin transcribing from WhatsApp). Scoped to clients actually
+     * assigned to this RM; admins land here too (to help/test) and see
+     * every client instead.
+     */
+    public function rmClients(Request $request): View
+    {
+        $user = Auth::user();
+        $search = $request->string('q')->toString() ?: null;
+
+        $clients = ($user->isAdmin() ? StateCorporation::query() : $user->assignedStateCorporations())
+            ->withCount('reports')
+            ->when($search, fn ($q, $v) => $q->where('name', 'like', "%{$v}%"))
+            ->orderBy('name')
+            ->get();
+
+        return view('rm.clients', [
+            'clients' => $clients,
+            'search' => $search,
+        ]);
+    }
+
+    /**
+     * The RM's own version of the admin report form - same fields minus
+     * the RM picker (it's always them), scoped to a client actually
+     * assigned to them.
+     */
+    public function rmShow(StateCorporation $client): View
+    {
+        $this->authorizeOwnClient($client);
+
+        $reports = $client->reports()
+            ->with(['rm', 'createdBy'])
+            ->orderByDesc('report_date')
+            ->orderByDesc('id')
+            ->paginate(20);
+
+        return view('rm.client-reports', [
+            'client' => $client,
+            'reports' => $reports,
+            'engagementTypes' => ClientReportOptions::ENGAGEMENT_TYPES,
+            'stages' => ClientReportOptions::STAGES,
+        ]);
+    }
+
+    public function rmStore(Request $request, StateCorporation $client): RedirectResponse
+    {
+        $this->authorizeOwnClient($client);
+
+        $data = $request->validate($this->reportRules());
+        $user = $request->user();
+
+        $report = $client->reports()->create([
+            ...$data,
+            'rm_id' => $user->id,
+            'created_by' => $user->id,
+        ]);
+
+        AuditLog::record('client.report_logged', $report, [
+            'client' => $client->name,
+            'report_date' => $data['report_date'],
+            'current_stage' => $data['current_stage'],
+        ]);
+
+        return redirect()->route('rm.clients.reports.index', $client)
+            ->with('status', "Report logged for {$client->name}.");
+    }
+
+    private function authorizeOwnClient(StateCorporation $client): void
+    {
+        $user = Auth::user();
+
+        abort_unless($user->isAdmin() || $client->assigned_rm_id === $user->id, 403);
     }
 
     private function reportRules(): array

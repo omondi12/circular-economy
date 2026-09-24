@@ -94,38 +94,24 @@
                     </div>
                 </div>
 
-				<div
-					class="grid grid-cols-1 sm:grid-cols-[220px_1fr] border-b border-border"
-					x-data="{ recipientPhones: @js(old('recipient_phone_numbers') ?: [auth()->user()->phone_number ?: '']) }"
-				>
-					<label class="bg-gold-50 px-4 py-3 text-sm font-semibold text-ink-muted flex items-start sm:items-center">
-						Nawiri recipient number(s) <span class="text-danger ml-1">*</span>
+				<div class="grid grid-cols-1 sm:grid-cols-[220px_1fr] border-b border-border">
+					<label for="recipient_phone_number" class="bg-gold-50 px-4 py-3 text-sm font-semibold text-ink-muted flex items-start sm:items-center">
+						Nawiri Phone Number <span class="text-danger ml-1">*</span>
 					</label>
 					<div class="px-4 py-2 flex flex-col justify-center gap-2">
-						<template x-for="(phone, i) in recipientPhones" :key="i">
-							<div class="flex items-center gap-2">
-								<input
-									type="tel" :name="'recipient_phone_numbers[' + i + ']'" required
-									x-model="recipientPhones[i]"
-									placeholder="e.g. 0712345678"
-									class="w-full border-0 focus:ring-0 text-sm py-1.5 px-0 text-ink placeholder:text-ink-faint"
-								>
-								<button
-									type="button" x-show="recipientPhones.length > 1" x-cloak
-									@click="recipientPhones.splice(i, 1)"
-									class="shrink-0 text-ink-faint hover:text-danger"
-								>
-									<x-icon name="x" size="14" />
-								</button>
-							</div>
-						</template>
-						<button
-							type="button" @click="recipientPhones.push('')"
-							class="self-start text-xs font-medium text-brand-700 hover:text-brand-800"
+						<input
+							type="tel" id="recipient_phone_number" name="recipient_phone_numbers[]" required
+							value="{{ old('recipient_phone_numbers.0', auth()->user()->phone_number) }}"
+							placeholder="e.g. 0712345678"
+							class="w-full border-0 focus:ring-0 text-sm py-1.5 px-0 text-ink placeholder:text-ink-faint"
 						>
-							+ Add another recipient
-						</button>
-						<p class="text-xs text-ink-faint">Use the phone number registered on each recipient's Nawiri account.</p>
+						@if (auth()->user()->phone_number)
+							<p class="text-xs text-ink-faint">Auto-filled from your profile - you're requesting for yourself.</p>
+						@else
+							<p class="text-xs text-ink-faint">
+								Set your Nawiri number once in <a href="{{ route('account.profile.edit') }}" class="text-brand-700 underline hover:text-brand-800">My Profile</a> and it'll auto-fill here next time.
+							</p>
+						@endif
 						@error('recipient_phone_numbers')
 							<p class="text-xs text-danger">{{ $message }}</p>
 						@enderror

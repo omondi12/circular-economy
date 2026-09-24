@@ -9,6 +9,7 @@ use App\Models\GovernmentEntity;
 use App\Models\Requisition;
 use App\Models\StateCorporation;
 use App\Models\User;
+use App\Support\PhoneNumber;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -99,7 +100,7 @@ class AdminController extends Controller
     {
         $viewer = auth()->user();
         $request->merge([
-            'phone_number' => $this->normalizeKenyanPhone($request->input('phone_number')),
+            'phone_number' => PhoneNumber::normalizeKenyan($request->input('phone_number')),
         ]);
 
         $rules = [
@@ -207,7 +208,7 @@ class AdminController extends Controller
         $isOwnRm = $user->isRm() && $user->supervisor_id === $viewer->id;
         abort_unless($viewer->isAdmin() || $isOwnRm, 403);
         $request->merge([
-            'phone_number' => $this->normalizeKenyanPhone($request->input('phone_number')),
+            'phone_number' => PhoneNumber::normalizeKenyan($request->input('phone_number')),
         ]);
 
         $rules = [
@@ -258,20 +259,6 @@ class AdminController extends Controller
         ]);
 
         return redirect()->route('admin.users')->with('status', "{$user->name} updated.");
-    }
-
-    private function normalizeKenyanPhone(mixed $value): string
-    {
-        $phone = preg_replace('/\D+/', '', (string) $value) ?? '';
-
-        if (str_starts_with($phone, '0')) {
-            return '254'.substr($phone, 1);
-        }
-        if (strlen($phone) === 9 && in_array($phone[0] ?? '', ['7', '1'], true)) {
-            return '254'.$phone;
-        }
-
-        return $phone;
     }
 
     /**
@@ -345,7 +332,7 @@ class AdminController extends Controller
             // narrows it down when useful.
             $clients = StateCorporation::query()
                 ->visibleTo($viewer)
-                ->with(['assignedRm', 'ministry'])
+                ->with(['assignedRm', 'ministry.parent'])
                 ->when($search, fn ($q, $v) => $q->where('name', 'like', "%{$v}%"))
                 ->when($status === 'assigned', fn ($q) => $q->whereNotNull('assigned_rm_id'))
                 ->when($status === 'unassigned', fn ($q) => $q->whereNull('assigned_rm_id'))
