@@ -101,7 +101,7 @@ class NawiriPayrollClient
         }
 
         try {
-            $pinResponse = $this->request()->withToken($token)->post('/api/admin/pin/verify', [
+            $pinResponse = $this->request()->withToken($token)->post('/api/auth/pin/verify', [
                 'pin' => $pin,
             ]);
         } catch (ConnectionException $exception) {
@@ -119,9 +119,7 @@ class NawiriPayrollClient
                 'INVALID_PIN' => ['Nawiri rejected that PIN. The treasury account was not changed.', 'pin'],
                 'PIN_NOT_SET' => ['This Nawiri account does not have a transaction PIN.', 'pin'],
                 'PIN_LOCKED' => ['Nawiri has locked PIN checks after too many failed attempts. Try again later.', 'pin'],
-                default => $pinResponse->status() === 404
-                    ? ['That Nawiri account does not have admin access.', 'email']
-                    : ['Nawiri could not verify that PIN. The treasury account was not changed.', 'pin'],
+                default => ['Nawiri could not verify that PIN. The treasury account was not changed.', 'pin'],
             };
 
             throw new NawiriPayrollException($message, false, $pinResponse->status(), field: $field);

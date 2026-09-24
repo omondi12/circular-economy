@@ -547,6 +547,11 @@ class RequisitionPaymentTest extends TestCase
         $this->assertSame('127.0.0.1', parse_url($baseUrl, PHP_URL_HOST));
         config()->set('services.nawiri_payroll.base_url', $baseUrl);
         [$admin, $requisition] = $this->approvedRequisition(['254733333333'], 10);
+        $this->actingAs($admin)->put(route('admin.nawiri-treasury.update'), [
+            'email' => 'sender@example.test',
+            'password' => 'contract-password',
+            'pin' => '1234',
+        ])->assertRedirect()->assertSessionHasNoErrors();
         $this->actingAs($admin)->post(route('admin.requisitions.transport.pay', $requisition))->assertRedirect()->assertSessionHasNoErrors();
         $payment = RequisitionPayment::sole();
         $this->assertTrue($payment->requiresOtp(), json_encode($payment->provider_response));

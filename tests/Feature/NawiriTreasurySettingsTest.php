@@ -93,9 +93,9 @@ class NawiriTreasurySettingsTest extends TestCase
             'https://nawiri.test/api/auth/login' => Http::response([
                 'access_token' => 'verified-token',
                 'expires_in' => 300,
-                'user' => ['email' => 'treasury@example.com'],
+                'user' => ['email' => 'treasury@example.com', 'role' => 'customer'],
             ]),
-            'https://nawiri.test/api/admin/pin/verify' => Http::response(['valid' => true]),
+            'https://nawiri.test/api/auth/pin/verify' => Http::response(['valid' => true]),
         ]);
 
         $this->actingAs($admin)->put(route('admin.nawiri-treasury.update'), [
@@ -119,7 +119,7 @@ class NawiriTreasurySettingsTest extends TestCase
             'action' => 'nawiri_treasury.updated',
             'subject_id' => $credential->id,
         ]);
-        Http::assertSent(fn (Request $request) => $request->url() === 'https://nawiri.test/api/admin/pin/verify'
+        Http::assertSent(fn (Request $request) => $request->url() === 'https://nawiri.test/api/auth/pin/verify'
             && $request->hasHeader('Authorization', 'Bearer verified-token')
             && $request['pin'] === '1234');
     }
@@ -169,7 +169,7 @@ class NawiriTreasurySettingsTest extends TestCase
                 'access_token' => 'verified-token',
                 'expires_in' => 300,
             ]),
-            'https://nawiri.test/api/admin/pin/verify' => Http::response([
+            'https://nawiri.test/api/auth/pin/verify' => Http::response([
                 'error' => 'invalid pin',
                 'code' => 'INVALID_PIN',
             ], 422),
@@ -182,6 +182,36 @@ class NawiriTreasurySettingsTest extends TestCase
         ])->assertSessionHasErrors('pin');
 
         $this->assertDatabaseCount('nawiri_treasury_credentials', 0);
+    }
+
+    public function test_unavailable_pin_endpoint_preserves_saved_credentials_without_claiming_admin_is_required(): void
+    {
+        $officeAdmin = $this->user(User::ROLE_OFFICE_ADMIN, '254700000018');
+        $credential = NawiriTreasuryCredential::create([
+            'email' => 'existing@example.com',
+            'password' => 'existing-password',
+            'pin' => '4321',
+            'verified_at' => now(),
+            'updated_by_id' => $officeAdmin->id,
+        ]);
+        Http::preventStrayRequests();
+        Http::fake([
+            'https://nawiri.test/api/auth/login' => Http::response(['access_token' => 'customer-token']),
+            'https://nawiri.test/api/auth/pin/verify' => Http::response(['error' => 'not found'], 404),
+        ]);
+
+        $this->actingAs($officeAdmin)->put(route('admin.nawiri-treasury.update'), [
+            'email' => 'customer@example.com',
+            'password' => 'new-password',
+            'pin' => '1234',
+        ])->assertSessionHasErrors([
+            'pin' => 'Nawiri could not verify that PIN. The treasury account was not changed.',
+        ]);
+
+        $this->assertSame('existing@example.com', $credential->fresh()->email);
+        $this->assertSame('existing-password', $credential->fresh()->password);
+        $this->assertSame('4321', $credential->fresh()->pin);
+        Http::assertSentCount(2);
     }
 
     public function test_blank_secret_fields_keep_the_existing_password_and_pin(): void
@@ -200,7 +230,7 @@ class NawiriTreasurySettingsTest extends TestCase
                 'access_token' => 'verified-token',
                 'expires_in' => 300,
             ]),
-            'https://nawiri.test/api/admin/pin/verify' => Http::response(['valid' => true]),
+            'https://nawiri.test/api/auth/pin/verify' => Http::response(['valid' => true]),
         ]);
 
         $this->actingAs($admin)->put(route('admin.nawiri-treasury.update'), [

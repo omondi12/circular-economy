@@ -21,9 +21,11 @@ NAWIRI_PAYROLL_RECONCILE_AFTER=60
 NAWIRI_PAYROLL_REVERSAL_WINDOW_HOURS=72
 ```
 
-An admin must save a funded Nawiri admin account from Admin, Nawiri Treasury.
-Payroll stays disabled until Nawiri verifies the email, password, admin access
-and transaction PIN. The site encrypts the saved password and PIN.
+An Admin or Office Admin must save a funded Nawiri account from Nawiri Treasury.
+Payroll stays disabled until Nawiri verifies the email, password and transaction
+PIN through `/api/auth/pin/verify`. A Nawiri customer account can fund payroll
+from its own wallet. Nawiri platform admin access is not required. The site
+encrypts the saved password and PIN. Only Office Admins can pay requisitions.
 
 Run Laravel's scheduler every minute so submitted payments reconcile without
 waiting for an administrator to open the page:
