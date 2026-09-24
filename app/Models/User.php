@@ -171,6 +171,19 @@ class User extends Authenticatable
     }
 
     /**
+     * Who can move money (Pay/reconcile) once a request is approved - the
+     * Nawiri payroll integration (2026-09-22) restricted this to admins
+     * only; the boss asked for Office Admin to get it back too
+     * (2026-09-24), same as approval already works for them. Supervisors
+     * are deliberately left out here unless asked, since only Office Admin
+     * was named.
+     */
+    public function canPayRequisitions(): bool
+    {
+        return in_array($this->role, [self::ROLE_ADMIN, self::ROLE_OFFICE_ADMIN], true);
+    }
+
+    /**
      * Per-request approval authorization (2026-09-19) - the single source
      * of truth used by both RequisitionController (to authorize the
      * action) and the admin/public requisition views (to decide whether to

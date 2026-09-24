@@ -111,7 +111,7 @@
                         @php
                             $totals = $requesterTotals[$req->requester_id] ?? ['days' => 0, 'cumulative' => 0];
                             $canApprove = auth()->user()->canApproveRequisition($req);
-                            $canPay = auth()->user()->isAdmin();
+                            $canPay = auth()->user()->canPayRequisitions();
                             $transportActivePayment = $req->activePayment('transport');
                             $airtimeActivePayment = $req->activePayment('airtime');
 							$recipientPhones = $req->recipientPhoneNumbers();
