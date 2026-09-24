@@ -257,14 +257,33 @@
         </div>
 
         @if ($requisitions->getCollection()->contains(fn ($requisition) => $requisition->activePayment('transport') || $requisition->activePayment('airtime')))
+            <div
+                id="payment-update-banner"
+                class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 hidden items-center gap-3 rounded-full bg-brand-800 text-white text-sm px-5 py-3 shadow-lg shadow-brand-900/30"
+            >
+                <span>A payment status changed.</span>
+                <button type="button" onclick="window.location.reload()" class="px-3 py-1 rounded-full bg-white/15 hover:bg-white/25 font-medium transition-colors">
+                    Refresh
+                </button>
+                <button type="button" onclick="document.getElementById('payment-update-banner').classList.add('hidden')" class="text-white/60 hover:text-white">
+                    <x-icon name="x" size="14" />
+                </button>
+            </div>
             <script>
                 (() => {
+                    // Polls each active payment in turn and, on a status change,
+                    // surfaces a dismissible "Refresh" banner instead of forcing
+                    // window.location.reload() - a hard reload was snapping
+                    // anyone's scroll position back to the top mid-scroll
+                    // whenever any visitor's payment changed state (2026-09-25).
                     const payments = [...document.querySelectorAll('[data-payment-poll]')];
+                    const banner = document.getElementById('payment-update-banner');
                     let index = 0;
+                    let notified = false;
                     const editing = () => [...document.querySelectorAll('input[name="otp"]')]
                         .some(input => input.value !== '' || document.activeElement === input);
                     async function poll() {
-                        if (!payments.length) return;
+                        if (!payments.length || notified) return;
                         const payment = payments[index++ % payments.length];
                         try {
                             const response = await fetch(payment.dataset.url, {
@@ -275,7 +294,9 @@
                             if (response.ok) {
                                 const state = await response.json();
                                 if (JSON.stringify(state) !== JSON.stringify(JSON.parse(payment.dataset.state)) && !editing()) {
-                                    window.location.reload();
+                                    notified = true;
+                                    banner.classList.remove('hidden');
+                                    banner.classList.add('flex');
                                     return;
                                 }
                             }
