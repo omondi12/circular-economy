@@ -8,7 +8,7 @@
         <div class="flex items-center justify-between mb-6">
             <x-page-header
                 title="My Requisitions"
-                subtitle="Daily transport and airtime requests - only admins can approve or decline."
+                subtitle="Daily transport and airtime requests. Admins, supervisors and office admins handle approvals; office admins handle payments."
             />
             <button
                 type="button" x-data @click="$dispatch('open-new-requisition')"

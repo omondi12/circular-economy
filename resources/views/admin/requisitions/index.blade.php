@@ -7,7 +7,7 @@
         <div class="flex items-start justify-between gap-4 mb-6">
             <x-page-header
                 title="Requisitions"
-                subtitle="Every RM/Supervisor transport and airtime request. Only admins can approve or decline."
+                subtitle="Admins, supervisors and office admins can review approvals. Only office admins can make payments."
                 :back="route('admin.dashboard')"
                 back-label="Back to admin"
             />
@@ -169,14 +169,15 @@
                                     @foreach ($transportPayments as $transportPayment)
                                         <div class="text-xs mt-1 {{ $transportPayment->status === 'completed' ? 'text-emerald-700' : ($transportPayment->status === 'failed' ? 'text-red-700' : 'text-amber-700') }}">
                                             {{ $transportPayment->phone_number }}:
-                                            {{ $transportPayment->status === 'submitted' ? 'JamboPay processing' : str_replace('_', ' ', ucfirst($transportPayment->status)) }}
+                                            {{ $transportPayment->requiresOtp() ? 'JamboPay OTP required' : ($transportPayment->status === 'submitted' ? 'JamboPay processing' : str_replace('_', ' ', ucfirst($transportPayment->status))) }}
                                             @if ($transportPayment->failure_reason)<div>{{ $transportPayment->failure_reason }}</div>@endif
                                         </div>
+                                        <x-payment-authorization :payment="$transportPayment" />
                                     @endforeach
                                     @if ($transportActivePayment && $canPay && $transportPayable === [])
                                         <p class="mt-1 text-xs text-amber-700">Checking automatically. Do not pay again.</p>
                                     @elseif ($req->transport_status === 'approved' && $transportPayable !== [] && $canPay)
-										<form method="POST" action="{{ route('admin.requisitions.transport.pay', $req) }}" class="flex flex-wrap items-center gap-1 mt-2" onsubmit="return confirm('Send KES {{ number_format(array_sum($transportPayable), 0) }} in transport to {{ count($transportPayable) }} unpaid recipient{{ count($transportPayable) === 1 ? '' : 's' }}?')">
+										<form method="POST" action="{{ route('admin.requisitions.transport.pay', $req) }}" class="flex flex-wrap items-center gap-1 mt-2">
                                             @csrf
                                             <button type="submit" class="px-2 py-1 rounded-md border border-gold-700 bg-gold-600 hover:bg-gold-700 text-white text-xs font-medium">
                                                 Pay {{ count($transportPayable) }} recipient{{ count($transportPayable) === 1 ? '' : 's' }} · KES {{ number_format(array_sum($transportPayable), 0) }}
@@ -219,14 +220,15 @@
                                     @foreach ($airtimePayments as $airtimePayment)
                                         <div class="text-xs mt-1 {{ $airtimePayment->status === 'completed' ? 'text-emerald-700' : ($airtimePayment->status === 'failed' ? 'text-red-700' : 'text-amber-700') }}">
                                             {{ $airtimePayment->phone_number }}:
-                                            {{ $airtimePayment->status === 'submitted' ? 'JamboPay processing' : str_replace('_', ' ', ucfirst($airtimePayment->status)) }}
+                                            {{ $airtimePayment->requiresOtp() ? 'JamboPay OTP required' : ($airtimePayment->status === 'submitted' ? 'JamboPay processing' : str_replace('_', ' ', ucfirst($airtimePayment->status))) }}
                                             @if ($airtimePayment->failure_reason)<div>{{ $airtimePayment->failure_reason }}</div>@endif
                                         </div>
+                                        <x-payment-authorization :payment="$airtimePayment" />
                                     @endforeach
                                     @if ($airtimeActivePayment && $canPay && $airtimePayable === [])
                                         <p class="mt-1 text-xs text-amber-700">Checking automatically. Do not pay again.</p>
                                     @elseif ($req->airtime_status === 'approved' && $airtimePayable !== [] && $canPay)
-										<form method="POST" action="{{ route('admin.requisitions.airtime.pay', $req) }}" class="flex flex-wrap items-center gap-1 mt-2" onsubmit="return confirm('Send KES {{ number_format(array_sum($airtimePayable), 0) }} in airtime to {{ count($airtimePayable) }} unpaid recipient{{ count($airtimePayable) === 1 ? '' : 's' }}?')">
+										<form method="POST" action="{{ route('admin.requisitions.airtime.pay', $req) }}" class="flex flex-wrap items-center gap-1 mt-2">
                                             @csrf
                                             <button type="submit" class="px-2 py-1 rounded-md border border-gold-700 bg-gold-600 hover:bg-gold-700 text-white text-xs font-medium">
                                                 Pay {{ count($airtimePayable) }} recipient{{ count($airtimePayable) === 1 ? '' : 's' }} · KES {{ number_format(array_sum($airtimePayable), 0) }}
@@ -256,7 +258,34 @@
 
         @if ($requisitions->getCollection()->contains(fn ($requisition) => $requisition->activePayment('transport') || $requisition->activePayment('airtime')))
             <script>
-                window.setTimeout(() => window.location.reload(), 10000);
+                (() => {
+                    const payments = [...document.querySelectorAll('[data-payment-poll]')];
+                    let index = 0;
+                    const editing = () => [...document.querySelectorAll('input[name="otp"]')]
+                        .some(input => input.value !== '' || document.activeElement === input);
+                    async function poll() {
+                        if (!payments.length) return;
+                        const payment = payments[index++ % payments.length];
+                        try {
+                            const response = await fetch(payment.dataset.url, {
+                                method: 'POST',
+                                headers: {'Accept': 'application/json', 'X-CSRF-TOKEN': @js(csrf_token())},
+                                signal: AbortSignal.timeout(65000),
+                            });
+                            if (response.ok) {
+                                const state = await response.json();
+                                if (JSON.stringify(state) !== JSON.stringify(JSON.parse(payment.dataset.state)) && !editing()) {
+                                    window.location.reload();
+                                    return;
+                                }
+                            }
+                        } catch (_) {
+                            // Keep the payment visible and retry the status check later.
+                        }
+                        window.setTimeout(poll, 10000);
+                    }
+                    window.setTimeout(poll, 10000);
+                })();
             </script>
         @endif
 </x-layout>

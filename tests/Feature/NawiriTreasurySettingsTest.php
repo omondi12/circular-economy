@@ -196,6 +196,7 @@ class NawiriTreasurySettingsTest extends TestCase
     public function test_payroll_uses_the_saved_treasury_account(): void
     {
         $admin = $this->user(User::ROLE_ADMIN, '254700000015');
+        $officeAdmin = $this->user(User::ROLE_OFFICE_ADMIN, '254700000016');
         $requester = $this->user(User::ROLE_RM, '254712345678');
         NawiriTreasuryCredential::create([
             'email' => 'saved@example.com',
@@ -228,7 +229,7 @@ class NawiriTreasurySettingsTest extends TestCase
             ]),
         ]);
 
-        $this->actingAs($admin)->post(route('admin.requisitions.transport.pay', $requisition), [
+        $this->actingAs($officeAdmin)->post(route('admin.requisitions.transport.pay', $requisition), [
             'paid_amount' => 10,
             'recipient_phone' => '254712345678',
         ])->assertSessionHasNoErrors();

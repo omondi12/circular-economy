@@ -147,6 +147,11 @@ class User extends Authenticatable
         return $this->role === self::ROLE_OFFICE_ADMIN;
     }
 
+    public function canPayRequisitions(): bool
+    {
+        return $this->isOfficeAdmin();
+    }
+
     /**
      * Supervisors get the same admin-area access as admins (per the boss's
      * decision, 2026-09-05) - a distinct role so their actions are their
@@ -171,27 +176,16 @@ class User extends Authenticatable
     }
 
     /**
-     * Who can move money (Pay/reconcile) once a request is approved - the
-     * Nawiri payroll integration (2026-09-22) restricted this to admins
-     * only; the boss asked for Office Admin to get it back too
-     * (2026-09-24), same as approval already works for them. Supervisors
-     * are deliberately left out here unless asked, since only Office Admin
-     * was named.
-     */
-    public function canPayRequisitions(): bool
-    {
-        return in_array($this->role, [self::ROLE_ADMIN, self::ROLE_OFFICE_ADMIN], true);
-    }
-
-    /**
      * Who can correct a requisition's own submitted details (institution,
      * working day, recipient number(s), requested amounts) after the fact
      * - added 2026-09-24 so mistakes (a mistyped date, wrong institution)
      * don't need a direct database fix every time. Deliberately does NOT
      * cover approval/payment state - those stay governed by
      * Approve/Decline/Pay so the audit trail and Nawiri payment ledger
-     * stay consistent. Same admin + Office Admin pairing as
-     * canPayRequisitions().
+     * stay consistent. Broader than canPayRequisitions() (admin +
+     * Office Admin, not Office Admin only) - correcting a typo isn't
+     * moving money, so admins keep this even though Pay is now
+     * Office-Admin-only.
      */
     public function canEditRequisitions(): bool
     {
@@ -202,7 +196,7 @@ class User extends Authenticatable
      * Per-request approval authorization (2026-09-19) - the single source
      * of truth used by both RequisitionController (to authorize the
      * action) and the admin/public requisition views (to decide whether to
-     * even show the Approve/Decline/Paid buttons for that row). Admins are
+     * show the Approve/Decline buttons for that row). Admins are
      * unrestricted, including approving their own - same as everywhere
      * else in the app. Supervisors and Office Admins can approve anyone's
      * request except their own; an Office Admin's request additionally

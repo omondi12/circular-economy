@@ -10,6 +10,7 @@ use App\Models\Setting;
 use App\Models\User;
 use App\Services\RequisitionPaymentService;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -19,12 +20,13 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
  * Daily transport + airtime facilitation requests, per the boss's brief
  * (2026-09-17, extended 2026-09-19). RMs, Supervisors and Office Admins
  * request for themselves; admins, supervisors and office admins can all
- * approve/decline/pay (see authorizeApproval() for the per-request rules -
+ * approve or decline, while only office admins can pay (see
+ * authorizeApproval() for the per-request rules -
  * nobody approves their own, and an Office Admin's request needs a
  * Supervisor or Admin, never another Office Admin). Three surfaces share
  * the same underlying data:
  *  - /requisitions        - a requester's own history + new-request form
- *  - /admin/requisitions  - every request, stat breakdown, approve/decline/pay
+ *  - /admin/requisitions  - every request, stat breakdown, approval and payment
  *  - /facilitation        - public, PIN-gated read-only breakdown for the
  *                           boss, since admin accounts are shared among
  *                           several people and he doesn't want to need one
@@ -188,7 +190,7 @@ class RequisitionController extends Controller
     }
 
     /**
-     * Every request, a stat breakdown, and the approve/decline/pay actions -
+     * Every request, a stat breakdown, and the approval/payment actions -
      * reachable by anyone who can approve requisitions (admin, supervisor,
      * office admin). Individual actions still run their own per-request
      * authorization (see authorizeApproval()).
@@ -357,22 +359,67 @@ class RequisitionController extends Controller
     public function reconcilePayment(
         RequisitionPayment $payment,
         RequisitionPaymentService $payments,
-    ): RedirectResponse {
+    ): RedirectResponse|JsonResponse {
         abort_unless(Auth::user()->canPayRequisitions(), 403);
+
+        $previousState = $payment->pollingState();
 
         try {
             $payment = $payments->reconcile($payment);
         } catch (NawiriPayrollException $exception) {
+            if (request()->expectsJson()) {
+                return response()->json(['error' => $exception->getMessage()], 503);
+            }
+
             return back()->withErrors(['payment' => $exception->getMessage()]);
         }
 
-        AuditLog::record('requisition.payment_reconciled', $payment->requisition, [
-            'payment_id' => $payment->id,
-            'payment_status' => $payment->status,
-            'nawiri_payment_id' => $payment->nawiri_payment_id,
-        ]);
+        if (! request()->expectsJson() || $previousState !== $payment->pollingState()) {
+            AuditLog::record('requisition.payment_reconciled', $payment->requisition, [
+                'payment_id' => $payment->id,
+                'payment_status' => $payment->status,
+                'nawiri_payment_id' => $payment->nawiri_payment_id,
+            ]);
+        }
+
+        if (request()->expectsJson()) {
+            return response()->json($payment->pollingState());
+        }
 
         return $this->paymentRedirect($payment);
+    }
+
+    public function authorizePayment(Request $request, RequisitionPayment $payment, RequisitionPaymentService $payments): RedirectResponse
+    {
+        abort_unless(Auth::user()->canPayRequisitions(), 403);
+        $data = $request->validate(['reference' => ['required', 'string', 'max:100'], 'otp' => ['required', 'string', 'regex:/^[0-9]{6}$/']]);
+        try {
+            $payment = $payments->authorize($payment, $data['reference'], $data['otp']);
+        } catch (NawiriPayrollException $exception) {
+            return back()->withErrors(['payment' => $exception->getMessage()]);
+        }
+        AuditLog::record('requisition.payment_authorized', $payment->requisition, ['payment_id' => $payment->id, 'payment_status' => $payment->status]);
+
+        return $this->paymentRedirect($payment);
+    }
+
+    public function resendPaymentOtp(Request $request, RequisitionPayment $payment, RequisitionPaymentService $payments): RedirectResponse
+    {
+        abort_unless(Auth::user()->canPayRequisitions(), 403);
+        $data = $request->validate(['reference' => ['required', 'string', 'max:100']]);
+        try {
+            $payment = $payments->authorize($payment, $data['reference'], null);
+        } catch (NawiriPayrollException $exception) {
+            return back()->withErrors(['payment' => $exception->getMessage()]);
+        }
+
+        if ($payment->requiresOtp()) {
+            AuditLog::record('requisition.payment_otp_resent', $payment->requisition, ['payment_id' => $payment->id, 'payment_status' => $payment->status]);
+        }
+
+        return $payment->requiresOtp()
+            ? back()->with('status', 'A new OTP was requested from JamboPay. Use it for payment '.$payment->provider_reference.'.')
+            : $this->paymentRedirect($payment);
     }
 
     public function declineAirtime(Requisition $requisition): RedirectResponse
@@ -511,7 +558,7 @@ class RequisitionController extends Controller
             $parts[] = $completedCount.' recipient'.($completedCount === 1 ? '' : 's').' paid';
         }
         if ($processingCount > 0) {
-            $parts[] = $processingCount.' transfer'.($processingCount === 1 ? '' : 's').' being checked automatically';
+            $parts[] = $processingCount.' transfer'.($processingCount === 1 ? '' : 's').' awaiting authorization or processing. Enter the JamboPay OTP when shown below';
         }
         if ($failures !== []) {
             $parts[] = count($failures).' failed';
@@ -552,11 +599,15 @@ class RequisitionController extends Controller
 
     private function paymentStatusMessage(RequisitionPayment $payment): string
     {
+        if ($payment->requiresOtp()) {
+            return 'Enter the JamboPay OTP below to authorize this payment.';
+        }
+
         return match ($payment->status) {
             RequisitionPayment::STATUS_COMPLETED => 'Nawiri confirmed the payment.',
             RequisitionPayment::STATUS_FAILED => 'Nawiri reported that the payment failed.',
-            RequisitionPayment::STATUS_PENDING_RECONCILIATION => 'Transfer sent. Nawiri is checking the payment rail automatically. No further action is needed.',
-            default => 'Transfer sent. JamboPay is processing the wallet movement. No further action is needed.',
+            RequisitionPayment::STATUS_PENDING_RECONCILIATION => 'Nawiri is checking the payment status. Do not pay again.',
+            default => 'JamboPay is processing this payment. This page will show any required OTP step.',
         };
     }
 

@@ -44,6 +44,25 @@ class NawiriPayrollClient
         return $this->decodePayoutResponse($response);
     }
 
+    public function authorize(RequisitionPayment $payment, string $reference, string $otp): array
+    {
+        $response = $this->withAuthenticationRetry(fn (PendingRequest $request) => $request
+            ->post("/api/jambopay/business/payroll/wallet/{$payment->nawiri_payment_id}/authorize", [
+                'reference' => $reference,
+                'otp' => $otp,
+            ]));
+
+        return $this->decodePayoutResponse($response);
+    }
+
+    public function resendOtp(RequisitionPayment $payment, string $reference): array
+    {
+        $response = $this->withAuthenticationRetry(fn (PendingRequest $request) => $request
+            ->post("/api/jambopay/business/payroll/wallet/{$payment->nawiri_payment_id}/otp", ['reference' => $reference]));
+
+        return $this->decodePayoutResponse($response);
+    }
+
     public function verifyCredentials(string $email, string $password, string $pin): array
     {
         try {

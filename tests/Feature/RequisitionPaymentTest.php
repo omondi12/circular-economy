@@ -37,7 +37,7 @@ class RequisitionPaymentTest extends TestCase
         ]);
     }
 
-    public function test_admin_pay_button_submits_an_idempotent_nawiri_payout_without_marking_it_paid_early(): void
+    public function test_office_admin_pay_button_submits_an_idempotent_nawiri_payout_without_marking_it_paid_early(): void
     {
         [$admin, $requisition] = $this->approvedRequisition();
 
@@ -164,7 +164,7 @@ class RequisitionPaymentTest extends TestCase
         $this->assertSame('0.00', $requisition->fresh()->transport_paid_amount);
     }
 
-    public function test_non_admin_approver_cannot_move_money(): void
+    public function test_supervisor_cannot_move_money(): void
     {
         [, $requisition] = $this->approvedRequisition();
         $supervisor = User::factory()->create([
@@ -181,6 +181,72 @@ class RequisitionPaymentTest extends TestCase
 
         $this->assertDatabaseCount('requisition_payments', 0);
         Http::assertNothingSent();
+    }
+
+    public function test_regular_admin_cannot_move_money(): void
+    {
+        [, $requisition] = $this->approvedRequisition();
+        $admin = User::factory()->create([
+            'role' => User::ROLE_ADMIN,
+            'phone_number' => '254700000005',
+        ]);
+
+        Http::fake();
+
+        $this->actingAs($admin)
+            ->post(route('admin.requisitions.transport.pay', $requisition))
+            ->assertForbidden();
+
+        $this->assertDatabaseCount('requisition_payments', 0);
+        Http::assertNothingSent();
+    }
+
+    public function test_regular_admin_cannot_reconcile_a_payment(): void
+    {
+        [$officeAdmin, $requisition] = $this->approvedRequisition();
+        $admin = User::factory()->create([
+            'role' => User::ROLE_ADMIN,
+            'phone_number' => '254700000006',
+        ]);
+        $payment = RequisitionPayment::create([
+            'requisition_id' => $requisition->id,
+            'initiated_by_id' => $officeAdmin->id,
+            'category' => RequisitionPayment::CATEGORY_TRANSPORT,
+            'amount_minor' => 150000,
+            'phone_number' => '254733333333',
+            'provider' => 'NAWIRI_WALLET',
+            'status' => RequisitionPayment::STATUS_SUBMITTED,
+            'idempotency_key' => 'regular-admin-cannot-reconcile',
+            'nawiri_payment_id' => '20000000-0000-4000-8000-000000000001',
+        ]);
+
+        Http::fake();
+
+        $this->actingAs($admin)
+            ->post(route('admin.requisition-payments.reconcile', $payment))
+            ->assertForbidden();
+
+        Http::assertNothingSent();
+    }
+
+    public function test_only_office_admin_sees_payment_controls(): void
+    {
+        [$officeAdmin, $requisition] = $this->approvedRequisition();
+        $admin = User::factory()->create([
+            'role' => User::ROLE_ADMIN,
+            'phone_number' => '254700000007',
+        ]);
+
+        $this->actingAs($admin)
+            ->get(route('admin.requisitions.index'))
+            ->assertOk()
+            ->assertDontSee('Pay 1 recipient', false);
+
+        $this->actingAs($officeAdmin)
+            ->get(route('admin.requisitions.index'))
+            ->assertOk()
+            ->assertSee('Pay 1 recipient', false)
+            ->assertSee(route('admin.requisitions.transport.pay', $requisition), false);
     }
 
     public function test_requester_can_supply_multiple_nawiri_recipient_numbers(): void
@@ -263,7 +329,7 @@ class RequisitionPaymentTest extends TestCase
         $this->assertSame('0.00', $requisition->fresh()->transport_paid_amount);
     }
 
-    public function test_admin_pay_action_ignores_tampered_recipient_and_amount_fields(): void
+    public function test_office_admin_pay_action_ignores_tampered_recipient_and_amount_fields(): void
     {
         [$admin, $requisition] = $this->approvedRequisition();
 
@@ -380,10 +446,125 @@ class RequisitionPaymentTest extends TestCase
         $this->assertSame(0.0, $requisition->fresh()->transportBalance());
     }
 
+    public function test_pay_otp_authorization_and_confirmation_credit_only_once(): void
+    {
+        [$admin, $requisition] = $this->approvedRequisition();
+        $settled = false;
+        $authorized = false;
+        $provider = fn () => ['payment' => [
+            'id' => 'otp-payment', 'status' => 'SUBMITTED', 'jpRef' => 'otp-ref',
+            'requiresOtp' => true, 'otpReference' => 'otp-ref', 'transferRoute' => 'DIRECT_WALLET',
+        ]];
+        Http::preventStrayRequests();
+        Http::fake(function (Request $request) use (&$settled, &$authorized, $provider) {
+            if (str_ends_with($request->url(), '/login')) {
+                return Http::response(['access_token' => 'token', 'expires_in' => 300]);
+            }
+            if (str_ends_with($request->url(), '/authorize')) {
+                $this->assertSame('123456', $request['otp']);
+                $this->assertSame('otp-ref', $request['reference']);
+                $authorized = true;
+            }
+            $response = $provider();
+            if ($authorized) {
+                $response['payment']['requiresOtp'] = false;
+                unset($response['payment']['otpReference']);
+            }
+            if ($settled) {
+                $response['payment']['status'] = 'COMPLETED';
+            }
+
+            return Http::response($response);
+        });
+
+        $this->actingAs($admin)->post(route('admin.requisitions.transport.pay', $requisition))->assertRedirect();
+        $payment = RequisitionPayment::sole();
+        $this->assertTrue($payment->requiresOtp());
+        $this->assertSame('0.00', $requisition->fresh()->transport_paid_amount);
+        $this->get(route('admin.requisitions.index'))->assertOk()
+            ->assertSee('JamboPay OTP required')->assertSee('Authorize payment')->assertSee('treasury account holder')->assertDontSee("confirm('Send", false);
+        $this->post(route('admin.requisition-payments.otp', $payment), ['reference' => 'otp-ref'])->assertSessionHas('status');
+        $this->post(route('admin.requisition-payments.authorize', $payment), ['reference' => 'otp-ref', 'otp' => '123456'])->assertRedirect();
+        $this->assertSame('0.00', $requisition->fresh()->transport_paid_amount);
+        $this->assertFalse($payment->fresh()->requiresOtp());
+
+        $settled = true;
+        foreach ([1, 2] as $_) {
+            $this->postJson(route('admin.requisition-payments.reconcile', $payment))->assertOk()->assertJson(['status' => 'completed', 'requiresOtp' => false]);
+        }
+        $this->assertSame('1500.00', $requisition->fresh()->transport_paid_amount);
+        $this->assertDatabaseCount('requisition_payments', 1);
+        $this->assertCount(1, Http::recorded(fn (Request $request) => str_ends_with($request->url(), '/wallet')));
+        $this->assertStringNotContainsString('123456', json_encode($payment->fresh()->getAttributes()));
+    }
+
+    public function test_rejected_and_uncertain_otps_keep_the_existing_payment_active(): void
+    {
+        [$admin, $requisition] = $this->approvedRequisition();
+        $payment = RequisitionPayment::create([
+            'requisition_id' => $requisition->id, 'initiated_by_id' => $admin->id,
+            'category' => 'transport', 'amount_minor' => 150000, 'phone_number' => '254733333333',
+            'provider' => 'NAWIRI_WALLET', 'status' => 'submitted', 'idempotency_key' => 'otp-existing',
+            'nawiri_payment_id' => 'otp-payment', 'provider_reference' => 'otp-ref',
+            'provider_response' => ['payment' => ['requiresOtp' => true, 'otpReference' => 'otp-ref']],
+        ]);
+        $this->actingAs($admin);
+        Http::preventStrayRequests();
+        $this->post(route('admin.requisition-payments.authorize', $payment), ['reference' => 'wrong', 'otp' => '123456'])->assertSessionHasErrors('payment');
+        $this->post(route('admin.requisition-payments.authorize', $payment), ['reference' => 'otp-ref', 'otp' => 'bad-code'])->assertSessionHasErrors('otp');
+        $this->assertNull(session()->getOldInput('otp'));
+        Http::assertNothingSent();
+        $responseCode = 400;
+        Http::fake([
+            '*/login' => Http::response(['access_token' => 'token', 'expires_in' => 300]),
+            '*/authorize' => function () use (&$responseCode) {
+                return Http::response(['error' => 'Authorization not confirmed '.$responseCode], $responseCode);
+            },
+        ]);
+        foreach ([400, 503] as $code) {
+            $responseCode = $code;
+            $this->post(route('admin.requisition-payments.authorize', $payment), ['reference' => 'otp-ref', 'otp' => '123456'])
+                ->assertSessionHasErrors(['payment' => 'Authorization not confirmed '.$code]);
+            $this->assertTrue($payment->fresh()->isActive());
+            $this->post(route('admin.requisitions.transport.pay', $requisition))->assertSessionHas('warning');
+            $this->assertDatabaseCount('requisition_payments', 1);
+            $this->assertSame('0.00', $requisition->fresh()->transport_paid_amount);
+        }
+        foreach ([User::ROLE_ADMIN, User::ROLE_SUPERVISOR, User::ROLE_RM] as $role) {
+            $actor = User::factory()->create(['role' => $role]);
+            foreach (['authorize', 'otp'] as $action) {
+                $this->actingAs($actor)->post(route('admin.requisition-payments.'.$action, $payment), ['reference' => 'otp-ref', 'otp' => '123456'])->assertForbidden();
+            }
+        }
+    }
+
+    public function test_real_nawiri_payroll_contract(): void
+    {
+        $baseUrl = getenv('NAWIRI_CONTRACT_BASE_URL');
+        if (! $baseUrl) {
+            $this->markTestSkipped('Run from Nawiri TestWestportPayrollContract with its isolated provider and database.');
+        }
+        $this->assertSame('127.0.0.1', parse_url($baseUrl, PHP_URL_HOST));
+        config()->set('services.nawiri_payroll.base_url', $baseUrl);
+        [$admin, $requisition] = $this->approvedRequisition(['254733333333'], 10);
+        $this->actingAs($admin)->post(route('admin.requisitions.transport.pay', $requisition))->assertRedirect()->assertSessionHasNoErrors();
+        $payment = RequisitionPayment::sole();
+        $this->assertTrue($payment->requiresOtp(), json_encode($payment->provider_response));
+        $this->assertSame('DIRECT_WALLET', data_get($payment->provider_response, 'payment.transferRoute'));
+        $this->assertSame('0.00', $requisition->fresh()->transport_paid_amount);
+        $this->post(route('admin.requisition-payments.otp', $payment), ['reference' => $payment->otpReference()])->assertSessionHasNoErrors();
+        $this->post(route('admin.requisition-payments.authorize', $payment), ['reference' => $payment->otpReference(), 'otp' => '123456'])->assertSessionHasNoErrors();
+        $this->assertSame('completed', $payment->fresh()->status);
+        $this->assertSame('10.00', $requisition->fresh()->transport_paid_amount);
+        $this->postJson(route('admin.requisition-payments.reconcile', $payment))->assertOk()->assertJson(['status' => 'completed']);
+        $this->assertSame('10.00', $requisition->fresh()->transport_paid_amount);
+        $this->assertDatabaseCount('requisition_payments', 1);
+    }
+
     private function approvedRequisition(array $recipientPhoneNumbers = ['254733333333'], int $transportAmount = 1500): array
     {
         $admin = User::factory()->create([
-            'role' => User::ROLE_ADMIN,
+            'role' => User::ROLE_OFFICE_ADMIN,
             'phone_number' => '254700000001',
         ]);
         $requester = User::factory()->create([
