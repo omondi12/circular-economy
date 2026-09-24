@@ -85,7 +85,7 @@
                     <div class="px-4 py-2 flex flex-col justify-center">
                         <input
                             type="date" id="working_day" name="working_day" required
-                            value="{{ old('working_day', now()->addDay()->toDateString()) }}"
+                            value="{{ old('working_day', now()->toDateString()) }}"
                             class="w-full border-0 focus:ring-0 text-sm py-1.5 px-0 text-ink"
                         >
                         @error('working_day')
