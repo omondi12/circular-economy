@@ -25,9 +25,6 @@
                         {{ $rm->is_active ? 'Active' : 'Inactive' }}
                     </span>
                     <span class="inline-flex px-2.5 py-1 rounded-full bg-panel-high text-ink-faint text-xs font-medium">
-                        Supervisor: {{ $rm->supervisor->name ?? '—' }}
-                    </span>
-                    <span class="inline-flex px-2.5 py-1 rounded-full bg-panel-high text-ink-faint text-xs font-medium">
                         On the team since {{ $rm->created_at->format('d M Y') }}
                     </span>
                 </div>
@@ -35,14 +32,15 @@
         </div>
 
         {{-- Summary stats --}}
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        <div class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 mb-8">
             <x-stat-tile label="Assigned Clients" :value="number_format($clients->count())" icon="circle-check" tone="green" />
+            <x-stat-tile label="Assigned State Departments" :value="number_format($stateDepartments->count())" icon="stamp" tone="rose" />
             <x-stat-tile label="Assigned Ministries" :value="number_format($ministries->count())" icon="building" tone="teal" />
             <x-stat-tile label="Collections Recorded" :value="number_format($totalCollections)" :hint="number_format($totalQuantity, 1).' total quantity (mixed units)'" icon="scale" tone="gold" />
             <x-stat-tile label="Facilitations Made" :value="number_format($requisitions->count())" :hint="number_format($pendingCount).' pending'" icon="calendar" tone="violet" />
         </div>
 
-        <div class="grid grid-cols-1 xl:grid-cols-2 gap-6 mb-8">
+        <div class="grid grid-cols-1 xl:grid-cols-3 gap-6 mb-8">
             {{-- Assigned clients --}}
             <div class="bg-panel border border-border rounded-xl overflow-hidden shadow-sm">
                 <div class="px-5 py-4 border-b border-border flex items-center justify-between">
@@ -57,6 +55,24 @@
                         </a>
                     @empty
                         <p class="px-5 py-8 text-center text-sm text-ink-faint">No clients assigned yet.</p>
+                    @endforelse
+                </div>
+            </div>
+
+            {{-- Assigned state departments --}}
+            <div class="bg-panel border border-border rounded-xl overflow-hidden shadow-sm">
+                <div class="px-5 py-4 border-b border-border flex items-center justify-between">
+                    <h3 class="text-sm font-semibold uppercase tracking-wide text-ink-muted">Assigned State Departments</h3>
+                    <span class="text-xs text-ink-faint">{{ number_format($stateDepartments->count()) }} total</span>
+                </div>
+                <div class="max-h-96 overflow-y-auto divide-y divide-border">
+                    @forelse ($stateDepartments as $department)
+                        <a href="{{ route('state-departments.show', $department) }}" class="block px-5 py-3 hover:bg-panel-muted transition-colors">
+                            <p class="text-sm font-medium text-ink">{{ $department->name }}</p>
+                            <p class="text-xs text-ink-faint mt-0.5">{{ $department->parent->name ?? '—' }}</p>
+                        </a>
+                    @empty
+                        <p class="px-5 py-8 text-center text-sm text-ink-faint">No state departments assigned yet.</p>
                     @endforelse
                 </div>
             </div>

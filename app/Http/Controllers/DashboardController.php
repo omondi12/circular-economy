@@ -481,6 +481,7 @@ class DashboardController extends Controller
 
         $clients = $rm->effectiveStateCorporations()->with('ministry')->orderBy('name')->get();
         $ministries = $rm->assignedMinistries()->orderBy('name')->get();
+        $stateDepartments = $rm->assignedStateDepartments()->with('parent')->orderBy('name')->get();
 
         $collections = $rm->collections()->orderByDesc('collection_date')->orderByDesc('id')->limit(20)->get();
         $totalCollections = $rm->collections()->count();
@@ -493,6 +494,7 @@ class DashboardController extends Controller
             'rm' => $rm,
             'clients' => $clients,
             'ministries' => $ministries,
+            'stateDepartments' => $stateDepartments,
             'collections' => $collections,
             'totalCollections' => $totalCollections,
             'totalQuantity' => $totalQuantity,
