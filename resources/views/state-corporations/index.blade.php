@@ -100,7 +100,7 @@
                             </td>
                             <td class="px-4 py-3 whitespace-nowrap">
                                 @if ($corp->ministry)
-                                    <span class="text-ink-faint">{{ $corp->ministry->name }}</span>
+                                    <span class="text-ink-faint">{{ $corp->ministryDisplay() }}</span>
                                 @elseif ($corp->ministryDisplay() === 'Independent')
                                     <span class="italic text-ink-faint">Independent</span>
                                 @else

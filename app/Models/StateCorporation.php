@@ -60,8 +60,21 @@ class StateCorporation extends Model
      */
     public function ministryDisplay(): string
     {
-        if ($this->ministry) {
-            return $this->ministry->name;
+        $entity = $this->ministry;
+
+        if ($entity) {
+            // $ministry can be assigned at any level since
+            // clients:link-state-departments started pointing it at a
+            // client's real state department (2026-09-28) rather than
+            // always the top-level ministry - this always walks up to
+            // the actual Ministry name for this column, regardless of
+            // which level ministry_id happens to point at. Use
+            // stateDepartmentDisplay() for the department itself.
+            return match ($entity->level) {
+                GovernmentEntity::LEVEL_STATE_DEPARTMENT => $entity->parent?->name ?? $entity->name,
+                GovernmentEntity::LEVEL_INSTITUTION => $entity->parent?->parent?->name ?? $entity->parent?->name ?? $entity->name,
+                default => $entity->name,
+            };
         }
 
         if ($this->classification === 'Private Company') {
