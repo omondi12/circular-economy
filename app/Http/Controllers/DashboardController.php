@@ -47,7 +47,6 @@ class DashboardController extends Controller
         $unassignedClientCount = StateCorporation::whereNull('assigned_rm_id')->count();
 
         $rmCount = User::where('role', User::ROLE_RM)->count();
-        $supervisorCount = User::where('role', User::ROLE_SUPERVISOR)->count();
 
         $stateDepartmentTotal = GovernmentEntity::where('level', GovernmentEntity::LEVEL_STATE_DEPARTMENT)->count();
         $stateDepartmentHandledCount = GovernmentEntity::where('level', GovernmentEntity::LEVEL_STATE_DEPARTMENT)->whereNotNull('assigned_rm_id')->count();
@@ -71,7 +70,6 @@ class DashboardController extends Controller
             'assignedClientCount' => $assignedClientCount,
             'unassignedClientCount' => $unassignedClientCount,
             'rmCount' => $rmCount,
-            'supervisorCount' => $supervisorCount,
             'stateDepartmentTotal' => $stateDepartmentTotal,
             'stateDepartmentHandledCount' => $stateDepartmentHandledCount,
             'materialItemCount' => $materialItemCount,
