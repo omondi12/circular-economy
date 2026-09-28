@@ -1,7 +1,7 @@
 <x-layout title="My Clients">
         <x-page-header
             title="My Clients"
-            subtitle="Pick a client to log an engagement report against."
+            subtitle="Every client assigned to you, their CEO and state department contact, and where to log an engagement report."
             :back="route('rm.dashboard')"
             back-label="Back to my dashboard"
         />
@@ -29,16 +29,33 @@
                 <thead class="bg-brand-50 text-left text-ink-faint">
                     <tr>
                         <th class="px-4 py-2 font-medium">Client</th>
+                        <th class="px-4 py-2 font-medium">CEO</th>
                         <th class="px-4 py-2 font-medium">Ministry</th>
+                        <th class="px-4 py-2 font-medium">State Department</th>
+                        <th class="px-4 py-2 font-medium">Department Contact</th>
                         <th class="px-4 py-2 font-medium">Reports Logged</th>
                         <th class="px-4 py-2 font-medium"></th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-border">
                     @forelse ($clients as $client)
-                        <tr class="hover:bg-panel-muted transition-colors">
+                        <tr class="hover:bg-panel-muted transition-colors align-top">
                             <td class="px-4 py-3 font-medium">{{ $client->name }}</td>
-                            <td class="px-4 py-3 text-ink-muted">{{ $client->ministryDisplay() }}</td>
+                            <td class="px-4 py-3 text-ink-muted">{{ $client->ceo_name ?: '—' }}</td>
+                            <td class="px-4 py-3 text-ink-muted whitespace-nowrap max-w-xs">
+                                <div class="line-clamp-2">{{ $client->ministryDisplay() }}</div>
+                            </td>
+                            <td class="px-4 py-3 text-ink-muted whitespace-nowrap max-w-xs">
+                                <div class="line-clamp-2">{{ $client->stateDepartmentDisplay() }}</div>
+                            </td>
+                            <td class="px-4 py-3 text-ink-muted">
+                                @if ($client->stateDepartmentContactName() || $client->stateDepartmentContactPhone())
+                                    <div>{{ $client->stateDepartmentContactName() ?: '—' }}</div>
+                                    <div class="text-xs text-ink-faint tabular-nums">{{ $client->stateDepartmentContactPhone() }}</div>
+                                @else
+                                    —
+                                @endif
+                            </td>
                             <td class="px-4 py-3 tabular-nums text-ink-muted">{{ number_format($client->reports_count) }}</td>
                             <td class="px-4 py-3 text-right">
                                 <a href="{{ route('rm.clients.reports.index', $client) }}" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-md bg-gold-50 text-gold-700 text-xs font-medium hover:bg-gold-100 transition-colors">
@@ -48,7 +65,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="4" class="px-4 py-8 text-center text-ink-faint">No clients assigned to you yet.</td>
+                            <td colspan="7" class="px-4 py-8 text-center text-ink-faint">No clients assigned to you yet.</td>
                         </tr>
                     @endforelse
                 </tbody>

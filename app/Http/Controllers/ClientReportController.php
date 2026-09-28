@@ -151,6 +151,7 @@ class ClientReportController extends Controller
 
         $clients = ($user->isAdmin() ? StateCorporation::query() : $user->assignedStateCorporations())
             ->withCount('reports')
+            ->with('ministry.parent')
             ->when($search, fn ($q, $v) => $q->where('name', 'like', "%{$v}%"))
             ->orderBy('name')
             ->get();

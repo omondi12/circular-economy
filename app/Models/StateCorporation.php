@@ -85,21 +85,51 @@ class StateCorporation extends Model
      */
     public function stateDepartmentDisplay(): string
     {
+        return $this->stateDepartmentEntity()?->name ?? '—';
+    }
+
+    /**
+     * Who the RM should call at this client's state department - the
+     * contact person set via Assign RMs -> State Departments (2026-09-28).
+     * Null when the department has none on file yet, same as
+     * stateDepartmentEntity() being null when the client isn't linked to
+     * one at all.
+     */
+    public function stateDepartmentContactName(): ?string
+    {
+        return $this->stateDepartmentEntity()?->contact_person_name;
+    }
+
+    public function stateDepartmentContactPhone(): ?string
+    {
+        return $this->stateDepartmentEntity()?->contact_person_phone;
+    }
+
+    /**
+     * Shared resolution behind stateDepartmentDisplay() and the contact
+     * lookups above - $ministry can be assigned at any level (ministry,
+     * state department, or institution), so this walks up from an
+     * institution to its department, returns a department directly, or
+     * null when the client is assigned straight to a ministry (no
+     * specific department) or has no ministry at all.
+     */
+    private function stateDepartmentEntity(): ?GovernmentEntity
+    {
         $entity = $this->ministry;
 
         if (! $entity) {
-            return '—';
+            return null;
         }
 
         if ($entity->level === GovernmentEntity::LEVEL_STATE_DEPARTMENT) {
-            return $entity->name;
+            return $entity;
         }
 
         if ($entity->level === GovernmentEntity::LEVEL_INSTITUTION && $entity->parent?->level === GovernmentEntity::LEVEL_STATE_DEPARTMENT) {
-            return $entity->parent->name;
+            return $entity->parent;
         }
 
-        return '—';
+        return null;
     }
 
     public function scopePhaseOne($query)
