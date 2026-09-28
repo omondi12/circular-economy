@@ -16,7 +16,7 @@
     <header class="sticky top-0 z-40 bg-panel/90 backdrop-blur border-b border-border" x-data="{ mobileOpen: false }">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
-                <a href="{{ route('dashboard') }}" class="flex items-center gap-2.5 shrink-0 group">
+                <a href="{{ auth()->check() ? route(auth()->user()->homeRouteName()) : route('dashboard') }}" class="flex items-center gap-2.5 shrink-0 group">
                     <span class="relative w-8 h-8 shrink-0">
                         <svg viewBox="0 0 32 32" class="w-8 h-8 loop-spin" style="animation-play-state: paused" onmouseover="this.style.animationPlayState='running'">
                             <path d="M16 4 A12 12 0 0 1 27.8 14" fill="none" stroke="#147041" stroke-width="3.2" stroke-linecap="round"/>
