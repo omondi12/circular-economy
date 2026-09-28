@@ -84,6 +84,18 @@ class User extends Authenticatable
         return $this->hasMany(GovernmentEntity::class, 'assigned_rm_id')->where('level', GovernmentEntity::LEVEL_MINISTRY);
     }
 
+    /**
+     * The state department(s) an RM is assigned directly (2026-09-28, per
+     * the boss - finer-grained than assignedMinistries(), since one
+     * ministry can have several departments split across different RMs).
+     * Surfaced on the RM's own dashboard alongside its contact person, so
+     * they know who to reach out to in that department.
+     */
+    public function assignedStateDepartments(): HasMany
+    {
+        return $this->hasMany(GovernmentEntity::class, 'assigned_rm_id')->where('level', GovernmentEntity::LEVEL_STATE_DEPARTMENT);
+    }
+
     public function assignedStateCorporations(): HasMany
     {
         return $this->hasMany(StateCorporation::class, 'assigned_rm_id');

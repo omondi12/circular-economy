@@ -14,7 +14,7 @@ class GovernmentEntity extends Model
 
     public const LEVEL_INSTITUTION = 3;
 
-    protected $fillable = ['parent_id', 'name', 'type', 'level', 'status', 'assigned_rm_id'];
+    protected $fillable = ['parent_id', 'name', 'type', 'level', 'status', 'assigned_rm_id', 'contact_person_name', 'contact_person_phone'];
 
     public function parent(): BelongsTo
     {

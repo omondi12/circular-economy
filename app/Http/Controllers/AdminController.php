@@ -303,7 +303,9 @@ class AdminController extends Controller
     {
         $viewer = auth()->user();
 
-        $validViews = $viewer->isAdmin() ? ['ministries', 'clients', 'supervisors'] : ['ministries', 'clients'];
+        $validViews = $viewer->isAdmin()
+            ? ['ministries', 'state-departments', 'clients', 'supervisors']
+            : ['ministries', 'state-departments', 'clients'];
         $view = $request->string('view')->toString();
         $view = in_array($view, $validViews, true) ? $view : 'ministries';
 
@@ -345,6 +347,20 @@ class AdminController extends Controller
                 'clients' => $clients,
                 'search' => $search,
                 'status' => $status,
+            ]);
+        }
+
+        if ($view === 'state-departments') {
+            $stateDepartments = GovernmentEntity::where('level', GovernmentEntity::LEVEL_STATE_DEPARTMENT)
+                ->visibleTo($viewer)
+                ->orderBy('id')
+                ->with(['assignedRm', 'parent'])
+                ->get();
+
+            return view('admin.assign-rms', [
+                'view' => $view,
+                'rms' => $rms,
+                'stateDepartments' => $stateDepartments,
             ]);
         }
 
@@ -400,6 +416,108 @@ class AdminController extends Controller
         return back()->with('status', $newRm
             ? "{$ministry->name} assigned to {$newRm->name} ({$clientsUpdated} client(s) under it linked too)."
             : "{$ministry->name} unassigned.");
+    }
+
+    /**
+     * Same shift/reassign behaviour as assignMinistryRm, one level down
+     * (2026-09-28, per the boss - a ministry can have several state
+     * departments split across different RMs, finer than a ministry-wide
+     * assignment). Cascades to every client under this department -
+     * either assigned straight to the department, or to an institution
+     * whose parent is this department - same "any level" rule
+     * StateCorporation::stateDepartmentDisplay() already walks.
+     */
+    public function assignStateDepartmentRm(Request $request, GovernmentEntity $stateDepartment): RedirectResponse
+    {
+        abort_unless($stateDepartment->level === GovernmentEntity::LEVEL_STATE_DEPARTMENT, 404);
+
+        $viewer = auth()->user();
+        abort_unless(GovernmentEntity::whereKey($stateDepartment->id)->visibleTo($viewer)->exists(), 403);
+
+        $data = $request->validate([
+            'assigned_rm_id' => ['nullable', 'integer', 'exists:users,id'],
+        ]);
+
+        $previousRm = $stateDepartment->assignedRm?->name;
+        $newRm = $data['assigned_rm_id'] ? User::visibleRmsFor($viewer)->find($data['assigned_rm_id']) : null;
+        abort_if($data['assigned_rm_id'] && ! $newRm, 403);
+
+        $stateDepartment->update(['assigned_rm_id' => $newRm?->id]);
+
+        $clientsUpdated = 0;
+        if ($newRm) {
+            $institutionIds = GovernmentEntity::where('parent_id', $stateDepartment->id)
+                ->where('level', GovernmentEntity::LEVEL_INSTITUTION)
+                ->pluck('id');
+
+            $clientsUpdated = StateCorporation::where('ministry_id', $stateDepartment->id)
+                ->orWhereIn('ministry_id', $institutionIds)
+                ->update(['assigned_rm_id' => $newRm->id]);
+        }
+
+        AuditLog::record('state_department.rm_assigned', $stateDepartment, [
+            'state_department' => $stateDepartment->name,
+            'previous_rm' => $previousRm,
+            'new_rm' => $newRm?->name,
+            'clients_linked' => $clientsUpdated,
+        ]);
+
+        return back()->with('status', $newRm
+            ? "{$stateDepartment->name} assigned to {$newRm->name} ({$clientsUpdated} client(s) under it linked too)."
+            : "{$stateDepartment->name} unassigned.");
+    }
+
+    /**
+     * The RM's on-the-ground contact at a state department - name and
+     * phone number, admin-only (2026-09-28, per the boss). Shown to the
+     * RM(s) assigned to that department on their own dashboard.
+     */
+    public function updateStateDepartmentContact(Request $request, GovernmentEntity $stateDepartment): RedirectResponse
+    {
+        abort_unless(auth()->user()->isAdmin(), 403);
+        abort_unless($stateDepartment->level === GovernmentEntity::LEVEL_STATE_DEPARTMENT, 404);
+
+        $data = $request->validate([
+            'contact_person_name' => ['nullable', 'string', 'max:255'],
+            'contact_person_phone' => ['nullable', 'string', 'max:50'],
+        ]);
+
+        $stateDepartment->update([
+            'contact_person_name' => $data['contact_person_name'] ?: null,
+            'contact_person_phone' => $data['contact_person_phone'] ? PhoneNumber::normalizeKenyan($data['contact_person_phone']) : null,
+        ]);
+
+        AuditLog::record('state_department.contact_updated', $stateDepartment, [
+            'state_department' => $stateDepartment->name,
+            'contact_person_name' => $stateDepartment->contact_person_name,
+            'contact_person_phone' => $stateDepartment->contact_person_phone,
+        ]);
+
+        return back()->with('status', "Contact person for {$stateDepartment->name} updated.");
+    }
+
+    /**
+     * A client's CEO name - admin-only (2026-09-28, per the boss). Not
+     * sourced from Executive Order No. 1 of 2025 (it only lists Principal
+     * Secretaries per state department, not institution CEOs), so this is
+     * plain manual entry, filled in over time.
+     */
+    public function updateClientCeo(Request $request, StateCorporation $stateCorporation): RedirectResponse
+    {
+        abort_unless(auth()->user()->isAdmin(), 403);
+
+        $data = $request->validate([
+            'ceo_name' => ['nullable', 'string', 'max:255'],
+        ]);
+
+        $stateCorporation->update(['ceo_name' => $data['ceo_name'] ?: null]);
+
+        AuditLog::record('client.ceo_updated', $stateCorporation, [
+            'client' => $stateCorporation->name,
+            'ceo_name' => $stateCorporation->ceo_name,
+        ]);
+
+        return back()->with('status', "CEO for {$stateCorporation->name} updated.");
     }
 
     /**

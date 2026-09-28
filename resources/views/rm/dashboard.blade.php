@@ -44,6 +44,29 @@
             </div>
         </header>
 
+        @if ($assignedStateDepartments->isNotEmpty())
+            <div class="bg-panel border border-border rounded-xl overflow-hidden shadow-sm mb-6">
+                <div class="px-5 py-4 border-b border-border">
+                    <h2 class="text-sm font-semibold uppercase tracking-wide text-ink-muted">My State Department(s)</h2>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 p-5">
+                    @foreach ($assignedStateDepartments as $department)
+                        <div class="rounded-lg border border-border p-4">
+                            <p class="text-sm font-semibold text-ink">{{ $department->name }}</p>
+                            <p class="text-xs text-ink-faint mb-2">{{ $department->parent->name ?? '' }}</p>
+                            @if ($department->contact_person_name || $department->contact_person_phone)
+                                <p class="text-xs text-ink-faint uppercase tracking-wide mt-2">Contact Person</p>
+                                <p class="text-sm text-ink-muted">{{ $department->contact_person_name ?: '—' }}</p>
+                                <p class="text-sm text-ink-muted tabular-nums">{{ $department->contact_person_phone }}</p>
+                            @else
+                                <p class="text-xs text-ink-faint italic">No contact person on file yet.</p>
+                            @endif
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        @endif
+
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
             <x-stat-tile label="My Submissions" :value="number_format($totalSubmissions)" icon="document" tone="green" />
             <x-stat-tile label="Total Quantity Recorded" :value="number_format($totalQuantity, 1)" hint="Mixed units - see submissions below" icon="scale" tone="gold" />

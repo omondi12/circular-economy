@@ -24,7 +24,7 @@ class StateCorporation extends Model
         'Constitutional Commission', 'Independent Office', 'Judiciary', 'Legislature', 'Private Company',
     ];
 
-    protected $fillable = ['name', 'cluster', 'class', 'subclass', 'classification', 'ministry_id', 'phase', 'assigned_rm_id'];
+    protected $fillable = ['name', 'cluster', 'class', 'subclass', 'classification', 'ministry_id', 'phase', 'assigned_rm_id', 'ceo_name'];
 
     protected function casts(): array
     {

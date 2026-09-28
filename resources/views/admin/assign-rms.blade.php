@@ -13,7 +13,7 @@
         />
 
         <div class="inline-flex flex-wrap rounded-lg border border-border bg-white p-1 text-sm mb-6">
-            @foreach ((auth()->user()->isAdmin() ? ['ministries' => 'Ministries', 'clients' => 'Clients', 'supervisors' => 'Supervisors'] : ['ministries' => 'Ministries', 'clients' => 'Clients']) as $key => $label)
+            @foreach ((auth()->user()->isAdmin() ? ['ministries' => 'Ministries', 'state-departments' => 'State Departments', 'clients' => 'Clients', 'supervisors' => 'Supervisors'] : ['ministries' => 'Ministries', 'state-departments' => 'State Departments', 'clients' => 'Clients']) as $key => $label)
                 <a
                     href="{{ route('admin.assign-rms', ['view' => $key]) }}"
                     @class([
@@ -80,6 +80,81 @@
                     </tbody>
                 </table>
             </div>
+        @elseif ($view === 'state-departments')
+            <p class="text-sm text-ink-faint mb-4">
+                {{ $stateDepartments->count() }} state department(s). Assign each one to the RM covering it directly, finer than a ministry-wide assignment.
+                @if (auth()->user()->isAdmin())
+                    The contact person is who that RM reaches out to there - only admins can edit it.
+                @endif
+            </p>
+
+            <div class="bg-panel border border-border rounded-xl overflow-hidden shadow-sm overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead class="bg-brand-50 text-left text-ink-faint">
+                        <tr>
+                            <th class="px-4 py-2 font-medium">State Department</th>
+                            <th class="px-4 py-2 font-medium">Ministry</th>
+                            <th class="px-4 py-2 font-medium">Contact Person</th>
+                            <th class="px-4 py-2 font-medium">Currently Assigned</th>
+                            <th class="px-4 py-2 font-medium">Assign To</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-border">
+                        @forelse ($stateDepartments as $department)
+                            <tr class="hover:bg-panel-muted transition-colors align-top">
+                                <td class="px-4 py-3 font-medium max-w-md">
+                                    <div class="line-clamp-2">{{ $department->name }}</div>
+                                </td>
+                                <td class="px-4 py-3 text-ink-faint max-w-xs">
+                                    <div class="line-clamp-2">{{ $department->parent->name ?? '—' }}</div>
+                                </td>
+                                <td class="px-4 py-3 min-w-[220px]">
+                                    @if (auth()->user()->isAdmin())
+                                        <form method="POST" action="{{ route('admin.assign-rms.state-departments.contact', $department) }}" class="flex flex-col gap-1.5">
+                                            @csrf
+                                            <input
+                                                type="text" name="contact_person_name" value="{{ $department->contact_person_name }}"
+                                                placeholder="Contact person name"
+                                                class="w-full rounded-md border border-border bg-white px-2 py-1 text-xs text-ink placeholder:text-ink-faint focus:outline-none focus:ring-2 focus:ring-brand-600/30 focus:border-brand-600"
+                                            >
+                                            <input
+                                                type="text" name="contact_person_phone" value="{{ $department->contact_person_phone }}"
+                                                placeholder="Phone number"
+                                                class="w-full rounded-md border border-border bg-white px-2 py-1 text-xs text-ink placeholder:text-ink-faint focus:outline-none focus:ring-2 focus:ring-brand-600/30 focus:border-brand-600"
+                                            >
+                                            <button type="submit" class="self-start text-xs font-medium text-brand-700 hover:text-brand-800">Save</button>
+                                        </form>
+                                    @else
+                                        <div class="text-ink-muted">{{ $department->contact_person_name ?: '—' }}</div>
+                                        <div class="text-xs text-ink-faint tabular-nums">{{ $department->contact_person_phone }}</div>
+                                    @endif
+                                </td>
+                                <td class="px-4 py-3 text-ink-muted">
+                                    {{ $department->assignedRm->name ?? '—' }}
+                                </td>
+                                <td class="px-4 py-3">
+                                    <form method="POST" action="{{ route('admin.assign-rms.state-departments.update', $department) }}">
+                                        @csrf
+                                        <select
+                                            name="assigned_rm_id" onchange="this.form.submit()"
+                                            class="rounded-lg border border-border bg-white px-3 py-1.5 text-sm text-ink focus:outline-none focus:ring-2 focus:ring-brand-600/30 focus:border-brand-600"
+                                        >
+                                            <option value="">— Unassigned —</option>
+                                            @foreach ($rms as $rm)
+                                                <option value="{{ $rm->id }}" @selected($department->assigned_rm_id === $rm->id)>{{ $rm->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </form>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="5" class="px-4 py-8 text-center text-ink-faint">No state departments visible to you.</td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
         @elseif ($view === 'clients')
             @if (auth()->user()->isAdmin())
                 <div class="flex items-center justify-end mb-4">
@@ -132,6 +207,7 @@
                     <thead class="bg-brand-50 text-left text-ink-faint">
                         <tr>
                             <th class="px-4 py-2 font-medium">Client</th>
+                            <th class="px-4 py-2 font-medium">CEO</th>
                             <th class="px-4 py-2 font-medium">Ministry</th>
                             <th class="px-4 py-2 font-medium">State Department</th>
                             <th class="px-4 py-2 font-medium">Currently Assigned</th>
@@ -141,9 +217,24 @@
                     </thead>
                     <tbody class="divide-y divide-border">
                         @forelse ($clients as $client)
-                            <tr class="hover:bg-panel-muted transition-colors">
+                            <tr class="hover:bg-panel-muted transition-colors align-top">
                                 <td class="px-4 py-3 font-medium max-w-md">
                                     <div class="line-clamp-2">{{ $client->name }}</div>
+                                </td>
+                                <td class="px-4 py-3 min-w-[180px]">
+                                    @if (auth()->user()->isAdmin())
+                                        <form method="POST" action="{{ route('admin.assign-rms.clients.ceo', $client) }}" class="flex items-center gap-1.5">
+                                            @csrf
+                                            <input
+                                                type="text" name="ceo_name" value="{{ $client->ceo_name }}"
+                                                placeholder="CEO name"
+                                                class="w-full rounded-md border border-border bg-white px-2 py-1 text-xs text-ink placeholder:text-ink-faint focus:outline-none focus:ring-2 focus:ring-brand-600/30 focus:border-brand-600"
+                                            >
+                                            <button type="submit" class="shrink-0 text-xs font-medium text-brand-700 hover:text-brand-800">Save</button>
+                                        </form>
+                                    @else
+                                        <div class="text-ink-muted">{{ $client->ceo_name ?: '—' }}</div>
+                                    @endif
                                 </td>
                                 <td class="px-4 py-3 text-ink-faint whitespace-nowrap max-w-xs">
                                     <div class="line-clamp-2">{{ $client->ministryDisplay() }}</div>
@@ -176,7 +267,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="6" class="px-4 py-8 text-center text-ink-faint">No clients match this filter.</td>
+                                <td colspan="7" class="px-4 py-8 text-center text-ink-faint">No clients match this filter.</td>
                             </tr>
                         @endforelse
                     </tbody>

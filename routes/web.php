@@ -104,8 +104,11 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin,supervis
     Route::get('/assign-rms', [AdminController::class, 'assignRms'])->name('assign-rms');
     Route::post('/assign-rms/ministries/distribute', [AdminController::class, 'distributeMinistries'])->name('assign-rms.ministries.distribute');
     Route::post('/assign-rms/ministries/{ministry}', [AdminController::class, 'assignMinistryRm'])->name('assign-rms.ministries.update');
+    Route::post('/assign-rms/state-departments/{stateDepartment}', [AdminController::class, 'assignStateDepartmentRm'])->name('assign-rms.state-departments.update');
+    Route::post('/assign-rms/state-departments/{stateDepartment}/contact', [AdminController::class, 'updateStateDepartmentContact'])->name('assign-rms.state-departments.contact');
     Route::post('/assign-rms/clients/distribute', [AdminController::class, 'distributeClients'])->name('assign-rms.clients.distribute');
     Route::post('/assign-rms/clients/{stateCorporation}', [AdminController::class, 'assignClientRm'])->name('assign-rms.clients.update');
+    Route::post('/assign-rms/clients/{stateCorporation}/ceo', [AdminController::class, 'updateClientCeo'])->name('assign-rms.clients.ceo');
     Route::post('/assign-rms/supervisor/{user}', [AdminController::class, 'assignRmSupervisor'])->name('assign-rms.supervisor.update');
 
     Route::get('/clients/{client}/reports', [ClientReportController::class, 'index'])->name('clients.reports.index');

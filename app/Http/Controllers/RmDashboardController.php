@@ -46,6 +46,7 @@ class RmDashboardController extends Controller
             'totalSubmissions' => $totalSubmissions,
             'totalQuantity' => $totalQuantity,
             'byLot' => $byLot,
+            'assignedStateDepartments' => $user->assignedStateDepartments()->with('parent')->orderBy('name')->get(),
         ]);
     }
 
