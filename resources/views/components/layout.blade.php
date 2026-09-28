@@ -30,15 +30,18 @@
                 </a>
 
                 <nav class="hidden lg:flex items-center gap-1">
-                    <a href="{{ route('dashboard') }}" @class(['px-3 py-2 rounded-lg text-sm font-medium transition-colors', 'bg-brand-50 text-brand-800' => request()->routeIs('dashboard'), 'text-ink-muted hover:text-ink hover:bg-panel-muted' => ! request()->routeIs('dashboard')])>{{ __('Overview') }}</a>
-                    <a href="{{ route('ministries.index') }}" @class(['px-3 py-2 rounded-lg text-sm font-medium transition-colors', 'bg-brand-50 text-brand-800' => request()->routeIs('ministries.*'), 'text-ink-muted hover:text-ink hover:bg-panel-muted' => ! request()->routeIs('ministries.*')])>{{ __('Ministries') }}</a>
-                    <a href="{{ route('state-corporations.index') }}" @class(['px-3 py-2 rounded-lg text-sm font-medium transition-colors', 'bg-brand-50 text-brand-800' => request()->routeIs('state-corporations.*'), 'text-ink-muted hover:text-ink hover:bg-panel-muted' => ! request()->routeIs('state-corporations.*')])>{{ __('Clients') }}</a>
-                    <a href="{{ route('material-items.index') }}" @class(['px-3 py-2 rounded-lg text-sm font-medium transition-colors', 'bg-brand-50 text-brand-800' => request()->routeIs('material-items.*'), 'text-ink-muted hover:text-ink hover:bg-panel-muted' => ! request()->routeIs('material-items.*')])>{{ __('Materials') }}</a>
-                    <a href="{{ route('feasibility-study.index') }}" @class(['px-3 py-2 rounded-lg text-sm font-medium transition-colors', 'bg-brand-50 text-brand-800' => request()->routeIs('feasibility-study.*'), 'text-ink-muted hover:text-ink hover:bg-panel-muted' => ! request()->routeIs('feasibility-study.*')])>{{ __('Feasibility Study') }}</a>
-                    <a href="{{ route('collections.index') }}" @class(['px-3 py-2 rounded-lg text-sm font-medium transition-colors', 'bg-brand-50 text-brand-800' => request()->routeIs('collections.*'), 'text-ink-muted hover:text-ink hover:bg-panel-muted' => ! request()->routeIs('collections.*')])>{{ __('Submissions') }}</a>
-                    @auth
-                        <a href="{{ route('requisitions.mine') }}" @class(['px-3 py-2 rounded-lg text-sm font-medium transition-colors', 'bg-brand-50 text-brand-800' => request()->routeIs('requisitions.mine'), 'text-ink-muted hover:text-ink hover:bg-panel-muted' => ! request()->routeIs('requisitions.mine')])>{{ __('Requisitions') }}</a>
-                    @endauth
+                    @guest
+                        <a href="{{ route('dashboard') }}" @class(['px-3 py-2 rounded-lg text-sm font-medium transition-colors', 'bg-brand-50 text-brand-800' => request()->routeIs('dashboard'), 'text-ink-muted hover:text-ink hover:bg-panel-muted' => ! request()->routeIs('dashboard')])>{{ __('Overview') }}</a>
+                        <a href="{{ route('ministries.index') }}" @class(['px-3 py-2 rounded-lg text-sm font-medium transition-colors', 'bg-brand-50 text-brand-800' => request()->routeIs('ministries.*'), 'text-ink-muted hover:text-ink hover:bg-panel-muted' => ! request()->routeIs('ministries.*')])>{{ __('Ministries') }}</a>
+                        <a href="{{ route('state-corporations.index') }}" @class(['px-3 py-2 rounded-lg text-sm font-medium transition-colors', 'bg-brand-50 text-brand-800' => request()->routeIs('state-corporations.*'), 'text-ink-muted hover:text-ink hover:bg-panel-muted' => ! request()->routeIs('state-corporations.*')])>{{ __('Clients') }}</a>
+                        <a href="{{ route('material-items.index') }}" @class(['px-3 py-2 rounded-lg text-sm font-medium transition-colors', 'bg-brand-50 text-brand-800' => request()->routeIs('material-items.*'), 'text-ink-muted hover:text-ink hover:bg-panel-muted' => ! request()->routeIs('material-items.*')])>{{ __('Materials') }}</a>
+                        <a href="{{ route('feasibility-study.index') }}" @class(['px-3 py-2 rounded-lg text-sm font-medium transition-colors', 'bg-brand-50 text-brand-800' => request()->routeIs('feasibility-study.*'), 'text-ink-muted hover:text-ink hover:bg-panel-muted' => ! request()->routeIs('feasibility-study.*')])>{{ __('Feasibility Study') }}</a>
+                        <a href="{{ route('collections.index') }}" @class(['px-3 py-2 rounded-lg text-sm font-medium transition-colors', 'bg-brand-50 text-brand-800' => request()->routeIs('collections.*'), 'text-ink-muted hover:text-ink hover:bg-panel-muted' => ! request()->routeIs('collections.*')])>{{ __('Submissions') }}</a>
+                    @else
+                        @foreach (auth()->user()->navLinks() as $link)
+                            <a href="{{ route($link['route']) }}" @class(['px-3 py-2 rounded-lg text-sm font-medium transition-colors whitespace-nowrap', 'bg-brand-50 text-brand-800' => request()->routeIs($link['pattern']), 'text-ink-muted hover:text-ink hover:bg-panel-muted' => ! request()->routeIs($link['pattern'])])>{{ __($link['label']) }}</a>
+                        @endforeach
+                    @endguest
                 </nav>
 
                 <div class="flex items-center gap-2">
@@ -76,15 +79,18 @@
         </div>
 
         <div x-show="mobileOpen" x-cloak x-transition class="lg:hidden border-t border-border bg-panel px-4 py-3 space-y-1">
-            <a href="{{ route('dashboard') }}" class="block px-3 py-2 rounded-lg text-sm font-medium text-ink-muted hover:bg-panel-muted">{{ __('Overview') }}</a>
-            <a href="{{ route('ministries.index') }}" class="block px-3 py-2 rounded-lg text-sm font-medium text-ink-muted hover:bg-panel-muted">{{ __('Ministries') }}</a>
-            <a href="{{ route('state-corporations.index') }}" class="block px-3 py-2 rounded-lg text-sm font-medium text-ink-muted hover:bg-panel-muted">{{ __('Clients') }}</a>
-            <a href="{{ route('material-items.index') }}" class="block px-3 py-2 rounded-lg text-sm font-medium text-ink-muted hover:bg-panel-muted">{{ __('Materials') }}</a>
-            <a href="{{ route('feasibility-study.index') }}" class="block px-3 py-2 rounded-lg text-sm font-medium text-ink-muted hover:bg-panel-muted">{{ __('Feasibility Study') }}</a>
-            <a href="{{ route('collections.index') }}" class="block px-3 py-2 rounded-lg text-sm font-medium text-ink-muted hover:bg-panel-muted">{{ __('Submissions') }}</a>
-            @auth
-                <a href="{{ route('requisitions.mine') }}" class="block px-3 py-2 rounded-lg text-sm font-medium text-ink-muted hover:bg-panel-muted">{{ __('Requisitions') }}</a>
-            @endauth
+            @guest
+                <a href="{{ route('dashboard') }}" class="block px-3 py-2 rounded-lg text-sm font-medium text-ink-muted hover:bg-panel-muted">{{ __('Overview') }}</a>
+                <a href="{{ route('ministries.index') }}" class="block px-3 py-2 rounded-lg text-sm font-medium text-ink-muted hover:bg-panel-muted">{{ __('Ministries') }}</a>
+                <a href="{{ route('state-corporations.index') }}" class="block px-3 py-2 rounded-lg text-sm font-medium text-ink-muted hover:bg-panel-muted">{{ __('Clients') }}</a>
+                <a href="{{ route('material-items.index') }}" class="block px-3 py-2 rounded-lg text-sm font-medium text-ink-muted hover:bg-panel-muted">{{ __('Materials') }}</a>
+                <a href="{{ route('feasibility-study.index') }}" class="block px-3 py-2 rounded-lg text-sm font-medium text-ink-muted hover:bg-panel-muted">{{ __('Feasibility Study') }}</a>
+                <a href="{{ route('collections.index') }}" class="block px-3 py-2 rounded-lg text-sm font-medium text-ink-muted hover:bg-panel-muted">{{ __('Submissions') }}</a>
+            @else
+                @foreach (auth()->user()->navLinks() as $link)
+                    <a href="{{ route($link['route']) }}" class="block px-3 py-2 rounded-lg text-sm font-medium text-ink-muted hover:bg-panel-muted">{{ __($link['label']) }}</a>
+                @endforeach
+            @endguest
         </div>
     </header>
 

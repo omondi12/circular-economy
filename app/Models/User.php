@@ -299,6 +299,41 @@ class User extends Authenticatable
     }
 
     /**
+     * The top nav's account-specific links (2026-09-28, per the boss - a
+     * logged-in account should see links to what it can actually reach,
+     * not the public dashboard's nav). Deliberately doesn't repeat
+     * whatever homeRouteName()/homeLabel() already puts in the header's
+     * primary button - these are the next things down. Each entry's
+     * 'pattern' drives the active-link highlight via request()->routeIs().
+     *
+     * @return array<int, array{label: string, route: string, pattern: string}>
+     */
+    public function navLinks(): array
+    {
+        return match (true) {
+            $this->isRm() => [
+                ['label' => 'My Clients', 'route' => 'rm.clients.index', 'pattern' => 'rm.clients.*'],
+                ['label' => 'My Requisitions', 'route' => 'requisitions.mine', 'pattern' => 'requisitions.mine'],
+            ],
+            $this->isSupervisor() || $this->isOperations() => [
+                ['label' => 'Team Accounts', 'route' => 'admin.users', 'pattern' => 'admin.users*'],
+                ['label' => 'Assign RMs', 'route' => 'admin.assign-rms', 'pattern' => 'admin.assign-rms*'],
+                ['label' => 'RM Performance', 'route' => 'admin.rm-performance', 'pattern' => 'admin.rm-performance'],
+                ['label' => 'Audit Log', 'route' => 'admin.audit-log', 'pattern' => 'admin.audit-log'],
+                ['label' => 'My Requisitions', 'route' => 'requisitions.mine', 'pattern' => 'requisitions.mine'],
+            ],
+            $this->isOfficeAdmin() || $this->isAdmin() => [
+                ['label' => 'Requisitions', 'route' => 'admin.requisitions.index', 'pattern' => 'admin.requisitions.*'],
+                ['label' => 'Nawiri Treasury', 'route' => 'admin.nawiri-treasury.edit', 'pattern' => 'admin.nawiri-treasury.*'],
+                ['label' => 'Assign RMs', 'route' => 'admin.assign-rms', 'pattern' => 'admin.assign-rms*'],
+                ['label' => 'Team Accounts', 'route' => 'admin.users', 'pattern' => 'admin.users*'],
+                ['label' => 'Audit Log', 'route' => 'admin.audit-log', 'pattern' => 'admin.audit-log'],
+            ],
+            default => [],
+        };
+    }
+
+    /**
      * Active, real (non-demo) RM accounts - the pool used everywhere an
      * RM can be assigned a ministry or client (Assign RMs, RM Performance,
      * client reports, the distribute commands).
