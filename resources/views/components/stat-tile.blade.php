@@ -18,6 +18,7 @@
         'landmark' => 'building-bank',
         'user' => 'user',
         'building-community' => 'building-community',
+        'stamp' => 'stamp',
     ][$icon] ?? 'circle';
 
     $numericValue = str_replace(',', '', (string) $value);

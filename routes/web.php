@@ -20,6 +20,7 @@ Route::get('/materials', [DashboardController::class, 'materialsIndex'])->name('
 Route::get('/ministries', [DashboardController::class, 'ministriesIndex'])->name('ministries.index');
 Route::get('/ministries/{ministry}', [DashboardController::class, 'ministryShow'])->name('ministries.show');
 Route::get('/ministries/{ministry}/departments/{department}', [DashboardController::class, 'departmentShow'])->name('ministries.departments.show');
+Route::get('/state-departments', [DashboardController::class, 'stateDepartmentsIndex'])->name('state-departments.index');
 Route::get('/state-corporations', [DashboardController::class, 'stateCorporationsIndex'])->name('state-corporations.index');
 Route::get('/state-corporations/export', [DashboardController::class, 'stateCorporationsExport'])->name('state-corporations.export');
 Route::get('/state-corporations/{stateCorporation}', [DashboardController::class, 'stateCorporationShow'])->name('state-corporations.show');

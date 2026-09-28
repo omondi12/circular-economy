@@ -49,6 +49,9 @@ class DashboardController extends Controller
         $rmCount = User::where('role', User::ROLE_RM)->count();
         $supervisorCount = User::where('role', User::ROLE_SUPERVISOR)->count();
 
+        $stateDepartmentTotal = GovernmentEntity::where('level', GovernmentEntity::LEVEL_STATE_DEPARTMENT)->count();
+        $stateDepartmentHandledCount = GovernmentEntity::where('level', GovernmentEntity::LEVEL_STATE_DEPARTMENT)->whereNotNull('assigned_rm_id')->count();
+
         $materialItemCount = collect(WasteCategories::lots())->sum(fn (array $lot) => count($lot['categories']));
 
         $reportCount = ClientReport::count();
@@ -69,6 +72,8 @@ class DashboardController extends Controller
             'unassignedClientCount' => $unassignedClientCount,
             'rmCount' => $rmCount,
             'supervisorCount' => $supervisorCount,
+            'stateDepartmentTotal' => $stateDepartmentTotal,
+            'stateDepartmentHandledCount' => $stateDepartmentHandledCount,
             'materialItemCount' => $materialItemCount,
             'reportCount' => $reportCount,
             'recent' => $recent,
@@ -242,6 +247,49 @@ class DashboardController extends Controller
             'institutions' => $institutions,
             'collections' => $collections,
             'filters' => ['institution' => $institutionParam],
+        ]);
+    }
+
+    /**
+     * Public directory of every state department - who's handling it (the
+     * assigned RM, with photo, from Assign RMs -> State Departments), the
+     * parent ministry, the contact person on file, and the clients
+     * connected under it (2026-09-28, per the boss). $ministry_id can be
+     * assigned at any level (ministry/department/institution) - see
+     * StateCorporation::stateDepartmentEntity() - so a department's
+     * clients are those pointed straight at it, or at one of its
+     * institutions.
+     */
+    public function stateDepartmentsIndex(): View
+    {
+        $institutionsByDepartment = GovernmentEntity::where('level', GovernmentEntity::LEVEL_INSTITUTION)
+            ->whereNotNull('parent_id')
+            ->get(['id', 'parent_id'])
+            ->groupBy('parent_id');
+
+        $departments = GovernmentEntity::where('level', GovernmentEntity::LEVEL_STATE_DEPARTMENT)
+            ->with(['parent', 'assignedRm'])
+            ->orderBy('name')
+            ->get()
+            ->map(function (GovernmentEntity $department) use ($institutionsByDepartment) {
+                $institutionIds = ($institutionsByDepartment->get($department->id) ?? collect())->pluck('id');
+
+                $clients = StateCorporation::where('ministry_id', $department->id)
+                    ->orWhereIn('ministry_id', $institutionIds)
+                    ->orderBy('name')
+                    ->get(['id', 'name']);
+
+                $department->setAttribute('clients', $clients);
+                $department->setAttribute('client_total', $clients->count());
+
+                return $department;
+            });
+
+        return view('state-departments.index', [
+            'departments' => $departments,
+            'totalDepartments' => $departments->count(),
+            'handledCount' => $departments->filter(fn (GovernmentEntity $d) => $d->assigned_rm_id !== null)->count(),
+            'totalClients' => (int) $departments->sum('client_total'),
         ]);
     }
 
