@@ -340,6 +340,13 @@ class User extends Authenticatable
                 ['label' => 'Assign RMs', 'route' => 'admin.assign-rms', 'pattern' => 'admin.assign-rms*'],
                 ['label' => 'Team Accounts', 'route' => 'admin.users', 'pattern' => 'admin.users*'],
                 ['label' => 'Audit Log', 'route' => 'admin.audit-log', 'pattern' => 'admin.audit-log'],
+                // The approval-page link above isn't their own submission
+                // form - both roles can submit their own request too (see
+                // the requisitions.mine route group), so without this
+                // there was no way to reach it at all (2026-09-28 fix,
+                // found via Joan's account - report a bug if this was
+                // hiding behind something more obvious).
+                ['label' => 'My Requisitions', 'route' => 'requisitions.mine', 'pattern' => 'requisitions.mine'],
             ],
             default => [],
         };
