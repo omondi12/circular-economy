@@ -35,7 +35,7 @@
         <x-stat-tile
             label="Clients" icon="building" tone="violet"
             :value="number_format($stateCorpTotal)"
-            :hint="'Phase 1: '.number_format($stateCorpPhase1).' - Phase 2: '.number_format($stateCorpPhase2)"
+            :hint="'Assigned: '.number_format($assignedClientCount).' - Unassigned: '.number_format($unassignedClientCount)"
             :href="route('state-corporations.index')"
         />
         <x-stat-tile
@@ -58,19 +58,7 @@
         />
     </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
-        <x-stat-tile
-            label="Assigned Clients" icon="circle-check" tone="green"
-            :value="number_format($assignedClientCount)"
-            hint="Have an RM assigned"
-            :href="route('state-corporations.index', ['rm' => 'assigned'])"
-        />
-        <x-stat-tile
-            label="Unassigned Clients" icon="inbox" tone="rose"
-            :value="number_format($unassignedClientCount)"
-            hint="Still need an RM"
-            :href="route('state-corporations.index', ['rm' => 'unassigned'])"
-        />
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-10">
         <x-stat-tile
             label="Relationship Managers" icon="building" tone="teal"
             :value="number_format($rmCount)"
