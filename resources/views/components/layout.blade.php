@@ -1,4 +1,4 @@
-@props(['title' => null, 'wide' => false])
+@props(['title' => null, 'wide' => false, 'showFlash' => true])
 
 <!DOCTYPE html>
 <html lang="en">
@@ -88,7 +88,7 @@
         </div>
     </header>
 
-    @if (session('status'))
+    @if ($showFlash && session('status'))
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-6">
             <div class="rounded-lg bg-brand-50 border border-brand-200 text-brand-800 text-sm px-4 py-3 flex items-center gap-2">
                 <x-icon name="circle-check" />
@@ -97,7 +97,7 @@
         </div>
     @endif
 
-    @if (session('warning'))
+    @if ($showFlash && session('warning'))
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-6">
             <div class="rounded-lg bg-amber-50 border border-amber-300 text-amber-900 text-sm px-4 py-3 flex items-center gap-2">
                 <x-icon name="clock" />

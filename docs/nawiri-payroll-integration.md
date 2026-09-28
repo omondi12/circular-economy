@@ -21,9 +21,11 @@ NAWIRI_PAYROLL_RECONCILE_AFTER=60
 NAWIRI_PAYROLL_REVERSAL_WINDOW_HOURS=72
 ```
 
-An admin must save a funded Nawiri admin account from Admin, Nawiri Treasury.
-Payroll stays disabled until Nawiri verifies the email, password, admin access
-and transaction PIN. The site encrypts the saved password and PIN.
+An Admin or Office Admin must save a funded Nawiri account from Nawiri Treasury.
+Payroll stays disabled until Nawiri verifies the email, password and transaction
+PIN through `/api/auth/pin/verify`. A Nawiri customer account can fund payroll
+from its own wallet. Nawiri platform admin access is not required. The site
+encrypts the saved password and PIN. Only Office Admins can pay requisitions.
 
 Run Laravel's scheduler every minute so submitted payments reconcile without
 waiting for an administrator to open the page:
@@ -55,3 +57,16 @@ to Nawiri. The requisition remains unpaid while Nawiri reports `SUBMITTED` or
 
 If the request times out, use Reconcile. Reconciliation checks the original
 Nawiri transfer and does not create a second transfer.
+
+Requisition actions update the page in place, preserving filters and scroll
+position. If an action's result cannot be confirmed, use Refresh status before
+trying again. The browser never retries a payment submission automatically.
+
+## Frontend checks
+
+Run `bun run build` when deploying frontend changes. Generated files in
+`public/build` are not committed.
+
+With Bun and `agent-browser` installed, run `bun run test:browser` for the
+requisition action and scroll checks. This uses a local fixture with simulated
+responses. It does not connect to Nawiri or send money.

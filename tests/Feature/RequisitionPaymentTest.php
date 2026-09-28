@@ -86,6 +86,26 @@ class RequisitionPaymentTest extends TestCase
         ));
     }
 
+    public function test_html_action_redirect_preserves_filters_and_returns_inline_feedback(): void
+    {
+        [$officeAdmin, $requisition] = $this->approvedRequisition();
+        $requisition->update(['transport_status' => Requisition::STATUS_PENDING]);
+        $url = route('admin.requisitions.index', ['status' => 'pending', 'requester_id' => $requisition->requester_id]);
+
+        $this->actingAs($officeAdmin)->from($url)->withHeader('Accept', 'text/html')
+            ->post(route('admin.requisitions.transport.approve', $requisition))
+            ->assertRedirect($url)->assertSessionHas('status', 'Transport approved.');
+
+        $response = $this->get($url)->assertOk()
+            ->assertSee('data-requisition-page', false)
+            ->assertSee('data-requisition-feedback', false)
+            ->assertSee('data-requisition-table', false)
+            ->assertSee('id="requisition-'.$requisition->id.'"', false)
+            ->assertSee('Transport approved.');
+        $this->assertSame(1, substr_count($response->getContent(), 'Transport approved.'));
+        $this->assertSame(Requisition::STATUS_APPROVED, $requisition->fresh()->transport_status);
+    }
+
     public function test_reconciliation_marks_the_requisition_paid_only_after_nawiri_confirms_completion(): void
     {
         [$admin, $requisition] = $this->approvedRequisition();
@@ -547,6 +567,11 @@ class RequisitionPaymentTest extends TestCase
         $this->assertSame('127.0.0.1', parse_url($baseUrl, PHP_URL_HOST));
         config()->set('services.nawiri_payroll.base_url', $baseUrl);
         [$admin, $requisition] = $this->approvedRequisition(['254733333333'], 10);
+        $this->actingAs($admin)->put(route('admin.nawiri-treasury.update'), [
+            'email' => 'sender@example.test',
+            'password' => 'contract-password',
+            'pin' => '1234',
+        ])->assertRedirect()->assertSessionHasNoErrors();
         $this->actingAs($admin)->post(route('admin.requisitions.transport.pay', $requisition))->assertRedirect()->assertSessionHasNoErrors();
         $payment = RequisitionPayment::sole();
         $this->assertTrue($payment->requiresOtp(), json_encode($payment->provider_response));

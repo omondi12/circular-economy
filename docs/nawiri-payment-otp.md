@@ -1,7 +1,7 @@
 # Nawiri payment authorization
 
 Only Office Admins can pay requisitions, authorize them with an OTP, resend
-codes or reconcile payments. Admins still configure the treasury account.
+codes or reconcile payments. Admins and Office Admins can configure the treasury account.
 
 Pay prepares a direct transfer from the treasury user's JamboPay wallet to
 the recipient's wallet through Nawiri. New payments do not use the payout
