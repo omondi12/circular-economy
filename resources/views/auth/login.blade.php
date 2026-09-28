@@ -71,13 +71,23 @@
                         >
                     </div>
 
-                    <div>
+                    <div x-data="{ visible: false }">
                         <label for="password" class="block text-xs font-medium text-ink-faint mb-1.5 uppercase tracking-wide font-mono">{{ __('Password') }}</label>
-                        <input
-                            type="password" id="password" name="password" required
-                            placeholder="••••••••"
-                            class="w-full rounded-lg border border-border text-sm px-3.5 py-2.5 placeholder:text-ink-faint focus:border-brand-600 focus:ring-4 focus:ring-brand-600/10 outline-none shadow-sm transition-shadow"
-                        >
+                        <div class="relative">
+                            <input
+                                :type="visible ? 'text' : 'password'" id="password" name="password" required
+                                placeholder="••••••••"
+                                class="w-full rounded-lg border border-border text-sm px-3.5 py-2.5 pr-11 placeholder:text-ink-faint focus:border-brand-600 focus:ring-4 focus:ring-brand-600/10 outline-none shadow-sm transition-shadow"
+                            >
+                            <button
+                                type="button" @click="visible = ! visible"
+                                class="absolute inset-y-0 right-0 px-3 flex items-center text-base leading-none"
+                                :aria-label="visible ? 'Hide password' : 'Show password'"
+                            >
+                                <span x-show="! visible" x-cloak>👁️</span>
+                                <span x-show="visible" x-cloak>🙈</span>
+                            </button>
+                        </div>
                     </div>
 
                     <label class="flex items-center gap-2 text-sm text-ink-muted">
