@@ -18,13 +18,13 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 
 /**
  * Daily transport + airtime facilitation requests, per the boss's brief
- * (2026-09-17, extended 2026-09-19). RMs, Supervisors and Office Admins
- * request for themselves; admins, supervisors and office admins can all
- * approve or decline, while only office admins can pay (see
- * authorizeApproval() for the per-request rules -
- * nobody approves their own, and an Office Admin's request needs a
- * Supervisor or Admin, never another Office Admin). Three surfaces share
- * the same underlying data:
+ * (2026-09-17, extended 2026-09-19, 2026-09-28). RMs, Supervisors, Office
+ * Admins and Operations request for themselves; admins, supervisors and
+ * office admins can all approve or decline, while only office admins can
+ * pay (see authorizeApproval() for the per-request rules - nobody
+ * approves their own, and an Office Admin's or an Operations account's
+ * request needs a full Admin specifically - not a Supervisor, not
+ * another Office Admin). Three surfaces share the same underlying data:
  *  - /requisitions        - a requester's own history + new-request form
  *  - /admin/requisitions  - every request, stat breakdown, approval and payment
  *  - /facilitation        - public, PIN-gated read-only breakdown for the
@@ -232,7 +232,7 @@ class RequisitionController extends Controller
             'stats' => $this->stats(),
             'todayStats' => $this->stats(now()->toDateString()),
             'requesterTotals' => $this->requesterTotals(),
-            'requesters' => User::whereIn('role', [User::ROLE_RM, User::ROLE_SUPERVISOR, User::ROLE_OFFICE_ADMIN])->orderBy('name')->get(),
+            'requesters' => User::whereIn('role', [User::ROLE_RM, User::ROLE_SUPERVISOR, User::ROLE_OFFICE_ADMIN, User::ROLE_OPERATIONS])->orderBy('name')->get(),
             'filters' => $filters,
             'pin' => Setting::get(self::PIN_SETTING_KEY),
         ]);

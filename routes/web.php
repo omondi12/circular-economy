@@ -78,10 +78,10 @@ Route::prefix('rm')->name('rm.')->middleware(['auth', 'role:rm,admin'])->group(f
 });
 
 // A requester's own facilitation (transport/airtime) requests - RMs,
-// Supervisors and Office Admins all request for themselves; admins can
-// reach it too (harmless, they just won't have anything to request in
-// practice).
-Route::prefix('requisitions')->name('requisitions.')->middleware(['auth', 'role:rm,supervisor,office_admin,admin'])->group(function () {
+// Supervisors, Office Admins and Operations all request for themselves
+// (2026-09-28); admins can reach it too (harmless, they just won't have
+// anything to request in practice).
+Route::prefix('requisitions')->name('requisitions.')->middleware(['auth', 'role:rm,supervisor,office_admin,admin,operations'])->group(function () {
     Route::get('/', [RequisitionController::class, 'mine'])->name('mine');
     Route::post('/', [RequisitionController::class, 'store'])->name('store');
 });

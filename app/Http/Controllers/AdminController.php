@@ -33,15 +33,18 @@ class AdminController extends Controller
     {
         $viewer = auth()->user();
         $isSupervisor = $viewer->isSupervisor();
+        $isOperations = $viewer->isOperations();
         $rmIds = $isSupervisor ? $viewer->rms()->pluck('id') : null;
 
         return view('admin.dashboard', [
             'isSupervisor' => $isSupervisor,
             // Operations gets the same dashboard as Admin/Supervisor
             // (unrestricted, non-supervisor figures below), except it must
-            // hide the two tiles Operations has no route access to -
-            // Requisitions/Facilitation and Nawiri Treasury (2026-09-28).
-            'isOperations' => $viewer->isOperations(),
+            // hide the Nawiri Treasury tile (no route access there) and
+            // point the Requisitions tile at its own request form instead
+            // of the approval page it can't reach (2026-09-28) - same as
+            // Supervisor's requisitions tile already does.
+            'isOperations' => $isOperations,
             'userCount' => $isSupervisor
                 ? User::where('supervisor_id', $viewer->id)->count()
                 : User::where('role', User::ROLE_RM)->count(),
@@ -57,11 +60,12 @@ class AdminController extends Controller
             'reportCount' => $isSupervisor
                 ? ClientReport::where('created_by', $viewer->id)->count()
                 : ClientReport::count(),
-            // Admins see every pending requisition (theirs to approve); a
-            // supervisor sees their own pending requests instead, since
-            // only admins approve - the tile links to a different page
-            // for each (see admin/dashboard.blade.php).
-            'requisitionPendingCount' => $isSupervisor
+            // Admins/Office Admins see every pending requisition (theirs to
+            // approve); a Supervisor or Operations account sees their own
+            // pending requests instead, since neither approves for
+            // themselves here - the tile links to a different page for
+            // each (see admin/dashboard.blade.php).
+            'requisitionPendingCount' => ($isSupervisor || $isOperations)
                 ? Requisition::where('requester_id', $viewer->id)->where(fn ($q) => $q->where('transport_status', Requisition::STATUS_PENDING)->orWhere('airtime_status', Requisition::STATUS_PENDING))->count()
                 : Requisition::where(fn ($q) => $q->where('transport_status', Requisition::STATUS_PENDING)->orWhere('airtime_status', Requisition::STATUS_PENDING))->count(),
             'recentAuditLog' => AuditLog::visibleTo($viewer)->with('user')->latest()->limit(10)->get(),

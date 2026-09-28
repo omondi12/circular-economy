@@ -241,15 +241,17 @@ class User extends Authenticatable
     }
 
     /**
-     * Per-request approval authorization (2026-09-19) - the single source
-     * of truth used by both RequisitionController (to authorize the
-     * action) and the admin/public requisition views (to decide whether to
-     * show the Approve/Decline buttons for that row). Admins are
-     * unrestricted, including approving their own - same as everywhere
-     * else in the app. Supervisors and Office Admins can approve anyone's
-     * request except their own; an Office Admin's request additionally
-     * needs a Supervisor (or Admin) - not another Office Admin, since
-     * office admins have no oversight authority over each other.
+     * Per-request approval authorization (2026-09-19, tightened
+     * 2026-09-28) - the single source of truth used by both
+     * RequisitionController (to authorize the action) and the admin/
+     * public requisition views (to decide whether to show the Approve/
+     * Decline buttons for that row). Admins are unrestricted, including
+     * approving their own - same as everywhere else in the app.
+     * Supervisors and Office Admins can approve anyone's request except
+     * their own - except an Office Admin's or an Operations account's
+     * request, which needs a full Admin specifically (not a Supervisor,
+     * not another Office Admin), since neither has oversight authority
+     * over the other and a Supervisor doesn't oversee them either.
      */
     public function canApproveRequisition(Requisition $requisition): bool
     {
@@ -265,7 +267,7 @@ class User extends Authenticatable
             return false;
         }
 
-        if ($this->isOfficeAdmin() && $requisition->requester?->isOfficeAdmin()) {
+        if ($requisition->requester?->isOfficeAdmin() || $requisition->requester?->isOperations()) {
             return false;
         }
 
