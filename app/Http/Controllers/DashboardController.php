@@ -286,8 +286,55 @@ class DashboardController extends Controller
         return view('state-departments.index', [
             'departments' => $departments,
             'totalDepartments' => $departments->count(),
+            'withPhoneCount' => $departments->filter(fn (GovernmentEntity $d) => $d->contact_person_phone !== null)->count(),
             'handledCount' => $departments->filter(fn (GovernmentEntity $d) => $d->assigned_rm_id !== null)->count(),
-            'totalClients' => (int) $departments->sum('client_total'),
+        ]);
+    }
+
+    /**
+     * One state department's full portfolio - the PS, the handling RM
+     * (with photo), and every client connected underneath it, each with
+     * its own submission count, total quantity and most recent LSO
+     * (Local Service Order - the term the field team uses for a
+     * Collection entry) so the boss can see collection activity per
+     * client without leaving the page. Deliberately links out to each
+     * client's own page (state-corporations.show) for the full paginated
+     * history rather than duplicating it here.
+     */
+    public function stateDepartmentShow(GovernmentEntity $department): View
+    {
+        abort_unless($department->level === GovernmentEntity::LEVEL_STATE_DEPARTMENT, 404);
+
+        $department->load(['parent', 'assignedRm']);
+
+        $institutionIds = GovernmentEntity::where('parent_id', $department->id)
+            ->where('level', GovernmentEntity::LEVEL_INSTITUTION)
+            ->pluck('id');
+
+        $clients = StateCorporation::where('ministry_id', $department->id)
+            ->orWhereIn('ministry_id', $institutionIds)
+            ->with('assignedRm')
+            ->orderBy('name')
+            ->get()
+            ->map(function (StateCorporation $client) {
+                $overall = Collection::where('state_corporation_id', $client->id)
+                    ->selectRaw('COUNT(*) as submissions, MAX(collection_date) as last_collection_date, '.self::entityQuantitySql())
+                    ->first();
+
+                $client->setAttribute('overall', $overall);
+                $client->setAttribute('latest_collections', Collection::where('state_corporation_id', $client->id)
+                    ->orderByDesc('collection_date')
+                    ->orderByDesc('id')
+                    ->limit(5)
+                    ->get());
+
+                return $client;
+            });
+
+        return view('state-departments.show', [
+            'department' => $department,
+            'clients' => $clients,
+            'totalSubmissions' => (int) $clients->sum(fn (StateCorporation $c) => $c->overall->submissions),
         ]);
     }
 

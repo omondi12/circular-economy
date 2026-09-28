@@ -6,9 +6,9 @@
 
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
             <x-stat-tile label="State Departments" :value="number_format($totalDepartments)" icon="stamp" tone="rose" />
+            <x-stat-tile label="With Phone Number" :value="number_format($withPhoneCount)" icon="building-community" tone="violet" />
             <x-stat-tile label="Handled by an RM" :value="number_format($handledCount)" icon="circle-check" tone="green" />
-            <x-stat-tile label="Awaiting an RM" :value="number_format($totalDepartments - $handledCount)" icon="inbox" tone="gold" />
-            <x-stat-tile label="Clients Connected" :value="number_format($totalClients)" icon="building-community" tone="violet" />
+            <x-stat-tile label="Not Yet Assigned" :value="number_format($totalDepartments - $handledCount)" icon="inbox" tone="gold" />
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -58,7 +58,7 @@
                         </div>
                     @endif
 
-                    <div>
+                    <div class="mb-4">
                         <p class="text-xs text-ink-faint uppercase tracking-wide mb-1.5">Clients</p>
                         @if ($department->clients->isEmpty())
                             <p class="text-sm text-ink-faint italic">None linked yet</p>
@@ -73,6 +73,11 @@
                             </div>
                         @endif
                     </div>
+
+                    <a href="{{ route('state-departments.show', $department) }}" class="inline-flex items-center gap-1 text-xs font-medium text-brand-700 hover:text-brand-800">
+                        View portfolio
+                        <x-icon name="arrow-right" size="13" />
+                    </a>
                 </div>
             @endforeach
         </div>
