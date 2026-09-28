@@ -36,6 +36,17 @@ class User extends Authenticatable
     public const ROLE_OFFICE_ADMIN = 'office_admin';
 
     /**
+     * The mirror image of Office Admin (2026-09-28, per the boss, first
+     * account is Josephine Kimani): full run of the rest of /admin -
+     * clients, ministries, state departments, RM performance, assign-rms,
+     * team accounts, audit log - but deliberately excluded from
+     * Requisitions/Facilitation (canApproveRequisitions() /
+     * canPayRequisitions() / canEditRequisitions() all omit this role) and
+     * from Nawiri Treasury (route stays role:admin,office_admin only).
+     */
+    public const ROLE_OPERATIONS = 'operations';
+
+    /**
      * Demo accounts (DemoDataSeeder) all share this domain - excluded
      * rather than requiring a specific real domain like @amacplc.com, so
      * a real RM onboarded with any working email (e.g. a personal Gmail
@@ -159,6 +170,11 @@ class User extends Authenticatable
         return $this->role === self::ROLE_OFFICE_ADMIN;
     }
 
+    public function isOperations(): bool
+    {
+        return $this->role === self::ROLE_OPERATIONS;
+    }
+
     public function canPayRequisitions(): bool
     {
         return $this->isOfficeAdmin();
@@ -190,7 +206,7 @@ class User extends Authenticatable
      */
     public function canAccessAdminArea(): bool
     {
-        return in_array($this->role, [self::ROLE_ADMIN, self::ROLE_SUPERVISOR], true);
+        return in_array($this->role, [self::ROLE_ADMIN, self::ROLE_SUPERVISOR, self::ROLE_OPERATIONS], true);
     }
 
     /**
@@ -262,7 +278,7 @@ class User extends Authenticatable
     public function homeRouteName(): string
     {
         return match ($this->role) {
-            self::ROLE_ADMIN, self::ROLE_SUPERVISOR => 'admin.dashboard',
+            self::ROLE_ADMIN, self::ROLE_SUPERVISOR, self::ROLE_OPERATIONS => 'admin.dashboard',
             self::ROLE_OFFICE_ADMIN => 'admin.requisitions.index',
             default => 'rm.dashboard',
         };
@@ -271,7 +287,7 @@ class User extends Authenticatable
     public function homeLabel(): string
     {
         return match ($this->role) {
-            self::ROLE_ADMIN, self::ROLE_SUPERVISOR => 'Admin',
+            self::ROLE_ADMIN, self::ROLE_SUPERVISOR, self::ROLE_OPERATIONS => 'Admin',
             self::ROLE_OFFICE_ADMIN => 'Requisitions',
             default => 'My Dashboard',
         };

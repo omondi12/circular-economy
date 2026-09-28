@@ -44,6 +44,8 @@
                                     <span class="inline-flex items-center px-2 py-0.5 rounded-full bg-violet-100 text-violet-800 text-xs font-medium">Supervisor</span>
                                 @elseif ($user->isOfficeAdmin())
                                     <span class="inline-flex items-center px-2 py-0.5 rounded-full bg-gold-100 text-gold-700 text-xs font-medium">Office Admin</span>
+                                @elseif ($user->isOperations())
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded-full bg-teal-100 text-teal-800 text-xs font-medium">Operations</span>
                                 @else
                                     <span class="inline-flex items-center px-2 py-0.5 rounded-full bg-panel-muted text-ink-muted text-xs font-medium">RM</span>
                                 @endif

@@ -32,6 +32,10 @@
                                 <input type="radio" name="role" value="office_admin" class="text-brand-700 focus:ring-brand-600" @checked($editedUser->isOfficeAdmin())>
                                 Office Admin
                             </label>
+                            <label class="inline-flex items-center gap-2 text-sm">
+                                <input type="radio" name="role" value="operations" class="text-brand-700 focus:ring-brand-600" @checked($editedUser->isOperations())>
+                                Operations
+                            </label>
                         </div>
                         @if ($editedUser->isRm())
                             <p class="text-xs text-ink-faint mt-2">Switching this account away from RM will free up any clients or ministries currently assigned to them.</p>

@@ -31,6 +31,10 @@
                                 <input type="radio" name="role" value="office_admin" class="text-brand-700 focus:ring-brand-600">
                                 Office Admin
                             </label>
+                            <label class="inline-flex items-center gap-2 text-sm">
+                                <input type="radio" name="role" value="operations" class="text-brand-700 focus:ring-brand-600">
+                                Operations
+                            </label>
                         </div>
                     </div>
 

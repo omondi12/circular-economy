@@ -57,7 +57,7 @@
                             </td>
                             <td class="px-4 py-3 text-ink-faint max-w-md">
                                 @if ($entry->meta)
-                                    <span class="text-xs">{{ collect($entry->meta)->map(fn ($v, $k) => "{$k}: {$v}")->implode(' · ') }}</span>
+                                    <span class="text-xs">{{ collect($entry->meta)->map(fn ($v, $k) => $k.': '.(is_array($v) ? json_encode($v) : $v))->implode(' · ') }}</span>
                                 @endif
                             </td>
                             <td class="px-4 py-3 whitespace-nowrap text-ink-faint">{{ $entry->created_at->format('d M Y, H:i') }}</td>

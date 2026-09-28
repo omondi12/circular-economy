@@ -37,6 +37,11 @@ class AdminController extends Controller
 
         return view('admin.dashboard', [
             'isSupervisor' => $isSupervisor,
+            // Operations gets the same dashboard as Admin/Supervisor
+            // (unrestricted, non-supervisor figures below), except it must
+            // hide the two tiles Operations has no route access to -
+            // Requisitions/Facilitation and Nawiri Treasury (2026-09-28).
+            'isOperations' => $viewer->isOperations(),
             'userCount' => $isSupervisor
                 ? User::where('supervisor_id', $viewer->id)->count()
                 : User::where('role', User::ROLE_RM)->count(),
@@ -111,7 +116,7 @@ class AdminController extends Controller
         ];
 
         if ($viewer->isAdmin()) {
-            $rules['role'] = ['required', Rule::in([User::ROLE_RM, User::ROLE_SUPERVISOR, User::ROLE_OFFICE_ADMIN])];
+            $rules['role'] = ['required', Rule::in([User::ROLE_RM, User::ROLE_SUPERVISOR, User::ROLE_OFFICE_ADMIN, User::ROLE_OPERATIONS])];
             $rules['supervisor_id'] = ['nullable', 'integer', 'exists:users,id'];
         }
 
@@ -136,6 +141,7 @@ class AdminController extends Controller
         $roleLabel = match (true) {
             $user->isSupervisor() => 'Supervisor',
             $user->isOfficeAdmin() => 'Office Admin',
+            $user->isOperations() => 'Operations',
             default => 'RM',
         };
 
@@ -219,7 +225,7 @@ class AdminController extends Controller
         ];
 
         if ($viewer->isAdmin()) {
-            $rules['role'] = ['required', Rule::in([User::ROLE_RM, User::ROLE_SUPERVISOR, User::ROLE_OFFICE_ADMIN])];
+            $rules['role'] = ['required', Rule::in([User::ROLE_RM, User::ROLE_SUPERVISOR, User::ROLE_OFFICE_ADMIN, User::ROLE_OPERATIONS])];
             $rules['supervisor_id'] = ['nullable', 'integer', 'exists:users,id'];
         }
 
