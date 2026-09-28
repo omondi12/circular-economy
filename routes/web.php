@@ -89,10 +89,12 @@ Route::prefix('requisitions')->name('requisitions.')->middleware(['auth', 'role:
 // Admin area - manage RM accounts and review the audit log. Supervisors get
 // the same access as admins here (2026-09-05 decision), just under their
 // own login so their actions are attributed to them, not shared credentials.
-// Operations gets the same breadth too (2026-09-28) - deliberately excluded
-// from Requisitions/Facilitation and Nawiri Treasury, see the ROLE_OPERATIONS
-// docblock on the User model.
-Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin,supervisor,operations'])->group(function () {
+// Operations gets the same breadth too (2026-09-28), deliberately excluded
+// from Requisitions/Facilitation and Nawiri Treasury - see the
+// ROLE_OPERATIONS docblock on the User model. Office Admin also gets it
+// (2026-09-28) - unlike Operations, on top of their existing Requisitions
+// and Nawiri Treasury access, not instead of it.
+Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin,supervisor,operations,office_admin'])->group(function () {
     Route::get('/', [AdminController::class, 'dashboard'])->name('dashboard');
     Route::get('/users', [AdminController::class, 'users'])->name('users');
     Route::get('/users/create', [AdminController::class, 'createUser'])->name('users.create');

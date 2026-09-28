@@ -26,21 +26,24 @@ class User extends Authenticatable
     public const ROLE_SUPERVISOR = 'supervisor';
 
     /**
-     * A staff role focused on Requisitions only (2026-09-19): can approve/
-     * decline/pay RM and Supervisor requests, and can submit their own -
-     * but their own request needs a Supervisor's (or Admin's) approval,
-     * never another Office Admin's, since office admins have no oversight
-     * authority over each other. Deliberately does NOT get the rest of
-     * /admin (clients, ministries, team accounts, audit log).
+     * A staff role originally focused on Requisitions only (2026-09-19):
+     * can approve/decline/pay RM and Supervisor requests, and can submit
+     * their own - but their own request needs a Supervisor's (or Admin's)
+     * approval, never another Office Admin's, since office admins have no
+     * oversight authority over each other. Also manages Nawiri Treasury.
+     * Widened (2026-09-28) to the rest of /admin too - clients, ministries,
+     * state departments, RM performance, assign-rms, team accounts, audit
+     * log - same breadth as ROLE_OPERATIONS, but on top of Requisitions and
+     * Treasury rather than instead of them.
      */
     public const ROLE_OFFICE_ADMIN = 'office_admin';
 
     /**
-     * The mirror image of Office Admin (2026-09-28, per the boss, first
-     * account is Josephine Kimani): full run of the rest of /admin -
-     * clients, ministries, state departments, RM performance, assign-rms,
-     * team accounts, audit log - but deliberately excluded from
-     * Requisitions/Facilitation (canApproveRequisitions() /
+     * The narrower sibling of Office Admin (2026-09-28, per the boss,
+     * first account is Josephine Kimani): the same run of the rest of
+     * /admin - clients, ministries, state departments, RM performance,
+     * assign-rms, team accounts, audit log - but deliberately excluded
+     * from Requisitions/Facilitation (canApproveRequisitions() /
      * canPayRequisitions() / canEditRequisitions() all omit this role) and
      * from Nawiri Treasury (route stays role:admin,office_admin only).
      */
@@ -206,7 +209,7 @@ class User extends Authenticatable
      */
     public function canAccessAdminArea(): bool
     {
-        return in_array($this->role, [self::ROLE_ADMIN, self::ROLE_SUPERVISOR, self::ROLE_OPERATIONS], true);
+        return in_array($this->role, [self::ROLE_ADMIN, self::ROLE_SUPERVISOR, self::ROLE_OPERATIONS, self::ROLE_OFFICE_ADMIN], true);
     }
 
     /**

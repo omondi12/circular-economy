@@ -79,7 +79,7 @@ class AdminController extends Controller
 
         $users = $viewer->isSupervisor()
             ? User::visibleRmsFor($viewer)->orderBy('name')->get()
-            : User::whereIn('role', [User::ROLE_RM, User::ROLE_SUPERVISOR, User::ROLE_OFFICE_ADMIN])
+            : User::whereIn('role', [User::ROLE_RM, User::ROLE_SUPERVISOR, User::ROLE_OFFICE_ADMIN, User::ROLE_OPERATIONS])
                 ->with('supervisor')->orderBy('role')->orderBy('name')->get();
 
         return view('admin.users', ['users' => $users]);
@@ -664,7 +664,7 @@ class AdminController extends Controller
 
         $who = $viewer->isSupervisor()
             ? User::where('supervisor_id', $viewer->id)->orWhere('id', $viewer->id)
-            : User::whereIn('role', [User::ROLE_RM, User::ROLE_SUPERVISOR, User::ROLE_OFFICE_ADMIN, User::ROLE_ADMIN]);
+            : User::whereIn('role', [User::ROLE_RM, User::ROLE_SUPERVISOR, User::ROLE_OFFICE_ADMIN, User::ROLE_ADMIN, User::ROLE_OPERATIONS]);
 
         return view('admin.audit-log', [
             'entries' => $entries,
