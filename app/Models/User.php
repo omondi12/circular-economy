@@ -241,6 +241,18 @@ class User extends Authenticatable
     }
 
     /**
+     * Who can set a state department's contact person (name + phone) on
+     * Assign RMs -> State Departments - widened from admin-only
+     * (2026-09-28, per the boss) to Office Admin and Operations too.
+     * Deliberately does NOT extend to client CEO names, which stay
+     * admin-only per an earlier explicit instruction.
+     */
+    public function canManageStateDepartmentContacts(): bool
+    {
+        return in_array($this->role, [self::ROLE_ADMIN, self::ROLE_OFFICE_ADMIN, self::ROLE_OPERATIONS], true);
+    }
+
+    /**
      * Per-request approval authorization (2026-09-19, tightened
      * 2026-09-28) - the single source of truth used by both
      * RequisitionController (to authorize the action) and the admin/

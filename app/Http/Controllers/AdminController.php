@@ -484,7 +484,7 @@ class AdminController extends Controller
      */
     public function updateStateDepartmentContact(Request $request, GovernmentEntity $stateDepartment): RedirectResponse
     {
-        abort_unless(auth()->user()->isAdmin(), 403);
+        abort_unless(auth()->user()->canManageStateDepartmentContacts(), 403);
         abort_unless($stateDepartment->level === GovernmentEntity::LEVEL_STATE_DEPARTMENT, 404);
 
         $data = $request->validate([

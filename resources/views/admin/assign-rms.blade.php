@@ -83,8 +83,8 @@
         @elseif ($view === 'state-departments')
             <p class="text-sm text-ink-faint mb-4">
                 {{ $stateDepartments->count() }} state department(s). Assign each one to the RM covering it directly, finer than a ministry-wide assignment.
-                @if (auth()->user()->isAdmin())
-                    The contact person is who that RM reaches out to there - only admins can edit it.
+                @if (auth()->user()->canManageStateDepartmentContacts())
+                    The contact person is who that RM reaches out to there.
                 @endif
             </p>
 
@@ -109,7 +109,7 @@
                                     <div class="line-clamp-2">{{ $department->parent->name ?? '—' }}</div>
                                 </td>
                                 <td class="px-4 py-3 min-w-[220px]">
-                                    @if (auth()->user()->isAdmin())
+                                    @if (auth()->user()->canManageStateDepartmentContacts())
                                         <form method="POST" action="{{ route('admin.assign-rms.state-departments.contact', $department) }}" class="flex flex-col gap-1.5">
                                             @csrf
                                             <input
