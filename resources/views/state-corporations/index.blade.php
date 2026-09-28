@@ -110,15 +110,16 @@
                             <td class="px-4 py-3 whitespace-nowrap text-ink-faint">
                                 {{ $corp->stateDepartmentDisplay() }}
                             </td>
+                            @php $corpRm = $corp->effectiveAssignedRm(); @endphp
                             <td class="px-4 py-3 whitespace-nowrap">
-                                @if ($corp->assignedRm)
-                                    {{ $corp->assignedRm->name }}
+                                @if ($corpRm)
+                                    {{ $corpRm->name }}
                                 @else
                                     <span class="text-ink-faint">—</span>
                                 @endif
                             </td>
                             <td class="px-4 py-3 whitespace-nowrap text-ink-faint">
-                                {{ $corp->assignedRm?->supervisor?->name ?? '—' }}
+                                {{ $corpRm?->supervisor?->name ?? '—' }}
                             </td>
                             <td class="px-4 py-3 whitespace-nowrap text-ink-faint">
                                 {{ $corp->latestReport?->contact_person ?? '—' }}

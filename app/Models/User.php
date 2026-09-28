@@ -110,9 +110,27 @@ class User extends Authenticatable
         return $this->hasMany(GovernmentEntity::class, 'assigned_rm_id')->where('level', GovernmentEntity::LEVEL_STATE_DEPARTMENT);
     }
 
+    /**
+     * Clients this RM has a manual override for (Assign RMs -> Clients) -
+     * not their full portfolio. For "every client this RM actually
+     * covers right now", including ones that come from a state
+     * department assignment, use effectiveStateCorporations() instead.
+     */
     public function assignedStateCorporations(): HasMany
     {
         return $this->hasMany(StateCorporation::class, 'assigned_rm_id');
+    }
+
+    /**
+     * This RM's full live client portfolio (2026-09-28, per the boss) -
+     * a manual override, or every client under a state department
+     * they're assigned to. Query-based rather than a relation since it
+     * spans two different join paths; use ->count() where only the
+     * number is needed.
+     */
+    public function effectiveStateCorporations(): \Illuminate\Database\Eloquent\Builder
+    {
+        return StateCorporation::assignedToRm($this->id);
     }
 
     public function requisitions(): HasMany

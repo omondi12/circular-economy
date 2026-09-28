@@ -31,9 +31,92 @@ class StateCorporation extends Model
         return ['phase' => 'integer'];
     }
 
+    /**
+     * The manual override only (2026-09-28, per the boss) - set via
+     * Assign RMs -> Clients, and takes precedence over the state
+     * department's RM when present. For "who actually covers this
+     * client right now", use effectiveAssignedRm()/effectiveAssignedRmId()
+     * instead; this raw relation is for the override value itself (e.g.
+     * what the Clients tab's dropdown should show as selected).
+     */
     public function assignedRm(): BelongsTo
     {
         return $this->belongsTo(User::class, 'assigned_rm_id');
+    }
+
+    /**
+     * Who actually covers this client - the manual override if one is
+     * set, otherwise whoever is assigned to its state department, live
+     * (2026-09-28, per the boss: "everyone... should not even have
+     * clients [unless] assigned a state department... when someone is
+     * assigned a state department, you get all the clients under that
+     * state department"). Reassigning a department's RM immediately
+     * changes what this returns for every client under it - nothing is
+     * copied/cached onto the client row unless a manual override exists.
+     */
+    public function effectiveAssignedRm(): ?User
+    {
+        return $this->assignedRm ?: $this->stateDepartmentEntity()?->assignedRm;
+    }
+
+    public function effectiveAssignedRmId(): ?int
+    {
+        return $this->assigned_rm_id ?? $this->stateDepartmentEntity()?->assigned_rm_id;
+    }
+
+    /**
+     * Every client effectively covered by $rmId - a direct (manual
+     * override) match, or one whose state department is assigned to
+     * $rmId. The query-level counterpart to effectiveAssignedRmId(), for
+     * anywhere that needs to list/count/filter rather than check one
+     * client at a time.
+     */
+    /**
+     * @param  int|array<int>  $rmIds  One RM id, or several (e.g. a
+     *                                 supervisor's whole team) - matches
+     *                                 a client covered by any of them.
+     */
+    public function scopeAssignedToRm($query, int|array $rmIds)
+    {
+        return $query->where(function ($q) use ($rmIds) {
+            $q->whereIn('assigned_rm_id', (array) $rmIds)
+                ->orWhereHas('ministry', function ($q2) use ($rmIds) {
+                    $q2->whereIn('assigned_rm_id', (array) $rmIds)
+                        ->orWhereHas('parent', fn ($q3) => $q3->whereIn('assigned_rm_id', (array) $rmIds));
+                });
+        });
+    }
+
+    /**
+     * The opposite of scopeAssignedToRm() for every RM at once - no
+     * manual override, and either no state department on file or that
+     * department has nobody assigned. Used for the "Unassigned Clients"
+     * figures now that assignment can come from either source.
+     */
+    public function scopeEffectivelyUnassigned($query)
+    {
+        return $query->whereNull('assigned_rm_id')
+            ->where(function ($q) {
+                $q->whereDoesntHave('ministry')
+                    ->orWhereHas('ministry', function ($q2) {
+                        $q2->whereNull('assigned_rm_id')
+                            ->where(function ($q3) {
+                                $q3->whereDoesntHave('parent')
+                                    ->orWhereHas('parent', fn ($q4) => $q4->whereNull('assigned_rm_id'));
+                            });
+                    });
+            });
+    }
+
+    public function scopeEffectivelyAssigned($query)
+    {
+        return $query->where(function ($q) {
+            $q->whereNotNull('assigned_rm_id')
+                ->orWhereHas('ministry', function ($q2) {
+                    $q2->whereNotNull('assigned_rm_id')
+                        ->orWhereHas('parent', fn ($q3) => $q3->whereNotNull('assigned_rm_id'));
+                });
+        });
     }
 
     public function ministry(): BelongsTo
@@ -167,13 +250,31 @@ class StateCorporation extends Model
             return $query;
         }
 
-        $rmIds = $viewer->rms()->pluck('id');
-        $orphanedRmIds = User::orphanedRms()->pluck('id');
+        $allowedRmIds = $viewer->rms()->pluck('id')->merge(User::orphanedRms()->pluck('id'))->all();
 
-        return $query->where(function ($q) use ($rmIds, $orphanedRmIds) {
-            $q->whereIn('assigned_rm_id', $rmIds)
-                ->orWhereNull('assigned_rm_id')
-                ->orWhereIn('assigned_rm_id', $orphanedRmIds);
+        // Effective visibility now depends on the state department too
+        // (2026-09-28) - precompute which departments/institutions
+        // resolve to an allowed RM (or none yet), so a client with no
+        // manual override still shows up correctly for this supervisor.
+        $allowedDepartmentIds = GovernmentEntity::where('level', GovernmentEntity::LEVEL_STATE_DEPARTMENT)
+            ->get(['id', 'assigned_rm_id'])
+            ->filter(fn (GovernmentEntity $d) => $d->assigned_rm_id === null || in_array($d->assigned_rm_id, $allowedRmIds, true))
+            ->pluck('id');
+
+        $allowedEntityIds = $allowedDepartmentIds->merge(
+            GovernmentEntity::where('level', GovernmentEntity::LEVEL_INSTITUTION)
+                ->whereIn('parent_id', $allowedDepartmentIds)
+                ->pluck('id')
+        );
+
+        return $query->where(function ($q) use ($allowedRmIds, $allowedEntityIds) {
+            $q->whereIn('assigned_rm_id', $allowedRmIds)
+                ->orWhere(function ($q2) use ($allowedEntityIds) {
+                    $q2->whereNull('assigned_rm_id')
+                        ->where(function ($q3) use ($allowedEntityIds) {
+                            $q3->whereNull('ministry_id')->orWhereIn('ministry_id', $allowedEntityIds);
+                        });
+                });
         });
     }
 

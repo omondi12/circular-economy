@@ -149,7 +149,7 @@ class ClientReportController extends Controller
         $user = Auth::user();
         $search = $request->string('q')->toString() ?: null;
 
-        $clients = ($user->isAdmin() ? StateCorporation::query() : $user->assignedStateCorporations())
+        $clients = ($user->isAdmin() ? StateCorporation::query() : $user->effectiveStateCorporations())
             ->withCount('reports')
             ->with('ministry.parent')
             ->when($search, fn ($q, $v) => $q->where('name', 'like', "%{$v}%"))
@@ -212,7 +212,7 @@ class ClientReportController extends Controller
     {
         $user = Auth::user();
 
-        abort_unless($user->isAdmin() || $client->assigned_rm_id === $user->id, 403);
+        abort_unless($user->isAdmin() || $client->effectiveAssignedRmId() === $user->id, 403);
     }
 
     private function reportRules(): array

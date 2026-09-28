@@ -23,7 +23,7 @@
                         <select id="rm_id" name="rm_id" class="w-full border-0 focus:ring-0 text-sm py-1.5 px-0 text-ink">
                             <option value="">— Not sure / not listed —</option>
                             @foreach ($rms as $rm)
-                                <option value="{{ $rm->id }}" @selected(old('rm_id', $client->assigned_rm_id) == $rm->id)>{{ $rm->name }}</option>
+                                <option value="{{ $rm->id }}" @selected(old('rm_id', $client->effectiveAssignedRmId()) == $rm->id)>{{ $rm->name }}</option>
                             @endforeach
                         </select>
                         @error('rm_id')

@@ -50,9 +50,9 @@ class AdminController extends Controller
                 : User::where('role', User::ROLE_RM)->count(),
             'supervisorCount' => User::where('role', User::ROLE_SUPERVISOR)->count(),
             'assignedClientCount' => $isSupervisor
-                ? StateCorporation::whereIn('assigned_rm_id', $rmIds)->count()
-                : StateCorporation::whereNotNull('assigned_rm_id')->count(),
-            'unassignedClientCount' => StateCorporation::whereNull('assigned_rm_id')->count(),
+                ? StateCorporation::assignedToRm($rmIds->all())->count()
+                : StateCorporation::effectivelyAssigned()->count(),
+            'unassignedClientCount' => StateCorporation::effectivelyUnassigned()->count(),
             'submissionCount' => Collection::count(),
             // Reports are no longer team-scoped (2026-09-08 - any
             // supervisor can view/log a report for any client) - "My
@@ -344,10 +344,10 @@ class AdminController extends Controller
             // narrows it down when useful.
             $clients = StateCorporation::query()
                 ->visibleTo($viewer)
-                ->with(['assignedRm', 'ministry.parent'])
+                ->with(['assignedRm', 'ministry.parent.assignedRm', 'ministry.assignedRm'])
                 ->when($search, fn ($q, $v) => $q->where('name', 'like', "%{$v}%"))
-                ->when($status === 'assigned', fn ($q) => $q->whereNotNull('assigned_rm_id'))
-                ->when($status === 'unassigned', fn ($q) => $q->whereNull('assigned_rm_id'))
+                ->when($status === 'assigned', fn ($q) => $q->effectivelyAssigned())
+                ->when($status === 'unassigned', fn ($q) => $q->effectivelyUnassigned())
                 ->orderBy('name')
                 ->get();
 
@@ -386,7 +386,11 @@ class AdminController extends Controller
     /**
      * Assigns (or, if the ministry already has one, reassigns/shifts) one
      * ministry to one RM - a plain overwrite, since a dropdown selection
-     * naturally replaces whatever was there before.
+     * naturally replaces whatever was there before. No longer touches
+     * client assignment at all (2026-09-28, per the boss - client
+     * assignment now comes only from a state department, or a manual
+     * override); this stays purely for scoping which ministries an RM
+     * sees on their own collection-entry form (User::assignedMinistries()).
      */
     public function assignMinistryRm(Request $request, GovernmentEntity $ministry): RedirectResponse
     {
@@ -405,26 +409,14 @@ class AdminController extends Controller
 
         $ministry->update(['assigned_rm_id' => $newRm?->id]);
 
-        // Assigning an RM to a ministry also links them to every client
-        // under it (2026-09-19, per the boss) - the ministry assignment is
-        // the umbrella, clients follow it, same "picking always shifts"
-        // rule as assigning a client directly. Only cascades on assignment,
-        // not on clearing the ministry back to unassigned.
-        $clientsUpdated = 0;
-        if ($newRm) {
-            $clientsUpdated = StateCorporation::where('ministry_id', $ministry->id)
-                ->update(['assigned_rm_id' => $newRm->id]);
-        }
-
         AuditLog::record('ministry.rm_assigned', $ministry, [
             'ministry' => $ministry->name,
             'previous_rm' => $previousRm,
             'new_rm' => $newRm?->name,
-            'clients_linked' => $clientsUpdated,
         ]);
 
         return back()->with('status', $newRm
-            ? "{$ministry->name} assigned to {$newRm->name} ({$clientsUpdated} client(s) under it linked too)."
+            ? "{$ministry->name} assigned to {$newRm->name}."
             : "{$ministry->name} unassigned.");
     }
 
@@ -432,10 +424,13 @@ class AdminController extends Controller
      * Same shift/reassign behaviour as assignMinistryRm, one level down
      * (2026-09-28, per the boss - a ministry can have several state
      * departments split across different RMs, finer than a ministry-wide
-     * assignment). Cascades to every client under this department -
-     * either assigned straight to the department, or to an institution
-     * whose parent is this department - same "any level" rule
-     * StateCorporation::stateDepartmentDisplay() already walks.
+     * assignment, and this is now the only way an RM gets a portfolio of
+     * clients other than a manual per-client override). Every client
+     * under this department - assigned straight to it, or to one of its
+     * institutions - starts showing this RM immediately, live, via
+     * StateCorporation::effectiveAssignedRm(); nothing is written onto
+     * the client rows themselves, so a later reassignment here instantly
+     * moves them all again with nothing to fall out of sync.
      */
     public function assignStateDepartmentRm(Request $request, GovernmentEntity $stateDepartment): RedirectResponse
     {
@@ -454,26 +449,23 @@ class AdminController extends Controller
 
         $stateDepartment->update(['assigned_rm_id' => $newRm?->id]);
 
-        $clientsUpdated = 0;
-        if ($newRm) {
-            $institutionIds = GovernmentEntity::where('parent_id', $stateDepartment->id)
-                ->where('level', GovernmentEntity::LEVEL_INSTITUTION)
-                ->pluck('id');
+        $institutionIds = GovernmentEntity::where('parent_id', $stateDepartment->id)
+            ->where('level', GovernmentEntity::LEVEL_INSTITUTION)
+            ->pluck('id');
 
-            $clientsUpdated = StateCorporation::where('ministry_id', $stateDepartment->id)
-                ->orWhereIn('ministry_id', $institutionIds)
-                ->update(['assigned_rm_id' => $newRm->id]);
-        }
+        $clientCount = StateCorporation::where('ministry_id', $stateDepartment->id)
+            ->orWhereIn('ministry_id', $institutionIds)
+            ->count();
 
         AuditLog::record('state_department.rm_assigned', $stateDepartment, [
             'state_department' => $stateDepartment->name,
             'previous_rm' => $previousRm,
             'new_rm' => $newRm?->name,
-            'clients_linked' => $clientsUpdated,
+            'clients_under_it' => $clientCount,
         ]);
 
         return back()->with('status', $newRm
-            ? "{$stateDepartment->name} assigned to {$newRm->name} ({$clientsUpdated} client(s) under it linked too)."
+            ? "{$stateDepartment->name} assigned to {$newRm->name} ({$clientCount} client(s) under it now show them)."
             : "{$stateDepartment->name} unassigned.");
     }
 

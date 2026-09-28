@@ -43,8 +43,8 @@ class DashboardController extends Controller
         $stateCorpTotal = StateCorporation::count();
         $stateCorpPhase1 = StateCorporation::phaseOne()->count();
         $stateCorpPhase2 = StateCorporation::phaseTwo()->count();
-        $assignedClientCount = StateCorporation::whereNotNull('assigned_rm_id')->count();
-        $unassignedClientCount = StateCorporation::whereNull('assigned_rm_id')->count();
+        $assignedClientCount = StateCorporation::effectivelyAssigned()->count();
+        $unassignedClientCount = StateCorporation::effectivelyUnassigned()->count();
 
         $rmCount = User::where('role', User::ROLE_RM)->count();
 
@@ -313,7 +313,7 @@ class DashboardController extends Controller
 
         $clients = StateCorporation::where('ministry_id', $department->id)
             ->orWhereIn('ministry_id', $institutionIds)
-            ->with('assignedRm')
+            ->with(['assignedRm', 'ministry.assignedRm', 'ministry.parent.assignedRm'])
             ->orderBy('name')
             ->get()
             ->map(function (StateCorporation $client) {
@@ -385,13 +385,15 @@ class DashboardController extends Controller
             fputcsv($handle, ['Name', 'Classification', 'Ministry', 'State Department', 'RM', 'Supervisor', 'Contact Person', 'Cluster', 'Class', 'Sub-Class', 'Phase']);
 
             foreach ($corporations as $corp) {
+                $rm = $corp->effectiveAssignedRm();
+
                 fputcsv($handle, [
                     $corp->name,
                     $corp->classification,
                     $corp->ministryDisplay(),
                     $corp->stateDepartmentDisplay(),
-                    $corp->assignedRm->name ?? '',
-                    $corp->assignedRm?->supervisor?->name ?? '',
+                    $rm?->name ?? '',
+                    $rm?->supervisor?->name ?? '',
                     $corp->latestReport?->contact_person ?? '',
                     $corp->cluster,
                     $corp->class,
@@ -411,13 +413,13 @@ class DashboardController extends Controller
         $filters = $this->stateCorporationsFilters($request);
 
         return StateCorporation::query()
-            ->with(['ministry.parent', 'assignedRm.supervisor', 'latestReport'])
+            ->with(['ministry.parent.assignedRm', 'ministry.assignedRm', 'assignedRm.supervisor', 'latestReport'])
             ->when($filters['phase'], fn ($q, $v) => $q->where('phase', $v))
             ->when($filters['classification'], fn ($q, $v) => $q->where('classification', $v))
             ->when($filters['q'], fn ($q, $v) => $q->where('name', 'like', "%{$v}%"))
-            ->when($filters['rm'] === 'assigned', fn ($q) => $q->whereNotNull('assigned_rm_id'))
-            ->when($filters['rm'] === 'unassigned', fn ($q) => $q->whereNull('assigned_rm_id'))
-            ->when($filters['rm'] && ! in_array($filters['rm'], ['assigned', 'unassigned'], true), fn ($q) => $q->where('assigned_rm_id', $filters['rm']))
+            ->when($filters['rm'] === 'assigned', fn ($q) => $q->effectivelyAssigned())
+            ->when($filters['rm'] === 'unassigned', fn ($q) => $q->effectivelyUnassigned())
+            ->when($filters['rm'] && ! in_array($filters['rm'], ['assigned', 'unassigned'], true), fn ($q) => $q->assignedToRm((int) $filters['rm']))
             ->orderBy('phase')
             ->orderBy('cluster')
             ->orderBy('name');
@@ -448,9 +450,10 @@ class DashboardController extends Controller
     {
         $rms = User::assignableRms()
             ->with('supervisor')
-            ->withCount(['assignedStateCorporations as client_count', 'collections as collection_count', 'requisitions as requisition_count'])
+            ->withCount(['collections as collection_count', 'requisitions as requisition_count'])
             ->orderBy('name')
-            ->get();
+            ->get()
+            ->each(fn (User $rm) => $rm->setAttribute('client_count', $rm->effectiveStateCorporations()->count()));
 
         return view('relationship-managers.index', [
             'rms' => $rms,
@@ -476,7 +479,7 @@ class DashboardController extends Controller
     {
         abort_unless($rm->role === User::ROLE_RM, 404);
 
-        $clients = $rm->assignedStateCorporations()->with('ministry')->orderBy('name')->get();
+        $clients = $rm->effectiveStateCorporations()->with('ministry')->orderBy('name')->get();
         $ministries = $rm->assignedMinistries()->orderBy('name')->get();
 
         $collections = $rm->collections()->orderByDesc('collection_date')->orderByDesc('id')->limit(20)->get();
@@ -510,12 +513,12 @@ class DashboardController extends Controller
             ->orderBy('name')
             ->get()
             ->map(function (User $supervisor) {
-                $rmIds = $supervisor->rms()->pluck('id');
+                $rms = $supervisor->rms;
 
                 return [
                     'supervisor' => $supervisor,
-                    'rmCount' => $rmIds->count(),
-                    'clientCount' => StateCorporation::whereIn('assigned_rm_id', $rmIds)->count(),
+                    'rmCount' => $rms->count(),
+                    'clientCount' => $rms->sum(fn (User $rm) => $rm->effectiveStateCorporations()->count()),
                 ];
             });
 
@@ -531,7 +534,7 @@ class DashboardController extends Controller
      */
     public function stateCorporationShow(StateCorporation $stateCorporation): View
     {
-        $stateCorporation->load(['ministry', 'assignedRm']);
+        $stateCorporation->load(['ministry.assignedRm', 'ministry.parent.assignedRm', 'assignedRm']);
 
         $overall = Collection::where('state_corporation_id', $stateCorporation->id)
             ->selectRaw('COUNT(*) as submissions, '.self::entityQuantitySql())

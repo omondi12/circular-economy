@@ -20,8 +20,8 @@
             <div class="bg-panel border border-border rounded-xl p-5 shadow-sm">
                 <p class="text-xs text-ink-faint mb-1.5">Assigned RM</p>
                 <p class="text-sm font-medium text-ink">
-                    @if ($corporation->assignedRm)
-                        {{ $corporation->assignedRm->name }}
+                    @if ($corporation->effectiveAssignedRm())
+                        {{ $corporation->effectiveAssignedRm()->name }}
                     @else
                         <span class="text-ink-faint font-normal">Unassigned</span>
                     @endif

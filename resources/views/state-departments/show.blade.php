@@ -61,8 +61,8 @@
                             @if ($client->ceo_name)
                                 <span>&middot; CEO: {{ $client->ceo_name }}</span>
                             @endif
-                            @if ($client->assignedRm)
-                                <span>&middot; RM: {{ $client->assignedRm->name }}</span>
+                            @if ($client->effectiveAssignedRm())
+                                <span>&middot; RM: {{ $client->effectiveAssignedRm()->name }}</span>
                             @endif
                         </div>
                     </div>

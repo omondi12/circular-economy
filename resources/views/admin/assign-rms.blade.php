@@ -7,7 +7,7 @@
 
         <x-page-header
             title="Assign RMs"
-            subtitle="Assign or reassign which RM covers each ministry and each client. Picking a new RM always shifts the assignment, even if one is already set."
+            subtitle="Clients follow their state department now - assign one there and every client under it shows that RM immediately. Direct client assignment is still available as a one-off exception. Ministry assignment only scopes an RM's own collection-entry form."
             :back="route('admin.dashboard')"
             back-label="Back to admin"
         />
@@ -156,19 +156,9 @@
                 </table>
             </div>
         @elseif ($view === 'clients')
-            @if (auth()->user()->isAdmin())
-                <div class="flex items-center justify-end mb-4">
-                    <form
-                        method="POST" action="{{ route('admin.assign-rms.clients.distribute') }}"
-                        onsubmit="return confirm('This rebalances every non-pilot client evenly across all active RMs, overwriting any manual assignments made above (the boss\'s own named pilot clients are left untouched). Continue?')"
-                    >
-                        @csrf
-                        <button type="submit" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-gold-600 hover:bg-gold-700 text-white text-sm font-semibold transition-colors shadow-sm">
-                            Distribute Automatically
-                        </button>
-                    </form>
-                </div>
-            @endif
+            <p class="text-sm text-ink-faint mb-4">
+                Clients get their RM from their state department now - assign one there instead of here for a whole portfolio at once. Use the dropdown below only for a one-off exception.
+            </p>
 
             <form method="GET" class="mb-4">
                 <input type="hidden" name="view" value="clients">
@@ -243,7 +233,10 @@
                                     <div class="line-clamp-2">{{ $client->stateDepartmentDisplay() }}</div>
                                 </td>
                                 <td class="px-4 py-3 text-ink-muted">
-                                    {{ $client->assignedRm->name ?? '—' }}
+                                    {{ $client->effectiveAssignedRm()->name ?? '—' }}
+                                    @if (! $client->assigned_rm_id && $client->effectiveAssignedRm())
+                                        <div class="text-xs text-ink-faint">via {{ $client->stateDepartmentDisplay() }}</div>
+                                    @endif
                                 </td>
                                 <td class="px-4 py-3">
                                     <form method="POST" action="{{ route('admin.assign-rms.clients.update', $client) }}">
@@ -252,7 +245,7 @@
                                             name="assigned_rm_id" onchange="this.form.submit()"
                                             class="rounded-lg border border-border bg-white px-3 py-1.5 text-sm text-ink focus:outline-none focus:ring-2 focus:ring-brand-600/30 focus:border-brand-600"
                                         >
-                                            <option value="">— Unassigned —</option>
+                                            <option value="">— No override (follow department) —</option>
                                             @foreach ($rms as $rm)
                                                 <option value="{{ $rm->id }}" @selected($client->assigned_rm_id === $rm->id)>{{ $rm->name }}</option>
                                             @endforeach
