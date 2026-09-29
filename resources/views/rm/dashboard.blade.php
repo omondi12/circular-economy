@@ -26,10 +26,6 @@
                         <x-icon name="document" size="16" />
                         Log a Report
                     </a>
-                    <a href="{{ route('rm.lsos.index') }}" class="inline-flex items-center gap-2 px-5 py-3 rounded-lg bg-white/15 ring-1 ring-white/25 text-white text-sm font-semibold hover:bg-white/25 transition-colors">
-                        <x-icon name="file-text" size="16" />
-                        My LSOs
-                    </a>
                     <a href="{{ route('requisitions.mine') }}" class="inline-flex items-center gap-2 px-5 py-3 rounded-lg bg-white/15 ring-1 ring-white/25 text-white text-sm font-semibold hover:bg-white/25 transition-colors">
                         <x-icon name="calendar" size="16" />
                         My Requisitions
@@ -90,6 +86,7 @@
                         <th class="px-4 py-2 font-medium">Lot / Category</th>
                         <th class="px-4 py-2 font-medium text-right">Quantity</th>
                         <th class="px-4 py-2 font-medium">Date</th>
+                        <th class="px-4 py-2 font-medium">LSO</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-border">
@@ -106,10 +103,19 @@
                             </td>
                             <td class="px-4 py-3 text-right tabular-nums whitespace-nowrap font-medium">{{ number_format($submission->quantity, 1) }} {{ $submission->unit }}</td>
                             <td class="px-4 py-3 whitespace-nowrap text-ink-faint">{{ $submission->collection_date->format('d M Y') }}</td>
+                            <td class="px-4 py-3 whitespace-nowrap">
+                                @if ($submission->lso_id)
+                                    <a href="{{ route('rm.lsos.show', $submission->lso_id) }}" class="text-brand-700 hover:text-brand-800 font-medium text-xs">
+                                        View / Record Payment
+                                    </a>
+                                @else
+                                    <span class="text-ink-faint text-xs">—</span>
+                                @endif
+                            </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="4" class="px-4 py-8 text-center text-ink-faint">You haven't recorded any collections yet.</td>
+                            <td colspan="5" class="px-4 py-8 text-center text-ink-faint">You haven't recorded any collections yet.</td>
                         </tr>
                     @endforelse
                 </tbody>

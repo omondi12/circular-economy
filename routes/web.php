@@ -86,9 +86,10 @@ Route::prefix('rm')->name('rm.')->middleware(['auth', 'role:rm,admin'])->group(f
     Route::get('/clients/{client}/reports', [ClientReportController::class, 'rmShow'])->name('clients.reports.index');
     Route::post('/clients/{client}/reports', [ClientReportController::class, 'rmStore'])->name('clients.reports.store');
 
-    Route::get('/lsos', [LsoController::class, 'mine'])->name('lsos.index');
-    Route::get('/lsos/create', [LsoController::class, 'create'])->name('lsos.create');
-    Route::post('/lsos', [LsoController::class, 'store'])->name('lsos.store');
+    // No index/create here - an LSO is now recorded as part of "Record a
+    // Collection" (Lot 1 only). This stays so an RM can reopen their LSO
+    // (linked from a collection in "My Submissions") to record a payment
+    // against it for Finance/Admin to confirm.
     Route::get('/lsos/{lso}', [LsoController::class, 'show'])->name('lsos.show');
     Route::post('/lsos/{lso}/payments', [LsoController::class, 'storePayment'])->name('lsos.payments.store');
 });

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\AuditLog;
 use App\Models\Collection;
 use App\Models\GovernmentEntity;
+use App\Models\Lso;
 use App\Support\EntityDirectory;
 use App\Support\WasteCategories;
 use Illuminate\Contracts\View\View;
@@ -126,7 +127,14 @@ class RmDashboardController extends Controller
             'quantity' => ['required', 'numeric', 'min:0.01'],
             'description' => ['nullable', 'string', 'max:255'],
             'collection_date' => ['required', 'date'],
+            'lso_reference_number' => ['required_if:lot,'.WasteCategories::LOT_SALE, 'nullable', 'string', 'max:100', 'unique:lsos,reference_number'],
+            'lso_amount' => ['required_if:lot,'.WasteCategories::LOT_SALE, 'nullable', 'integer', 'min:1'],
+            'lso_document' => ['required_if:lot,'.WasteCategories::LOT_SALE, 'nullable', 'file', 'mimes:jpg,jpeg,png,webp,pdf', 'max:5120'],
         ]);
+
+        $lsoReferenceNumber = $data['lso_reference_number'] ?? null;
+        $lsoAmount = $data['lso_amount'] ?? null;
+        unset($data['lso_reference_number'], $data['lso_amount'], $data['lso_document']);
 
         $lot = (int) $data['lot'];
 
@@ -217,6 +225,41 @@ class RmDashboardController extends Controller
             'quantity' => $collection->quantity,
             'unit' => $collection->unitLabel(),
         ]);
+
+        // Lot 1 (Sale) materials are handed over against an LSO stating
+        // their worth - Lot 2 (Disposal) has no monetary value, so no LSO
+        // is created. The LSO record (reference number, value, document)
+        // is what Finance/Admin's existing payment-confirmation ledger
+        // and RM Targets already run on - this just feeds it from the
+        // collection form instead of a separate "My LSOs" entry screen.
+        if ($lot === WasteCategories::LOT_SALE) {
+            $document = $request->file('lso_document');
+            $documentPath = $document->store('lso-documents', 'local');
+
+            $lso = Lso::create([
+                'reference_number' => $lsoReferenceNumber,
+                'user_id' => $user->id,
+                'customer_name' => $collection->entity_name,
+                'customer_contact' => $collection->contact_person_number,
+                'ministry_id' => $collection->ministry_id,
+                'state_department_id' => $collection->state_department_id,
+                'institution_id' => $collection->institution_id,
+                'original_amount_minor' => $lsoAmount * 100,
+                'issue_date' => $collection->collection_date,
+                'document_path' => $documentPath,
+                'document_original_filename' => $document->getClientOriginalName(),
+                'document_mime' => $document->getClientMimeType(),
+                'created_by' => $user->id,
+            ]);
+
+            $collection->update(['lso_id' => $lso->id]);
+
+            AuditLog::record('lso.created', $lso, [
+                'reference_number' => $lso->reference_number,
+                'customer_name' => $lso->customer_name,
+                'original_amount' => $lso->original_amount_minor / 100,
+            ]);
+        }
 
         return redirect()->route('rm.dashboard')->with('status', 'Collection recorded successfully.');
     }

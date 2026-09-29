@@ -2,8 +2,8 @@
     <x-page-header
         :title="'LSO '.$lso->reference_number"
         :subtitle="$lso->customer_name"
-        :back="auth()->user()->isRm() ? route('rm.lsos.index') : route('admin.lsos.index')"
-        :back-label="auth()->user()->isRm() ? 'Back to my LSOs' : 'Back to LSOs'"
+        :back="auth()->user()->isRm() ? route('rm.dashboard') : route('admin.lsos.index')"
+        :back-label="auth()->user()->isRm() ? 'Back to my dashboard' : 'Back to LSOs'"
     />
 
     @if (session('status'))

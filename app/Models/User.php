@@ -315,17 +315,6 @@ class User extends Authenticatable
     }
 
     /**
-     * Who can record an LSO / upload its evidence / record a collection
-     * against their own LSO - an RM for themselves, or an admin (useful
-     * for testing/helping an RM, same reasoning as the /rm route group's
-     * role:rm,admin).
-     */
-    public function canRecordLso(): bool
-    {
-        return $this->isRm() || $this->isAdmin();
-    }
-
-    /**
      * Who can confirm/reject a recorded LSO payment - the same role set
      * as canApproveRequisitions() (admin, supervisor, office admin), since
      * this is the equivalent "someone other than the person who recorded
@@ -401,7 +390,6 @@ class User extends Authenticatable
         return match (true) {
             $this->isRm() => [
                 ['label' => 'My Clients', 'route' => 'rm.clients.index', 'pattern' => 'rm.clients.*'],
-                ['label' => 'My LSOs', 'route' => 'rm.lsos.index', 'pattern' => 'rm.lsos.*'],
                 ['label' => 'My Requisitions', 'route' => 'requisitions.mine', 'pattern' => 'requisitions.mine'],
             ],
             $this->isSupervisor() || $this->isOperations() => [

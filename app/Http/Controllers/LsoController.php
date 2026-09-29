@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\AuditLog;
-use App\Models\GovernmentEntity;
 use App\Models\Lso;
 use App\Models\LsoPayment;
 use App\Models\User;
@@ -26,81 +25,6 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
  */
 class LsoController extends Controller
 {
-    /**
-     * An RM's own LSOs, newest first.
-     */
-    public function mine(): View
-    {
-        $user = Auth::user();
-
-        $lsos = Lso::where('user_id', $user->id)
-            ->withCount('payments')
-            ->with('payments')
-            ->orderByDesc('issue_date')
-            ->orderByDesc('id')
-            ->paginate(15);
-
-        return view('rm.lsos.index', [
-            'lsos' => $lsos,
-            'totalLsos' => Lso::where('user_id', $user->id)->count(),
-            'totalOriginalMinor' => (int) Lso::where('user_id', $user->id)->sum('original_amount_minor'),
-            'totalConfirmedMinor' => (int) LsoPayment::where('status', LsoPayment::STATUS_CONFIRMED)
-                ->whereHas('lso', fn ($q) => $q->where('user_id', $user->id))
-                ->sum('amount_minor'),
-        ]);
-    }
-
-    public function create(): View
-    {
-        return view('rm.lsos.create', [
-            'ministries' => GovernmentEntity::ministries()->orderBy('name')->get(['id', 'name']),
-        ]);
-    }
-
-    public function store(Request $request): RedirectResponse
-    {
-        abort_unless(Auth::user()->canRecordLso(), 403);
-
-        $data = $request->validate([
-            'reference_number' => ['required', 'string', 'max:100', 'unique:lsos,reference_number'],
-            'customer_name' => ['required', 'string', 'max:255'],
-            'customer_contact' => ['nullable', 'string', 'max:50'],
-            'description' => ['nullable', 'string', 'max:1000'],
-            'ministry_id' => ['nullable', 'integer', 'exists:government_entities,id'],
-            'original_amount' => ['required', 'integer', 'min:1'],
-            'issue_date' => ['required', 'date'],
-            'notes' => ['nullable', 'string', 'max:1000'],
-            'document' => ['required', 'file', 'mimes:jpg,jpeg,png,webp,pdf', 'max:5120'],
-        ]);
-
-        $document = $request->file('document');
-        $documentPath = $document->store('lso-documents', 'local');
-
-        $lso = Lso::create([
-            'reference_number' => $data['reference_number'],
-            'user_id' => Auth::id(),
-            'customer_name' => $data['customer_name'],
-            'customer_contact' => $data['customer_contact'] ?? null,
-            'description' => $data['description'] ?? null,
-            'ministry_id' => $data['ministry_id'] ?? null,
-            'original_amount_minor' => $data['original_amount'] * 100,
-            'issue_date' => $data['issue_date'],
-            'document_path' => $documentPath,
-            'document_original_filename' => $document->getClientOriginalName(),
-            'document_mime' => $document->getClientMimeType(),
-            'notes' => $data['notes'] ?? null,
-            'created_by' => Auth::id(),
-        ]);
-
-        AuditLog::record('lso.created', $lso, [
-            'reference_number' => $lso->reference_number,
-            'customer_name' => $lso->customer_name,
-            'original_amount' => $lso->original_amount_minor / 100,
-        ]);
-
-        return redirect()->route('rm.lsos.index')->with('status', 'LSO recorded.');
-    }
-
     /**
      * Shared by both rm.lsos.show and admin.lsos.show - visibility is
      * decided by Lso::scopeVisibleTo(), not by which route matched.

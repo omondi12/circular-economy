@@ -6,7 +6,7 @@
             back-label="Back to my dashboard"
         />
 
-        <form method="POST" action="{{ route('rm.collections.store') }}" class="space-y-6">
+        <form method="POST" action="{{ route('rm.collections.store') }}" enctype="multipart/form-data" class="space-y-6">
             @csrf
 
             {{-- Entity & contact block --}}
@@ -266,6 +266,53 @@
                 <x-form-field label="Description" name="description" :value="old('description')" placeholder="e.g. specify the exact type when Subcategory is 'Other'" />
             </div>
 
+            {{-- LSO Details - only for Lot 1 (Sale), which has monetary value. Lot 2 (Disposal) has none, so no LSO is recorded. --}}
+            <div id="lso-fields" class="bg-panel border border-border rounded-xl overflow-hidden shadow-sm hidden">
+                <div class="bg-gradient-to-r from-brand-700 to-brand-500 px-4 py-2.5">
+                    <h2 class="text-sm font-semibold text-white uppercase tracking-wide">LSO Details</h2>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-[220px_1fr] border-b border-border">
+                    <label for="lso_reference_number" class="bg-gold-50 px-4 py-3 text-sm font-semibold text-ink-muted flex items-center">
+                        LSO Reference <span class="text-danger ml-1">*</span>
+                    </label>
+                    <div class="px-4 py-2 flex flex-col justify-center">
+                        <input type="text" id="lso_reference_number" name="lso_reference_number" value="{{ old('lso_reference_number') }}"
+                            class="w-full border-0 focus:ring-0 text-sm py-1.5 px-0 text-ink" placeholder="e.g. LSO/2026/00123">
+                        @error('lso_reference_number')
+                            <p class="text-xs text-danger mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-[220px_1fr] border-b border-border">
+                    <label for="lso_amount" class="bg-gold-50 px-4 py-3 text-sm font-semibold text-ink-muted flex items-center">
+                        Amount the Materials are Worth (KES) <span class="text-danger ml-1">*</span>
+                    </label>
+                    <div class="px-4 py-2 flex flex-col justify-center">
+                        <input type="number" min="1" step="1" id="lso_amount" name="lso_amount" value="{{ old('lso_amount') }}"
+                            class="w-full border-0 focus:ring-0 text-sm py-1.5 px-0 text-ink" placeholder="Value stated on the LSO">
+                        @error('lso_amount')
+                            <p class="text-xs text-danger mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-[220px_1fr]">
+                    <label for="lso_document" class="bg-gold-50 px-4 py-3 text-sm font-semibold text-ink-muted flex items-center">
+                        LSO Document <span class="text-danger ml-1">*</span>
+                    </label>
+                    <div class="px-4 py-2.5 flex flex-col justify-center">
+                        <input type="file" id="lso_document" name="lso_document" accept=".jpg,.jpeg,.png,.webp,.pdf"
+                            class="w-full text-sm text-ink file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:bg-brand-50 file:text-brand-800 file:text-sm file:font-medium">
+                        @error('lso_document')
+                            <p class="text-xs text-danger mt-1">{{ $message }}</p>
+                        @enderror
+                        <p class="text-xs text-ink-faint mt-1">Photo or scan of the LSO. JPG, PNG, WEBP or PDF, up to 5MB. Kept private - only you and Finance/Admin can view it.</p>
+                    </div>
+                </div>
+            </div>
+
             {{-- Date --}}
             <div class="bg-panel border border-border rounded-xl overflow-hidden shadow-sm">
                 <x-form-field label="Date" name="collection_date" type="date" required :value="now()->toDateString()" />
@@ -400,11 +447,27 @@
             select.disabled = options.length === 0;
         }
 
+        // LSO details only apply to Lot 1 (Sale) - the value stated on
+        // the LSO document. Lot 2 (Disposal) materials have no value, so
+        // no LSO is recorded for them.
+        function onLotChangeToggleLso() {
+            const lotKey = document.getElementById('lot').value;
+            const lsoFields = document.getElementById('lso-fields');
+            const isSale = lotKey === '{{ \App\Support\WasteCategories::LOT_SALE }}';
+
+            lsoFields.classList.toggle('hidden', !isSale);
+            ['lso_reference_number', 'lso_amount', 'lso_document'].forEach((id) => {
+                document.getElementById(id).required = isSale;
+            });
+        }
+
         function onLotChange() {
             const lot = currentLot();
             const categorySelect = document.getElementById('category');
             const subcatRow = document.getElementById('subcategory-row');
             const subcatSelect = document.getElementById('subcategory');
+
+            onLotChangeToggleLso();
 
             if (!lot) {
                 fillSelect(categorySelect, [], 'Select a lot first…');

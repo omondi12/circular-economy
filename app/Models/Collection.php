@@ -32,6 +32,7 @@ class Collection extends Model
         'state_department_id',
         'institution_id',
         'state_corporation_id',
+        'lso_id',
         'relationship_manager',
         'state_department',
         'department_agency',
@@ -84,6 +85,17 @@ class Collection extends Model
     public function stateCorporation(): BelongsTo
     {
         return $this->belongsTo(StateCorporation::class);
+    }
+
+    /**
+     * The LSO created alongside this collection, when it's a Lot 1
+     * (Sale) submission recorded with LSO details - reference number,
+     * value and document all live on the Lso row itself. Null for Lot 2
+     * (Disposal), which has no monetary value.
+     */
+    public function lso(): BelongsTo
+    {
+        return $this->belongsTo(Lso::class);
     }
 
     /**
