@@ -138,6 +138,16 @@ class User extends Authenticatable
         return $this->hasMany(Requisition::class, 'requester_id');
     }
 
+    public function lsos(): HasMany
+    {
+        return $this->hasMany(Lso::class);
+    }
+
+    public function rmTargets(): HasMany
+    {
+        return $this->hasMany(RmTarget::class);
+    }
+
     /**
      * The supervisor an RM reports to (2026-09-06: each RM now belongs to
      * exactly one supervisor, who does that RM's client reporting).
@@ -305,6 +315,54 @@ class User extends Authenticatable
     }
 
     /**
+     * Who can record an LSO / upload its evidence / record a collection
+     * against their own LSO - an RM for themselves, or an admin (useful
+     * for testing/helping an RM, same reasoning as the /rm route group's
+     * role:rm,admin).
+     */
+    public function canRecordLso(): bool
+    {
+        return $this->isRm() || $this->isAdmin();
+    }
+
+    /**
+     * Who can confirm/reject a recorded LSO payment - the same role set
+     * as canApproveRequisitions() (admin, supervisor, office admin), since
+     * this is the equivalent "someone other than the person who recorded
+     * it verifies it" step, just for money coming in rather than going
+     * out. Operations is deliberately excluded, same as Requisitions'
+     * approval group.
+     */
+    public function canManageLsoFinance(): bool
+    {
+        return in_array($this->role, [self::ROLE_ADMIN, self::ROLE_SUPERVISOR, self::ROLE_OFFICE_ADMIN], true);
+    }
+
+    /**
+     * A recorded LSO payment can't be confirmed/rejected by the RM who
+     * recorded the underlying LSO - mirrors canPayRequisition()'s
+     * self-exclusion.
+     */
+    public function canConfirmLsoPayment(LsoPayment $payment): bool
+    {
+        if (! $this->canManageLsoFinance()) {
+            return false;
+        }
+
+        return $payment->lso !== null && $payment->lso->user_id !== $this->id;
+    }
+
+    /**
+     * RM targets are a finance-policy action, so this is deliberately
+     * narrower than canManageLsoFinance() - admin and office admin only,
+     * same tier as Nawiri Treasury, not supervisor/operations.
+     */
+    public function canManageRmTargets(): bool
+    {
+        return in_array($this->role, [self::ROLE_ADMIN, self::ROLE_OFFICE_ADMIN], true);
+    }
+
+    /**
      * Where this account lands after login and what the nav's primary
      * button points to - centralized here since it now differs per role
      * (Office Admin has no use for the full admin dashboard, only
@@ -343,17 +401,22 @@ class User extends Authenticatable
         return match (true) {
             $this->isRm() => [
                 ['label' => 'My Clients', 'route' => 'rm.clients.index', 'pattern' => 'rm.clients.*'],
+                ['label' => 'My LSOs', 'route' => 'rm.lsos.index', 'pattern' => 'rm.lsos.*'],
                 ['label' => 'My Requisitions', 'route' => 'requisitions.mine', 'pattern' => 'requisitions.mine'],
             ],
             $this->isSupervisor() || $this->isOperations() => [
                 ['label' => 'Team Accounts', 'route' => 'admin.users', 'pattern' => 'admin.users*'],
                 ['label' => 'Assign RMs', 'route' => 'admin.assign-rms', 'pattern' => 'admin.assign-rms*'],
                 ['label' => 'RM Performance', 'route' => 'admin.rm-performance', 'pattern' => 'admin.rm-performance'],
+                ['label' => 'LSOs', 'route' => 'admin.lsos.index', 'pattern' => 'admin.lsos.*'],
+                ['label' => 'RM Targets', 'route' => 'admin.rm-targets.index', 'pattern' => 'admin.rm-targets.*'],
                 ['label' => 'Audit Log', 'route' => 'admin.audit-log', 'pattern' => 'admin.audit-log'],
                 ['label' => 'My Requisitions', 'route' => 'requisitions.mine', 'pattern' => 'requisitions.mine'],
             ],
             $this->isOfficeAdmin() || $this->isAdmin() => [
                 ['label' => 'Requisitions', 'route' => 'admin.requisitions.index', 'pattern' => 'admin.requisitions.*'],
+                ['label' => 'LSOs', 'route' => 'admin.lsos.index', 'pattern' => 'admin.lsos.*'],
+                ['label' => 'RM Targets', 'route' => 'admin.rm-targets.index', 'pattern' => 'admin.rm-targets.*'],
                 ['label' => 'Nawiri Treasury', 'route' => 'admin.nawiri-treasury.edit', 'pattern' => 'admin.nawiri-treasury.*'],
                 ['label' => 'Assign RMs', 'route' => 'admin.assign-rms', 'pattern' => 'admin.assign-rms*'],
                 ['label' => 'Team Accounts', 'route' => 'admin.users', 'pattern' => 'admin.users*'],

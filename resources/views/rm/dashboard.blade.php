@@ -26,6 +26,10 @@
                         <x-icon name="document" size="16" />
                         Log a Report
                     </a>
+                    <a href="{{ route('rm.lsos.index') }}" class="inline-flex items-center gap-2 px-5 py-3 rounded-lg bg-white/15 ring-1 ring-white/25 text-white text-sm font-semibold hover:bg-white/25 transition-colors">
+                        <x-icon name="file-text" size="16" />
+                        My LSOs
+                    </a>
                     <a href="{{ route('requisitions.mine') }}" class="inline-flex items-center gap-2 px-5 py-3 rounded-lg bg-white/15 ring-1 ring-white/25 text-white text-sm font-semibold hover:bg-white/25 transition-colors">
                         <x-icon name="calendar" size="16" />
                         My Requisitions
