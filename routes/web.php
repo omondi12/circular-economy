@@ -6,9 +6,11 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ClientReportController;
 use App\Http\Controllers\CollectionController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\LsoController;
 use App\Http\Controllers\NawiriTreasuryController;
 use App\Http\Controllers\RequisitionController;
 use App\Http\Controllers\RmDashboardController;
+use App\Http\Controllers\RmTargetController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 
@@ -56,6 +58,12 @@ Route::get('/login', [AuthController::class, 'showLogin'])->name('login')->middl
 Route::post('/login', [AuthController::class, 'login'])->middleware('guest');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
 
+// Streams a private LSO document (financial evidence) through PHP from
+// the `local` disk - deliberately not the public /photos/{path} pattern
+// above. Any authenticated user can hit this URL; LsoController::document()
+// does the real authorization via Lso::scopeVisibleTo().
+Route::get('/lso/{lso}/document', [LsoController::class, 'document'])->middleware('auth')->name('lso.document.show');
+
 // Every logged-in account's own small profile page (photo upload, own
 // Nawiri phone number) - available to any role, not just RMs.
 Route::prefix('account')->name('account.')->middleware('auth')->group(function () {
@@ -77,6 +85,12 @@ Route::prefix('rm')->name('rm.')->middleware(['auth', 'role:rm,admin'])->group(f
     Route::get('/clients', [ClientReportController::class, 'rmClients'])->name('clients.index');
     Route::get('/clients/{client}/reports', [ClientReportController::class, 'rmShow'])->name('clients.reports.index');
     Route::post('/clients/{client}/reports', [ClientReportController::class, 'rmStore'])->name('clients.reports.store');
+
+    Route::get('/lsos', [LsoController::class, 'mine'])->name('lsos.index');
+    Route::get('/lsos/create', [LsoController::class, 'create'])->name('lsos.create');
+    Route::post('/lsos', [LsoController::class, 'store'])->name('lsos.store');
+    Route::get('/lsos/{lso}', [LsoController::class, 'show'])->name('lsos.show');
+    Route::post('/lsos/{lso}/payments', [LsoController::class, 'storePayment'])->name('lsos.payments.store');
 });
 
 // A requester's own facilitation (transport/airtime) requests - RMs,
@@ -123,6 +137,12 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin,supervis
 
     Route::get('/reports/{report}/edit', [ClientReportController::class, 'editReport'])->name('reports.edit');
     Route::put('/reports/{report}', [ClientReportController::class, 'updateReport'])->name('reports.update');
+
+    Route::get('/lsos', [LsoController::class, 'adminIndex'])->name('lsos.index');
+    Route::get('/lsos/{lso}', [LsoController::class, 'show'])->name('lsos.show');
+
+    Route::get('/rm-targets', [RmTargetController::class, 'index'])->name('rm-targets.index');
+    Route::post('/rm-targets', [RmTargetController::class, 'store'])->name('rm-targets.store');
 });
 
 // Admins and Office Admins can configure the treasury used for payments.
@@ -156,4 +176,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin,supervis
         Route::post('/requisition-payments/{payment}/authorize', [RequisitionController::class, 'authorizePayment'])->middleware('throttle:10,1')->name('requisition-payments.authorize');
         Route::post('/requisition-payments/{payment}/otp', [RequisitionController::class, 'resendPaymentOtp'])->middleware('throttle:3,1')->name('requisition-payments.otp');
     });
+
+    Route::post('/lso-payments/{payment}/confirm', [LsoController::class, 'confirmPayment'])->name('lso-payments.confirm');
+    Route::post('/lso-payments/{payment}/reject', [LsoController::class, 'rejectPayment'])->name('lso-payments.reject');
 });

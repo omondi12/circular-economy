@@ -64,6 +64,8 @@
                 icon="calendar" tone="rose"
                 :href="($isSupervisor || $isOperations) ? route('requisitions.mine') : route('admin.requisitions.index')"
             />
+            <x-stat-tile label="LSOs" value="View" hint="Tenders/LSOs and money collected against them" icon="file-text" tone="gold" :href="route('admin.lsos.index')" />
+            <x-stat-tile label="RM Targets" value="View" hint="Monetary/count targets and achievement" icon="scale" tone="violet" :href="route('admin.rm-targets.index')" />
             <x-stat-tile label="Audit Log" value="View" :hint="$isSupervisor ? 'Actions related to your team' : 'Every account and submission action'" icon="scale" tone="teal" :href="route('admin.audit-log')" />
             @unless ($isSupervisor || $isOperations)
                 <x-stat-tile label="Nawiri Treasury" value="Configure" hint="Choose the funded account used for payments" icon="building-bank" tone="green" :href="route('admin.nawiri-treasury.edit')" />
