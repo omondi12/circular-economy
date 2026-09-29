@@ -1,473 +1,603 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Westport Industrial City — Circular Economy Platform</title>
-<meta name="description" content="Westport Industrial City is building Kenya's public-sector circular economy — a mapped network of 668+ institutions across 47 counties and 24 ministries, turning industrial and institutional waste into recovered value.">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 4 A12 12 0 0 1 27.8 14' fill='none' stroke='%23147041' stroke-width='4'/%3E%3Cpath d='M16 28 A12 12 0 0 1 4.2 18' fill='none' stroke='%23b5810a' stroke-width='4'/%3E%3C/svg%3E">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Instrument+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
-    --font-display: 'Instrument Serif', ui-serif, Georgia, serif;
-    --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Westport Industrial City — Circular Economy Platform</title>
+  <meta name="description" content="Westport Industrial City is building Kenya's public-sector circular economy — a mapped network of 668+ institutions across 47 counties and 24 ministries, turning industrial and institutional waste into recovered value.">
+  <meta name="keywords" content="Kenya circular economy, institutional waste recovery, public sector sustainability, Westport Industrial City, material recovery, Kenya ministries waste tracking">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Westport Industrial City — Circular Economy Platform">
+  <meta property="og:description" content="Institutional waste, mapped. Recovered value, tracked. Operating layer connecting Kenya's ministries and counties.">
 
-    --canvas: #f6faf6;
-    --panel: #ffffff;
-    --panel-muted: #f0f6f1;
-    --panel-high: #e3ede5;
-    --ink: #16211a;
-    --ink-muted: #5b6b60;
-    --ink-faint: #8b9a90;
-    --border: #e1e9e2;
-    --border-strong: #c7d5c9;
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Westport Industrial City — Circular Economy Platform">
+  <meta name="twitter:description" content="Institutional waste, mapped. Recovered value, tracked across 47 counties and 24 ministries.">
 
-    --brand-50: #eaf7ee;
-    --brand-100: #cdeed9;
-    --brand-200: #9ddcb5;
-    --brand-300: #66c48d;
-    --brand-400: #3aa96c;
-    --brand-500: #1f8c52;
-    --brand-600: #147041;
-    --brand-700: #0f5c37;
-    --brand-800: #0d492c;
-    --brand-900: #0a3722;
-    --brand-950: #052014;
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 4 A12 12 0 0 1 27.8 14' fill='none' stroke='%23147041' stroke-width='4' stroke-linecap='round'/%3E%3Cpath d='M16 28 A12 12 0 0 1 4.2 18' fill='none' stroke='%23b5810a' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E">
 
-    --gold-50: #fdf6e6;
-    --gold-100: #f9e7bd;
-    --gold-300: #e3ad3f;
-    --gold-500: #b5810a;
-    --gold-600: #966b08;
-    --gold-700: #7a5706;
-
-    --shadow-color: 20 113 65;
-
-    /* Semantic foreground tokens - separate from the raw ramp above
-       because brand-700/800/900 double as button backgrounds (always
-       fine against white text) AND heading/icon text colors (which do
-       need to flip lighter in dark mode, or they read as invisible
-       dark-on-dark). */
-    --brand-ink: #0d492c;
-    --brand-ink-soft: #0f5c37;
-    --gold-ink: #966b08;
-  }
-
-  * { box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
-  body {
-    margin: 0;
-    font-family: var(--font-sans);
-    background: var(--canvas);
-    color: var(--ink);
-    background-image:
-      linear-gradient(to right, color-mix(in oklab, var(--border) 55%, transparent) 1px, transparent 1px),
-      linear-gradient(to bottom, color-mix(in oklab, var(--border) 55%, transparent) 1px, transparent 1px);
-    background-size: 32px 32px;
-    background-position: -1px -1px;
-    -webkit-font-smoothing: antialiased;
-  }
-  img, svg { display: block; max-width: 100%; }
-  a { color: inherit; text-decoration: none; }
-  .wrap { max-width: 1180px; margin: 0 auto; padding: 0 24px; }
-  h1, h2, h3 { font-family: var(--font-display); font-weight: 400; letter-spacing: -0.01em; margin: 0; text-wrap: balance; }
-  .eyebrow {
-    font-family: var(--font-mono); font-weight: 600; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase;
-    color: var(--brand-ink-soft);
-  }
-  .lede { color: var(--ink-muted); font-size: 18px; line-height: 1.65; max-width: 60ch; }
-
-  @keyframes loop-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-  @media (prefers-reduced-motion: no-preference) {
-    .loop-spin { animation: loop-spin 16s linear infinite; }
-  }
-  @keyframes rise {
-    from { opacity: 0; transform: translateY(14px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  @media (prefers-reduced-motion: no-preference) {
-    .reveal { opacity: 0; animation: rise 0.7s cubic-bezier(.2,.7,.3,1) forwards; }
-  }
-
-  /* ---------- Nav ---------- */
-  header.nav {
-    position: sticky; top: 0; z-index: 40;
-    background: color-mix(in oklab, var(--panel) 88%, transparent);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid var(--border);
-  }
-  .nav-inner { display: flex; align-items: center; justify-content: space-between; height: 72px; }
-  .brand { display: flex; align-items: center; gap: 10px; }
-  .brand-word { font-family: var(--font-display); font-style: italic; font-size: 20px; color: var(--brand-ink); }
-  .nav-links { display: none; align-items: center; gap: 32px; font-size: 14.5px; font-weight: 500; color: var(--ink-muted); }
-  .nav-links a:hover { color: var(--brand-ink-soft); }
-  @media (min-width: 860px) { .nav-links { display: flex; } }
-  .btn {
-    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-    padding: 11px 22px; border-radius: 999px; font-weight: 600; font-size: 14.5px;
-    transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
-    white-space: nowrap;
-  }
-  .btn-primary { background: var(--brand-700); color: #fff; box-shadow: 0 10px 24px -10px rgba(var(--shadow-color) / .55); }
-  .btn-primary:hover { background: var(--brand-800); transform: translateY(-1px); }
-  .btn-ghost { border: 1px solid var(--border-strong); color: var(--ink); }
-  .btn-ghost:hover { background: var(--panel-muted); }
-
-  /* ---------- Hero ---------- */
-  .hero { position: relative; padding: 88px 0 64px; overflow: hidden; }
-  .hero-grid { display: grid; grid-template-columns: 1fr; gap: 56px; align-items: center; }
-  @media (min-width: 960px) { .hero-grid { grid-template-columns: 1.05fr 0.85fr; } }
-  .hero h1 { font-size: clamp(38px, 6vw, 68px); line-height: 1.02; margin-top: 18px; color: var(--brand-ink); }
-  .hero h1 em { font-style: italic; color: var(--gold-ink); }
-  .hero p.lede { margin-top: 22px; }
-  .hero-ctas { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 34px; }
-
-  .loop-hero { position: relative; width: 100%; aspect-ratio: 1 / 1; max-width: 440px; margin: 0 auto; }
-  .loop-hero svg { width: 100%; height: 100%; }
-  .loop-hero .core {
-    position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
-    flex-direction: column; text-align: center; padding: 20%;
-  }
-  .loop-hero .core .num { font-family: var(--font-display); font-size: 15vw; max-font-size: 64px; line-height: 1; color: var(--brand-ink); }
-  .loop-hero .core .cap { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-faint); margin-top: 6px; }
-
-  .stat-rail {
-    display: grid; grid-template-columns: repeat(2,1fr); gap: 1px;
-    background: var(--border); border: 1px solid var(--border); border-radius: 18px; overflow: hidden;
-    margin-top: 64px;
-  }
-  @media (min-width: 760px) { .stat-rail { grid-template-columns: repeat(4,1fr); } }
-  .stat-cell { background: var(--panel); padding: 26px 22px; }
-  .stat-cell .n { font-family: var(--font-display); font-size: 36px; color: var(--brand-ink-soft); }
-  .stat-cell .l { font-size: 13px; color: var(--ink-muted); margin-top: 4px; }
-
-  /* ---------- Section shell ---------- */
-  section { padding: 96px 0; }
-  .section-head { max-width: 640px; margin-bottom: 56px; }
-  .section-head h2 { font-size: clamp(28px, 3.6vw, 42px); margin-top: 14px; color: var(--brand-ink); }
-
-  /* ---------- What we do ---------- */
-  .cards { display: grid; grid-template-columns: 1fr; gap: 20px; }
-  @media (min-width: 700px) { .cards { grid-template-columns: repeat(2,1fr); } }
-  @media (min-width: 1080px) { .cards { grid-template-columns: repeat(4,1fr); } }
-  .card {
-    background: var(--panel); border: 1px solid var(--border); border-radius: 18px; padding: 28px 24px;
-    transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
-  }
-  .card:hover { transform: translateY(-3px); box-shadow: 0 20px 40px -24px rgba(var(--shadow-color)/.4); border-color: var(--border-strong); }
-  .card .ico {
-    width: 42px; height: 42px; border-radius: 12px; display: flex; align-items: center; justify-content: center;
-    background: var(--brand-50); color: var(--brand-ink-soft); margin-bottom: 18px;
-  }
-  .card h3 { font-family: var(--font-sans); font-weight: 600; font-size: 17px; color: var(--ink); }
-  .card p { color: var(--ink-muted); font-size: 14.5px; line-height: 1.6; margin-top: 8px; }
-
-  /* ---------- How it works ---------- */
-  .flow { position: relative; }
-  .flow-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
-  .flow-item {
-    display: grid; grid-template-columns: 56px 1fr; gap: 22px; padding: 30px 0; border-top: 1px solid var(--border);
-  }
-  .flow-item:last-child { border-bottom: 1px solid var(--border); }
-  .flow-num {
-    font-family: var(--font-display); font-size: 26px; color: var(--gold-ink);
-    display: flex; align-items: flex-start; justify-content: flex-start; padding-top: 2px;
-  }
-  .flow-item h3 { font-family: var(--font-sans); font-weight: 600; font-size: 18px; }
-  .flow-item p { color: var(--ink-muted); margin-top: 6px; max-width: 60ch; line-height: 1.6; }
-
-  /* ---------- Materials ---------- */
-  .material-row { display: flex; flex-wrap: wrap; gap: 10px; }
-  .chip {
-    font-family: var(--font-mono); font-size: 12.5px; font-weight: 600; letter-spacing: .02em;
-    padding: 9px 16px; border-radius: 999px; border: 1px solid var(--border-strong); color: var(--ink-muted);
-    background: var(--panel);
-  }
-  .chip.sale { color: var(--brand-ink-soft); border-color: color-mix(in oklab, var(--brand-500) 35%, var(--border-strong)); background: var(--brand-50); }
-  .chip.disposal { color: var(--gold-ink); border-color: color-mix(in oklab, var(--gold-500) 35%, var(--border-strong)); background: var(--gold-50); }
-
-  /* ---------- Coverage ---------- */
-  .coverage-shell {
-    background: linear-gradient(155deg, var(--brand-800), var(--brand-950));
-    border-radius: 28px; padding: 56px 32px; color: #eefaf1; position: relative; overflow: hidden;
-  }
-  @media (min-width: 760px) { .coverage-shell { padding: 72px 64px; } }
-  .coverage-shell::before {
-    content: ''; position: absolute; inset: -40% -20% auto auto; width: 520px; height: 520px;
-    background: radial-gradient(circle, rgba(181,129,10,.28), transparent 70%);
-  }
-  .coverage-grid { position: relative; display: grid; grid-template-columns: 1fr; gap: 48px; }
-  @media (min-width: 900px) { .coverage-grid { grid-template-columns: 1fr 1fr; align-items: center; } }
-  .coverage-shell h2 { color: #fff; font-size: clamp(26px, 3.4vw, 38px); }
-  .coverage-shell .lede { color: #cfe6d7; }
-  .dotfield { display: grid; grid-template-columns: repeat(24, 1fr); gap: 5px; }
-  .dot { aspect-ratio: 1; border-radius: 2px; background: rgba(255,255,255,.10); }
-  .dot.on { background: var(--gold-300); }
-  .dot.on2 { background: var(--brand-300); }
-  .coverage-legend { display: flex; gap: 22px; margin-top: 22px; font-size: 13px; color: #cfe6d7; }
-  .coverage-legend span.sw { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 6px; vertical-align: -1px; }
-
-  /* ---------- CTA ---------- */
-  .cta { text-align: center; }
-  .cta h2 { font-size: clamp(30px, 4.4vw, 50px); color: var(--brand-ink); }
-  .cta .lede { margin: 18px auto 0; text-align: center; }
-  .cta-ctas { display: flex; justify-content: center; flex-wrap: wrap; gap: 14px; margin-top: 32px; }
-
-  footer { border-top: 1px solid var(--border); padding: 48px 0; }
-  .foot-inner { display: flex; flex-direction: column; gap: 20px; }
-  @media (min-width: 760px) { .foot-inner { flex-direction: row; align-items: center; justify-content: space-between; } }
-  .foot-brand { display: flex; align-items: center; gap: 10px; color: var(--ink-muted); font-size: 13.5px; }
-  .foot-links { display: flex; gap: 22px; font-size: 13.5px; color: var(--ink-muted); }
-  .foot-links a:hover { color: var(--brand-ink-soft); }
-</style>
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Instrument+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="/src/style.css">
 </head>
 <body>
+  <!-- Ambient Cursor Glow & Canvas Backdrop -->
+  <div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
+  <canvas id="ambientCanvas" class="ambient-canvas" aria-hidden="true"></canvas>
 
-<header class="nav">
-  <div class="wrap nav-inner">
-    <a class="brand" href="#top">
-      <svg width="30" height="30" viewBox="0 0 32 32" class="loop-spin">
-        <path d="M16 4 A12 12 0 0 1 27.8 14" fill="none" stroke="#147041" stroke-width="3.2" stroke-linecap="round"/>
-        <path d="M27.8 14 L24.5 10.5 M27.8 14 L23.5 15.5" fill="none" stroke="#147041" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
-        <path d="M16 28 A12 12 0 0 1 4.2 18" fill="none" stroke="#b5810a" stroke-width="3.2" stroke-linecap="round"/>
-        <path d="M4.2 18 L7.5 21.5 M4.2 18 L8.5 16.5" fill="none" stroke="#b5810a" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-      <span class="brand-word">Westport Industrial City</span>
-    </a>
-    <nav class="nav-links">
-      <a href="#what-we-do">What we do</a>
-      <a href="#how-it-works">How it works</a>
-      <a href="#coverage">Coverage</a>
-      <a href="#partner">Partner with us</a>
-    </nav>
-    <a class="btn btn-primary" href="https://circular.affordablehousingmarketing.co.ke" target="_blank" rel="noopener">View the Platform</a>
-  </div>
-</header>
-
-<main id="top">
-
-  <section class="hero">
-    <div class="wrap hero-grid">
-      <div class="reveal">
-        <p class="eyebrow">Kenya's public-sector circular economy</p>
-        <h1>Institutional waste, <em>mapped</em>. Recovered value, <em>tracked</em>.</h1>
-        <p class="lede">
-          Westport Industrial City runs the operating layer connecting Kenya's ministries, state corporations
-          and county governments to a field network of Relationship Managers who recover, categorise and account
-          for institutional material streams — from paper and metal to e-waste and furniture.
-        </p>
-        <div class="hero-ctas">
-          <a class="btn btn-primary" href="#partner">Partner With Us</a>
-          <a class="btn btn-ghost" href="https://circular.affordablehousingmarketing.co.ke" target="_blank" rel="noopener">View the Platform →</a>
-        </div>
-      </div>
-
-      <div class="reveal" style="animation-delay:.12s">
-        <div class="loop-hero">
-          <svg viewBox="0 0 200 200">
-            <circle cx="100" cy="100" r="92" fill="none" stroke="#e1e9e2" stroke-width="1" stroke-dasharray="2 6"/>
-            <path d="M100 14 A86 86 0 0 1 186 100" fill="none" stroke="#147041" stroke-width="8" stroke-linecap="round"/>
-            <path d="M186 100 L166 82 M186 100 L158 92" fill="none" stroke="#147041" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M100 186 A86 86 0 0 1 14 100" fill="none" stroke="#b5810a" stroke-width="8" stroke-linecap="round"/>
-            <path d="M14 100 L34 118 M14 100 L42 108" fill="none" stroke="#b5810a" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Sticky Glass Navigation -->
+  <header class="nav" id="mainNav">
+    <div class="nav-progress-bar" id="scrollProgress"></div>
+    <div class="wrap nav-inner">
+      <a class="brand" href="#top" aria-label="Westport Industrial City Homepage">
+        <div class="brand-logo-wrap">
+          <svg width="34" height="34" viewBox="0 0 32 32" class="loop-spin" aria-hidden="true">
+            <path d="M16 4 A12 12 0 0 1 27.8 14" fill="none" stroke="var(--brand-500)" stroke-width="3.5" stroke-linecap="round"/>
+            <path d="M27.8 14 L24.5 10.5 M27.8 14 L23.5 15.5" fill="none" stroke="var(--brand-500)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M16 28 A12 12 0 0 1 4.2 18" fill="none" stroke="var(--gold-500)" stroke-width="3.5" stroke-linecap="round"/>
+            <path d="M4.2 18 L7.5 21.5 M4.2 18 L8.5 16.5" fill="none" stroke="var(--gold-500)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
-          <div class="core">
-            <div class="num">668</div>
-            <div class="cap">Institutions engaged</div>
-          </div>
         </div>
+        <div class="brand-text">
+          <span class="brand-word">Westport Industrial City</span>
+          <span class="brand-sub">Circular Economy Platform</span>
+        </div>
+      </a>
+
+      <nav class="nav-links" aria-label="Primary Navigation">
+        <a href="#what-we-do" class="nav-link">What we do</a>
+        <a href="#how-it-works" class="nav-link">How it works</a>
+        <a href="#materials" class="nav-link">Materials</a>
+        <a href="#coverage" class="nav-link">Coverage</a>
+        <a href="#simulator" class="nav-link">Impact Sim</a>
+        <a href="#partner" class="nav-link">Partner</a>
+      </nav>
+
+      <div class="nav-actions">
+        <a class="btn btn-primary btn-magnetic" href="https://circular.affordablehousingmarketing.co.ke" target="_blank" rel="noopener">
+          <span class="btn-text">View the Platform</span>
+          <svg class="btn-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+        </a>
       </div>
     </div>
+  </header>
 
-    <div class="wrap">
-      <div class="stat-rail reveal" style="animation-delay:.2s">
-        <div class="stat-cell"><div class="n">668</div><div class="l">Institutions in the network</div></div>
-        <div class="stat-cell"><div class="n">47</div><div class="l">Counties covered</div></div>
-        <div class="stat-cell"><div class="n">24</div><div class="l">National ministries</div></div>
-        <div class="stat-cell"><div class="n">24</div><div class="l">Relationship Managers in the field</div></div>
+  <!-- Live Marquee Ticker -->
+  <div class="marquee-bar" aria-hidden="true">
+    <div class="marquee-track">
+      <div class="marquee-content">
+        <span>668+ REGISTERED PUBLIC BODIES</span>
+        <span class="star">✦</span>
+        <span>47 COUNTY GOVERNMENTS ACTIVE</span>
+        <span class="star">✦</span>
+        <span>24 NATIONAL MINISTRIES AUDITED</span>
+        <span class="star">✦</span>
+        <span>24 RELATIONSHIP MANAGERS IN THE FIELD</span>
+        <span class="star">✦</span>
+        <span>STREAMS: PAPER · METAL · PLASTIC · E-WASTE · FURNITURE</span>
+        <span class="star">✦</span>
+        <span>VERIFIED RECOVERED VALUE TRACKING</span>
+        <span class="star">✦</span>
+      </div>
+      <div class="marquee-content" aria-hidden="true">
+        <span>668+ REGISTERED PUBLIC BODIES</span>
+        <span class="star">✦</span>
+        <span>47 COUNTY GOVERNMENTS ACTIVE</span>
+        <span class="star">✦</span>
+        <span>24 NATIONAL MINISTRIES AUDITED</span>
+        <span class="star">✦</span>
+        <span>24 RELATIONSHIP MANAGERS IN THE FIELD</span>
+        <span class="star">✦</span>
+        <span>STREAMS: PAPER · METAL · PLASTIC · E-WASTE · FURNITURE</span>
+        <span class="star">✦</span>
+        <span>VERIFIED RECOVERED VALUE TRACKING</span>
+        <span class="star">✦</span>
       </div>
     </div>
-  </section>
+  </div>
 
-  <section id="what-we-do">
-    <div class="wrap">
-      <div class="section-head reveal">
-        <p class="eyebrow">What we do</p>
-        <h2>One operating layer for public-sector material recovery.</h2>
-      </div>
-      <div class="cards">
-        <div class="card reveal">
-          <div class="ico">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M6 21V6a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v15M18 21V11a1 1 0 0 0-1-1h-3"/></svg>
+  <main id="top">
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div class="hero-left reveal">
+          <div class="pill-badge">
+            <span class="pulse-dot"></span>
+            <span class="eyebrow">Kenya's public-sector circular economy</span>
           </div>
-          <h3>Institutional mapping</h3>
-          <p>Every ministry, state department and public institution registered against the official government hierarchy — 376 entities and counting.</p>
-        </div>
-        <div class="card reveal" style="animation-delay:.06s">
-          <div class="ico">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
+          <h1>
+            Institutional waste, <span class="highlight-green">mapped</span>.<br>
+            Recovered value, <span class="highlight-gold">tracked</span>.
+          </h1>
+          <p class="lede">
+            Westport Industrial City runs the operating layer connecting Kenya's ministries, state corporations
+            and county governments to a field network of Relationship Managers who recover, categorise and account
+            for institutional material streams — from paper and metal to e-waste and furniture.
+          </p>
+          <div class="hero-ctas">
+            <a class="btn btn-primary btn-magnetic" href="#partner">
+              <span class="btn-text">Partner With Us</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+            <a class="btn btn-ghost btn-magnetic" href="https://circular.affordablehousingmarketing.co.ke" target="_blank" rel="noopener">
+              <span class="btn-text">Explore Live Platform</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
+            </a>
           </div>
-          <h3>Relationship Manager network</h3>
-          <p>A dedicated field team engages each institution directly, logging activity and building the relationship that makes recovery possible.</p>
-        </div>
-        <div class="card reveal" style="animation-delay:.12s">
-          <div class="ico">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M7 21h10M5 7l3-2 3 2M17 7l3-2 3 2"/><path d="m5 7-3 8a3 3 0 0 0 6 0Z"/><path d="m19 7-3 8a3 3 0 0 0 6 0Z"/></svg>
-          </div>
-          <h3>Categorised recovery</h3>
-          <p>Material streams are sorted for sale or disposal across defined categories — paper, metal, plastic, e-waste and furniture.</p>
-        </div>
-        <div class="card reveal" style="animation-delay:.18s">
-          <div class="ico">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>
-          </div>
-          <h3>Transparent reporting</h3>
-          <p>Every engagement, submission and facilitation request is logged and auditable — from field visit to recovered value.</p>
-        </div>
-      </div>
-    </div>
-  </section>
 
-  <section id="how-it-works">
-    <div class="wrap">
-      <div class="section-head reveal">
-        <p class="eyebrow">How it works</p>
-        <h2>From institution to recovered material, in four steps.</h2>
-      </div>
-      <ol class="flow-list flow">
-        <li class="flow-item reveal">
-          <span class="flow-num">01</span>
-          <div><h3>Map the institution</h3><p>Every ministry, state corporation, county government and public body is registered against Kenya's official government structure — so nothing sits outside the network.</p></div>
-        </li>
-        <li class="flow-item reveal" style="animation-delay:.06s">
-          <span class="flow-num">02</span>
-          <div><h3>Assign a Relationship Manager</h3><p>Institutions are matched to a Relationship Manager who owns that relationship end to end — the single point of contact in the field.</p></div>
-        </li>
-        <li class="flow-item reveal" style="animation-delay:.12s">
-          <span class="flow-num">03</span>
-          <div><h3>Engage and log material streams</h3><p>Visits, calls and follow-ups are logged against each institution, and recoverable material is categorised for sale or disposal.</p></div>
-        </li>
-        <li class="flow-item reveal" style="animation-delay:.18s">
-          <span class="flow-num">04</span>
-          <div><h3>Track recovery and reporting</h3><p>Every submission rolls up into a live register — by ministry, by county, by material — so progress is always visible, not just promised.</p></div>
-        </li>
-      </ol>
-
-      <div style="margin-top:44px;" class="reveal">
-        <p class="eyebrow" style="margin-bottom:14px;">Material streams we track</p>
-        <div class="material-row">
-          <span class="chip sale">Paper — Sale</span>
-          <span class="chip sale">Metal — Sale</span>
-          <span class="chip sale">Plastic — Sale</span>
-          <span class="chip disposal">Furniture — Disposal</span>
-          <span class="chip disposal">E-Waste — Disposal</span>
-          <span class="chip disposal">Other — Disposal</span>
+          <!-- Live quick indicators -->
+          <div class="hero-tags">
+            <span class="live-pill">Live Field Activity</span>
+            <span class="tag-meta">Updated: Today at Nairobi Operating Hub</span>
+          </div>
         </div>
-      </div>
-    </div>
-  </section>
 
-  <section id="coverage">
-    <div class="wrap">
-      <div class="coverage-shell reveal">
-        <div class="coverage-grid">
-          <div>
-            <p class="eyebrow" style="color:#d7c98a;">National coverage</p>
-            <h2>Built on the full shape of government — not a sample of it.</h2>
-            <p class="lede">
-              Westport Industrial City's institutional register spans all 24 national ministries and all 47 county
-              governments, down to individual state departments and agencies. That's the foundation the field
-              network operates on.
-            </p>
-            <div class="coverage-legend">
-              <div><span class="sw" style="background:var(--gold-300)"></span>Ministries &amp; state departments</div>
-              <div><span class="sw" style="background:var(--brand-300)"></span>Counties &amp; institutions</div>
+        <div class="hero-right reveal">
+          <!-- Interactive 3D/Orbit System -->
+          <div class="orbital-stage" id="orbitalStage">
+            <div class="orbit-halo halo-outer"></div>
+            <div class="orbit-halo halo-inner"></div>
+
+            <!-- Orbiting dynamic nodes -->
+            <div class="orbit-ring ring-1">
+              <div class="node node-paper" data-tooltip="Paper Stream: Recovery & Sale">
+                <span>📄</span>
+              </div>
+              <div class="node node-plastic" data-tooltip="Plastic Stream: Clean Reprocessing">
+                <span>♻️</span>
+              </div>
+            </div>
+
+            <div class="orbit-ring ring-2">
+              <div class="node node-metal" data-tooltip="Metal Stream: Scrap & Remanufacturing">
+                <span>⚙️</span>
+              </div>
+              <div class="node node-ewaste" data-tooltip="E-Waste: Safe Extraction & Disposal">
+                <span>💻</span>
+              </div>
+              <div class="node node-furniture" data-tooltip="Furniture: Refurbishment / Disposal">
+                <span>🪑</span>
+              </div>
+            </div>
+
+            <!-- Central Core Hologram -->
+            <div class="hero-core-display">
+              <div class="core-glow"></div>
+              <div class="core-number-wrap">
+                <span class="core-number" id="heroMainCounter" data-target="668">0</span>
+                <span class="core-plus">+</span>
+              </div>
+              <div class="core-label">Institutions Engaged</div>
+              <div class="core-status">
+                <span class="status-indicator"></span>
+                <span>Active Field Sync</span>
+              </div>
             </div>
           </div>
-          <div class="dotfield" id="dotfield" aria-hidden="true"></div>
         </div>
       </div>
-    </div>
-  </section>
 
-  <section id="partner" class="cta">
-    <div class="wrap">
-      <p class="eyebrow reveal">Partner with us</p>
-      <h2 class="reveal" style="animation-delay:.06s">Bring your institution into the network.</h2>
-      <p class="lede reveal" style="animation-delay:.12s">
-        Whether you run a ministry, a state corporation, a county department or a private recovery operation —
-        we'd like to talk about where you fit into Kenya's circular economy.
-      </p>
-      <div class="cta-ctas reveal" style="animation-delay:.18s">
-        <a class="btn btn-primary" href="mailto:admin@affordablehousingmarketing.co.ke?subject=Partnership%20enquiry%20%E2%80%94%20Westport%20Industrial%20City">Get in Touch</a>
-        <a class="btn btn-ghost" href="https://circular.affordablehousingmarketing.co.ke" target="_blank" rel="noopener">Explore the Platform</a>
+      <!-- Stat Rail (Interactive Counter Grid) -->
+      <div class="wrap">
+        <div class="stat-rail reveal">
+          <div class="stat-cell" data-stat="668">
+            <div class="stat-meta">
+              <span class="stat-badge">Network</span>
+              <svg class="stat-trend" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M23 6l-9.5 9.5-5-5L1 18"/></svg>
+            </div>
+            <div class="n"><span class="counter" data-target="668">0</span><span class="plus">+</span></div>
+            <div class="l">Institutions in the network</div>
+            <div class="sub-label">Across public infrastructure</div>
+          </div>
+
+          <div class="stat-cell" data-stat="47">
+            <div class="stat-meta">
+              <span class="stat-badge gold">Counties</span>
+              <span class="stat-pct">100%</span>
+            </div>
+            <div class="n"><span class="counter" data-target="47">0</span></div>
+            <div class="l">Counties covered</div>
+            <div class="sub-label">Full national geographic reach</div>
+          </div>
+
+          <div class="stat-cell" data-stat="24">
+            <div class="stat-meta">
+              <span class="stat-badge">National</span>
+              <span class="stat-pct">Executive</span>
+            </div>
+            <div class="n"><span class="counter" data-target="24">0</span></div>
+            <div class="l">National ministries</div>
+            <div class="sub-label">Plus executive state agencies</div>
+          </div>
+
+          <div class="stat-cell" data-stat="24">
+            <div class="stat-meta">
+              <span class="stat-badge gold">Field Staff</span>
+              <span class="stat-pct">On ground</span>
+            </div>
+            <div class="n"><span class="counter" data-target="24">0</span></div>
+            <div class="l">Relationship Managers</div>
+            <div class="sub-label">Direct in-person facilitation</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 1: What We Do -->
+    <section id="what-we-do" class="section-padded">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <p class="eyebrow">Operating Architecture</p>
+          <h2>One operating layer for public-sector material recovery.</h2>
+          <p class="section-sub">We bridge the gap between administrative inventory, circular economics, and transparent physical recovery on the ground.</p>
+        </div>
+
+        <div class="cards-grid">
+          <div class="card-tilt reveal" data-tilt>
+            <div class="card-glow"></div>
+            <div class="ico-box">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M6 21V6a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v15M18 21V11a1 1 0 0 0-1-1h-3"/></svg>
+            </div>
+            <div class="card-tag">01 / REGISTRY</div>
+            <h3>Institutional mapping</h3>
+            <p>Every ministry, state department and public institution registered against the official government hierarchy — 376 entities and counting.</p>
+            <div class="card-footer-metric">
+              <span>Coverage</span>
+              <strong>376+ Entities</strong>
+            </div>
+          </div>
+
+          <div class="card-tilt reveal" data-tilt style="animation-delay: 0.1s;">
+            <div class="card-glow"></div>
+            <div class="ico-box">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
+            </div>
+            <div class="card-tag">02 / HUMAN LAYER</div>
+            <h3>Relationship Manager network</h3>
+            <p>A dedicated field team engages each institution directly, logging activity and building the relationship that makes recovery possible.</p>
+            <div class="card-footer-metric">
+              <span>Active Team</span>
+              <strong>24 Field Leads</strong>
+            </div>
+          </div>
+
+          <div class="card-tilt reveal" data-tilt style="animation-delay: 0.2s;">
+            <div class="card-glow"></div>
+            <div class="ico-box">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M7 21h10M5 7l3-2 3 2M17 7l3-2 3 2"/><path d="m5 7-3 8a3 3 0 0 0 6 0Z"/><path d="m19 7-3 8a3 3 0 0 0 6 0Z"/></svg>
+            </div>
+            <div class="card-tag">03 / STREAM LOGISTICS</div>
+            <h3>Categorised recovery</h3>
+            <p>Material streams are sorted for sale or disposal across defined categories — paper, metal, plastic, e-waste and furniture.</p>
+            <div class="card-footer-metric">
+              <span>Categories</span>
+              <strong>6 Core Streams</strong>
+            </div>
+          </div>
+
+          <div class="card-tilt reveal" data-tilt style="animation-delay: 0.3s;">
+            <div class="card-glow"></div>
+            <div class="ico-box">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>
+            </div>
+            <div class="card-tag">04 / GOVERNANCE</div>
+            <h3>Transparent reporting</h3>
+            <p>Every engagement, submission and facilitation request is logged and auditable — from field visit to recovered value.</p>
+            <div class="card-footer-metric">
+              <span>Audit Trail</span>
+              <strong>100% Verified</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 2: How It Works & Interactive Flow -->
+    <section id="how-it-works" class="section-padded section-accent">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <p class="eyebrow">Execution Pipeline</p>
+          <h2>From institution to recovered material, in four steps.</h2>
+          <p class="section-sub">A standardized physical and digital workflow deployed across all Kenyan ministries and county offices.</p>
+        </div>
+
+        <div class="pipeline-container">
+          <div class="pipeline-steps">
+            <div class="pipeline-card active reveal" data-step="1">
+              <div class="step-num">01</div>
+              <div class="step-body">
+                <h3>Map the institution</h3>
+                <p>Every ministry, state corporation, county government and public body is registered against Kenya's official government structure — so nothing sits outside the network.</p>
+                <div class="step-data-badge">Registry Protocol #WIC-MAP-01</div>
+              </div>
+            </div>
+
+            <div class="pipeline-card reveal" data-step="2" style="animation-delay: 0.1s;">
+              <div class="step-num">02</div>
+              <div class="step-body">
+                <h3>Assign a Relationship Manager</h3>
+                <p>Institutions are matched to a Relationship Manager who owns that relationship end to end — the single point of contact in the field.</p>
+                <div class="step-data-badge">Field Protocol #WIC-RM-MATCH</div>
+              </div>
+            </div>
+
+            <div class="pipeline-card reveal" data-step="3" style="animation-delay: 0.2s;">
+              <div class="step-num">03</div>
+              <div class="step-body">
+                <h3>Engage and log material streams</h3>
+                <p>Visits, calls and follow-ups are logged against each institution, and recoverable material is categorised for sale or disposal.</p>
+                <div class="step-data-badge">Audit Protocol #WIC-LOG-STRM</div>
+              </div>
+            </div>
+
+            <div class="pipeline-card reveal" data-step="4" style="animation-delay: 0.3s;">
+              <div class="step-num">04</div>
+              <div class="step-body">
+                <h3>Track recovery and reporting</h3>
+                <p>Every submission rolls up into a live register — by ministry, by county, by material — so progress is always visible, not just promised.</p>
+                <div class="step-data-badge">Ledger Protocol #WIC-VAL-ACCRUE</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Dynamic Visual Preview for Active Step -->
+          <div class="pipeline-preview reveal" id="pipelinePreview">
+            <div class="preview-header">
+              <span class="preview-dot red"></span>
+              <span class="preview-dot yellow"></span>
+              <span class="preview-dot green"></span>
+              <span class="preview-title" id="previewStepTitle">Stage 01: Institutional Mapping In-Progress</span>
+            </div>
+            <div class="preview-canvas-box" id="previewVisual">
+              <!-- Rendered via JS based on step -->
+              <div class="step-display-content">
+                <div class="matrix-animation" id="matrixAnimation"></div>
+                <div class="live-console-log" id="consoleOutput">
+                  <div class="log-line">> Initiating Government Structure Cross-Reference...</div>
+                  <div class="log-line">> Scanning 24 Ministries... [VERIFIED]</div>
+                  <div class="log-line">> Mapping 47 County Executive Offices... [SYNCHRONIZED]</div>
+                  <div class="log-line highlight">> 668 Target Institutional Nodes Registered.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 3: Material Streams Interactive Showcase -->
+    <section id="materials" class="section-padded">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <p class="eyebrow">Material Streams</p>
+          <h2>Precision categorisation for maximum circular yield.</h2>
+          <p class="section-sub">Click a material to inspect recovery methodology, value destination, and environmental lifecycle.</p>
+        </div>
+
+        <div class="materials-showcase reveal">
+          <div class="material-chips-shelf" id="materialChips">
+            <button class="chip-interactive active" data-stream="paper" data-type="sale">
+              <span class="chip-icon">📄</span>
+              <span class="chip-name">Paper</span>
+              <span class="chip-badge sale">Sale</span>
+            </button>
+            <button class="chip-interactive" data-stream="metal" data-type="sale">
+              <span class="chip-icon">⚙️</span>
+              <span class="chip-name">Metal</span>
+              <span class="chip-badge sale">Sale</span>
+            </button>
+            <button class="chip-interactive" data-stream="plastic" data-type="sale">
+              <span class="chip-icon">♻️</span>
+              <span class="chip-name">Plastic</span>
+              <span class="chip-badge sale">Sale</span>
+            </button>
+            <button class="chip-interactive" data-stream="furniture" data-type="disposal">
+              <span class="chip-icon">🪑</span>
+              <span class="chip-name">Furniture</span>
+              <span class="chip-badge disposal">Disposal</span>
+            </button>
+            <button class="chip-interactive" data-stream="ewaste" data-type="disposal">
+              <span class="chip-icon">💻</span>
+              <span class="chip-name">E-Waste</span>
+              <span class="chip-badge disposal">Disposal</span>
+            </button>
+            <button class="chip-interactive" data-stream="other" data-type="disposal">
+              <span class="chip-icon">📦</span>
+              <span class="chip-name">Other</span>
+              <span class="chip-badge disposal">Disposal</span>
+            </button>
+          </div>
+
+          <div class="material-detail-panel" id="materialDetail">
+            <!-- Dynamic Material Details -->
+            <div class="detail-split">
+              <div class="detail-text">
+                <div class="detail-status-bar">
+                  <span class="stream-pill sale" id="matStatusBadge">Value Stream: Sale</span>
+                  <span class="stream-code" id="matCode">PROTOCOL ID: #MAT-PPR-01</span>
+                </div>
+                <h3 id="matTitle">Institutional Paper & Document Archives</h3>
+                <p id="matDesc">Confidential shredding, grading, and secondary pulp conversion for decommissioned government documents, archives, stationery, and publications. Converted into packaging grade liner board and domestic cellulose materials.</p>
+                <div class="material-metrics-row">
+                  <div class="m-metric">
+                    <span class="m-val" id="matStat1">High Volume</span>
+                    <span class="m-lbl">Yield Classification</span>
+                  </div>
+                  <div class="m-metric">
+                    <span class="m-val" id="matStat2">100% Chain-of-Custody</span>
+                    <span class="m-lbl">Security Audit</span>
+                  </div>
+                  <div class="m-metric">
+                    <span class="m-val" id="matStat3">Commercial Reclaim</span>
+                    <span class="m-lbl">Target Outcome</span>
+                  </div>
+                </div>
+              </div>
+              <div class="detail-viz">
+                <div class="viz-radial-circle" id="matCircle">
+                  <span class="viz-symbol" id="matVizSymbol">📄</span>
+                  <div class="viz-orbital-glow"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 4: National Coverage (Interactive Matrix & Map) -->
+    <section id="coverage" class="section-padded">
+      <div class="wrap">
+        <div class="coverage-shell reveal">
+          <div class="coverage-grid">
+            <div class="coverage-copy">
+              <p class="eyebrow" style="color: var(--gold-300);">National coverage</p>
+              <h2>Built on the full shape of government — not a sample of it.</h2>
+              <p class="lede">
+                Westport Industrial City's institutional register spans all 24 national ministries and all 47 county
+                governments, down to individual state departments and agencies. That's the foundation the field
+                network operates on.
+              </p>
+              <div class="coverage-legend">
+                <div class="leg-item"><span class="sw gold"></span> <strong>24</strong> National Ministries &amp; State Departments</div>
+                <div class="leg-item"><span class="sw green"></span> <strong>47</strong> County Executive Governments</div>
+                <div class="leg-item"><span class="sw faint"></span> <strong>668+</strong> Mapped Field Institutions</div>
+              </div>
+
+              <!-- Interactive Filter for Matrix -->
+              <div class="matrix-filter-btns">
+                <button class="matrix-btn active" data-filter="all">Show Complete Matrix</button>
+                <button class="matrix-btn" data-filter="ministries">Highlight Ministries (24)</button>
+                <button class="matrix-btn" data-filter="counties">Highlight Counties (47)</button>
+              </div>
+
+              <div class="matrix-live-info" id="matrixHoverInfo">
+                Hover over any node in the matrix to inspect institutional metadata.
+              </div>
+            </div>
+
+            <div class="matrix-visual-col">
+              <div class="matrix-card-frame">
+                <div class="matrix-head-bar">
+                  <span>KENYA INSTITUTIONAL REPOSITORY / 168 SECTOR NODES</span>
+                  <span class="status-live">● REAL-TIME GRID</span>
+                </div>
+                <div class="dotfield" id="dotfield" role="region" aria-label="Interactive matrix of institutional nodes"></div>
+                <div class="matrix-foot-bar">
+                  <span>SYNCHRONIZED WITH THE COUNTY AUDIT REGISTER</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 5: Impact Simulator (Interactive Engager) -->
+    <section id="simulator" class="section-padded section-accent">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <p class="eyebrow">Institutional Impact Projection</p>
+          <h2>Simulate circular material recovery for your department.</h2>
+          <p class="section-sub">Select your institutional tier to estimate annual waste diversion and recovered asset efficiency.</p>
+        </div>
+
+        <div class="sim-wrapper reveal">
+          <div class="sim-controls">
+            <label class="sim-label">Choose Institutional Category:</label>
+            <div class="sim-btn-group">
+              <button class="sim-choice active" data-tier="ministry">National Ministry / Headquarters</button>
+              <button class="sim-choice" data-tier="county">County Government Department</button>
+              <button class="sim-choice" data-tier="parastatal">State Corporation / Parastatal</button>
+            </div>
+
+            <div class="sim-slider-row">
+              <div class="slider-header">
+                <label for="officeSizeSlider">Estimated Personnel &amp; Branch Facilities:</label>
+                <span class="slider-val" id="sliderValDisplay">1,200 Officers / 3 Facilities</span>
+              </div>
+              <input type="range" id="officeSizeSlider" min="1" max="5" value="3" class="custom-range" aria-label="Facility size slider">
+            </div>
+          </div>
+
+          <div class="sim-results">
+            <div class="sim-res-box">
+              <span class="res-label">Est. Paper &amp; Archive Recovery</span>
+              <span class="res-number" id="simPaperYield">28.5 MT / yr</span>
+              <span class="res-sub">100% Certified Confidential Destruction &amp; Re-Pulping</span>
+            </div>
+            <div class="sim-res-box">
+              <span class="res-label">Decommissioned E-Waste Managed</span>
+              <span class="res-number" id="simEwasteYield">340+ Units / yr</span>
+              <span class="res-sub">Certified Non-Hazardous Environmental Diversion</span>
+            </div>
+            <div class="sim-res-box">
+              <span class="res-label">Recovered Economic Value Potential</span>
+              <span class="res-number highlight-gold" id="simValueYield">KES 3.8M+</span>
+              <span class="res-sub">Reclaimed through structured public auction &amp; recycling contracts</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 6: Partner With Us / CTA -->
+    <section id="partner" class="cta section-padded">
+      <div class="wrap">
+        <div class="cta-inner-card reveal">
+          <p class="eyebrow">Institutional Engagement</p>
+          <h2>Bring your institution into Kenya's circular economy.</h2>
+          <p class="lede">
+            Whether you run a ministry, a state corporation, a county department or a private recovery operation —
+            we'd like to talk about where you fit into Kenya's circular economy.
+          </p>
+          
+          <div class="cta-action-row">
+            <a class="btn btn-primary btn-magnetic" id="btnPartnerAction" href="mailto:admin@affordablehousingmarketing.co.ke?subject=Partnership%20enquiry%20%E2%80%94%20Westport%20Industrial%20City">
+              <span class="btn-text">Get in Touch with our Field Team</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+            <a class="btn btn-ghost btn-magnetic" href="https://circular.affordablehousingmarketing.co.ke" target="_blank" rel="noopener">
+              <span class="btn-text">Explore the Full Platform</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
+            </a>
+          </div>
+
+          <div class="cta-guarantee">
+            <span class="chk-icon">✓</span>
+            <span>Standardized Public Procurement &amp; Disposal Act (PPADA) Compliance Alignment</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="wrap foot-inner">
+      <div class="foot-brand">
+        <svg width="24" height="24" viewBox="0 0 32 32" class="loop-spin" aria-hidden="true">
+          <path d="M16 4 A12 12 0 0 1 27.8 14" fill="none" stroke="var(--brand-500)" stroke-width="3.5" stroke-linecap="round"/>
+          <path d="M16 28 A12 12 0 0 1 4.2 18" fill="none" stroke="var(--gold-500)" stroke-width="3.5" stroke-linecap="round"/>
+        </svg>
+        <span>© 2026 Westport Industrial City. Kenya's public-sector circular economy.</span>
+      </div>
+      <div class="foot-links">
+        <a href="https://circular.affordablehousingmarketing.co.ke" target="_blank" rel="noopener">Platform</a>
+        <a href="#partner">Partner With Us</a>
+        <a href="mailto:admin@affordablehousingmarketing.co.ke">Contact</a>
       </div>
     </div>
-  </section>
+  </footer>
 
-</main>
-
-<footer>
-  <div class="wrap foot-inner">
-    <div class="foot-brand">
-      <svg width="20" height="20" viewBox="0 0 32 32">
-        <path d="M16 4 A12 12 0 0 1 27.8 14" fill="none" stroke="#147041" stroke-width="3.5" stroke-linecap="round"/>
-        <path d="M16 28 A12 12 0 0 1 4.2 18" fill="none" stroke="#b5810a" stroke-width="3.5" stroke-linecap="round"/>
-      </svg>
-      <span>© 2026 Westport Industrial City. Kenya's public-sector circular economy.</span>
-    </div>
-    <div class="foot-links">
-      <a href="https://circular.affordablehousingmarketing.co.ke" target="_blank" rel="noopener">Platform</a>
-      <a href="#partner">Partner With Us</a>
-      <a href="mailto:admin@affordablehousingmarketing.co.ke">Contact</a>
-    </div>
-  </div>
-</footer>
-
-<script>
-  // Coverage dot field — 24 "on" cells for ministries, 47 "on2" cells for counties,
-  // out of a fixed grid, shuffled once so it reads as organic rather than a bar chart.
-  (function () {
-    var total = 168; // 7 rows x 24 cols
-    var field = document.getElementById('dotfield');
-    var states = new Array(total).fill('');
-    var idx = Array.from({length: total}, function (_, i) { return i; });
-    for (var i = idx.length - 1; i > 0; i--) {
-      var j = Math.floor(Math.random() * (i + 1));
-      var t = idx[i]; idx[i] = idx[j]; idx[j] = t;
-    }
-    idx.slice(0, 24).forEach(function (i) { states[i] = 'on'; });
-    idx.slice(24, 24 + 47).forEach(function (i) { states[i] = 'on2'; });
-    var frag = document.createDocumentFragment();
-    states.forEach(function (s) {
-      var d = document.createElement('div');
-      d.className = 'dot' + (s ? ' ' + s : '');
-      frag.appendChild(d);
-    });
-    field.appendChild(frag);
-  })();
-
-  // Reveal-on-scroll for elements below the fold (hero reveals run immediately via CSS delay).
-  (function () {
-    if (!('IntersectionObserver' in window)) return;
-    var els = document.querySelectorAll('section:not(.hero) .reveal');
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          entry.target.style.animationPlayState = 'running';
-          io.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.15 });
-    els.forEach(function (el) {
-      el.style.animationPlayState = 'paused';
-      io.observe(el);
-    });
-  })();
-</script>
-
+  <script type="module" src="/src/main.js"></script>
 </body>
 </html>
