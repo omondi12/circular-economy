@@ -491,6 +491,8 @@ header.nav.scrolled {
 .hero .stat-cell { background: rgba(255,255,255,.06); color: #eff8f1; }
 .hero .stat-cell:hover { background: rgba(255,255,255,.11); }
 .hero .stat-cell .l { color: #fff; }
+.hero .stat-cell .n { color: #eefdf3; }
+.hero .stat-cell .n .plus { color: #f4d486; }
 .hero .stat-cell .sub-label, .hero .stat-pct { color: #a9c8b4; }
 .hero .stat-badge { background: rgba(157,220,181,.14); border-color: rgba(157,220,181,.35); color: #d7e76f; }
 .hero .stat-badge.gold { background: rgba(227,173,63,.14); border-color: rgba(227,173,63,.35); color: #f4d486; }
@@ -552,7 +554,7 @@ header.nav.scrolled {
 }
 
 .hero h1 .highlight-green {
-  color: var(--brand-600);
+  color: #6fe6a3;
   font-style: italic;
   position: relative;
 }
