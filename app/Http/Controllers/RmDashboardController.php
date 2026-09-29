@@ -183,9 +183,9 @@ class RmDashboardController extends Controller
 
         switch ($data['entity_type']) {
             case 'ministry':
-                $ministry = $data['ministry_id'] ? GovernmentEntity::find($data['ministry_id']) : null;
-                $stateDepartment = $data['state_department_id'] ? GovernmentEntity::find($data['state_department_id']) : null;
-                $institution = $data['institution_id'] ? GovernmentEntity::find($data['institution_id']) : null;
+                $ministry = ($data['ministry_id'] ?? null) ? GovernmentEntity::find($data['ministry_id']) : null;
+                $stateDepartment = ($data['state_department_id'] ?? null) ? GovernmentEntity::find($data['state_department_id']) : null;
+                $institution = ($data['institution_id'] ?? null) ? GovernmentEntity::find($data['institution_id']) : null;
 
                 $validator = validator($data, [])->after(function (Validator $validator) use ($ministry, $stateDepartment, $institution, $assignedMinistryIds, $assignedStateDepartmentIds) {
                     if ($ministry === null) {
