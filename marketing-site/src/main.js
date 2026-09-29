@@ -1,6 +1,7 @@
 import confetti from 'canvas-confetti';
 
 document.addEventListener('DOMContentLoaded', () => {
+  initBootScreen();
   initAmbientBackground();
   initCursorGlow();
   initScrollProgress();
@@ -12,6 +13,35 @@ document.addEventListener('DOMContentLoaded', () => {
   initSimulator();
   initMagneticButtons();
 });
+
+/* Cinematic first-load transition inspired by premium global infrastructure sites. */
+function initBootScreen() {
+  const screen = document.getElementById('bootScreen');
+  const bar = document.getElementById('bootProgress');
+  const percent = document.getElementById('bootPercent');
+  if (!screen) return;
+
+  document.body.classList.add('booting');
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const duration = reduced ? 250 : 1250;
+  const started = performance.now();
+
+  function tick(now) {
+    const progress = Math.min((now - started) / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    const value = Math.round(eased * 100);
+    if (bar) bar.style.width = `${value}%`;
+    if (percent) percent.textContent = `${String(value).padStart(2, '0')}%`;
+    if (progress < 1) requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+
+  window.setTimeout(() => {
+    screen.classList.add('is-done');
+    document.body.classList.remove('booting');
+    window.setTimeout(() => screen.remove(), reduced ? 260 : 850);
+  }, duration + 120);
+}
 
 /* 1. Ambient Background Particles and Flow Lines */
 function initAmbientBackground() {

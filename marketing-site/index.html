@@ -29,6 +29,22 @@
   <link rel="stylesheet" href="/src/style.css">
 </head>
 <body>
+  <div class="boot-screen" id="bootScreen" aria-label="Loading Westport Industrial City" role="status">
+    <div class="boot-grid" aria-hidden="true"></div>
+    <div class="boot-center">
+      <div class="boot-mark">
+        <svg viewBox="0 0 32 32" aria-hidden="true">
+          <path d="M16 4 A12 12 0 0 1 27.8 14" fill="none" stroke="currentColor" stroke-width="3.6" stroke-linecap="round"/>
+          <path d="M16 28 A12 12 0 0 1 4.2 18" fill="none" stroke="#e3ad3f" stroke-width="3.6" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="boot-word">WESTPORT</div>
+      <div class="boot-sub">Industrial City / Kenya</div>
+      <div class="boot-progress"><span id="bootProgress"></span></div>
+      <div class="boot-status"><span>INITIALIZING CIRCULAR NETWORK</span><strong id="bootPercent">00%</strong></div>
+    </div>
+  </div>
+
   <!-- Ambient Cursor Glow & Canvas Backdrop -->
   <div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
   <canvas id="ambientCanvas" class="ambient-canvas" aria-hidden="true"></canvas>
