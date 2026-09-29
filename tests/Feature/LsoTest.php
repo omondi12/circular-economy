@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\Collection;
 use App\Models\GovernmentEntity;
 use App\Models\Lso;
 use App\Models\LsoPayment;
@@ -35,7 +36,7 @@ class LsoTest extends TestCase
 
     private function makeMinistry(): GovernmentEntity
     {
-        return GovernmentEntity::create(['name' => 'Ministry of Testing', 'level' => GovernmentEntity::LEVEL_MINISTRY]);
+        return GovernmentEntity::create(['name' => 'Ministry of Testing', 'level' => GovernmentEntity::LEVEL_MINISTRY, 'type' => 'ministry']);
     }
 
     /**
@@ -81,7 +82,7 @@ class LsoTest extends TestCase
         // Never served through the public disk/route.
         $this->assertStringNotContainsString('public', $lso->document_path);
 
-        $collection = \App\Models\Collection::first();
+        $collection = Collection::first();
         $this->assertSame($lso->id, $collection->lso_id);
     }
 
@@ -120,7 +121,7 @@ class LsoTest extends TestCase
         $response->assertRedirect(route('rm.dashboard'));
         $this->assertDatabaseCount('lsos', 0);
 
-        $collection = \App\Models\Collection::first();
+        $collection = Collection::first();
         $this->assertNull($collection->lso_id);
     }
 
