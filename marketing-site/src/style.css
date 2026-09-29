@@ -461,8 +461,8 @@ header.nav.scrolled {
 
 @keyframes hero-bg-fade {
   0% { opacity: 0; }
-  3% { opacity: .46; }
-  22% { opacity: .46; }
+  3% { opacity: .78; }
+  22% { opacity: .78; }
   25% { opacity: 0; }
   100% { opacity: 0; }
 }
@@ -471,13 +471,13 @@ header.nav.scrolled {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(circle at 78% 42%, rgba(31, 140, 82, .25), transparent 30%),
-    linear-gradient(135deg, var(--brand-950) 0%, rgba(15, 46, 30, .93) 58%, rgba(23, 63, 43, .96) 100%);
+    radial-gradient(circle at 78% 42%, rgba(31, 140, 82, .2), transparent 34%),
+    linear-gradient(135deg, rgba(9, 31, 19, .88) 0%, rgba(15, 46, 30, .68) 55%, rgba(23, 63, 43, .72) 100%);
 }
 
 @media (prefers-reduced-motion: reduce) {
   .hero-bg-slide { animation: none; opacity: 0; }
-  .hero-bg-slide:first-child { opacity: .46; }
+  .hero-bg-slide:first-child { opacity: .78; }
 }
 
 .hero h1 { color: #fff; }
