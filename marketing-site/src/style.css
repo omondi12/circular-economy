@@ -434,6 +434,50 @@ header.nav.scrolled {
   background-image: linear-gradient(rgba(255,255,255,.12) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.12) 1px, transparent 1px);
   background-size: 42px 42px;
   mask-image: linear-gradient(to right, black, transparent 78%);
+  z-index: 1;
+}
+
+/* ---------- Hero background carousel ---------- */
+.hero-bg-carousel {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.hero-bg-slide {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  animation: hero-bg-fade 22s infinite;
+}
+
+.hero-bg-slide:nth-child(1) { animation-delay: 0s; }
+.hero-bg-slide:nth-child(2) { animation-delay: 5.5s; }
+.hero-bg-slide:nth-child(3) { animation-delay: 11s; }
+.hero-bg-slide:nth-child(4) { animation-delay: 16.5s; }
+
+@keyframes hero-bg-fade {
+  0% { opacity: 0; }
+  3% { opacity: .46; }
+  22% { opacity: .46; }
+  25% { opacity: 0; }
+  100% { opacity: 0; }
+}
+
+.hero-bg-scrim {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 78% 42%, rgba(31, 140, 82, .25), transparent 30%),
+    linear-gradient(135deg, var(--brand-950) 0%, rgba(15, 46, 30, .93) 58%, rgba(23, 63, 43, .96) 100%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-bg-slide { animation: none; opacity: 0; }
+  .hero-bg-slide:first-child { opacity: .46; }
 }
 
 .hero h1 { color: #fff; }
@@ -452,10 +496,20 @@ header.nav.scrolled {
 .hero .stat-badge.gold { background: rgba(227,173,63,.14); border-color: rgba(227,173,63,.35); color: #f4d486; }
 
 .hero-grid {
+  position: relative;
+  z-index: 2;
   display: grid;
   grid-template-columns: 1fr;
   gap: 48px;
   align-items: center;
+}
+
+/* Painting order inside .hero otherwise puts the non-positioned stat
+   rail wrap BELOW the absolutely-positioned background carousel, no
+   matter its DOM order - lift it above explicitly. */
+.hero > .wrap {
+  position: relative;
+  z-index: 2;
 }
 
 @media (min-width: 960px) {
