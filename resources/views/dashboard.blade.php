@@ -35,7 +35,7 @@
         <x-stat-tile
             label="Clients" icon="building" tone="violet"
             :value="number_format($stateCorpTotal)"
-            :hint="'Assigned: '.number_format($assignedClientCount).' - Unassigned: '.number_format($unassignedClientCount)"
+            :hint="'Assigned: '.number_format($assignedClientCount).' ('.number_format($assignedWithContactCount).' with contact, '.number_format($assignedWithoutContactCount).' without) - Unassigned: '.number_format($unassignedClientCount)"
             :href="route('state-corporations.index')"
         />
         <x-stat-tile

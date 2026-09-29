@@ -70,53 +70,67 @@ class StateCorporation extends Model
      * $rmId. The query-level counterpart to effectiveAssignedRmId(), for
      * anywhere that needs to list/count/filter rather than check one
      * client at a time.
-     */
-    /**
+     *
      * @param  int|array<int>  $rmIds  One RM id, or several (e.g. a
      *                                 supervisor's whole team) - matches
      *                                 a client covered by any of them.
      */
     public function scopeAssignedToRm($query, int|array $rmIds)
     {
+        $rmIds = (array) $rmIds;
+
         return $query->where(function ($q) use ($rmIds) {
-            $q->whereIn('assigned_rm_id', (array) $rmIds)
+            $q->whereIn('assigned_rm_id', $rmIds)
                 ->orWhereHas('ministry', function ($q2) use ($rmIds) {
-                    $q2->whereIn('assigned_rm_id', (array) $rmIds)
-                        ->orWhereHas('parent', fn ($q3) => $q3->whereIn('assigned_rm_id', (array) $rmIds));
+                    $q2->where('level', GovernmentEntity::LEVEL_STATE_DEPARTMENT)
+                        ->whereIn('assigned_rm_id', $rmIds);
+                })
+                ->orWhereHas('ministry', function ($q2) use ($rmIds) {
+                    $q2->where('level', GovernmentEntity::LEVEL_INSTITUTION)
+                        ->whereHas('parent', function ($q3) use ($rmIds) {
+                            $q3->where('level', GovernmentEntity::LEVEL_STATE_DEPARTMENT)
+                                ->whereIn('assigned_rm_id', $rmIds);
+                        });
                 });
         });
     }
 
     /**
-     * The opposite of scopeAssignedToRm() for every RM at once - no
-     * manual override, and either no state department on file or that
-     * department has nobody assigned. Used for the "Unassigned Clients"
-     * figures now that assignment can come from either source.
+     * Whether a client's ministry_id resolves to an assigned (or
+     * unassigned) state department - level-checked (2026-09-29 fix), so
+     * a client whose ministry_id still points at a plain Ministry (not a
+     * state department) is never counted just because that Ministry
+     * happens to carry an old assigned_rm_id from the retired
+     * ministry-wide cascade. Shared by scopeEffectivelyAssigned() and
+     * scopeEffectivelyUnassigned() below so the two can never drift out
+     * of being exact opposites of each other.
      */
-    public function scopeEffectivelyUnassigned($query)
-    {
-        return $query->whereNull('assigned_rm_id')
-            ->where(function ($q) {
-                $q->whereDoesntHave('ministry')
-                    ->orWhereHas('ministry', function ($q2) {
-                        $q2->whereNull('assigned_rm_id')
-                            ->where(function ($q3) {
-                                $q3->whereDoesntHave('parent')
-                                    ->orWhereHas('parent', fn ($q4) => $q4->whereNull('assigned_rm_id'));
-                            });
-                    });
-            });
-    }
-
     public function scopeEffectivelyAssigned($query)
     {
         return $query->where(function ($q) {
             $q->whereNotNull('assigned_rm_id')
                 ->orWhereHas('ministry', function ($q2) {
-                    $q2->whereNotNull('assigned_rm_id')
-                        ->orWhereHas('parent', fn ($q3) => $q3->whereNotNull('assigned_rm_id'));
+                    $q2->where('level', GovernmentEntity::LEVEL_STATE_DEPARTMENT)
+                        ->whereNotNull('assigned_rm_id');
+                })
+                ->orWhereHas('ministry', function ($q2) {
+                    $q2->where('level', GovernmentEntity::LEVEL_INSTITUTION)
+                        ->whereHas('parent', function ($q3) {
+                            $q3->where('level', GovernmentEntity::LEVEL_STATE_DEPARTMENT)
+                                ->whereNotNull('assigned_rm_id');
+                        });
                 });
         });
+    }
+
+    /**
+     * The exact logical negation of scopeEffectivelyAssigned() - kept as
+     * a plain "not" of that scope rather than a separately hand-written
+     * condition, so the two can never silently disagree.
+     */
+    public function scopeEffectivelyUnassigned($query)
+    {
+        return $query->whereNot(fn ($q) => $q->effectivelyAssigned());
     }
 
     public function ministry(): BelongsTo

@@ -46,6 +46,18 @@ class DashboardController extends Controller
         $assignedClientCount = StateCorporation::effectivelyAssigned()->count();
         $unassignedClientCount = StateCorporation::effectivelyUnassigned()->count();
 
+        // Among assigned clients, how many are covered by a department
+        // that also has its Principal Secretary/contact person on file
+        // (2026-09-29, per the boss) - a client on a manual override with
+        // no department resolved counts as "without", same as one whose
+        // department just hasn't had its contact person filled in yet.
+        $assignedWithContactCount = StateCorporation::effectivelyAssigned()
+            ->with('ministry.parent')
+            ->get()
+            ->filter(fn (StateCorporation $c) => $c->stateDepartmentContactName() !== null)
+            ->count();
+        $assignedWithoutContactCount = $assignedClientCount - $assignedWithContactCount;
+
         $rmCount = User::where('role', User::ROLE_RM)->count();
 
         $stateDepartmentTotal = GovernmentEntity::where('level', GovernmentEntity::LEVEL_STATE_DEPARTMENT)->count();
@@ -69,6 +81,8 @@ class DashboardController extends Controller
             'stateCorpPhase2' => $stateCorpPhase2,
             'assignedClientCount' => $assignedClientCount,
             'unassignedClientCount' => $unassignedClientCount,
+            'assignedWithContactCount' => $assignedWithContactCount,
+            'assignedWithoutContactCount' => $assignedWithoutContactCount,
             'rmCount' => $rmCount,
             'stateDepartmentTotal' => $stateDepartmentTotal,
             'stateDepartmentHandledCount' => $stateDepartmentHandledCount,
