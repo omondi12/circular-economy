@@ -6,6 +6,7 @@ use App\Models\AuditLog;
 use App\Models\Collection;
 use App\Models\GovernmentEntity;
 use App\Models\Lso;
+use App\Models\StateCorporation;
 use App\Support\EntityDirectory;
 use App\Support\WasteCategories;
 use Illuminate\Contracts\View\View;
@@ -55,11 +56,13 @@ class RmDashboardController extends Controller
     {
         $user = Auth::user();
         $assignedMinistryIds = $user->assignedMinistries()->pluck('id')->all();
+        $assignedStateDepartmentIds = $user->assignedStateDepartments()->pluck('id')->all();
 
         return view('rm.create', [
             'lots' => WasteCategories::lots(),
-            'ministries' => self::ministryTree($assignedMinistryIds),
-            'restrictedToOwnMinistries' => $assignedMinistryIds !== [],
+            'ministries' => self::ministryTree($assignedMinistryIds, $assignedStateDepartmentIds),
+            'restrictedToOwnMinistries' => $assignedMinistryIds !== [] || $assignedStateDepartmentIds !== [],
+            'clients' => $user->effectiveStateCorporations()->orderBy('name')->get(['id', 'name']),
             'counties' => EntityDirectory::counties(),
             'countyDepartments' => EntityDirectory::countyDepartments(),
             'commissions' => EntityDirectory::commissions(),
@@ -73,20 +76,37 @@ class RmDashboardController extends Controller
      * directly rather than adding an AJAX endpoint this app has no other
      * use for.
      *
-     * $allowedMinistryIds scopes the top-level list to only the ministries
-     * an RM has been assigned (see DistributeMinistries) - an RM covers
-     * their whole ministry, so departments/institutions underneath an
-     * allowed ministry aren't filtered further. An empty array means "no
-     * assignment on record" (demo accounts, admins browsing the RM form)
-     * and falls back to showing every ministry rather than locking the
-     * form to zero options.
+     * Scoped to what the RM can actually submit for: a ministry they're
+     * assigned wholesale ($allowedMinistryIds) shows every department and
+     * institution underneath it, while a ministry they're NOT assigned
+     * wholesale still appears if one of its departments is in
+     * $allowedStateDepartmentIds - but only that department (and its
+     * institutions), not its siblings. Both empty means "no assignment on
+     * record" (demo accounts, admins browsing the RM form) and falls back
+     * to showing everything rather than locking the form to zero options.
      */
-    private static function ministryTree(array $allowedMinistryIds = []): \Illuminate\Support\Collection
+    private static function ministryTree(array $allowedMinistryIds = [], array $allowedStateDepartmentIds = []): \Illuminate\Support\Collection
     {
+        $isRestricted = $allowedMinistryIds !== [] || $allowedStateDepartmentIds !== [];
+
         return GovernmentEntity::ministries()
             ->orderBy('id')
-            ->when($allowedMinistryIds !== [], fn ($q) => $q->whereIn('id', $allowedMinistryIds))
-            ->with(['children' => fn ($q) => $q->orderBy('id'), 'children.children' => fn ($q) => $q->orderBy('id')])
+            ->when($isRestricted, fn ($q) => $q->where(function ($q2) use ($allowedMinistryIds, $allowedStateDepartmentIds) {
+                $q2->whereIn('id', $allowedMinistryIds)
+                    ->orWhereHas('children', fn ($q3) => $q3->whereIn('id', $allowedStateDepartmentIds));
+            }))
+            ->with([
+                'children' => function ($q) use ($isRestricted, $allowedMinistryIds, $allowedStateDepartmentIds) {
+                    $q->orderBy('id');
+                    if ($isRestricted) {
+                        $q->where(function ($q2) use ($allowedMinistryIds, $allowedStateDepartmentIds) {
+                            $q2->whereIn('parent_id', $allowedMinistryIds)
+                                ->orWhereIn('id', $allowedStateDepartmentIds);
+                        });
+                    }
+                },
+                'children.children' => fn ($q) => $q->orderBy('id'),
+            ])
             ->get()
             ->map(fn (GovernmentEntity $ministry) => [
                 'id' => $ministry->id,
@@ -106,10 +126,12 @@ class RmDashboardController extends Controller
     {
         $user = Auth::user();
         $assignedMinistryIds = $user->assignedMinistries()->pluck('id')->all();
+        $assignedStateDepartmentIds = $user->assignedStateDepartments()->pluck('id')->all();
 
         $data = $request->validate([
-            'entity_type' => ['required', Rule::in(['ministry', 'county', 'commission'])],
+            'entity_type' => ['required', Rule::in(['ministry', 'county', 'commission', 'client'])],
             'entity_name' => ['nullable', 'string', 'max:255'],
+            'client_id' => ['required_if:entity_type,client', 'nullable', 'integer', 'exists:state_corporations,id'],
             'ministry_id' => ['nullable', 'integer', 'exists:government_entities,id'],
             'state_department_id' => ['nullable', 'integer', 'exists:government_entities,id'],
             'institution_id' => ['nullable', 'integer', 'exists:government_entities,id'],
@@ -157,6 +179,7 @@ class RmDashboardController extends Controller
         $ministry = null;
         $stateDepartment = null;
         $institution = null;
+        $stateCorporationId = null;
 
         switch ($data['entity_type']) {
             case 'ministry':
@@ -164,11 +187,16 @@ class RmDashboardController extends Controller
                 $stateDepartment = $data['state_department_id'] ? GovernmentEntity::find($data['state_department_id']) : null;
                 $institution = $data['institution_id'] ? GovernmentEntity::find($data['institution_id']) : null;
 
-                $validator = validator($data, [])->after(function (Validator $validator) use ($ministry, $stateDepartment, $institution, $assignedMinistryIds) {
+                $validator = validator($data, [])->after(function (Validator $validator) use ($ministry, $stateDepartment, $institution, $assignedMinistryIds, $assignedStateDepartmentIds) {
                     if ($ministry === null) {
                         $validator->errors()->add('ministry_id', 'Choose a ministry.');
-                    } elseif ($assignedMinistryIds !== [] && ! in_array($ministry->id, $assignedMinistryIds, true)) {
-                        $validator->errors()->add('ministry_id', 'You are only able to submit collections for the ministries assigned to you.');
+                    } elseif ($assignedMinistryIds !== [] || $assignedStateDepartmentIds !== []) {
+                        $hasWholeMinistryAccess = in_array($ministry->id, $assignedMinistryIds, true);
+                        $hasMatchingDepartmentAccess = $stateDepartment !== null && in_array($stateDepartment->id, $assignedStateDepartmentIds, true);
+
+                        if (! $hasWholeMinistryAccess && ! $hasMatchingDepartmentAccess) {
+                            $validator->errors()->add('ministry_id', 'You are only able to submit collections for the ministries/state departments assigned to you.');
+                        }
                     }
                     if ($stateDepartment !== null && $stateDepartment->parent_id !== $ministry?->id) {
                         $validator->errors()->add('state_department_id', 'That state department does not belong to the selected ministry.');
@@ -205,6 +233,32 @@ class RmDashboardController extends Controller
                 $data['entity_name'] = $data['commission'];
                 $data['county'] = null;
                 break;
+
+            case 'client':
+                $client = StateCorporation::find($data['client_id']);
+
+                if ($client === null || ! $user->effectiveStateCorporations()->where('id', $client->id)->exists()) {
+                    return back()->withInput()->withErrors(['client_id' => 'Choose one of your assigned clients.']);
+                }
+
+                // A client's ministry_id can point at any level (Ministry,
+                // State Department, or Institution - same as elsewhere in
+                // this app, see StateCorporation::ministryDisplay()), so
+                // resolve the full chain from whichever level it's set to.
+                $clientEntity = $client->ministry;
+                $institution = $clientEntity?->level === GovernmentEntity::LEVEL_INSTITUTION ? $clientEntity : null;
+                $stateDepartment = $client->stateDepartmentEntity();
+                $ministry = match (true) {
+                    $clientEntity?->level === GovernmentEntity::LEVEL_MINISTRY => $clientEntity,
+                    $stateDepartment !== null => $stateDepartment->parent,
+                    default => null,
+                };
+
+                $stateCorporationId = $client->id;
+                $data['entity_name'] = $client->name;
+                $data['county'] = null;
+                $data['commission'] = null;
+                break;
         }
 
         $collection = Collection::create([
@@ -212,6 +266,7 @@ class RmDashboardController extends Controller
             'ministry_id' => $ministry?->id,
             'state_department_id' => $stateDepartment?->id,
             'institution_id' => $institution?->id,
+            'state_corporation_id' => $stateCorporationId,
             'user_id' => $user->id,
             'relationship_manager' => $user->name,
             'collected_by' => $user->name,

@@ -38,8 +38,40 @@
                                 class="text-brand-700 focus:ring-brand-600">
                             Commission / Other
                         </label>
+                        @if ($clients->isNotEmpty())
+                            <label class="flex items-center gap-1.5 text-sm text-ink-muted">
+                                <input type="radio" name="entity_type" value="client" onchange="onEntityTypeChange()"
+                                    {{ old('entity_type') === 'client' ? 'checked' : '' }}
+                                    class="text-brand-700 focus:ring-brand-600">
+                                One of My Clients
+                            </label>
+                        @endif
                     </div>
                 </div>
+
+                {{-- Client path: pick from this RM's own assigned clients - the ministry/department chain is resolved automatically from the client's own record. --}}
+                @if ($clients->isNotEmpty())
+                    <div id="client-fields" class="hidden">
+                        <div class="grid grid-cols-1 sm:grid-cols-[220px_1fr] border-b border-border">
+                            <label for="client_id" class="bg-gold-50 px-4 py-3 text-sm font-semibold text-ink-muted flex items-center">
+                                Client <span class="text-danger ml-1">*</span>
+                            </label>
+                            <div class="px-4 py-2 flex flex-col justify-center">
+                                <select id="client_id" name="client_id" disabled
+                                    class="w-full border-0 focus:ring-0 text-sm py-1.5 px-0 text-ink">
+                                    <option value="">Select a client…</option>
+                                    @foreach ($clients as $client)
+                                        <option value="{{ $client->id }}" @selected(old('client_id') == $client->id)>{{ $client->name }}</option>
+                                    @endforeach
+                                </select>
+                                @error('client_id')
+                                    <p class="text-xs text-danger mt-1">{{ $message }}</p>
+                                @enderror
+                                <p class="text-xs text-ink-faint mt-1">Showing only clients assigned to you.</p>
+                            </div>
+                        </div>
+                    </div>
+                @endif
 
                 {{-- Ministry path: cascading Ministry -> State Department -> Institution --}}
                 <div id="ministry-fields">
@@ -59,7 +91,7 @@
                                 <p class="text-xs text-danger mt-1">{{ $message }}</p>
                             @enderror
                             @if ($restrictedToOwnMinistries)
-                                <p class="text-xs text-ink-faint mt-1">Showing only the ministries assigned to you.</p>
+                                <p class="text-xs text-ink-faint mt-1">Showing only the ministries/state departments assigned to you.</p>
                             @endif
                         </div>
                     </div>
@@ -348,12 +380,16 @@
         // a select for County, a select for Commission) coexist in one form.
         function onEntityTypeChange() {
             const type = document.querySelector('input[name="entity_type"]:checked')?.value ?? 'ministry';
+            // client-fields only renders when the RM has assigned clients -
+            // may not exist in the DOM at all, so blocks/fields are looked
+            // up rather than assumed present for every key.
             const blocks = {
                 ministry: document.getElementById('ministry-fields'),
                 county: document.getElementById('county-fields'),
                 commission: document.getElementById('commission-fields'),
+                client: document.getElementById('client-fields'),
             };
-            const requiredFieldByType = { ministry: 'ministry_id', county: 'county', commission: 'commission' };
+            const requiredFieldByType = { ministry: 'ministry_id', county: 'county', commission: 'commission', client: 'client_id' };
             const deptFieldByType = {
                 ministry: 'department_agency_ministry',
                 county: 'department_agency_county',
@@ -361,13 +397,21 @@
             };
 
             Object.entries(blocks).forEach(([key, el]) => {
+                if (!el) return;
+
                 const active = key === type;
                 el.classList.toggle('hidden', !active);
-                document.getElementById(requiredFieldByType[key]).disabled = !active;
-                document.getElementById(requiredFieldByType[key]).required = active;
-                const deptEl = document.getElementById(deptFieldByType[key]);
-                deptEl.disabled = !active;
-                deptEl.required = active && key !== 'ministry';
+
+                const requiredEl = document.getElementById(requiredFieldByType[key]);
+                requiredEl.disabled = !active;
+                requiredEl.required = active;
+
+                const deptFieldId = deptFieldByType[key];
+                if (deptFieldId) {
+                    const deptEl = document.getElementById(deptFieldId);
+                    deptEl.disabled = !active;
+                    deptEl.required = active && key !== 'ministry';
+                }
             });
         }
 

@@ -221,9 +221,11 @@ class StateCorporation extends Model
      * state department, or institution), so this walks up from an
      * institution to its department, returns a department directly, or
      * null when the client is assigned straight to a ministry (no
-     * specific department) or has no ministry at all.
+     * specific department) or has no ministry at all. Public since
+     * RmDashboardController also needs it to resolve a picked client's
+     * ministry/department chain onto the Collection being recorded.
      */
-    private function stateDepartmentEntity(): ?GovernmentEntity
+    public function stateDepartmentEntity(): ?GovernmentEntity
     {
         $entity = $this->ministry;
 
