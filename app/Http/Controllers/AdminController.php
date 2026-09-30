@@ -6,10 +6,14 @@ use App\Models\AuditLog;
 use App\Models\ClientReport;
 use App\Models\Collection;
 use App\Models\GovernmentEntity;
+use App\Models\Lso;
+use App\Models\LsoLot;
 use App\Models\Requisition;
+use App\Models\RmTarget;
 use App\Models\StateCorporation;
 use App\Models\User;
 use App\Support\PhoneNumber;
+use App\Support\WasteCategories;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -35,6 +39,45 @@ class AdminController extends Controller
         $isSupervisor = $viewer->isSupervisor();
         $isOperations = $viewer->isOperations();
         $rmIds = $isSupervisor ? $viewer->rms()->pluck('id') : null;
+
+        // LSO financial summary for the dashboard's KPI tiles - the exact
+        // same safe, no-join pattern as LsoController::adminIndex() (sum
+        // in PHP over an eager-loaded `payments` relation, never a query
+        // joining lsos/lso_payments/lso_lots together), so multiple lots
+        // or payments on one LSO can never inflate these totals.
+        $lsos = Lso::query()->visibleTo($viewer)->with('payments')->get();
+        $lsoFullyPaidCount = $lsos->filter(fn (Lso $lso) => $lso->status === Lso::STATUS_FULLY_PAID)->count();
+        $lsoCancelledCount = $lsos->filter(fn (Lso $lso) => $lso->status === Lso::STATUS_CANCELLED)->count();
+
+        // "Currently active" = targets whose period covers today - the
+        // aggregate is a plain average of each target's own, already-
+        // correct achievementPercent() (itself unchanged: confirmed
+        // collections only for monetary, fully-paid-within-period only
+        // for count), never a new formula. Empty on purpose when nothing
+        // is active, rather than a misleading 0%.
+        $activeTargets = RmTarget::query()
+            ->when($isSupervisor, fn ($q) => $q->whereIn('user_id', $rmIds))
+            ->whereDate('period_start', '<=', now())
+            ->whereDate('period_end', '>=', now())
+            ->get();
+
+        // "Effective" ministry coverage mirrors StateCorporation's own
+        // definition elsewhere (2026-09-28 cascade) - a ministry counts as
+        // covered if it has a direct RM, OR any of its state departments
+        // does, since that's the primary way RMs get assigned now, not a
+        // ministry-wide assignment.
+        $ministryTotal = GovernmentEntity::ministries()->count();
+        $ministriesWithRm = GovernmentEntity::ministries()
+            ->where(function ($q) use ($isSupervisor, $rmIds) {
+                if ($isSupervisor) {
+                    $q->whereIn('assigned_rm_id', $rmIds)
+                        ->orWhereHas('children', fn ($q2) => $q2->whereIn('assigned_rm_id', $rmIds));
+                } else {
+                    $q->whereNotNull('assigned_rm_id')
+                        ->orWhereHas('children', fn ($q2) => $q2->whereNotNull('assigned_rm_id'));
+                }
+            })
+            ->count();
 
         return view('admin.dashboard', [
             'isSupervisor' => $isSupervisor,
@@ -68,6 +111,20 @@ class AdminController extends Controller
             'requisitionPendingCount' => ($isSupervisor || $isOperations)
                 ? Requisition::where('requester_id', $viewer->id)->where(fn ($q) => $q->where('transport_status', Requisition::STATUS_PENDING)->orWhere('airtime_status', Requisition::STATUS_PENDING))->count()
                 : Requisition::where(fn ($q) => $q->where('transport_status', Requisition::STATUS_PENDING)->orWhere('airtime_status', Requisition::STATUS_PENDING))->count(),
+            'lsoCount' => $lsos->count(),
+            'lsoFullyPaidCount' => $lsoFullyPaidCount,
+            'lsoInProgressCount' => $lsos->count() - $lsoFullyPaidCount - $lsoCancelledCount,
+            'lsoCancelledCount' => $lsoCancelledCount,
+            'lsoTotalOriginalMinor' => (int) $lsos->sum('original_amount_minor'),
+            'lsoTotalConfirmedMinor' => (int) $lsos->sum(fn (Lso $lso) => $lso->confirmedCollectedMinor()),
+            'lsoTotalOutstandingMinor' => (int) $lsos->sum(fn (Lso $lso) => $lso->outstandingMinor()),
+            'targetAchievementAverage' => $activeTargets->isNotEmpty()
+                ? round($activeTargets->avg(fn (RmTarget $target) => $target->achievementPercent()), 1)
+                : null,
+            'activeTargetCount' => $activeTargets->count(),
+            'activeTargetRmCount' => $activeTargets->pluck('user_id')->unique()->count(),
+            'ministryTotal' => $ministryTotal,
+            'ministriesWithRm' => $ministriesWithRm,
             'recentAuditLog' => AuditLog::visibleTo($viewer)->with('user')->latest()->limit(10)->get(),
         ]);
     }
@@ -284,6 +341,15 @@ class AdminController extends Controller
             ->map(function (User $rm) {
                 $submissions = Collection::where('user_id', $rm->id);
 
+                // Lot 2 (Disposal) has no Lso of its own to report through
+                // admin.lsos.index (that list is scoped to Lot 1 orders),
+                // so this is currently the only Finance-facing place its
+                // contract-priced revenue is visible at all. Only priced
+                // lots are summed (SQL SUM ignores NULLs) - unpriced ones
+                // (unmapped category or incompatible unit) are counted
+                // separately rather than silently read as KES 0.
+                $lot2Lots = LsoLot::whereHas('collection', fn ($q) => $q->where('user_id', $rm->id)->where('lot', WasteCategories::LOT_DISPOSAL));
+
                 return [
                     'rm' => $rm,
                     'ministries' => $rm->assignedMinistries()->orderBy('name')->pluck('name'),
@@ -293,6 +359,8 @@ class AdminController extends Controller
                         ->whereYear('collection_date', now()->year)
                         ->count(),
                     'lastSubmissionAt' => (clone $submissions)->max('collection_date'),
+                    'lot2RevenueMinor' => (int) (clone $lot2Lots)->sum('expected_revenue_minor'),
+                    'lot2UnpricedCount' => (clone $lot2Lots)->whereNull('expected_revenue_minor')->count(),
                 ];
             });
 

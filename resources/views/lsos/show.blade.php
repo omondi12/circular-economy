@@ -29,12 +29,51 @@
         <div class="lg:col-span-2 space-y-6">
             <div class="bg-panel border border-border rounded-xl overflow-hidden shadow-sm">
                 <div class="px-5 py-4 border-b border-border">
+                    <h2 class="text-sm font-semibold uppercase tracking-wide text-ink-muted">Lots</h2>
+                </div>
+                <table class="w-full text-sm">
+                    <thead class="bg-brand-50 text-left text-ink-faint">
+                        <tr>
+                            <th class="px-4 py-2 font-medium">Category</th>
+                            <th class="px-4 py-2 font-medium">Method</th>
+                            <th class="px-4 py-2 font-medium text-right">Quantity</th>
+                            <th class="px-4 py-2 font-medium">Recorded</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-border">
+                        @forelse ($lso->lots as $lsoLot)
+                            <tr class="hover:bg-panel-muted transition-colors">
+                                <td class="px-4 py-3">
+                                    {{ $lsoLot->collection?->categoryLabel() }}
+                                    @if ($lsoLot->collection?->subcategoryLabel())
+                                        <span class="block text-xs text-ink-faint mt-0.5">{{ $lsoLot->collection->subcategoryLabel() }}</span>
+                                    @endif
+                                </td>
+                                <td class="px-4 py-3 whitespace-nowrap">{{ $lsoLot->collection?->lotLabel() }}</td>
+                                <td class="px-4 py-3 text-right tabular-nums whitespace-nowrap">{{ number_format($lsoLot->collection?->quantity ?? 0, 1) }} {{ $lsoLot->collection?->unitLabel() }}</td>
+                                <td class="px-4 py-3 whitespace-nowrap text-ink-faint">{{ $lsoLot->collection?->collection_date?->format('d M Y') }}</td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="4" class="px-4 py-8 text-center text-ink-faint">No lots recorded yet.</td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+                <p class="px-4 py-3 text-xs text-ink-faint border-t border-border">
+                    Every lot here is Lot 1 (Auction) - its revenue is Westport's contractual commission, realized per confirmed payment below, not a pre-set per-lot figure.
+                </p>
+            </div>
+
+            <div class="bg-panel border border-border rounded-xl overflow-hidden shadow-sm">
+                <div class="px-5 py-4 border-b border-border">
                     <h2 class="text-sm font-semibold uppercase tracking-wide text-ink-muted">Payment History</h2>
                 </div>
                 <table class="w-full text-sm">
                     <thead class="bg-brand-50 text-left text-ink-faint">
                         <tr>
                             <th class="px-4 py-2 font-medium">Date</th>
+                            <th class="px-4 py-2 font-medium text-right">Gross Sale Value</th>
                             <th class="px-4 py-2 font-medium text-right">Amount</th>
                             <th class="px-4 py-2 font-medium">Status</th>
                             <th class="px-4 py-2 font-medium">Recorded By</th>
@@ -47,7 +86,21 @@
                         @forelse ($lso->payments as $payment)
                             <tr class="hover:bg-panel-muted transition-colors">
                                 <td class="px-4 py-3 whitespace-nowrap">{{ $payment->collected_at->format('d M Y') }}</td>
-                                <td class="px-4 py-3 text-right tabular-nums font-medium">{{ number_format($payment->amount_minor / 100) }}</td>
+                                <td class="px-4 py-3 text-right tabular-nums text-ink-faint">
+                                    @if ($payment->gross_amount_minor !== null)
+                                        {{ number_format($payment->gross_amount_minor / 100) }}
+                                    @else
+                                        —
+                                    @endif
+                                </td>
+                                <td class="px-4 py-3 text-right tabular-nums font-medium">
+                                    {{ number_format($payment->amount_minor / 100) }}
+                                    @if ($payment->gross_amount_minor !== null)
+                                        <span class="block text-xs text-ink-faint font-normal">
+                                            contractual commission{{ $payment->isPending() ? ' (provisional - finalized on confirm)' : '' }}
+                                        </span>
+                                    @endif
+                                </td>
                                 <td class="px-4 py-3 whitespace-nowrap">
                                     @php
                                         $tone = match ($payment->status) {
@@ -76,7 +129,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="{{ $canManageFinance ? 5 : 4 }}" class="px-4 py-8 text-center text-ink-faint">No payments recorded yet.</td>
+                                <td colspan="{{ $canManageFinance ? 6 : 5 }}" class="px-4 py-8 text-center text-ink-faint">No payments recorded yet.</td>
                             </tr>
                         @endforelse
                     </tbody>
@@ -88,26 +141,66 @@
                     <div class="bg-gradient-to-r from-brand-700 to-brand-500 px-4 py-2.5">
                         <h2 class="text-sm font-semibold text-white uppercase tracking-wide">Record a Payment</h2>
                     </div>
-                    <form method="POST" action="{{ route('rm.lsos.payments.store', $lso) }}" class="p-5 grid grid-cols-1 sm:grid-cols-3 gap-4 items-end">
+                    <form method="POST" action="{{ route('rm.lsos.payments.store', $lso) }}" class="p-5 space-y-4">
                         @csrf
-                        <div>
-                            <label for="amount" class="block text-xs font-semibold text-ink-muted mb-1">Amount Collected (KES)</label>
-                            <input type="number" min="1" step="1" id="amount" name="amount" required class="w-full rounded-lg border border-border text-sm px-3 py-2">
+                        <div class="flex flex-wrap items-center gap-x-5 gap-y-1.5 text-sm text-ink-muted">
+                            <label class="flex items-center gap-1.5">
+                                <input type="radio" name="payment_input_mode" value="amount" checked onchange="onPaymentInputModeChange()" class="text-brand-700 focus:ring-brand-600">
+                                I know the commission amount
+                            </label>
+                            <label class="flex items-center gap-1.5">
+                                <input type="radio" name="payment_input_mode" value="gross" onchange="onPaymentInputModeChange()" class="text-brand-700 focus:ring-brand-600">
+                                I know the gross sale value
+                            </label>
                         </div>
-                        <div>
-                            <label for="collected_at" class="block text-xs font-semibold text-ink-muted mb-1">Date Collected</label>
-                            <input type="date" id="collected_at" name="collected_at" value="{{ now()->toDateString() }}" required class="w-full rounded-lg border border-border text-sm px-3 py-2">
-                        </div>
-                        <div>
-                            <button type="submit" class="w-full inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-brand-700 text-white text-sm font-semibold hover:bg-brand-800 transition-colors">
-                                Record Payment
-                            </button>
-                        </div>
-                        <div class="sm:col-span-3">
-                            <label for="notes" class="block text-xs font-semibold text-ink-muted mb-1">Notes</label>
-                            <input type="text" id="notes" name="notes" class="w-full rounded-lg border border-border text-sm px-3 py-2" placeholder="Optional">
+
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 items-end">
+                            <div id="amount-field">
+                                <label for="amount" class="block text-xs font-semibold text-ink-muted mb-1">Amount Collected (KES)</label>
+                                <input type="number" min="1" step="1" id="amount" name="amount" required class="w-full rounded-lg border border-border text-sm px-3 py-2">
+                            </div>
+                            <div id="gross-amount-field" class="hidden">
+                                <label for="gross_amount" class="block text-xs font-semibold text-ink-muted mb-1">Gross Sale Value (KES)</label>
+                                <input type="number" min="1" step="1" id="gross_amount" name="gross_amount" disabled class="w-full rounded-lg border border-border text-sm px-3 py-2">
+                                <p class="text-xs text-ink-faint mt-1">Westport's contractual commission (Tender TNT/KEPDA/011/2026-2027) is calculated automatically once submitted.</p>
+                            </div>
+                            <div>
+                                <label for="collected_at" class="block text-xs font-semibold text-ink-muted mb-1">Date Collected</label>
+                                <input type="date" id="collected_at" name="collected_at" value="{{ now()->toDateString() }}" required class="w-full rounded-lg border border-border text-sm px-3 py-2">
+                            </div>
+                            <div>
+                                <button type="submit" class="w-full inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-brand-700 text-white text-sm font-semibold hover:bg-brand-800 transition-colors">
+                                    Record Payment
+                                </button>
+                            </div>
+                            <div class="sm:col-span-3">
+                                <label for="notes" class="block text-xs font-semibold text-ink-muted mb-1">Notes</label>
+                                <input type="text" id="notes" name="notes" class="w-full rounded-lg border border-border text-sm px-3 py-2" placeholder="Optional">
+                            </div>
                         </div>
                     </form>
+
+                    <script>
+                        // The commission calculation itself always happens
+                        // server-side (LotPricingService) - this toggle only
+                        // switches which field is required, it never
+                        // computes a commission figure in the browser.
+                        function onPaymentInputModeChange() {
+                            const mode = document.querySelector('input[name="payment_input_mode"]:checked').value;
+                            const isGross = mode === 'gross';
+
+                            const amount = document.getElementById('amount');
+                            const grossAmount = document.getElementById('gross_amount');
+
+                            document.getElementById('amount-field').classList.toggle('hidden', isGross);
+                            document.getElementById('gross-amount-field').classList.toggle('hidden', !isGross);
+
+                            amount.disabled = isGross;
+                            amount.required = !isGross;
+                            grossAmount.disabled = !isGross;
+                            grossAmount.required = isGross;
+                        }
+                    </script>
                 </div>
             @endif
         </div>
@@ -141,6 +234,12 @@
                     <div>
                         <dt class="text-xs text-ink-faint uppercase tracking-wide">Issue Date</dt>
                         <dd class="text-ink">{{ $lso->issue_date->format('d M Y') }}</dd>
+                    </div>
+                    <div>
+                        <dt class="text-xs text-ink-faint uppercase tracking-wide">Company Revenue (Commission)</dt>
+                        <dd class="text-ink-faint italic text-xs mt-0.5">
+                            Lot 1 revenue is Westport's contractual auction commission, realized per confirmed payment - see "Confirmed Collected" above, not a pre-set figure.
+                        </dd>
                     </div>
                     @if ($lso->description)
                         <div>

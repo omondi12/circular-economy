@@ -86,7 +86,7 @@
                         <th class="px-4 py-2 font-medium">Lot / Category</th>
                         <th class="px-4 py-2 font-medium text-right">Quantity</th>
                         <th class="px-4 py-2 font-medium">Date</th>
-                        <th class="px-4 py-2 font-medium">LSO</th>
+                        <th class="px-4 py-2 font-medium">LSO / Revenue</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-border">
@@ -108,6 +108,10 @@
                                     <a href="{{ route('rm.lsos.show', $submission->lso_id) }}" class="text-brand-700 hover:text-brand-800 font-medium text-xs">
                                         View / Record Payment
                                     </a>
+                                @elseif ($submission->lsoLot?->expected_revenue_minor !== null)
+                                    <span class="text-ink font-medium text-xs">KES {{ number_format($submission->lsoLot->expected_revenue_minor / 100) }}</span>
+                                @elseif ($submission->lsoLot)
+                                    <span class="text-ink-faint text-xs italic">Pricing pending</span>
                                 @else
                                     <span class="text-ink-faint text-xs">—</span>
                                 @endif

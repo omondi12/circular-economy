@@ -314,12 +314,13 @@
                         @error('lso_reference_number')
                             <p class="text-xs text-danger mt-1">{{ $message }}</p>
                         @enderror
+                        <p class="text-xs text-ink-faint mt-1">Already recording another lot under an LSO you've already entered? Use the same reference number - you won't need to re-enter its amount or document.</p>
                     </div>
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-[220px_1fr] border-b border-border">
                     <label for="lso_amount" class="bg-gold-50 px-4 py-3 text-sm font-semibold text-ink-muted flex items-center">
-                        Amount the Materials are Worth (KES) <span class="text-danger ml-1">*</span>
+                        Amount the Materials are Worth (KES)
                     </label>
                     <div class="px-4 py-2 flex flex-col justify-center">
                         <input type="number" min="1" step="1" id="lso_amount" name="lso_amount" value="{{ old('lso_amount') }}"
@@ -327,12 +328,13 @@
                         @error('lso_amount')
                             <p class="text-xs text-danger mt-1">{{ $message }}</p>
                         @enderror
+                        <p class="text-xs text-ink-faint mt-1">Only required the first time you use a new LSO reference.</p>
                     </div>
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-[220px_1fr]">
                     <label for="lso_document" class="bg-gold-50 px-4 py-3 text-sm font-semibold text-ink-muted flex items-center">
-                        LSO Document <span class="text-danger ml-1">*</span>
+                        LSO Document
                     </label>
                     <div class="px-4 py-2.5 flex flex-col justify-center">
                         <input type="file" id="lso_document" name="lso_document" accept=".jpg,.jpeg,.png,.webp,.pdf"
@@ -340,7 +342,7 @@
                         @error('lso_document')
                             <p class="text-xs text-danger mt-1">{{ $message }}</p>
                         @enderror
-                        <p class="text-xs text-ink-faint mt-1">Photo or scan of the LSO. JPG, PNG, WEBP or PDF, up to 5MB. Kept private - only you and Finance/Admin can view it.</p>
+                        <p class="text-xs text-ink-faint mt-1">Photo or scan of the LSO. JPG, PNG, WEBP or PDF, up to 5MB. Kept private - only you and Finance/Admin can view it. Only required the first time you use a new LSO reference.</p>
                     </div>
                 </div>
             </div>
@@ -493,16 +495,19 @@
 
         // LSO details only apply to Lot 1 (Sale) - the value stated on
         // the LSO document. Lot 2 (Disposal) materials have no value, so
-        // no LSO is recorded for them.
+        // no LSO is recorded for them. Only the reference number is
+        // always required here - lso_amount/lso_document are only
+        // required server-side when the reference is brand new (adding
+        // another lot to an existing LSO doesn't need them again), and
+        // the browser has no way to know which case this is without a
+        // round trip, so it must not force them.
         function onLotChangeToggleLso() {
             const lotKey = document.getElementById('lot').value;
             const lsoFields = document.getElementById('lso-fields');
             const isSale = lotKey === '{{ \App\Support\WasteCategories::LOT_SALE }}';
 
             lsoFields.classList.toggle('hidden', !isSale);
-            ['lso_reference_number', 'lso_amount', 'lso_document'].forEach((id) => {
-                document.getElementById(id).required = isSale;
-            });
+            document.getElementById('lso_reference_number').required = isSale;
         }
 
         function onLotChange() {

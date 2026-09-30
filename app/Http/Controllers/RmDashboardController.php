@@ -6,15 +6,20 @@ use App\Models\AuditLog;
 use App\Models\Collection;
 use App\Models\GovernmentEntity;
 use App\Models\Lso;
+use App\Models\LsoLot;
 use App\Models\StateCorporation;
+use App\Services\LotPricingService;
 use App\Support\EntityDirectory;
 use App\Support\WasteCategories;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Validator;
+use Throwable;
 
 /**
  * The RM's own small dashboard - their submissions only, plus the entry
@@ -29,6 +34,7 @@ class RmDashboardController extends Controller
         $user = Auth::user();
 
         $submissions = Collection::where('user_id', $user->id)
+            ->with('lsoLot')
             ->orderByDesc('collection_date')
             ->orderByDesc('id')
             ->paginate(15);
@@ -122,7 +128,7 @@ class RmDashboardController extends Controller
             ]);
     }
 
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request, LotPricingService $pricing): RedirectResponse
     {
         $user = Auth::user();
         $assignedMinistryIds = $user->assignedMinistries()->pluck('id')->all();
@@ -149,9 +155,9 @@ class RmDashboardController extends Controller
             'quantity' => ['required', 'numeric', 'min:0.01'],
             'description' => ['nullable', 'string', 'max:255'],
             'collection_date' => ['required', 'date'],
-            'lso_reference_number' => ['required_if:lot,'.WasteCategories::LOT_SALE, 'nullable', 'string', 'max:100', 'unique:lsos,reference_number'],
-            'lso_amount' => ['required_if:lot,'.WasteCategories::LOT_SALE, 'nullable', 'integer', 'min:1'],
-            'lso_document' => ['required_if:lot,'.WasteCategories::LOT_SALE, 'nullable', 'file', 'mimes:jpg,jpeg,png,webp,pdf', 'max:5120'],
+            'lso_reference_number' => ['required_if:lot,'.WasteCategories::LOT_SALE, 'nullable', 'string', 'max:100'],
+            'lso_amount' => ['nullable', 'integer', 'min:1'],
+            'lso_document' => ['nullable', 'file', 'mimes:jpg,jpeg,png,webp,pdf', 'max:5120'],
         ]);
 
         $lsoReferenceNumber = $data['lso_reference_number'] ?? null;
@@ -174,6 +180,54 @@ class RmDashboardController extends Controller
 
         if (! WasteCategories::isValidUnit($lot, $data['category'], $data['subcategory'], $data['unit'])) {
             return back()->withInput()->withErrors(['unit' => 'Choose a unit of measure that is valid for the selected category/subcategory.']);
+        }
+
+        // One LSO can cover several lots, recorded across separate
+        // Collection submissions (2026-09-29, per the boss) - a reference
+        // number that already exists is no longer rejected outright. If it
+        // resolves to an LSO this RM can't see, that's treated the same as
+        // "not found" rather than confirming someone else's LSO exists.
+        // Otherwise it's this LSO's next lot, so the amount/document
+        // (already captured on its first lot) aren't asked for again.
+        $existingLso = null;
+
+        if ($lot === WasteCategories::LOT_SALE) {
+            $existingLso = Lso::where('reference_number', $lsoReferenceNumber)->first();
+
+            if ($existingLso && ! Lso::whereKey($existingLso->id)->visibleTo($user)->exists()) {
+                return back()->withInput()->withErrors(['lso_reference_number' => 'We couldn\'t find that LSO reference for you. Check the number and try again.']);
+            }
+
+            if ($existingLso) {
+                // A fully paid LSO is conceptually closed - its outstanding
+                // balance is already KES 0 against its original amount, so
+                // silently growing it with more lots afterward would leave
+                // the LSO's value/status stale relative to what's actually
+                // been recorded under it.
+                if ($existingLso->status === Lso::STATUS_FULLY_PAID) {
+                    return back()->withInput()->withErrors([
+                        'lso_reference_number' => 'This LSO is already fully paid and cannot accept another lot.',
+                    ]);
+                }
+
+                // The amount/document were already captured on this LSO's
+                // first lot and are never required again - but a
+                // resubmitted amount that doesn't match what's on file is a
+                // real discrepancy (wrong reference, stale form, etc.), not
+                // something to silently drop.
+                if ($lsoAmount !== null && $lsoAmount * 100 !== $existingLso->original_amount_minor) {
+                    return back()->withInput()->withErrors([
+                        'lso_amount' => 'This LSO already has a stated value of KES '.number_format($existingLso->original_amount_minor / 100).'. Leave the amount blank to keep it, or check the reference number.',
+                    ]);
+                }
+            } else {
+                if ($lsoAmount === null) {
+                    return back()->withInput()->withErrors(['lso_amount' => 'Enter the amount stated on the LSO.']);
+                }
+                if (! $request->hasFile('lso_document')) {
+                    return back()->withInput()->withErrors(['lso_document' => 'Upload the LSO document.']);
+                }
+            }
         }
 
         $ministry = null;
@@ -261,25 +315,20 @@ class RmDashboardController extends Controller
                 break;
         }
 
-        $collection = Collection::create([
-            ...$data,
-            'ministry_id' => $ministry?->id,
-            'state_department_id' => $stateDepartment?->id,
-            'institution_id' => $institution?->id,
-            'state_corporation_id' => $stateCorporationId,
-            'user_id' => $user->id,
-            'relationship_manager' => $user->name,
-            'collected_by' => $user->name,
-        ]);
-
-        AuditLog::record('collection.created', $collection, [
-            'entity_name' => $collection->entity_name,
-            'lot' => $collection->lotLabel(),
-            'category' => $collection->categoryLabel(),
-            'subcategory' => $collection->subcategoryLabel(),
-            'quantity' => $collection->quantity,
-            'unit' => $collection->unitLabel(),
-        ]);
+        // A lot can only be added to an existing LSO if it's genuinely the
+        // same customer/entity the LSO was originally recorded against -
+        // reusing a reference number must never silently move an LSO's
+        // lots onto a different ministry/institution/client (2026-09-30).
+        if ($existingLso && (
+            $existingLso->ministry_id !== $ministry?->id
+            || $existingLso->state_department_id !== $stateDepartment?->id
+            || $existingLso->institution_id !== $institution?->id
+            || $existingLso->state_corporation_id !== $stateCorporationId
+        )) {
+            return back()->withInput()->withErrors([
+                'lso_reference_number' => 'This LSO is recorded against a different ministry, institution, or client. Check the reference number.',
+            ]);
+        }
 
         // Lot 1 (Sale) materials are handed over against an LSO stating
         // their worth - Lot 2 (Disposal) has no monetary value, so no LSO
@@ -287,35 +336,131 @@ class RmDashboardController extends Controller
         // is what Finance/Admin's existing payment-confirmation ledger
         // and RM Targets already run on - this just feeds it from the
         // collection form instead of a separate "My LSOs" entry screen.
-        if ($lot === WasteCategories::LOT_SALE) {
-            $document = $request->file('lso_document');
-            $documentPath = $document->store('lso-documents', 'local');
+        //
+        // An LSO can now cover several lots (2026-09-29): $existingLso
+        // (resolved above, before validation could fail) means this
+        // Collection is another lot under an LSO that already has its
+        // amount/document; otherwise this is that LSO's first lot.
+        //
+        // The Collection insert and its audit log live inside the same
+        // transaction as the Lso/LsoLot work (2026-09-29 fix) - previously
+        // the Collection committed on its own before the LSO transaction
+        // even started, so a failure inside that transaction rolled back
+        // the LSO/LsoLot changes but left an already-persisted Collection
+        // pointing at nothing. $newDocumentPath tracks a freshly-stored
+        // LSO document so it can be deleted if anything after it fails,
+        // rather than leaving an orphaned file on disk with no LSO row.
+        $newDocumentPath = null;
 
-            $lso = Lso::create([
-                'reference_number' => $lsoReferenceNumber,
-                'user_id' => $user->id,
-                'customer_name' => $collection->entity_name,
-                'customer_contact' => $collection->contact_person_number,
-                'ministry_id' => $collection->ministry_id,
-                'state_department_id' => $collection->state_department_id,
-                'institution_id' => $collection->institution_id,
-                'original_amount_minor' => $lsoAmount * 100,
-                'issue_date' => $collection->collection_date,
-                'document_path' => $documentPath,
-                'document_original_filename' => $document->getClientOriginalName(),
-                'document_mime' => $document->getClientMimeType(),
-                'created_by' => $user->id,
-            ]);
+        try {
+            $collection = DB::transaction(function () use (
+                $data, $ministry, $stateDepartment, $institution, $stateCorporationId,
+                $user, $lot, $existingLso, $request, $lsoReferenceNumber, $lsoAmount, $pricing, &$newDocumentPath,
+            ) {
+                $collection = Collection::create([
+                    ...$data,
+                    'ministry_id' => $ministry?->id,
+                    'state_department_id' => $stateDepartment?->id,
+                    'institution_id' => $institution?->id,
+                    'state_corporation_id' => $stateCorporationId,
+                    'user_id' => $user->id,
+                    'relationship_manager' => $user->name,
+                    'collected_by' => $user->name,
+                ]);
 
-            $collection->update(['lso_id' => $lso->id]);
+                AuditLog::record('collection.created', $collection, [
+                    'entity_name' => $collection->entity_name,
+                    'lot' => $collection->lotLabel(),
+                    'category' => $collection->categoryLabel(),
+                    'subcategory' => $collection->subcategoryLabel(),
+                    'quantity' => $collection->quantity,
+                    'unit' => $collection->unitLabel(),
+                ]);
 
-            AuditLog::record('lso.created', $lso, [
-                'reference_number' => $lso->reference_number,
-                'customer_name' => $lso->customer_name,
-                'original_amount' => $lso->original_amount_minor / 100,
-            ]);
+                if ($lot === WasteCategories::LOT_SALE) {
+                    if ($existingLso) {
+                        $lso = $existingLso;
+                    } else {
+                        $document = $request->file('lso_document');
+                        $newDocumentPath = $document->store('lso-documents', 'local');
+
+                        $lso = Lso::create([
+                            'reference_number' => $lsoReferenceNumber,
+                            'user_id' => $user->id,
+                            'customer_name' => $collection->entity_name,
+                            'customer_contact' => $collection->contact_person_number,
+                            'ministry_id' => $collection->ministry_id,
+                            'state_department_id' => $collection->state_department_id,
+                            'institution_id' => $collection->institution_id,
+                            'state_corporation_id' => $collection->state_corporation_id,
+                            'original_amount_minor' => $lsoAmount * 100,
+                            'issue_date' => $collection->collection_date,
+                            'document_path' => $newDocumentPath,
+                            'document_original_filename' => $document->getClientOriginalName(),
+                            'document_mime' => $document->getClientMimeType(),
+                            'created_by' => $user->id,
+                        ]);
+
+                        AuditLog::record('lso.created', $lso, [
+                            'reference_number' => $lso->reference_number,
+                            'customer_name' => $lso->customer_name,
+                            'original_amount' => $lso->original_amount_minor / 100,
+                        ]);
+                    }
+
+                    $collection->update(['lso_id' => $lso->id]);
+
+                    LsoLot::create(['collection_id' => $collection->id]);
+
+                    if ($existingLso) {
+                        AuditLog::record('lso.lot.added', $lso, [
+                            'reference_number' => $lso->reference_number,
+                            'collection_id' => $collection->id,
+                            'category' => $collection->categoryLabel(),
+                            'quantity' => $collection->quantity,
+                            'unit' => $collection->unitLabel(),
+                        ]);
+                    }
+                } else {
+                    // Lot 2 (Disposal) never gets an Lso - it has no
+                    // reference number/document/appraised value concept,
+                    // and Collection.lso_id staying null here is relied on
+                    // elsewhere (e.g. test_lot_2_collection_never_creates_an_lso).
+                    // It DOES have a real contractual per-unit rate
+                    // (Tender No. TNT/KEPDA/011/2026-2027), so it still
+                    // gets a standalone LsoLot - reached via
+                    // Collection::lsoLot(), never via any Lso::lots() -
+                    // pricing/auditing its revenue the moment the
+                    // category/unit/quantity are known. Left unpriced
+                    // (both fields null, not zero) when the category has
+                    // no contractual mapping or the recorded unit doesn't
+                    // match the contractual billing unit - see
+                    // LotPricingService.
+                    $chargeMinor = $pricing->calculateLot2ChargeMinor(
+                        $collection->category,
+                        $collection->unit,
+                        (float) $collection->quantity,
+                    );
+
+                    LsoLot::create([
+                        'collection_id' => $collection->id,
+                        'rate_minor' => $chargeMinor !== null ? $pricing->rateMinorFor($pricing->contractBucketFor($collection->category)) : null,
+                        'expected_revenue_minor' => $chargeMinor,
+                    ]);
+                }
+
+                return $collection;
+            });
+        } catch (Throwable $exception) {
+            if ($newDocumentPath !== null) {
+                Storage::disk('local')->delete($newDocumentPath);
+            }
+
+            throw $exception;
         }
 
-        return redirect()->route('rm.dashboard')->with('status', 'Collection recorded successfully.');
+        return redirect()->route('rm.dashboard')->with('status', $existingLso
+            ? "Collection recorded and added to LSO {$existingLso->reference_number}. Its original amount and document are unchanged."
+            : 'Collection recorded successfully.');
     }
 }

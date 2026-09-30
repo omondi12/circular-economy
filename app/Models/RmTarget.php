@@ -63,7 +63,15 @@ class RmTarget extends Model
         return (int) LsoPayment::query()
             ->where('status', LsoPayment::STATUS_CONFIRMED)
             ->whereHas('lso', fn ($q) => $q->where('user_id', $this->user_id))
-            ->whereBetween('collected_at', [$this->period_start, $this->period_end])
+            // whereDate(), not whereBetween() - period_end is a 'date' cast
+            // attribute, so PHP truncates it to midnight the moment it's
+            // read, but the DB column still holds a full timestamp. A raw
+            // whereBetween() against that truncated upper bound silently
+            // excludes anything collected on the period's last day after
+            // 00:00:00. whereDate() compares calendar dates only, which is
+            // what "within this period" actually means here.
+            ->whereDate('collected_at', '>=', $this->period_start)
+            ->whereDate('collected_at', '<=', $this->period_end)
             ->sum('amount_minor');
     }
 

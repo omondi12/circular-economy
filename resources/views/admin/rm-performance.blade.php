@@ -16,6 +16,7 @@
                         <th class="px-4 py-2 font-medium text-right">Total Submissions</th>
                         <th class="px-4 py-2 font-medium text-right">This Month</th>
                         <th class="px-4 py-2 font-medium">Last Submission</th>
+                        <th class="px-4 py-2 font-medium text-right">Lot 2 Revenue</th>
                         <th class="px-4 py-2 font-medium"></th>
                     </tr>
                 </thead>
@@ -43,6 +44,12 @@
                             <td class="px-4 py-3 text-right tabular-nums text-ink-muted">{{ number_format($row['submissionsThisMonth']) }}</td>
                             <td class="px-4 py-3 text-ink-muted whitespace-nowrap">
                                 {{ $row['lastSubmissionAt'] ? \Illuminate\Support\Carbon::parse($row['lastSubmissionAt'])->format('d M Y') : '—' }}
+                            </td>
+                            <td class="px-4 py-3 text-right tabular-nums whitespace-nowrap">
+                                <span class="font-medium">KES {{ number_format($row['lot2RevenueMinor'] / 100) }}</span>
+                                @if ($row['lot2UnpricedCount'] > 0)
+                                    <span class="block text-xs text-ink-faint">{{ $row['lot2UnpricedCount'] }} unpriced</span>
+                                @endif
                             </td>
                             <td class="px-4 py-3 text-right">
                                 <a href="{{ route('collections.index', ['rm' => $row['rm']->id]) }}" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-md bg-brand-50 text-brand-800 text-xs font-medium hover:bg-brand-100 transition-colors whitespace-nowrap">

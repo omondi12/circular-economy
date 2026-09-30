@@ -30,13 +30,9 @@
             </div>
         </header>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
-            <x-stat-tile
-                :label="$isSupervisor ? 'My Assigned Clients' : 'Assigned Clients'"
-                :value="number_format($assignedClientCount)" hint="Have an RM assigned" icon="circle-check" tone="green"
-                :href="route('admin.assign-rms', ['view' => 'clients'])"
-            />
-            <x-stat-tile label="Unassigned Clients" :value="number_format($unassignedClientCount)" hint="Still need an RM" icon="inbox" tone="rose" :href="route('admin.assign-rms', ['view' => 'clients'])" />
+        {{-- People & RM Operations: who's operating, and how much ground is covered. --}}
+        <h2 class="text-sm font-semibold uppercase tracking-wide text-ink-muted mb-3">People &amp; RM Operations</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-3">
             <x-stat-tile
                 :label="$isSupervisor ? 'My Relationship Managers' : 'Relationship Managers'"
                 :value="number_format($userCount)" hint="Tap to manage accounts" icon="building" tone="teal"
@@ -47,28 +43,89 @@
             @else
                 <x-stat-tile label="Supervisors" :value="number_format($supervisorCount)" hint="Tap to manage accounts" icon="user" tone="violet" :href="route('admin.users')" />
             @endif
+            <x-stat-tile
+                :label="$isSupervisor ? 'My Client Coverage' : 'Client Coverage'"
+                :value="number_format($assignedClientCount)"
+                :hint="$unassignedClientCount > 0 ? number_format($unassignedClientCount).' still need an RM' : 'Every client has an RM assigned'"
+                icon="building" tone="green"
+                :href="route('admin.assign-rms', ['view' => 'clients'])"
+            />
+            <x-stat-tile
+                label="Ministries"
+                :value="number_format($ministryTotal)"
+                :hint="number_format($ministriesWithRm).' with an RM assigned'"
+                icon="building-community" tone="gold"
+                :href="route('admin.assign-rms')"
+            />
+        </div>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
+            <x-stat-tile label="Total Submissions" :value="number_format($submissionCount)" hint="Across all RMs and legacy data" icon="document" tone="gold" :href="route('dashboard')" />
+            @unless ($isSupervisor)
+                <x-stat-tile label="Client Reports" :value="number_format($reportCount)" hint="Daily engagement reports logged" icon="calendar" tone="violet" :href="route('reports.index')" />
+            @endunless
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4 mb-6">
-            <x-stat-tile label="Total Submissions" :value="number_format($submissionCount)" hint="Across all RMs and legacy data" icon="document" tone="gold" :href="route('dashboard')" />
-            <x-stat-tile label="RM Performance" value="View" :hint="$isSupervisor ? 'Ministries and activity per RM on your team' : 'Ministries and activity per RM'" icon="landmark" tone="violet" :href="route('admin.rm-performance')" />
-            <x-stat-tile label="Assign RMs" value="Manage" :hint="$isSupervisor ? 'Assign or shift your RMs across ministries and clients' : 'Assign or shift RMs across ministries and clients'" icon="user" tone="rose" :href="route('admin.assign-rms')" />
-            <x-stat-tile label="Clients & Reports" value="View" :hint="$isSupervisor ? 'Your team\'s clients - assign an RM or log a daily report' : 'All clients - assign an RM or log a daily report'" icon="building-community" tone="gold" :href="route('admin.assign-rms', ['view' => 'clients'])" />
-            @unless ($isSupervisor)
-                <x-stat-tile label="Client Reports" :value="number_format($reportCount)" hint="Browse every daily engagement report logged" icon="calendar" tone="violet" :href="route('reports.index')" />
-                <x-stat-tile label="Download Clients" value="Excel" hint="Every client in the system, as a spreadsheet" icon="file-text" tone="green" :href="route('state-corporations.export')" />
-            @endunless
+        {{-- LSO Activity & Revenue: the core business activity - what's happening and what it's worth. --}}
+        <h2 class="text-sm font-semibold uppercase tracking-wide text-ink-muted mb-3">LSO Activity &amp; Revenue</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+            <x-stat-tile
+                label="LSOs" :value="number_format($lsoCount)"
+                :hint="$lsoCount > 0
+                    ? number_format($lsoFullyPaidCount).' fully paid · '.number_format($lsoInProgressCount).' in progress'.($lsoCancelledCount > 0 ? ' · '.number_format($lsoCancelledCount).' cancelled' : '')
+                    : 'No LSOs recorded yet'"
+                icon="document" tone="gold" :href="route('admin.lsos.index')"
+            />
+            <x-stat-tile
+                label="Confirmed Collected" :value="'KES '.number_format($lsoTotalConfirmedMinor / 100)"
+                :hint="'KES '.number_format($lsoTotalOutstandingMinor / 100).' outstanding · KES '.number_format($lsoTotalOriginalMinor / 100).' total LSO value'"
+                icon="stamp" tone="teal" :href="route('admin.lsos.index')"
+            />
+        </div>
+
+        {{-- Performance & Reporting: how the operation is doing against expectations. --}}
+        <h2 class="text-sm font-semibold uppercase tracking-wide text-ink-muted mb-3">Performance &amp; Reporting</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+            <x-stat-tile
+                label="Target Achievement"
+                :value="$targetAchievementAverage !== null ? number_format($targetAchievementAverage, 1).'%' : 'No active targets'"
+                :hint="$targetAchievementAverage !== null ? 'Across '.number_format($activeTargetCount).' target(s) for '.number_format($activeTargetRmCount).' RM(s) this period' : 'Set a target for the current period'"
+                icon="scale" tone="violet" :href="route('admin.rm-targets.index')"
+            />
+            <x-stat-tile label="RM Performance" value="View" :hint="$isSupervisor ? 'Ministries and activity per RM on your team' : 'Ministries and activity per RM'" icon="landmark" tone="rose" :href="route('admin.rm-performance')" />
+        </div>
+
+        {{-- Requisitions: a separate operational workflow (transport/airtime), not LSO/client business. --}}
+        <h2 class="text-sm font-semibold uppercase tracking-wide text-ink-muted mb-3">Requisitions</h2>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
             <x-stat-tile
                 label="Requisitions" :value="number_format($requisitionPendingCount)"
                 :hint="($isSupervisor || $isOperations) ? 'My pending transport/airtime requests' : 'Pending transport/airtime requests to approve'"
                 icon="calendar" tone="rose"
                 :href="($isSupervisor || $isOperations) ? route('requisitions.mine') : route('admin.requisitions.index')"
             />
-            <x-stat-tile label="LSOs" value="View" hint="Tenders/LSOs and money collected against them" icon="file-text" tone="gold" :href="route('admin.lsos.index')" />
-            <x-stat-tile label="RM Targets" value="View" hint="Monetary/count targets and achievement" icon="scale" tone="violet" :href="route('admin.rm-targets.index')" />
-            <x-stat-tile label="Audit Log" value="View" :hint="$isSupervisor ? 'Actions related to your team' : 'Every account and submission action'" icon="scale" tone="teal" :href="route('admin.audit-log')" />
+        </div>
+
+        {{-- Plain navigation/actions - deliberately not stat cards, since they're not statistics. --}}
+        <h2 class="text-sm font-semibold uppercase tracking-wide text-ink-muted mb-3">Quick Actions</h2>
+        <div class="flex flex-wrap gap-2 mb-8">
+            <a href="{{ route('admin.assign-rms') }}" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg border border-border text-sm font-medium text-ink-muted hover:bg-panel-muted hover:text-ink transition-colors">
+                <x-icon name="user" size="15" /> Assign RMs
+            </a>
+            <a href="{{ route('admin.assign-rms', ['view' => 'clients']) }}" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg border border-border text-sm font-medium text-ink-muted hover:bg-panel-muted hover:text-ink transition-colors">
+                <x-icon name="building-community" size="15" /> Clients &amp; Reports
+            </a>
+            @unless ($isSupervisor)
+                <a href="{{ route('state-corporations.export') }}" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg border border-border text-sm font-medium text-ink-muted hover:bg-panel-muted hover:text-ink transition-colors">
+                    <x-icon name="file-text" size="15" /> Download Clients
+                </a>
+            @endunless
+            <a href="{{ route('admin.audit-log') }}" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg border border-border text-sm font-medium text-ink-muted hover:bg-panel-muted hover:text-ink transition-colors">
+                <x-icon name="scale" size="15" /> Audit Log
+            </a>
             @unless ($isSupervisor || $isOperations)
-                <x-stat-tile label="Nawiri Treasury" value="Configure" hint="Choose the funded account used for payments" icon="building-bank" tone="green" :href="route('admin.nawiri-treasury.edit')" />
+                <a href="{{ route('admin.nawiri-treasury.edit') }}" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg border border-border text-sm font-medium text-ink-muted hover:bg-panel-muted hover:text-ink transition-colors">
+                    <x-icon name="building-bank" size="15" /> Nawiri Treasury
+                </a>
             @endunless
         </div>
 

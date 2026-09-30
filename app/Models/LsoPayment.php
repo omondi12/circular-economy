@@ -25,6 +25,7 @@ class LsoPayment extends Model
     protected $fillable = [
         'lso_id',
         'amount_minor',
+        'gross_amount_minor',
         'collected_at',
         'status',
         'recorded_by',
@@ -36,8 +37,21 @@ class LsoPayment extends Model
     {
         return [
             'amount_minor' => 'integer',
+            'gross_amount_minor' => 'integer',
             'collected_at' => 'date',
         ];
+    }
+
+    /**
+     * Only set for a Lot-1 (auction) payment recorded via the gross-sale-
+     * value commission calculator (see LsoController::storePayment() and
+     * LotPricingService) - the realized sale value amount_minor's
+     * commission was computed from. Null for every payment recorded the
+     * plain way, including all pre-existing data.
+     */
+    public function netAmountMinor(): ?int
+    {
+        return $this->gross_amount_minor === null ? null : $this->gross_amount_minor - $this->amount_minor;
     }
 
     public function lso(): BelongsTo

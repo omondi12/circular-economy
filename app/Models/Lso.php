@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 /**
  * A Local Service Order - a tender/service opportunity awarded to a
@@ -87,6 +88,16 @@ class Lso extends Model
         return $this->hasMany(LsoPayment::class);
     }
 
+    /**
+     * Every lot recorded under this LSO - reached through Collection
+     * (which is what collections.lso_id actually links), never a direct
+     * lso_id on LsoLot itself. See the lso_lots migration's docblock.
+     */
+    public function lots(): HasManyThrough
+    {
+        return $this->hasManyThrough(LsoLot::class, Collection::class, 'lso_id', 'collection_id');
+    }
+
     public function createdBy(): BelongsTo
     {
         return $this->belongsTo(User::class, 'created_by');
@@ -135,5 +146,23 @@ class Lso extends Model
     public function isFullyPaid(): bool
     {
         return $this->confirmedCollectedMinor() >= $this->original_amount_minor;
+    }
+
+    /**
+     * DEFERRED — EXTERNAL PRICING DOCUMENT PENDING: null until every lot
+     * has a priced expected_revenue_minor (see LsoLot's docblock).
+     * Deliberately all-or-nothing rather than a partial sum - a total
+     * that silently excludes unpriced lots would misrepresent itself as
+     * the whole LSO's expected revenue.
+     */
+    public function expectedRevenueMinor(): ?int
+    {
+        $lots = $this->relationLoaded('lots') ? $this->lots : $this->lots()->get();
+
+        if ($lots->isEmpty() || $lots->contains(fn (LsoLot $lot) => $lot->expected_revenue_minor === null)) {
+            return null;
+        }
+
+        return (int) $lots->sum('expected_revenue_minor');
     }
 }

@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Support\WasteCategories;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Collection extends Model
 {
@@ -96,6 +97,15 @@ class Collection extends Model
     public function lso(): BelongsTo
     {
         return $this->belongsTo(Lso::class);
+    }
+
+    /**
+     * The pricing overlay for this Collection when it's a lot recorded
+     * under a financial LSO - see LsoLot's docblock.
+     */
+    public function lsoLot(): HasOne
+    {
+        return $this->hasOne(LsoLot::class);
     }
 
     /**

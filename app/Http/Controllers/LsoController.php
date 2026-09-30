@@ -6,6 +6,7 @@ use App\Models\AuditLog;
 use App\Models\Lso;
 use App\Models\LsoPayment;
 use App\Models\User;
+use App\Services\LotPricingService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -33,7 +34,7 @@ class LsoController extends Controller
     {
         abort_unless(Lso::whereKey($lso->id)->visibleTo(Auth::user())->exists(), 403);
 
-        $lso->load(['user', 'payments' => fn ($q) => $q->orderByDesc('collected_at')->orderByDesc('id'), 'payments.recordedBy', 'payments.confirmedBy']);
+        $lso->load(['user', 'payments' => fn ($q) => $q->orderByDesc('collected_at')->orderByDesc('id'), 'payments.recordedBy', 'payments.confirmedBy', 'lots.collection']);
 
         return view('lsos.show', [
             'lso' => $lso,
@@ -63,21 +64,52 @@ class LsoController extends Controller
      * An RM records a collection against their own LSO - a self-report,
      * not yet counted toward anything until Finance/Admin confirms it
      * (see confirmPayment()).
+     *
+     * Every existing Lso is, by construction, a Lot 1 (auction) order -
+     * Lot 2 collections never create one (see RmDashboardController::
+     * store()). `gross_amount` is an optional alternative to `amount`:
+     * when given, it's the realized auction sale value, and the actual
+     * amount that counts (`amount_minor`) is Westport's contractual
+     * tiered commission on it (LotPricingService), not the sale value
+     * itself - the sale value is preserved separately as
+     * `gross_amount_minor`, purely for audit/transparency, and is never
+     * what counts toward outstanding/target/reporting totals. Omitting
+     * `gross_amount` (the default, backward-compatible path) records
+     * `amount` directly exactly as before this feature existed.
      */
-    public function storePayment(Request $request, Lso $lso): RedirectResponse
+    public function storePayment(Request $request, Lso $lso, LotPricingService $pricing): RedirectResponse
     {
         abort_unless(Auth::id() === $lso->user_id || Auth::user()->isAdmin(), 403);
         abort_if($lso->status === Lso::STATUS_CANCELLED, 422);
 
         $data = $request->validate([
-            'amount' => ['required', 'integer', 'min:1'],
+            'amount' => ['required_without:gross_amount', 'nullable', 'integer', 'min:1', 'prohibits:gross_amount'],
+            'gross_amount' => ['required_without:amount', 'nullable', 'integer', 'min:1'],
             'collected_at' => ['required', 'date'],
             'notes' => ['nullable', 'string', 'max:500'],
         ]);
 
+        if (isset($data['gross_amount'])) {
+            $grossMinor = $data['gross_amount'] * 100;
+            // Provisional only - the KES 100,000 tier is a property of
+            // this LSO's whole cumulative CONFIRMED sale value, which
+            // isn't settled until confirmation order is known, so this
+            // is recomputed authoritatively in confirmPayment(). Using
+            // confirmed-so-far here is just the best current estimate to
+            // show while pending.
+            $priorConfirmedGrossMinor = (int) LsoPayment::where('lso_id', $lso->id)
+                ->where('status', LsoPayment::STATUS_CONFIRMED)
+                ->sum('gross_amount_minor');
+            $amountMinor = $pricing->calculateLot1IncrementalCommissionMinor($priorConfirmedGrossMinor, $grossMinor);
+        } else {
+            $grossMinor = null;
+            $amountMinor = $data['amount'] * 100;
+        }
+
         $payment = LsoPayment::create([
             'lso_id' => $lso->id,
-            'amount_minor' => $data['amount'] * 100,
+            'amount_minor' => $amountMinor,
+            'gross_amount_minor' => $grossMinor,
             'collected_at' => $data['collected_at'],
             'status' => LsoPayment::STATUS_RECORDED,
             'recorded_by' => Auth::id(),
@@ -87,6 +119,7 @@ class LsoController extends Controller
         AuditLog::record('lso.payment.recorded', $lso, [
             'payment_id' => $payment->id,
             'amount' => $payment->amount_minor / 100,
+            'gross_amount' => $payment->gross_amount_minor !== null ? $payment->gross_amount_minor / 100 : null,
             'collected_at' => $payment->collected_at->toDateString(),
         ]);
 
@@ -106,13 +139,20 @@ class LsoController extends Controller
         $filters = [
             'user_id' => $request->string('user_id')->toString() ?: null,
             'status' => $request->string('status')->toString() ?: null,
+            'reference' => $request->string('reference')->toString() ?: null,
+            'from' => $request->string('from')->toString() ?: null,
+            'to' => $request->string('to')->toString() ?: null,
         ];
 
         $lsos = Lso::query()
             ->visibleTo($viewer)
             ->with(['user', 'payments'])
+            ->withCount('lots')
             ->when($filters['user_id'], fn ($q, $v) => $q->where('user_id', $v))
             ->when($filters['status'], fn ($q, $v) => $q->where('status', $v))
+            ->when($filters['reference'], fn ($q, $v) => $q->where('reference_number', 'like', "%{$v}%"))
+            ->when($filters['from'], fn ($q, $v) => $q->whereDate('issue_date', '>=', $v))
+            ->when($filters['to'], fn ($q, $v) => $q->whereDate('issue_date', '<=', $v))
             ->orderByDesc('issue_date')
             ->orderByDesc('id')
             ->paginate(30)
@@ -133,12 +173,12 @@ class LsoController extends Controller
         ]);
     }
 
-    public function confirmPayment(LsoPayment $payment): RedirectResponse
+    public function confirmPayment(LsoPayment $payment, LotPricingService $pricing): RedirectResponse
     {
         abort_unless(Auth::user()->canConfirmLsoPayment($payment), 403);
         abort_unless($payment->status === LsoPayment::STATUS_RECORDED, 422);
 
-        DB::transaction(function () use ($payment) {
+        DB::transaction(function () use ($payment, $pricing) {
             $lso = Lso::query()->lockForUpdate()->findOrFail($payment->lso_id);
             $lockedPayment = LsoPayment::query()->lockForUpdate()->findOrFail($payment->id);
 
@@ -146,17 +186,56 @@ class LsoController extends Controller
                 return;
             }
 
-            $alreadyConfirmedMinor = (int) LsoPayment::where('lso_id', $lso->id)
-                ->where('status', LsoPayment::STATUS_CONFIRMED)
-                ->sum('amount_minor');
+            // A gross-sale-value payment's commission is only finalized
+            // here, not at record time - the KES 100,000 tier applies to
+            // this LSO's cumulative CONFIRMED sale value, which is only
+            // deterministic in confirmation order (see
+            // LotPricingService::calculateLot1IncrementalCommissionMinor()).
+            // Whatever storePayment() estimated was provisional; this
+            // recomputation is authoritative and overwrites it.
+            if ($lockedPayment->gross_amount_minor !== null) {
+                $priorConfirmedGrossMinor = (int) LsoPayment::where('lso_id', $lso->id)
+                    ->where('status', LsoPayment::STATUS_CONFIRMED)
+                    ->whereKeyNot($lockedPayment->id)
+                    ->sum('gross_amount_minor');
 
-            if ($alreadyConfirmedMinor + $lockedPayment->amount_minor > $lso->original_amount_minor) {
+                $lockedPayment->amount_minor = $pricing->calculateLot1IncrementalCommissionMinor(
+                    $priorConfirmedGrossMinor,
+                    $lockedPayment->gross_amount_minor,
+                );
+            }
+
+            // Ceiling guard: original_amount_minor is the appraised value
+            // stated on the LSO document (see Lso's docblock), not
+            // Westport's commission revenue. For a plain payment,
+            // amount_minor already IS the value collected, so comparing it
+            // directly is correct (the pre-existing behavior). For a
+            // gross-based Lot 1 payment, amount_minor holds only the 7-10%
+            // commission - comparing that against the full appraised value
+            // would almost never trip, since commission is always a small
+            // fraction of it. The quantity actually comparable to the
+            // document's stated value is the realized sale value
+            // (gross_amount_minor), so that's what's summed here whenever
+            // it's present.
+            $alreadyConfirmedValueMinor = (int) LsoPayment::where('lso_id', $lso->id)
+                ->where('status', LsoPayment::STATUS_CONFIRMED)
+                ->sum(DB::raw('COALESCE(gross_amount_minor, amount_minor)'));
+
+            $thisValueMinor = $lockedPayment->gross_amount_minor ?? $lockedPayment->amount_minor;
+
+            if ($alreadyConfirmedValueMinor + $thisValueMinor > $lso->original_amount_minor) {
                 throw ValidationException::withMessages([
                     'payment' => 'Confirming this payment would exceed the LSO\'s original value.',
                 ]);
             }
 
-            $lockedPayment->update(['status' => LsoPayment::STATUS_CONFIRMED, 'confirmed_by' => Auth::id()]);
+            $alreadyConfirmedMinor = (int) LsoPayment::where('lso_id', $lso->id)
+                ->where('status', LsoPayment::STATUS_CONFIRMED)
+                ->sum('amount_minor');
+
+            $lockedPayment->status = LsoPayment::STATUS_CONFIRMED;
+            $lockedPayment->confirmed_by = Auth::id();
+            $lockedPayment->save();
 
             $newTotal = $alreadyConfirmedMinor + $lockedPayment->amount_minor;
             $lso->update([

@@ -12,6 +12,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
 
 class NawiriTreasurySettingsTest extends TestCase
@@ -43,13 +44,17 @@ class NawiriTreasurySettingsTest extends TestCase
         Http::assertNothingSent();
     }
 
-    public function test_office_admin_can_find_treasury_without_access_to_general_admin(): void
+    public function test_office_admin_can_reach_both_treasury_and_general_admin(): void
     {
         $officeAdmin = User::factory()->create(['role' => User::ROLE_OFFICE_ADMIN]);
         $this->actingAs($officeAdmin)->get(route('admin.requisitions.index'))
             ->assertOk()->assertSee(route('admin.nawiri-treasury.edit'));
         $this->get(route('admin.nawiri-treasury.edit'))->assertOk()->assertSee('Nawiri Treasury');
-        $this->get('/admin')->assertForbidden();
+        // Widened 2026-09-28 (see User::ROLE_OFFICE_ADMIN's docblock and the
+        // /admin route group's comment in routes/web.php): Office Admin now
+        // gets the same breadth of /admin as Operations, on top of - not
+        // instead of - Requisitions and Treasury.
+        $this->get('/admin')->assertOk();
         $supervisor = User::factory()->create(['role' => User::ROLE_SUPERVISOR]);
         $this->actingAs($supervisor)->get(route('admin.requisitions.index'))
             ->assertOk()->assertDontSee(route('admin.nawiri-treasury.edit'));
@@ -84,7 +89,7 @@ class NawiriTreasurySettingsTest extends TestCase
         return ['admin' => [User::ROLE_ADMIN], 'office admin' => [User::ROLE_OFFICE_ADMIN]];
     }
 
-    #[\PHPUnit\Framework\Attributes\DataProvider('treasuryManagers')]
+    #[DataProvider('treasuryManagers')]
     public function test_authorized_roles_can_verify_and_store_encrypted_treasury_credentials(string $role): void
     {
         $admin = $this->user($role, '254700000012');
