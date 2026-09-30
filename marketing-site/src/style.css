@@ -1798,3 +1798,57 @@ footer {
     grid-template-columns: 1fr;
   }
 }
+
+/* ==========================================================================
+   Simplified, image-forward brochure sections (2026-09-30) - replaces the
+   interactive terminal/coverage-matrix/simulator content with brief text +
+   real photography, Enviri-style. Appended at the end so these rules
+   always win regardless of any same-named rule earlier in the file.
+   ========================================================================== */
+
+.brief-block {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+  align-items: center;
+}
+
+@media (min-width: 860px) {
+  .brief-block {
+    grid-template-columns: 1fr 1fr;
+    gap: 56px;
+  }
+  .brief-block-reverse .brief-copy { order: 2; }
+  .brief-block-reverse .brief-image { order: 1; }
+}
+
+.brief-copy h2 {
+  font-size: clamp(28px, 3.4vw, 40px);
+  color: var(--brand-ink);
+  margin-top: 10px;
+  line-height: 1.15;
+}
+
+.brief-copy .lede {
+  margin-top: 16px;
+}
+
+.brief-image img {
+  width: 100%;
+  height: 320px;
+  object-fit: cover;
+  border-radius: 20px;
+  box-shadow: 0 20px 48px -20px rgba(20, 112, 65, 0.25);
+}
+
+@media (min-width: 860px) {
+  .brief-image img { height: 380px; }
+}
+
+.material-tags,
+.sector-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 36px;
+}
