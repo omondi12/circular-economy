@@ -1164,34 +1164,6 @@ header.nav.scrolled {
   border-bottom: 1px solid var(--border);
   padding-bottom: 24px;
 }
-@media (max-width: 600px) {
-  .materials-showcase {
-    padding: 24px 18px;
-  }
-  .material-chips-shelf {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 8px;
-  }
-  .chip-interactive {
-    justify-content: space-between;
-    padding: 8px 12px;
-    font-size: 13px;
-  }
-  .material-metrics-row {
-    grid-template-columns: 1fr;
-    gap: 14px;
-  }
-  .sim-wrapper {
-    padding: 24px 18px;
-  }
-  .sim-btn-group {
-    flex-direction: column;
-  }
-  .stat-rail {
-    grid-template-columns: 1fr;
-  }
-}
 
 .chip-interactive {
   display: inline-flex;
@@ -1773,5 +1745,56 @@ footer {
   .reveal {
     opacity: 1 !important;
     transform: none !important;
+  }
+}
+
+/* Moved to the end of the file (2026-09-30) - this block's
+   selectors were originally defined further down the sheet,
+   so at this position their equal-specificity rules were
+   silently winning the cascade over this media query's
+   overrides on mobile (later source order wins ties). Kept
+   here, after every base rule it touches, so it always wins. */
+@media (max-width: 600px) {
+  .materials-showcase {
+    padding: 24px 18px;
+  }
+  .material-chips-shelf {
+    display: grid;
+    /* One per row - two columns left "Furniture"/"Disposal" etc.
+       truncating to 1-2 characters even with min-width:0 and an
+       ellipsis, which read worse than the extra height this costs. */
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  .chip-interactive {
+    justify-content: flex-start;
+    padding: 9px 12px;
+    font-size: 13.5px;
+    gap: 8px;
+    min-width: 0;
+  }
+  .chip-icon { flex-shrink: 0; }
+  .chip-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    min-width: 0;
+  }
+  .chip-badge {
+    flex-shrink: 0;
+    margin-left: auto;
+  }
+  .material-metrics-row {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  .sim-wrapper {
+    padding: 24px 18px;
+  }
+  .sim-btn-group {
+    flex-direction: column;
+  }
+  .stat-rail {
+    grid-template-columns: 1fr;
   }
 }
