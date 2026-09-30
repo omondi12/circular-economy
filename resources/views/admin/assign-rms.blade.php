@@ -308,4 +308,44 @@
                 </table>
             </div>
         @endif
+
+    {{-- Every per-row action here (RM dropdowns, CEO/contact saves) is a
+         full POST that redirects back(), which used to land at the top of
+         the page - painful when the row was far down a long list. Remember
+         the scroll position just before submitting and restore it once the
+         same page reloads. The dropdowns submit via this.form.submit(),
+         which doesn't fire a submit event, hence the change listener too. --}}
+    <script>
+        (function () {
+            const key = 'assign-rms-scroll';
+            const here = location.pathname + location.search;
+
+            const remember = () => {
+                try {
+                    sessionStorage.setItem(key, JSON.stringify({ url: here, y: window.scrollY }));
+                } catch (e) {}
+            };
+
+            document.addEventListener('submit', (event) => {
+                if (!event.defaultPrevented && event.target.method.toLowerCase() === 'post') {
+                    remember();
+                }
+            });
+
+            document.addEventListener('change', (event) => {
+                const form = event.target.form;
+                if (event.target.tagName === 'SELECT' && form && form.method.toLowerCase() === 'post') {
+                    remember();
+                }
+            });
+
+            try {
+                const saved = JSON.parse(sessionStorage.getItem(key) || 'null');
+                sessionStorage.removeItem(key);
+                if (saved && saved.url === here) {
+                    window.scrollTo(0, saved.y);
+                }
+            } catch (e) {}
+        })();
+    </script>
 </x-layout>
