@@ -27,6 +27,17 @@ use Illuminate\Support\Facades\File;
  * matching, since a wrong department link would be worse than a
  * missing one. Anything that doesn't match exactly is left alone and
  * counted, never guessed.
+ *
+ * Second pass (2026-09-30): the Order's institution list only names a
+ * subset of agencies per department, so most clients were still stuck
+ * at Ministry level after the first pass - not because their
+ * department is unknown, but because the Order simply doesn't
+ * enumerate them. Many already exist as their own Institution-level
+ * GovernmentEntity row elsewhere in the tree (from the separate
+ * clients:import-missing registers), complete with the correct parent
+ * State Department - so any client still at Ministry level gets a
+ * second, equally exact-match-only attempt against that existing
+ * Institution list before being left alone.
  */
 class LinkClientsToStateDepartments extends Command
 {
@@ -152,6 +163,57 @@ class LinkClientsToStateDepartments extends Command
                 }
             }
 
+            // Second pass (2026-09-30): the Order's institution list above
+            // only names a subset of institutions per department, so most
+            // clients whose ministry_id still points at a plain Ministry
+            // aren't in that file at all - not because the department is
+            // unknown, but because the Order doesn't enumerate every
+            // agency. Many of those same clients already exist as their
+            // own Institution-level GovernmentEntity row elsewhere in the
+            // tree (built from the separate institution-register imports -
+            // see clients:import-missing), complete with the correct
+            // parent State Department. Same exact-match-only rule as
+            // above: a client still sitting at Ministry level is only
+            // re-pointed when its normalized name matches exactly one
+            // existing Institution row, pointed at that Institution
+            // directly (consistent with how ministry_id already points at
+            // Institution level for earlier matches - stateDepartmentEntity()
+            // walks up from there).
+            $institutionEntitiesByName = GovernmentEntity::where('level', GovernmentEntity::LEVEL_INSTITUTION)
+                ->get()
+                ->groupBy(fn (GovernmentEntity $e) => $normalize($e->name));
+
+            $stillStuck = StateCorporation::where(function ($q) {
+                $q->whereNull('ministry_id')
+                    ->orWhereHas('ministry', fn ($q2) => $q2->where('level', GovernmentEntity::LEVEL_MINISTRY));
+            })
+                ->whereNotIn('classification', ['Constitutional Commission', 'Independent Office', 'Judiciary', 'Legislature', 'Private Company'])
+                ->get();
+
+            $institutionMatches = 0;
+            $institutionAmbiguous = [];
+
+            foreach ($stillStuck as $client) {
+                $candidates = $institutionEntitiesByName->get($normalize($client->name));
+
+                if ($candidates === null) {
+                    continue; // No matching source of truth for this one - left alone, not guessed.
+                }
+
+                if ($candidates->count() > 1) {
+                    $institutionAmbiguous[] = $client->name;
+
+                    continue;
+                }
+
+                $institution = $candidates->first();
+                if ($client->ministry_id !== $institution->id) {
+                    $client->update(['ministry_id' => $institution->id]);
+                    $institutionMatches++;
+                    $clientsLinked++;
+                }
+            }
+
             if ($dryRun) {
                 DB::rollBack();
             } else {
@@ -162,7 +224,7 @@ class LinkClientsToStateDepartments extends Command
             throw $e;
         }
 
-        $this->info(($dryRun ? '[DRY RUN - nothing saved] ' : '')."Contact person set on {$contactsUpdated} department(s). Clients linked/re-linked to their real state department: {$clientsLinked}.");
+        $this->info(($dryRun ? '[DRY RUN - nothing saved] ' : '')."Contact person set on {$contactsUpdated} department(s). Clients linked/re-linked to their real state department: {$clientsLinked} (of which {$institutionMatches} via direct Institution-entity name match).");
 
         if ($unmatchedDepartments) {
             $this->newLine();
@@ -186,6 +248,26 @@ class LinkClientsToStateDepartments extends Command
             foreach ($ambiguousInstitutions as $name) {
                 $this->line("  - {$name}");
             }
+        }
+
+        if ($institutionAmbiguous) {
+            $this->newLine();
+            $this->warn(count($institutionAmbiguous).' client name(s) matched more than one Institution-level entity - skipped:');
+            foreach ($institutionAmbiguous as $name) {
+                $this->line("  - {$name}");
+            }
+        }
+
+        $stillUnresolved = StateCorporation::where(function ($q) {
+            $q->whereNull('ministry_id')
+                ->orWhereHas('ministry', fn ($q2) => $q2->where('level', GovernmentEntity::LEVEL_MINISTRY));
+        })
+            ->whereNotIn('classification', ['Constitutional Commission', 'Independent Office', 'Judiciary', 'Legislature', 'Private Company'])
+            ->count();
+
+        if ($stillUnresolved > 0) {
+            $this->newLine();
+            $this->warn("{$stillUnresolved} client(s) still have no state department after this run - their name doesn't appear in either source, so nothing was guessed. They'll need either better source data or a manual RM assignment (Assign RMs -> Clients).");
         }
 
         return self::SUCCESS;
