@@ -1798,3 +1798,556 @@ footer {
     grid-template-columns: 1fr;
   }
 }
+
+/* ==========================================================================
+   Redesign (2026-09-30) - grounded in the National Public Asset Disposal
+   Programme briefing (HOP Global x WH-GDP x Westport Industrial City),
+   restyled toward a plainer corporate register rather than a live
+   operations dashboard. New rules only below this point; kept at the end
+   of the file so nothing here is ever silently overridden by an older
+   same-name rule higher up (see the .hero h1 / .material-metrics-row
+   fixes above for why that ordering matters).
+   ========================================================================== */
+
+/* Reusable highlight spans, usable on any light-background heading -
+   the old versions only existed scoped to ".hero h1" on a dark canvas. */
+.highlight-green { color: var(--brand-600); font-style: italic; }
+.highlight-gold { color: var(--gold-600); font-style: italic; }
+
+/* ---------- Hero (light) ---------- */
+.hero-light {
+  position: relative;
+  padding: 64px 0 56px;
+}
+
+.hero-light-grid {
+  max-width: 760px;
+}
+
+.hero-light-h1 {
+  font-size: clamp(36px, 5.2vw, 60px);
+  line-height: 1.08;
+  color: var(--brand-ink);
+  letter-spacing: -0.02em;
+  margin-top: 16px;
+}
+
+.hero-light .lede {
+  margin-top: 20px;
+  max-width: 640px;
+}
+
+.hero-ctas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 32px;
+}
+
+.partner-strip {
+  margin-top: 56px;
+  padding: 28px 32px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+}
+
+.partner-strip img {
+  height: 40px;
+  width: auto;
+  max-width: 160px;
+  object-fit: contain;
+  filter: grayscale(15%);
+}
+
+@media (max-width: 640px) {
+  .partner-strip { justify-content: center; gap: 24px 32px; padding: 22px; }
+  .partner-strip img { height: 32px; }
+}
+
+/* ---------- The Mandate ---------- */
+.mandate-dates {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  margin-top: 40px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid var(--border);
+}
+
+@media (min-width: 768px) {
+  .mandate-dates { grid-template-columns: repeat(3, 1fr); }
+}
+
+.mandate-date {
+  border-left: 3px solid var(--brand-500);
+  padding-left: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.mandate-date strong {
+  font-family: var(--font-display);
+  font-size: 26px;
+  color: var(--brand-ink);
+}
+
+.mandate-date span {
+  font-size: 14px;
+  color: var(--ink-muted);
+}
+
+.mandate-covers {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-top: 28px;
+}
+
+.cover-label {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-faint);
+  margin-right: 6px;
+}
+
+.chip-static {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: 1px solid var(--border-strong);
+  background: var(--panel);
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.lot-cards {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+  margin-top: 32px;
+}
+
+@media (min-width: 700px) {
+  .lot-cards { grid-template-columns: repeat(2, 1fr); }
+}
+
+.lot-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 28px;
+}
+
+.lot-card-highlight {
+  border-color: var(--brand-300);
+  background: var(--brand-50);
+  box-shadow: 0 16px 36px -18px rgba(20, 112, 65, 0.25);
+}
+
+.lot-tag {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--brand-ink-soft);
+  background: var(--brand-100);
+  padding: 4px 10px;
+  border-radius: 6px;
+  margin-bottom: 12px;
+}
+
+.lot-tag-gold { color: var(--gold-ink); background: var(--gold-100); }
+
+.lot-card h3 { font-size: 22px; color: var(--brand-ink); margin-bottom: 8px; }
+.lot-card p { color: var(--ink-muted); font-size: 14.5px; }
+.lot-partner { font-weight: 700; color: var(--ink); margin-top: 14px; font-size: 14px; }
+
+/* ---------- Asset classes ---------- */
+.asset-class-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-top: 36px;
+}
+
+@media (min-width: 640px) {
+  .asset-class-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (min-width: 1000px) {
+  .asset-class-grid { grid-template-columns: repeat(5, 1fr); }
+}
+
+.asset-class-grid span {
+  display: block;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--brand-400);
+  border-radius: 10px;
+  padding: 14px 16px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.asset-class-grid span:nth-child(3n+2) { border-left-color: var(--gold-500); }
+
+/* ---------- Mapping methodology ---------- */
+.map-levels {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: 16px;
+  margin-top: 36px;
+}
+
+.map-level {
+  flex: 1 1 180px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 22px 20px;
+}
+
+.lvl-tag {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--brand-600);
+  margin-bottom: 8px;
+}
+
+.map-level h4 { font-size: 17px; color: var(--brand-ink); margin-bottom: 6px; }
+.map-level p { font-size: 13px; color: var(--ink-muted); }
+
+.map-arrow {
+  display: none;
+  align-items: center;
+  color: var(--ink-faint);
+  font-size: 20px;
+}
+
+@media (min-width: 900px) {
+  .map-arrow { display: flex; }
+}
+
+/* ---------- Value waterfall ---------- */
+.waterfall {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-top: 36px;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.waterfall-row {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 16px 22px;
+  color: #fff;
+}
+
+.waterfall-row strong { flex: 0 0 220px; font-size: 15.5px; }
+.waterfall-row span { font-size: 13.5px; opacity: 0.85; }
+.wf-num { font-family: var(--font-mono); font-weight: 700; font-size: 15px; opacity: 0.8; }
+
+.wf-1 { background: var(--brand-700); }
+.wf-2 { background: var(--brand-600); }
+.wf-3 { background: var(--brand-500); }
+.wf-4 { background: var(--brand-400); }
+.wf-5 { background: var(--gold-500); }
+.wf-6 { background: var(--gold-600); }
+.wf-7 { background: #6b7280; }
+
+@media (max-width: 640px) {
+  .waterfall-row { flex-wrap: wrap; gap: 4px 18px; }
+  .waterfall-row strong { flex-basis: 100%; }
+}
+
+.waterfall-note {
+  margin-top: 20px;
+  font-weight: 700;
+  color: var(--gold-ink);
+}
+
+/* ---------- Sale channels ---------- */
+.channel-cols {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+  margin-top: 36px;
+}
+
+@media (min-width: 860px) {
+  .channel-cols { grid-template-columns: 1.4fr 1fr; }
+}
+
+.channel-col-label {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--brand-600);
+  margin-bottom: 14px;
+}
+
+.channel-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 18px 20px;
+  margin-bottom: 12px;
+}
+
+.channel-tag {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--brand-ink-soft);
+  background: var(--brand-50);
+  border: 1px solid var(--brand-200);
+  padding: 3px 8px;
+  border-radius: 4px;
+  margin-bottom: 8px;
+}
+
+.channel-card h4 { font-size: 16.5px; color: var(--brand-ink); margin-bottom: 4px; }
+.channel-card p { font-size: 13.5px; color: var(--ink-muted); }
+
+.channel-features {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+/* ---------- Buyer reach ---------- */
+.city-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 32px;
+}
+
+.journey-steps {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-top: 24px;
+}
+
+@media (min-width: 860px) {
+  .journey-steps { grid-template-columns: repeat(8, 1fr); }
+}
+
+.journey-step {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px 10px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.journey-step span {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 20px;
+  color: var(--brand-600);
+  margin-bottom: 4px;
+}
+
+.journey-step-active {
+  background: var(--gold-500);
+  border-color: var(--gold-500);
+  color: #fff;
+}
+
+.journey-step-active span { color: #fff; }
+
+/* ---------- Partnership structure ---------- */
+.partner-role-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+  margin-top: 36px;
+}
+
+@media (min-width: 700px) {
+  .partner-role-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (min-width: 1080px) {
+  .partner-role-grid { grid-template-columns: repeat(4, 1fr); }
+}
+
+.partner-role-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 24px;
+}
+
+.partner-role-card img {
+  height: 34px;
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+  object-position: left;
+  margin-bottom: 16px;
+}
+
+.partner-role-card-highlight {
+  border-color: var(--brand-300);
+  background: var(--brand-50);
+}
+
+.partner-role-card h4 { font-size: 16px; color: var(--brand-ink); margin-bottom: 6px; }
+.partner-role-card p { font-size: 13.5px; color: var(--ink-muted); }
+
+.partner-guarantee {
+  margin-top: 28px;
+  background: var(--brand-900);
+  color: #eefdf3;
+  border-radius: 14px;
+  padding: 18px 24px;
+  font-size: 14px;
+}
+
+.partner-guarantee strong { color: #fff; }
+
+/* ---------- Proven reach ---------- */
+.proof-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  margin-top: 36px;
+}
+
+@media (min-width: 768px) {
+  .proof-stats { grid-template-columns: repeat(4, 1fr); }
+}
+
+.proof-stat {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 24px 20px;
+}
+
+.proof-num {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 36px;
+  color: var(--brand-ink);
+}
+
+.proof-label { font-size: 13px; color: var(--ink-muted); }
+
+.case-table-wrap {
+  margin-top: 36px;
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+}
+
+.case-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13.5px;
+  background: var(--panel);
+}
+
+.case-table th {
+  text-align: left;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--ink-faint);
+  padding: 14px 18px;
+  background: var(--panel-muted);
+  white-space: nowrap;
+}
+
+.case-table td {
+  padding: 14px 18px;
+  border-top: 1px solid var(--border);
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+.case-table td.realised { color: var(--gold-ink); font-weight: 700; }
+
+/* ---------- Outcomes ---------- */
+.outcomes-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  margin-top: 36px;
+}
+
+@media (min-width: 640px) {
+  .outcomes-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (min-width: 1000px) {
+  .outcomes-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+.outcome-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--gold-500);
+  border-radius: 12px;
+  padding: 18px 20px;
+}
+
+.outcome-card h4 { font-size: 15.5px; color: var(--brand-ink); margin-bottom: 4px; }
+.outcome-card p { font-size: 13px; color: var(--ink-muted); }
+
+/* ---------- Start today (final CTA) ---------- */
+.start-steps {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px 28px;
+  margin-top: 24px;
+}
+
+.start-step {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--brand-ink);
+  max-width: 160px;
+}
+
+.start-step span {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 22px;
+  color: var(--gold-ink);
+}
