@@ -35,6 +35,10 @@ return [
         ],
     ],
 
+    'public_dashboard' => [
+        'key' => env('PUBLIC_DASHBOARD_KEY'),
+    ],
+
     'nawiri_payroll' => [
         'base_url' => rtrim((string) env('NAWIRI_PAYROLL_BASE_URL', 'https://nawiri-server-production.up.railway.app'), '/'),
         'timeout' => (int) env('NAWIRI_PAYROLL_TIMEOUT', 35),

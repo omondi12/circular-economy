@@ -14,25 +14,36 @@ use App\Http\Controllers\RmTargetController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 
-// Public - boss/anyone can view the dashboard and browse submissions, but
-// cannot submit data anymore. Data entry requires an RM login.
-Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
-Route::get('/entities', [DashboardController::class, 'entitiesIndex'])->name('entities.index');
-Route::get('/materials', [DashboardController::class, 'materialsIndex'])->name('materials.index');
-Route::get('/ministries', [DashboardController::class, 'ministriesIndex'])->name('ministries.index');
-Route::get('/ministries/{ministry}', [DashboardController::class, 'ministryShow'])->name('ministries.show');
-Route::get('/ministries/{ministry}/departments/{department}', [DashboardController::class, 'departmentShow'])->name('ministries.departments.show');
-Route::get('/state-departments', [DashboardController::class, 'stateDepartmentsIndex'])->name('state-departments.index');
-Route::get('/state-departments/{department}', [DashboardController::class, 'stateDepartmentShow'])->name('state-departments.show');
-Route::get('/state-corporations', [DashboardController::class, 'stateCorporationsIndex'])->name('state-corporations.index');
-Route::get('/state-corporations/export', [DashboardController::class, 'stateCorporationsExport'])->name('state-corporations.export');
-Route::get('/state-corporations/{stateCorporation}', [DashboardController::class, 'stateCorporationShow'])->name('state-corporations.show');
-Route::get('/relationship-managers', [DashboardController::class, 'relationshipManagersIndex'])->name('relationship-managers.index');
-Route::get('/relationship-managers/{rm}', [DashboardController::class, 'relationshipManagerShow'])->name('relationship-managers.show');
-Route::get('/supervisors', [DashboardController::class, 'supervisorsIndex'])->name('supervisors.index');
-Route::get('/material-items', [DashboardController::class, 'materialItemsIndex'])->name('material-items.index');
-Route::get('/feasibility-study', [DashboardController::class, 'feasibilityStudyIndex'])->name('feasibility-study.index');
-Route::get('/reports', [ClientReportController::class, 'all'])->name('reports.index');
+// Sensitive operational detail (client/ministry/materials data) - not
+// truly public anymore (2026-09-30, per the boss). An anonymous visitor
+// is sent to /login unless the request carries the shared secret link
+// (?key=...) or already unlocked it earlier this session; a logged-in
+// user of any role always sees it. See EnsurePublicDashboardKey. Data
+// entry still requires a real RM login regardless.
+Route::middleware('dashboard.key')->group(function () {
+    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/entities', [DashboardController::class, 'entitiesIndex'])->name('entities.index');
+    Route::get('/materials', [DashboardController::class, 'materialsIndex'])->name('materials.index');
+    Route::get('/ministries', [DashboardController::class, 'ministriesIndex'])->name('ministries.index');
+    Route::get('/ministries/{ministry}', [DashboardController::class, 'ministryShow'])->name('ministries.show');
+    Route::get('/ministries/{ministry}/departments/{department}', [DashboardController::class, 'departmentShow'])->name('ministries.departments.show');
+    Route::get('/state-departments', [DashboardController::class, 'stateDepartmentsIndex'])->name('state-departments.index');
+    Route::get('/state-departments/{department}', [DashboardController::class, 'stateDepartmentShow'])->name('state-departments.show');
+    Route::get('/state-corporations', [DashboardController::class, 'stateCorporationsIndex'])->name('state-corporations.index');
+    Route::get('/state-corporations/export', [DashboardController::class, 'stateCorporationsExport'])->name('state-corporations.export');
+    Route::get('/state-corporations/{stateCorporation}', [DashboardController::class, 'stateCorporationShow'])->name('state-corporations.show');
+    Route::get('/relationship-managers', [DashboardController::class, 'relationshipManagersIndex'])->name('relationship-managers.index');
+    Route::get('/relationship-managers/{rm}', [DashboardController::class, 'relationshipManagerShow'])->name('relationship-managers.show');
+    Route::get('/supervisors', [DashboardController::class, 'supervisorsIndex'])->name('supervisors.index');
+    Route::get('/material-items', [DashboardController::class, 'materialItemsIndex'])->name('material-items.index');
+    Route::get('/feasibility-study', [DashboardController::class, 'feasibilityStudyIndex'])->name('feasibility-study.index');
+    Route::get('/reports', [ClientReportController::class, 'all'])->name('reports.index');
+
+    Route::prefix('collections')->name('collections.')->group(function () {
+        Route::get('/', [CollectionController::class, 'index'])->name('index');
+        Route::get('/{collection}', [CollectionController::class, 'show'])->name('show');
+    });
+});
 
 // Streams a file from the public disk through PHP instead of relying on
 // the public/storage symlink - the production webserver doesn't follow
@@ -48,11 +59,6 @@ Route::get('/photos/{path}', function (string $path) {
 // people). See RequisitionController's class docblock.
 Route::get('/facilitation', [RequisitionController::class, 'publicIndex'])->name('requisitions.public');
 Route::post('/facilitation/unlock', [RequisitionController::class, 'unlockPublic'])->name('requisitions.public.unlock');
-
-Route::prefix('collections')->name('collections.')->group(function () {
-    Route::get('/', [CollectionController::class, 'index'])->name('index');
-    Route::get('/{collection}', [CollectionController::class, 'show'])->name('show');
-});
 
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login')->middleware('guest');
 Route::post('/login', [AuthController::class, 'login'])->middleware('guest');
