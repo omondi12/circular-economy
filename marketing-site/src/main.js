@@ -236,18 +236,18 @@ function initPipeline() {
       title: 'Stage 01: Institutional Mapping In-Progress',
       logs: [
         '> Initiating Government Structure Cross-Reference...',
-        '> Scanning 24 Ministries... [VERIFIED]',
-        '> Mapping 47 County Executive Offices... [SYNCHRONIZED]',
-        '> 668 Target Institutional Nodes Registered.'
+        '> Scanning National Ministries... [VERIFIED]',
+        '> Mapping County Executive Offices... [SYNCHRONIZED]',
+        '> 600+ Target Institutional Nodes Registered.'
       ]
     },
     '2': {
       title: 'Stage 02: Relationship Manager Field Deployment',
       logs: [
         '> Matching Field RM Officers by Regional District...',
-        '> 24 Senior Relationship Managers dispatched on-site.',
+        '> 20+ Senior Relationship Managers dispatched on-site.',
         '> Establishing physical liaison protocol with departmental heads.',
-        '> Active engagement sessions recorded: 42 this week.'
+        '> Active engagement sessions recorded this week.'
       ]
     },
     '3': {
@@ -426,11 +426,11 @@ function initCoverageMatrix() {
     d.addEventListener('mouseenter', () => {
       if (infoEl) {
         if (type === 'ministry') {
-          infoEl.innerHTML = `<strong>National Ministry Node #${index + 1}:</strong> Executive Cabinet Agency, Nairobi HQ. Direct Relationship Manager assigned.`;
+          infoEl.innerHTML = `<strong>National Ministry:</strong> Represents a national ministry within the government structure.`;
         } else if (type === 'county') {
-          infoEl.innerHTML = `<strong>County Government Node #${index + 1}:</strong> County Executive Department, Decentralized Field Office. Active stream tracking.`;
+          infoEl.innerHTML = `<strong>County Government:</strong> Represents a county government office.`;
         } else {
-          infoEl.innerHTML = `<strong>Institutional Facility Node #${index + 1}:</strong> Registered Public Body in national circular network.`;
+          infoEl.innerHTML = `<strong>Institutional Facility:</strong> Represents a registered public institution.`;
         }
       }
     });
