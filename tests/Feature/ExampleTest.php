@@ -10,12 +10,15 @@ class ExampleTest extends TestCase
     use RefreshDatabase;
 
     /**
-     * A basic test example.
+     * The public dashboard is gated behind a shared secret key for
+     * anonymous visitors since 2026-09-30 (see EnsurePublicDashboardKey) -
+     * an anonymous "/" visit redirecting to /login is the current intended
+     * behavior, not a regression.
      */
-    public function test_the_application_returns_a_successful_response(): void
+    public function test_an_anonymous_visitor_is_redirected_to_login(): void
     {
         $response = $this->get('/');
 
-        $response->assertStatus(200);
+        $response->assertRedirect(route('login'));
     }
 }
