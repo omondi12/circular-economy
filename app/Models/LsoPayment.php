@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Services\RmCommissionService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -52,6 +53,22 @@ class LsoPayment extends Model
     public function netAmountMinor(): ?int
     {
         return $this->gross_amount_minor === null ? null : $this->gross_amount_minor - $this->amount_minor;
+    }
+
+    /**
+     * The RM's 10% commission on Westport's earned amount (see
+     * RmCommissionService's docblock) - null, never zero, until this
+     * payment is confirmed. Westport's own amount_minor isn't authoritative
+     * until confirmation either (storePayment()'s figure is provisional),
+     * so an RM commission derived from it can't be either.
+     */
+    public function rmCommissionMinor(): ?int
+    {
+        if ($this->status !== self::STATUS_CONFIRMED) {
+            return null;
+        }
+
+        return (new RmCommissionService)->calculateMinor($this->amount_minor);
     }
 
     public function lso(): BelongsTo

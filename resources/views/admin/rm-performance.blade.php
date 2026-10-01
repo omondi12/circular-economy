@@ -17,6 +17,7 @@
                         <th class="px-4 py-2 font-medium text-right">This Month</th>
                         <th class="px-4 py-2 font-medium">Last Submission</th>
                         <th class="px-4 py-2 font-medium text-right">Lot 2 Revenue</th>
+                        <th class="px-4 py-2 font-medium text-right">RM Commission</th>
                         <th class="px-4 py-2 font-medium"></th>
                     </tr>
                 </thead>
@@ -50,6 +51,9 @@
                                 @if ($row['lot2UnpricedCount'] > 0)
                                     <span class="block text-xs text-ink-faint">{{ $row['lot2UnpricedCount'] }} unpriced</span>
                                 @endif
+                            </td>
+                            <td class="px-4 py-3 text-right tabular-nums whitespace-nowrap font-medium">
+                                KES {{ number_format($row['commissionMinor'] / 100) }}
                             </td>
                             <td class="px-4 py-3 text-right">
                                 <a href="{{ route('collections.index', ['rm' => $row['rm']->id]) }}" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-md bg-brand-50 text-brand-800 text-xs font-medium hover:bg-brand-100 transition-colors whitespace-nowrap">

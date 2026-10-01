@@ -8,6 +8,7 @@ use App\Models\Collection;
 use App\Models\GovernmentEntity;
 use App\Models\Lso;
 use App\Models\LsoLot;
+use App\Models\LsoPayment;
 use App\Models\Requisition;
 use App\Models\RmTarget;
 use App\Models\StateCorporation;
@@ -350,6 +351,15 @@ class AdminController extends Controller
                 // separately rather than silently read as KES 0.
                 $lot2Lots = LsoLot::whereHas('collection', fn ($q) => $q->where('user_id', $rm->id)->where('lot', WasteCategories::LOT_DISPOSAL));
 
+                // 10% of Westport's own confirmed Lot 1 commission (see
+                // RmCommissionService) - summed per confirmed payment, same
+                // as the RM's own dashboard figure, so the two never
+                // disagree.
+                $commissionMinor = LsoPayment::where('status', LsoPayment::STATUS_CONFIRMED)
+                    ->whereHas('lso', fn ($q) => $q->where('user_id', $rm->id))
+                    ->get()
+                    ->sum(fn (LsoPayment $payment) => $payment->rmCommissionMinor());
+
                 return [
                     'rm' => $rm,
                     'ministries' => $rm->assignedMinistries()->orderBy('name')->pluck('name'),
@@ -361,6 +371,7 @@ class AdminController extends Controller
                     'lastSubmissionAt' => (clone $submissions)->max('collection_date'),
                     'lot2RevenueMinor' => (int) (clone $lot2Lots)->sum('expected_revenue_minor'),
                     'lot2UnpricedCount' => (clone $lot2Lots)->whereNull('expected_revenue_minor')->count(),
+                    'commissionMinor' => $commissionMinor,
                 ];
             });
 

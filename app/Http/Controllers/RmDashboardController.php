@@ -7,6 +7,7 @@ use App\Models\Collection;
 use App\Models\GovernmentEntity;
 use App\Models\Lso;
 use App\Models\LsoLot;
+use App\Models\LsoPayment;
 use App\Models\StateCorporation;
 use App\Services\LotPricingService;
 use App\Support\EntityDirectory;
@@ -49,11 +50,20 @@ class RmDashboardController extends Controller
             ];
         })->values();
 
+        // 10% of Westport's own confirmed commission (see
+        // RmCommissionService) - null-commission (not-yet-confirmed)
+        // payments contribute nothing here rather than being coerced to 0.
+        $myCommissionMinor = LsoPayment::where('status', LsoPayment::STATUS_CONFIRMED)
+            ->whereHas('lso', fn ($q) => $q->where('user_id', $user->id))
+            ->get()
+            ->sum(fn (LsoPayment $payment) => $payment->rmCommissionMinor());
+
         return view('rm.dashboard', [
             'submissions' => $submissions,
             'totalSubmissions' => $totalSubmissions,
             'totalQuantity' => $totalQuantity,
             'byLot' => $byLot,
+            'myCommissionMinor' => $myCommissionMinor,
             'assignedStateDepartments' => $user->assignedStateDepartments()->with('parent')->orderBy('name')->get(),
         ]);
     }

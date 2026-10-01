@@ -69,6 +69,7 @@
 
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
             <x-stat-tile label="My Submissions" :value="number_format($totalSubmissions)" icon="document" tone="green" />
+            <x-stat-tile label="My Commission Earned" :value="'KES '.number_format($myCommissionMinor / 100)" hint="10% of Westport's confirmed Lot 1 commission" icon="stamp" tone="violet" />
             <x-stat-tile label="Total Quantity Recorded" :value="number_format($totalQuantity, 1)" hint="Mixed units - see submissions below" icon="scale" tone="gold" />
             @foreach ($byLot as $lot)
                 <x-stat-tile :label="$lot['label']" :value="number_format($lot['count'])" hint="submissions" icon="building" tone="teal" />

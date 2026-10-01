@@ -75,6 +75,7 @@
                             <th class="px-4 py-2 font-medium">Date</th>
                             <th class="px-4 py-2 font-medium text-right">Gross Sale Value</th>
                             <th class="px-4 py-2 font-medium text-right">Amount</th>
+                            <th class="px-4 py-2 font-medium text-right">RM Commission</th>
                             <th class="px-4 py-2 font-medium">Status</th>
                             <th class="px-4 py-2 font-medium">Recorded By</th>
                             @if ($canManageFinance)
@@ -99,6 +100,13 @@
                                         <span class="block text-xs text-ink-faint font-normal">
                                             contractual commission{{ $payment->isPending() ? ' (provisional - finalized on confirm)' : '' }}
                                         </span>
+                                    @endif
+                                </td>
+                                <td class="px-4 py-3 text-right tabular-nums">
+                                    @if ($payment->rmCommissionMinor() !== null)
+                                        {{ number_format($payment->rmCommissionMinor() / 100) }}
+                                    @else
+                                        <span class="text-ink-faint text-xs italic">Pending confirmation</span>
                                     @endif
                                 </td>
                                 <td class="px-4 py-3 whitespace-nowrap">
@@ -129,7 +137,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="{{ $canManageFinance ? 6 : 5 }}" class="px-4 py-8 text-center text-ink-faint">No payments recorded yet.</td>
+                                <td colspan="{{ $canManageFinance ? 7 : 6 }}" class="px-4 py-8 text-center text-ink-faint">No payments recorded yet.</td>
                             </tr>
                         @endforelse
                     </tbody>
