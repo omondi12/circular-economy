@@ -478,6 +478,7 @@ class LinkClientsToStateDepartments extends Command
                 // Children / Social protection
                 'National Council for Children Services' => 'State Department for Children Services',
                 'Street Families Rehabilitation Fund' => 'State Department for Social Protection and Senior Citizens Affairs',
+                'Victims Protection Agency' => 'State Department for Justice, Human Rights and Constitutional Affairs',
 
                 // TVET-adjacent boards/funds (not institutions themselves,
                 // so not caught by the TVET name pattern above)
