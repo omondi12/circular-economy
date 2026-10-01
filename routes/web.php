@@ -148,6 +148,8 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin,supervis
     Route::get('/lsos', [LsoController::class, 'adminIndex'])->name('lsos.index');
     Route::get('/lsos/{lso}', [LsoController::class, 'show'])->name('lsos.show');
 
+    Route::get('/lso-lots', [LsoController::class, 'lsoLotsIndex'])->name('lso-lots.index');
+
     Route::get('/rm-targets', [RmTargetController::class, 'index'])->name('rm-targets.index');
     Route::post('/rm-targets', [RmTargetController::class, 'store'])->name('rm-targets.store');
 });
@@ -186,4 +188,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin,supervis
 
     Route::post('/lso-payments/{payment}/confirm', [LsoController::class, 'confirmPayment'])->name('lso-payments.confirm');
     Route::post('/lso-payments/{payment}/reject', [LsoController::class, 'rejectPayment'])->name('lso-payments.reject');
+
+    Route::post('/lso-lots/{lsoLot}/confirm', [LsoController::class, 'confirmLsoLot'])->name('lso-lots.confirm');
+    Route::post('/lso-lots/{lsoLot}/reject', [LsoController::class, 'rejectLsoLot'])->name('lso-lots.reject');
 });

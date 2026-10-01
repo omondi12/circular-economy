@@ -50,13 +50,21 @@ class RmDashboardController extends Controller
             ];
         })->values();
 
-        // 10% of Westport's own confirmed commission (see
-        // RmCommissionService) - null-commission (not-yet-confirmed)
-        // payments contribute nothing here rather than being coerced to 0.
-        $myCommissionMinor = LsoPayment::where('status', LsoPayment::STATUS_CONFIRMED)
+        // 10% of Westport's own confirmed amount (see RmCommissionService),
+        // from both Lot 1 (LsoPayment) and Lot 2 (LsoLot) - null-commission
+        // (not-yet-confirmed) records contribute nothing here rather than
+        // being coerced to 0.
+        $lot1CommissionMinor = LsoPayment::where('status', LsoPayment::STATUS_CONFIRMED)
             ->whereHas('lso', fn ($q) => $q->where('user_id', $user->id))
             ->get()
             ->sum(fn (LsoPayment $payment) => $payment->rmCommissionMinor());
+
+        $lot2CommissionMinor = LsoLot::where('status', LsoLot::STATUS_CONFIRMED)
+            ->whereHas('collection', fn ($q) => $q->where('user_id', $user->id))
+            ->get()
+            ->sum(fn (LsoLot $lot) => $lot->rmCommissionMinor());
+
+        $myCommissionMinor = $lot1CommissionMinor + $lot2CommissionMinor;
 
         return view('rm.dashboard', [
             'submissions' => $submissions,
@@ -456,6 +464,7 @@ class RmDashboardController extends Controller
                         'collection_id' => $collection->id,
                         'rate_minor' => $chargeMinor !== null ? $pricing->rateMinorFor($pricing->contractBucketFor($collection->category)) : null,
                         'expected_revenue_minor' => $chargeMinor,
+                        'status' => LsoLot::STATUS_PENDING,
                     ]);
                 }
 

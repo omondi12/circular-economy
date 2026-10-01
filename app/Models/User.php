@@ -6,6 +6,7 @@ namespace App\Models;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -128,7 +129,7 @@ class User extends Authenticatable
      * spans two different join paths; use ->count() where only the
      * number is needed.
      */
-    public function effectiveStateCorporations(): \Illuminate\Database\Eloquent\Builder
+    public function effectiveStateCorporations(): Builder
     {
         return StateCorporation::assignedToRm($this->id);
     }
@@ -342,6 +343,20 @@ class User extends Authenticatable
     }
 
     /**
+     * Same self-exclusion rule as canConfirmLsoPayment(), applied to a Lot
+     * 2 collection instead: the RM who recorded it can't confirm their own
+     * Westport-earned revenue figure.
+     */
+    public function canConfirmLsoLot(LsoLot $lsoLot): bool
+    {
+        if (! $this->canManageLsoFinance()) {
+            return false;
+        }
+
+        return $lsoLot->collection !== null && $lsoLot->collection->user_id !== $this->id;
+    }
+
+    /**
      * RM targets are a finance-policy action, so this is deliberately
      * narrower than canManageLsoFinance() - admin and office admin only,
      * same tier as Nawiri Treasury, not supervisor/operations.
@@ -397,6 +412,7 @@ class User extends Authenticatable
                 ['label' => 'Assign RMs', 'route' => 'admin.assign-rms', 'pattern' => 'admin.assign-rms*'],
                 ['label' => 'RM Performance', 'route' => 'admin.rm-performance', 'pattern' => 'admin.rm-performance'],
                 ['label' => 'LSOs', 'route' => 'admin.lsos.index', 'pattern' => 'admin.lsos.*'],
+                ['label' => 'Lot 2 Revenue', 'route' => 'admin.lso-lots.index', 'pattern' => 'admin.lso-lots.*'],
                 ['label' => 'RM Targets', 'route' => 'admin.rm-targets.index', 'pattern' => 'admin.rm-targets.*'],
                 ['label' => 'Audit Log', 'route' => 'admin.audit-log', 'pattern' => 'admin.audit-log'],
                 ['label' => 'My Requisitions', 'route' => 'requisitions.mine', 'pattern' => 'requisitions.mine'],
@@ -404,6 +420,7 @@ class User extends Authenticatable
             $this->isOfficeAdmin() || $this->isAdmin() => [
                 ['label' => 'Requisitions', 'route' => 'admin.requisitions.index', 'pattern' => 'admin.requisitions.*'],
                 ['label' => 'LSOs', 'route' => 'admin.lsos.index', 'pattern' => 'admin.lsos.*'],
+                ['label' => 'Lot 2 Revenue', 'route' => 'admin.lso-lots.index', 'pattern' => 'admin.lso-lots.*'],
                 ['label' => 'RM Targets', 'route' => 'admin.rm-targets.index', 'pattern' => 'admin.rm-targets.*'],
                 ['label' => 'Nawiri Treasury', 'route' => 'admin.nawiri-treasury.edit', 'pattern' => 'admin.nawiri-treasury.*'],
                 ['label' => 'Assign RMs', 'route' => 'admin.assign-rms', 'pattern' => 'admin.assign-rms*'],

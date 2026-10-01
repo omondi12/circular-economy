@@ -69,7 +69,7 @@
 
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
             <x-stat-tile label="My Submissions" :value="number_format($totalSubmissions)" icon="document" tone="green" />
-            <x-stat-tile label="My Commission Earned" :value="'KES '.number_format($myCommissionMinor / 100)" hint="10% of Westport's confirmed Lot 1 commission" icon="stamp" tone="violet" />
+            <x-stat-tile label="My Commission Earned" :value="'KES '.number_format($myCommissionMinor / 100)" hint="10% of Westport's confirmed revenue, Lot 1 + Lot 2" icon="stamp" tone="violet" />
             <x-stat-tile label="Total Quantity Recorded" :value="number_format($totalQuantity, 1)" hint="Mixed units - see submissions below" icon="scale" tone="gold" />
             @foreach ($byLot as $lot)
                 <x-stat-tile :label="$lot['label']" :value="number_format($lot['count'])" hint="submissions" icon="building" tone="teal" />
@@ -109,8 +109,14 @@
                                     <a href="{{ route('rm.lsos.show', $submission->lso_id) }}" class="text-brand-700 hover:text-brand-800 font-medium text-xs">
                                         View / Record Payment
                                     </a>
+                                @elseif ($submission->lsoLot?->status === \App\Models\LsoLot::STATUS_CONFIRMED)
+                                    <span class="text-ink font-medium text-xs">KES {{ number_format($submission->lsoLot->confirmed_revenue_minor / 100) }}</span>
+                                    <span class="block text-xs text-ink-faint">Confirmed - commission KES {{ number_format($submission->lsoLot->rmCommissionMinor() / 100) }}</span>
+                                @elseif ($submission->lsoLot?->status === \App\Models\LsoLot::STATUS_REJECTED)
+                                    <span class="text-red-600 text-xs">Rejected</span>
                                 @elseif ($submission->lsoLot?->expected_revenue_minor !== null)
-                                    <span class="text-ink font-medium text-xs">KES {{ number_format($submission->lsoLot->expected_revenue_minor / 100) }}</span>
+                                    <span class="text-ink-muted text-xs">KES {{ number_format($submission->lsoLot->expected_revenue_minor / 100) }}</span>
+                                    <span class="block text-xs text-ink-faint italic">Pending confirmation</span>
                                 @elseif ($submission->lsoLot)
                                     <span class="text-ink-faint text-xs italic">Pricing pending</span>
                                 @else

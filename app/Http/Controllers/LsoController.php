@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\AuditLog;
 use App\Models\Lso;
+use App\Models\LsoLot;
 use App\Models\LsoPayment;
 use App\Models\User;
 use App\Services\LotPricingService;
+use App\Support\WasteCategories;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -264,5 +266,132 @@ class LsoController extends Controller
         ]);
 
         return back()->with('status', 'Payment rejected.');
+    }
+
+    /**
+     * Finance/Admin's confirmation queue for Lot 2 (Disposal) revenue -
+     * the Lot 2 equivalent of adminIndex()/confirmPayment() above, kept
+     * separate since a Lot 2 LsoLot has no parent Lso at all (see LsoLot's
+     * docblock). Scoped to the same visible-RM set as rmPerformance() so a
+     * supervisor only ever sees their own team's pending revenue.
+     */
+    public function lsoLotsIndex(Request $request): View
+    {
+        $viewer = Auth::user();
+        $visibleRmIds = User::visibleRmsFor($viewer)->pluck('id');
+
+        $status = $request->string('status')->toString();
+        $status = in_array($status, [LsoLot::STATUS_PENDING, LsoLot::STATUS_CONFIRMED, LsoLot::STATUS_REJECTED], true)
+            ? $status
+            : LsoLot::STATUS_PENDING;
+
+        $lots = LsoLot::query()
+            ->whereHas('collection', fn ($q) => $q->whereIn('user_id', $visibleRmIds)->where('lot', WasteCategories::LOT_DISPOSAL))
+            ->where('status', $status)
+            ->with(['collection.user', 'confirmedBy'])
+            ->orderByDesc('id')
+            ->paginate(30)
+            ->withQueryString();
+
+        return view('admin.lso-lots.index', [
+            'lots' => $lots,
+            'status' => $status,
+            'canManageFinance' => $viewer->canManageLsoFinance(),
+        ]);
+    }
+
+    /**
+     * Locks in Lot 2's authoritative Westport-earned amount - recomputed
+     * server-side from the collection's own category/unit/quantity via
+     * LotPricingService, exactly like confirmPayment() recomputes Lot 1's
+     * commission rather than trusting a provisional stored figure. Finance
+     * cannot submit or adjust the confirmed amount (no client input is
+     * accepted at all) - confirming either locks in the contractual
+     * calculation or, if it's genuinely unpriced, is refused outright.
+     */
+    public function confirmLsoLot(LsoLot $lsoLot, LotPricingService $pricing): RedirectResponse
+    {
+        abort_unless(Auth::user()->canConfirmLsoLot($lsoLot), 403);
+        abort_unless($lsoLot->status === LsoLot::STATUS_PENDING, 422);
+
+        $confirmedMinor = null;
+
+        // The transaction reports whether THIS request actually confirmed
+        // the lot, not just whether it's confirmed by the time we get here -
+        // a concurrent request may have already resolved it in the window
+        // between the unlocked check above and this lock being granted
+        // (same race confirmPayment() above already guards against). Only a
+        // genuine change gets an audit entry and a success message; a lost
+        // race is reported honestly as a no-op, never as this request's own
+        // confirmation.
+        $changed = DB::transaction(function () use ($lsoLot, $pricing, &$confirmedMinor) {
+            $locked = LsoLot::query()->lockForUpdate()->findOrFail($lsoLot->id);
+
+            if ($locked->status !== LsoLot::STATUS_PENDING) {
+                return false;
+            }
+
+            $collection = $locked->collection;
+
+            $confirmedMinor = $pricing->calculateLot2ChargeMinor(
+                $collection->category,
+                $collection->unit,
+                (float) $collection->quantity,
+            );
+
+            if ($confirmedMinor === null) {
+                throw ValidationException::withMessages([
+                    'lot' => 'This collection has no contractual rate (unmapped category or incompatible unit) and cannot be confirmed.',
+                ]);
+            }
+
+            $locked->update([
+                'status' => LsoLot::STATUS_CONFIRMED,
+                'confirmed_revenue_minor' => $confirmedMinor,
+                'confirmed_by' => Auth::id(),
+                'confirmed_at' => now(),
+            ]);
+
+            return true;
+        });
+
+        if (! $changed) {
+            return back()->with('status', 'This Lot 2 collection was already resolved by someone else - no changes made.');
+        }
+
+        AuditLog::record('lso_lot.confirmed', $lsoLot, [
+            'collection_id' => $lsoLot->collection_id,
+            'confirmed_revenue' => $confirmedMinor / 100,
+        ]);
+
+        return back()->with('status', 'Lot 2 revenue confirmed.');
+    }
+
+    public function rejectLsoLot(LsoLot $lsoLot): RedirectResponse
+    {
+        abort_unless(Auth::user()->canConfirmLsoLot($lsoLot), 403);
+        abort_unless($lsoLot->status === LsoLot::STATUS_PENDING, 422);
+
+        $changed = DB::transaction(function () use ($lsoLot) {
+            $locked = LsoLot::query()->lockForUpdate()->findOrFail($lsoLot->id);
+
+            if ($locked->status !== LsoLot::STATUS_PENDING) {
+                return false;
+            }
+
+            $locked->update(['status' => LsoLot::STATUS_REJECTED, 'confirmed_by' => Auth::id(), 'confirmed_at' => now()]);
+
+            return true;
+        });
+
+        if (! $changed) {
+            return back()->with('status', 'This Lot 2 collection was already resolved by someone else - no changes made.');
+        }
+
+        AuditLog::record('lso_lot.rejected', $lsoLot, [
+            'collection_id' => $lsoLot->collection_id,
+        ]);
+
+        return back()->with('status', 'Lot 2 revenue rejected.');
     }
 }

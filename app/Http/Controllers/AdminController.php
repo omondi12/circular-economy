@@ -351,14 +351,27 @@ class AdminController extends Controller
                 // separately rather than silently read as KES 0.
                 $lot2Lots = LsoLot::whereHas('collection', fn ($q) => $q->where('user_id', $rm->id)->where('lot', WasteCategories::LOT_DISPOSAL));
 
-                // 10% of Westport's own confirmed Lot 1 commission (see
-                // RmCommissionService) - summed per confirmed payment, same
-                // as the RM's own dashboard figure, so the two never
-                // disagree.
-                $commissionMinor = LsoPayment::where('status', LsoPayment::STATUS_CONFIRMED)
+                // Pending vs confirmed are kept strictly separate - pending
+                // (self-reported, never verified by Finance) must never be
+                // folded into a revenue total alongside confirmed money, and
+                // only confirmed revenue can ever produce RM commission.
+                $lot2PendingRevenueMinor = (int) (clone $lot2Lots)->where('status', LsoLot::STATUS_PENDING)->sum('expected_revenue_minor');
+                $lot2ConfirmedRevenueMinor = (int) (clone $lot2Lots)->where('status', LsoLot::STATUS_CONFIRMED)->sum('confirmed_revenue_minor');
+                $lot2UnpricedCount = (clone $lot2Lots)->where('status', LsoLot::STATUS_PENDING)->whereNull('expected_revenue_minor')->count();
+
+                // 10% of Westport's own confirmed amount (see
+                // RmCommissionService), from BOTH Lot 1 (LsoPayment) and
+                // Lot 2 (LsoLot) - same 10% policy, two different confirmed-
+                // revenue sources. Summed per confirmed record, same as the
+                // RM's own dashboard figure, so the two never disagree.
+                $lot1CommissionMinor = LsoPayment::where('status', LsoPayment::STATUS_CONFIRMED)
                     ->whereHas('lso', fn ($q) => $q->where('user_id', $rm->id))
                     ->get()
                     ->sum(fn (LsoPayment $payment) => $payment->rmCommissionMinor());
+
+                $lot2CommissionMinor = (clone $lot2Lots)->where('status', LsoLot::STATUS_CONFIRMED)
+                    ->get()
+                    ->sum(fn (LsoLot $lot) => $lot->rmCommissionMinor());
 
                 return [
                     'rm' => $rm,
@@ -369,9 +382,10 @@ class AdminController extends Controller
                         ->whereYear('collection_date', now()->year)
                         ->count(),
                     'lastSubmissionAt' => (clone $submissions)->max('collection_date'),
-                    'lot2RevenueMinor' => (int) (clone $lot2Lots)->sum('expected_revenue_minor'),
-                    'lot2UnpricedCount' => (clone $lot2Lots)->whereNull('expected_revenue_minor')->count(),
-                    'commissionMinor' => $commissionMinor,
+                    'lot2PendingRevenueMinor' => $lot2PendingRevenueMinor,
+                    'lot2ConfirmedRevenueMinor' => $lot2ConfirmedRevenueMinor,
+                    'lot2UnpricedCount' => $lot2UnpricedCount,
+                    'commissionMinor' => $lot1CommissionMinor + $lot2CommissionMinor,
                 ];
             });
 

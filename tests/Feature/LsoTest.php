@@ -922,13 +922,14 @@ class LsoTest extends TestCase
         $this->assertSame(2, $lso->lots()->count());
     }
 
-    public function test_rm_performance_page_shows_lot2_revenue_and_flags_unpriced_lots_separately(): void
+    public function test_rm_performance_page_shows_pending_lot2_revenue_and_flags_unpriced_lots_separately(): void
     {
         $rm = $this->makeRm();
         $ministry = $this->makeMinistry();
         $admin = $this->makeAdmin();
 
-        // Priced: medical_waste, 100kg @ KES 200/Kg = KES 20,000.
+        // Priced: medical_waste, 100kg @ KES 200/Kg = KES 20,000 (pending -
+        // not yet confirmed by Finance).
         $this->actingAs($rm)->post(route('rm.collections.store'), $this->lot2CollectionPayload($ministry));
         // Unpriced: construction_waste has no contractual rate.
         $this->actingAs($rm)->post(route('rm.collections.store'), $this->lot2CollectionPayload($ministry, [
@@ -938,7 +939,8 @@ class LsoTest extends TestCase
         $response = $this->actingAs($admin)->get(route('admin.rm-performance'))->assertOk();
 
         $row = collect($response->viewData('rms'))->firstWhere(fn ($r) => $r['rm']->id === $rm->id);
-        $this->assertSame(2_000_000, $row['lot2RevenueMinor']); // only the priced lot counts
+        $this->assertSame(2_000_000, $row['lot2PendingRevenueMinor']); // only the priced lot counts
+        $this->assertSame(0, $row['lot2ConfirmedRevenueMinor']); // nothing confirmed yet
         $this->assertSame(1, $row['lot2UnpricedCount']);
         $response->assertSee('KES 20,000')->assertSee('1 unpriced');
     }
