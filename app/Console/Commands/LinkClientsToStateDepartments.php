@@ -258,15 +258,23 @@ class LinkClientsToStateDepartments extends Command
                 $stillUnlinked = StateCorporation::where(function ($q) {
                     $q->whereNull('ministry_id')
                         ->orWhereHas('ministry', fn ($q2) => $q2->where('level', GovernmentEntity::LEVEL_MINISTRY));
-                })->get(['id', 'name']);
+                })->get(['id', 'name', 'classification']);
 
                 foreach ($stillUnlinked as $client) {
                     if ($client->name === 'National Defense University - Kenya') {
                         continue;
                     }
 
+                    // The name pattern alone misses TVET institutions phrased
+                    // differently ("Institute of Technology", "Technical
+                    // Institute for the Blind/Deaf", "Institute of Advanced
+                    // Technology") - classification already says "TVET
+                    // Institution" for these, so it's an equally reliable,
+                    // equally unambiguous second signal, not a guess.
+                    $isTvet = $client->classification === 'TVET Institution' || preg_match($tvetPattern, $client->name) === 1;
+
                     $target = match (true) {
-                        $tvetDepartment && preg_match($tvetPattern, $client->name) === 1 => $tvetDepartment,
+                        $tvetDepartment && $isTvet => $tvetDepartment,
                         $higherEducationDepartment && preg_match($universityPattern, $client->name) === 1 => $higherEducationDepartment,
                         default => null,
                     };
