@@ -160,6 +160,59 @@
                 Clients get their RM from their state department now - assign one there instead of here for a whole portfolio at once. Use the dropdown below only for a one-off exception.
             </p>
 
+            @if (auth()->user()->isAdmin())
+                <details class="mb-6 bg-panel border border-border rounded-xl shadow-sm">
+                    <summary class="px-5 py-3 text-sm font-semibold text-ink-muted cursor-pointer select-none">+ Add Client</summary>
+                    <form method="POST" action="{{ route('admin.assign-rms.clients.store') }}" class="p-5 pt-0 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        @csrf
+                        <div>
+                            <label for="new_client_name" class="block text-xs font-semibold text-ink-muted mb-1">Client Name *</label>
+                            <input type="text" id="new_client_name" name="name" required value="{{ old('name') }}"
+                                class="w-full rounded-lg border border-border text-sm px-3 py-2">
+                        </div>
+                        <div>
+                            <label for="new_client_classification" class="block text-xs font-semibold text-ink-muted mb-1">Classification *</label>
+                            <select id="new_client_classification" name="classification" required
+                                class="w-full rounded-lg border border-border bg-white text-sm px-3 py-2">
+                                @foreach (['State Corporation', 'TVET Institution', 'Public University', 'County Government', 'Government Department', 'Constitutional Commission', 'Independent Office', 'Judiciary', 'Legislature', 'Private Company'] as $classification)
+                                    <option value="{{ $classification }}" @selected(old('classification') === $classification)>{{ $classification }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div>
+                            <label for="new_client_ministry" class="block text-xs font-semibold text-ink-muted mb-1">State Department</label>
+                            <select id="new_client_ministry" name="ministry_id"
+                                class="w-full rounded-lg border border-border bg-white text-sm px-3 py-2">
+                                <option value="">— None —</option>
+                                @foreach ($stateDepartmentOptions as $department)
+                                    <option value="{{ $department->id }}" @selected((string) old('ministry_id') === (string) $department->id)>{{ $department->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div>
+                            <label for="new_client_rm" class="block text-xs font-semibold text-ink-muted mb-1">Assign To</label>
+                            <select id="new_client_rm" name="assigned_rm_id"
+                                class="w-full rounded-lg border border-border bg-white text-sm px-3 py-2">
+                                <option value="">— Unassigned —</option>
+                                @foreach ($rms as $rm)
+                                    <option value="{{ $rm->id }}" @selected((string) old('assigned_rm_id') === (string) $rm->id)>{{ $rm->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="sm:col-span-2">
+                            <label for="new_client_ceo" class="block text-xs font-semibold text-ink-muted mb-1">CEO Name</label>
+                            <input type="text" id="new_client_ceo" name="ceo_name" value="{{ old('ceo_name') }}"
+                                class="w-full rounded-lg border border-border text-sm px-3 py-2" placeholder="Optional">
+                        </div>
+                        <div class="sm:col-span-2">
+                            <button type="submit" class="px-5 py-2.5 rounded-lg bg-brand-700 hover:bg-brand-800 text-white text-sm font-semibold transition-colors shadow-sm">
+                                Add Client
+                            </button>
+                        </div>
+                    </form>
+                </details>
+            @endif
+
             <form method="GET" class="mb-4">
                 <input type="hidden" name="view" value="clients">
                 <div class="flex flex-wrap items-center gap-3">
@@ -256,6 +309,16 @@
                                     <a href="{{ route('admin.clients.reports.index', $client) }}" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-md bg-gold-50 text-gold-700 text-xs font-medium hover:bg-gold-100 transition-colors">
                                         Report
                                     </a>
+                                    @if (auth()->user()->isAdmin())
+                                        <form method="POST" action="{{ route('admin.assign-rms.clients.destroy', $client) }}" class="inline"
+                                            onsubmit="return confirm('Delete ' + @js($client->name) + '? This only works if it has no recorded collections, LSOs, or reports.')">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-md bg-red-50 text-red-700 text-xs font-medium hover:bg-red-100 transition-colors">
+                                                Delete
+                                            </button>
+                                        </form>
+                                    @endif
                                 </td>
                             </tr>
                         @empty

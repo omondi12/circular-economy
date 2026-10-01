@@ -134,6 +134,8 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin,supervis
     Route::post('/assign-rms/ministries/{ministry}', [AdminController::class, 'assignMinistryRm'])->name('assign-rms.ministries.update');
     Route::post('/assign-rms/state-departments/{stateDepartment}', [AdminController::class, 'assignStateDepartmentRm'])->name('assign-rms.state-departments.update');
     Route::post('/assign-rms/state-departments/{stateDepartment}/contact', [AdminController::class, 'updateStateDepartmentContact'])->name('assign-rms.state-departments.contact');
+    Route::post('/assign-rms/clients', [AdminController::class, 'storeClient'])->name('assign-rms.clients.store');
+    Route::delete('/assign-rms/clients/{stateCorporation}', [AdminController::class, 'destroyClient'])->name('assign-rms.clients.destroy');
     Route::post('/assign-rms/clients/distribute', [AdminController::class, 'distributeClients'])->name('assign-rms.clients.distribute');
     Route::post('/assign-rms/clients/{stateCorporation}', [AdminController::class, 'assignClientRm'])->name('assign-rms.clients.update');
     Route::post('/assign-rms/clients/{stateCorporation}/ceo', [AdminController::class, 'updateClientCeo'])->name('assign-rms.clients.ceo');
