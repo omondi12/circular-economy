@@ -13,8 +13,10 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\StreamedResponse;
+use Throwable;
 
 /**
  * Daily transport + airtime facilitation requests, per the boss's brief
@@ -162,7 +164,7 @@ class RequisitionController extends Controller
         // Keeps each field's own time-of-day, just moves it onto the
         // corrected calendar date - the mistake being fixed is almost
         // always "wrong day", not "wrong time".
-        $requestedDate = \Illuminate\Support\Carbon::parse($data['requested_date']);
+        $requestedDate = Carbon::parse($data['requested_date']);
         $newTransportRequestedAt = $requisition->transport_requested_at->copy()->setDate($requestedDate->year, $requestedDate->month, $requestedDate->day);
         $newAirtimeRequestedAt = $requisition->airtime_requested_at->copy()->setDate($requestedDate->year, $requestedDate->month, $requestedDate->day);
 
@@ -213,13 +215,40 @@ class RequisitionController extends Controller
     {
         abort_unless(Auth::user()->canApproveRequisitions(), 403);
 
+        // The admin can pick any working day to report on (2026-10-02, per
+        // the boss) - defaults to today exactly as before this filter
+        // existed. working_day is a `date` column (see its migration), but
+        // whereDate() is used rather than a plain equality where() -
+        // MySQL's real DATE type never carries a time component, but a
+        // test/local SQLite connection stores this same cast column with a
+        // "00:00:00" suffix, so a plain string match silently returns
+        // nothing there even though production would have matched (same
+        // family of pitfall as RmTarget::actualAmountMinor()'s docblock,
+        // just the opposite direction - storage adding a time component
+        // rather than the PHP side truncating one away). whereDate()
+        // compares calendar dates only, correct on both engines regardless
+        // of which one is storing the extra time component. An unparsable
+        // value falls back to today rather than erroring on a GET filter.
+        $requestedDate = $request->string('date')->toString() ?: null;
+        $workingDate = $requestedDate;
+        if ($workingDate !== null) {
+            try {
+                $workingDate = Carbon::parse($workingDate)->toDateString();
+            } catch (Throwable) {
+                $workingDate = null;
+            }
+        }
+        $workingDate ??= now()->toDateString();
+
         $filters = [
             'status' => $request->string('status')->toString() ?: null,
             'requester_id' => $request->string('requester_id')->toString() ?: null,
+            'date' => $requestedDate,
         ];
 
         $requisitions = Requisition::query()
             ->with(['requester', 'transportApprovedBy', 'airtimeApprovedBy', 'payments'])
+            ->whereDate('working_day', $workingDate)
             ->when($filters['status'] === 'pending', fn ($q) => $q->where(fn ($q2) => $q2->where('transport_status', Requisition::STATUS_PENDING)->orWhere('airtime_status', Requisition::STATUS_PENDING)))
             ->when($filters['requester_id'], fn ($q, $v) => $q->where('requester_id', $v))
             ->orderByDesc('working_day')
@@ -230,7 +259,8 @@ class RequisitionController extends Controller
         return view('admin.requisitions.index', [
             'requisitions' => $requisitions,
             'stats' => $this->stats(),
-            'todayStats' => $this->stats(now()->toDateString()),
+            'todayStats' => $this->stats($workingDate),
+            'workingDate' => Carbon::parse($workingDate),
             'requesterTotals' => $this->requesterTotals(),
             'requesters' => User::whereIn('role', [User::ROLE_RM, User::ROLE_SUPERVISOR, User::ROLE_OFFICE_ADMIN, User::ROLE_OPERATIONS])->orderBy('name')->get(),
             'filters' => $filters,
@@ -641,15 +671,18 @@ class RequisitionController extends Controller
     }
 
     /**
-     * $workingDay narrows this to one day's requests ("Today", on the
-     * admin/public breakdown pages, 2026-09-19) - same shape either way,
-     * just a where() added to the same query, so the two stat rows can
-     * never drift apart in what they count.
+     * $workingDay narrows this to one day's requests ("Today"/the admin's
+     * selected working date, 2026-09-19 / 2026-10-02) - same shape either
+     * way, just a where added to the same query, so the two stat rows can
+     * never drift apart in what they count. whereDate(), not a plain
+     * where() - see adminIndex()'s docblock for why a plain equality match
+     * against this cast `date` column is unsafe (works on MySQL's real
+     * DATE type, silently empty on SQLite's extra time component).
      */
     private function stats(?string $workingDay = null): array
     {
         $requisitions = Requisition::query()
-            ->when($workingDay, fn ($q, $v) => $q->where('working_day', $v))
+            ->when($workingDay, fn ($q, $v) => $q->whereDate('working_day', $v))
             ->with('requester:id,phone_number')
             ->get();
 

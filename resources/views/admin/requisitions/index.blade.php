@@ -51,16 +51,25 @@
             <x-stat-tile label="Outstanding" :value="'KES '.number_format($stats['totalBalance'], 0)" hint="Approved but not yet paid" icon="alert-triangle" tone="rose" />
         </div>
 
-        <h2 class="text-xs font-semibold uppercase tracking-wide text-ink-faint mb-3">Today ({{ now()->format('D, d M Y') }})</h2>
+        @php
+            // Figures below must never read as "today's activity" when the
+            // admin has actually selected a different working day (2026-10-02
+            // finding) - every tile label and the heading share this same
+            // isToday() check, so they can never say different things.
+            $daySuffix = $workingDate->isToday() ? 'Today' : $workingDate->format('d M');
+        @endphp
+        <h2 class="text-xs font-semibold uppercase tracking-wide text-ink-faint mb-3">
+            {{ $workingDate->isToday() ? 'Today' : 'Selected Day' }} ({{ $workingDate->format('D, d M Y') }})
+        </h2>
         <div class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 mb-6">
-            <x-stat-tile label="Requests Today" :value="number_format($todayStats['totalCount'])" icon="calendar" tone="teal" />
+            <x-stat-tile :label="'Requests '.$daySuffix" :value="number_format($todayStats['totalCount'])" icon="calendar" tone="teal" />
             <x-requisition-summary-tile
-                label="Requested Today" :amount="$todayStats['totalRequested']"
+                :label="'Requested '.$daySuffix" :amount="$todayStats['totalRequested']"
                 :pendingCount="$todayStats['pendingCount']" :declinedCount="$todayStats['declinedCount']"
             />
-            <x-stat-tile label="Approved Today" :value="'KES '.number_format($todayStats['totalApproved'], 0)" hint="Authorized, not necessarily paid" icon="circle-check" tone="violet" />
-            <x-stat-tile label="Paid Today" :value="'KES '.number_format($todayStats['totalPaid'], 0)" hint="Actually disbursed" icon="circle-check" tone="green" />
-            <x-stat-tile label="Outstanding Today" :value="'KES '.number_format($todayStats['totalBalance'], 0)" hint="Approved but not yet paid" icon="alert-triangle" tone="rose" />
+            <x-stat-tile :label="'Approved '.$daySuffix" :value="'KES '.number_format($todayStats['totalApproved'], 0)" hint="Authorized, not necessarily paid" icon="circle-check" tone="violet" />
+            <x-stat-tile :label="'Paid '.$daySuffix" :value="'KES '.number_format($todayStats['totalPaid'], 0)" hint="Actually disbursed" icon="circle-check" tone="green" />
+            <x-stat-tile :label="'Outstanding '.$daySuffix" :value="'KES '.number_format($todayStats['totalBalance'], 0)" hint="Approved but not yet paid" icon="alert-triangle" tone="rose" />
         </div>
 
         <div class="bg-panel border border-border rounded-xl p-4 shadow-sm mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
@@ -93,7 +102,22 @@
                     <option value="{{ $r->id }}" @selected((string) $filters['requester_id'] === (string) $r->id)>{{ $r->name }}</option>
                 @endforeach
             </select>
-            @if ($filters['status'] || $filters['requester_id'])
+            <label class="flex items-center gap-1.5 text-sm text-ink-muted">
+                Working Date
+                <input
+                    type="date" name="date" value="{{ $filters['date'] ?? '' }}"
+                    class="rounded-lg border border-border bg-white px-3 py-2 text-sm text-ink focus:outline-none focus:ring-2 focus:ring-brand-600/30 focus:border-brand-600"
+                >
+            </label>
+            <button type="submit" class="px-4 py-2 rounded-lg bg-brand-700 hover:bg-brand-800 text-white text-sm font-medium transition-colors">
+                Apply
+            </button>
+            @if ($filters['date'])
+                <a href="{{ route('admin.requisitions.index', array_filter(['status' => $filters['status'], 'requester_id' => $filters['requester_id']])) }}" class="text-xs text-ink-faint hover:text-ink-muted">
+                    Clear date
+                </a>
+            @endif
+            @if ($filters['status'] || $filters['requester_id'] || $filters['date'])
                 <a href="{{ route('admin.requisitions.index') }}" class="text-xs text-ink-faint hover:text-ink-muted">Clear filters</a>
             @endif
         </form>
