@@ -249,7 +249,7 @@
                 <table class="w-full text-sm">
                     <thead class="bg-brand-50 text-left text-ink-faint">
                         <tr>
-                            <th class="px-4 py-2 font-medium">Client</th>
+                            <th class="px-4 py-2 font-medium min-w-[260px]">Client</th>
                             <th class="px-4 py-2 font-medium">CEO</th>
                             <th class="px-4 py-2 font-medium">Ministry</th>
                             <th class="px-4 py-2 font-medium">State Department</th>
@@ -261,8 +261,8 @@
                     <tbody class="divide-y divide-border">
                         @forelse ($clients as $client)
                             <tr class="hover:bg-panel-muted transition-colors align-top">
-                                <td class="px-4 py-3 font-medium max-w-md">
-                                    <div class="line-clamp-2">{{ $client->name }}</div>
+                                <td class="px-4 py-3 font-medium min-w-[260px] max-w-md">
+                                    <div class="line-clamp-3" title="{{ $client->name }}">{{ $client->name }}</div>
                                 </td>
                                 <td class="px-4 py-3 min-w-[180px]">
                                     @if (auth()->user()->isAdmin())
