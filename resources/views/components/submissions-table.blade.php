@@ -1,7 +1,7 @@
 @props(['collections'])
 
 <div class="bg-panel border border-border rounded-xl overflow-hidden shadow-sm overflow-x-auto">
-    <table class="w-full text-sm">
+    <table data-stack class="w-full text-sm">
         <thead class="bg-panel-muted text-left text-ink-faint text-[11px] font-mono uppercase tracking-wider">
             <tr>
                 <th class="px-4 py-2.5 font-medium">{{ __('Entity') }}</th>
@@ -47,10 +47,7 @@
                 </tr>
             @empty
                 <tr>
-                    <td colspan="6" class="px-4 py-10 text-center text-ink-faint">
-                        <x-icon name="inbox" class="text-xl mb-1.5 block" />
-                        {{ __('No submissions match these filters.') }}
-                    </td>
+                    <td colspan="6"><x-empty-state title="{{ __('No submissions match these filters.') }}" message="Try widening the date range or clearing a filter." /></td>
                 </tr>
             @endforelse
         </tbody>

@@ -65,7 +65,7 @@
                     <div>
                         <label for="email" class="block text-xs font-medium text-ink-faint mb-1.5 uppercase tracking-wide font-mono">{{ __('Email') }}</label>
                         <input
-                            type="email" id="email" name="email" value="{{ old('email') }}" required autofocus
+                            type="email" id="email" name="email" value="{{ old('email') }}" required autofocus autocomplete="username"
                             placeholder="you@example.com"
                             class="w-full rounded-lg border border-border text-sm px-3.5 py-2.5 placeholder:text-ink-faint focus:border-brand-600 focus:ring-4 focus:ring-brand-600/10 outline-none shadow-sm transition-shadow"
                         >
@@ -75,17 +75,19 @@
                         <label for="password" class="block text-xs font-medium text-ink-faint mb-1.5 uppercase tracking-wide font-mono">{{ __('Password') }}</label>
                         <div class="relative">
                             <input
-                                :type="visible ? 'text' : 'password'" id="password" name="password" required
+                                :type="visible ? 'text' : 'password'" type="password" id="password" name="password" required autocomplete="current-password"
                                 placeholder="••••••••"
                                 class="w-full rounded-lg border border-border text-sm px-3.5 py-2.5 pr-11 placeholder:text-ink-faint focus:border-brand-600 focus:ring-4 focus:ring-brand-600/10 outline-none shadow-sm transition-shadow"
                             >
                             <button
                                 type="button" @click="visible = ! visible"
-                                class="absolute inset-y-0 right-0 px-3 flex items-center text-base leading-none"
+                                class="absolute inset-y-0 right-0 w-11 flex items-center justify-center text-ink-faint hover:text-ink"
+                                aria-label="Show password"
                                 :aria-label="visible ? 'Hide password' : 'Show password'"
+                                :aria-pressed="visible.toString()"
                             >
-                                <span x-show="! visible" x-cloak>👁️</span>
-                                <span x-show="visible" x-cloak>🙈</span>
+                                <span x-show="! visible"><x-icon name="eye" size="17" /></span>
+                                <span x-show="visible" x-cloak><x-icon name="eye-off" size="17" /></span>
                             </button>
                         </div>
                     </div>
@@ -95,7 +97,7 @@
                         {{ __('Remember me') }}
                     </label>
 
-                    <button type="submit" class="w-full px-4 py-3 rounded-lg bg-brand-700 hover:bg-brand-800 text-white text-sm font-semibold transition-colors shadow-sm shadow-brand-900/20 flex items-center justify-center gap-2 group">
+                    <button type="submit" class="btn btn-primary w-full min-h-11 group">
                         {{ __('Log in') }}
                         <x-icon name="arrow-right" class="text-sm transition-transform group-hover:translate-x-0.5" />
                     </button>

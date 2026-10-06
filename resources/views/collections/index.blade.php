@@ -45,10 +45,10 @@
             </div>
 
             <div class="flex gap-2">
-                <button type="submit" class="px-4 py-2 rounded-md bg-brand-700 hover:bg-brand-800 text-white text-sm font-medium transition-colors shadow-sm shadow-brand-900/20">
+                <button type="submit" class="btn btn-primary">
                     Filter
                 </button>
-                <a href="{{ route('collections.index') }}" class="px-4 py-2 rounded-md border border-border text-sm hover:bg-panel-muted transition-colors">
+                <a href="{{ route('collections.index') }}" class="btn btn-secondary">
                     Reset
                 </a>
             </div>

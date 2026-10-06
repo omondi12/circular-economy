@@ -14,7 +14,7 @@
         </div>
 
         <div class="bg-panel border border-border rounded-xl overflow-hidden shadow-sm overflow-x-auto">
-            <table class="w-full text-sm">
+            <table data-stack class="w-full text-sm">
                 <thead class="bg-brand-50 text-left text-ink-faint">
                     <tr>
                         <th class="px-4 py-2 font-medium"></th>
@@ -51,7 +51,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="7" class="px-4 py-8 text-center text-ink-faint">No RM accounts yet.</td>
+                            <td colspan="7"><x-empty-state title="No RM accounts yet." /></td>
                         </tr>
                     @endforelse
                 </tbody>

@@ -6,11 +6,6 @@
         :back-label="auth()->user()->isRm() ? 'Back to my dashboard' : 'Back to LSOs'"
     />
 
-    @if (session('status'))
-        <div class="mb-6 rounded-lg bg-brand-50 border border-brand-600/30 text-brand-800 text-sm px-4 py-3">
-            {{ session('status') }}
-        </div>
-    @endif
 
     @if ($errors->any())
         <div class="mb-6 rounded-lg bg-red-50 border border-red-300 text-red-800 text-sm px-4 py-3">
@@ -31,7 +26,7 @@
                 <div class="px-5 py-4 border-b border-border">
                     <h2 class="text-sm font-semibold uppercase tracking-wide text-ink-muted">Lots</h2>
                 </div>
-                <table class="w-full text-sm">
+                <table data-stack class="w-full text-sm">
                     <thead class="bg-brand-50 text-left text-ink-faint">
                         <tr>
                             <th class="px-4 py-2 font-medium">Category</th>
@@ -55,7 +50,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="4" class="px-4 py-8 text-center text-ink-faint">No lots recorded yet.</td>
+                                <td colspan="4"><x-empty-state title="No lots recorded yet." /></td>
                             </tr>
                         @endforelse
                     </tbody>
@@ -69,7 +64,7 @@
                 <div class="px-5 py-4 border-b border-border">
                     <h2 class="text-sm font-semibold uppercase tracking-wide text-ink-muted">Payment History</h2>
                 </div>
-                <table class="w-full text-sm">
+                <table data-stack class="w-full text-sm">
                     <thead class="bg-brand-50 text-left text-ink-faint">
                         <tr>
                             <th class="px-4 py-2 font-medium">Date</th>
@@ -137,7 +132,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="{{ $canManageFinance ? 7 : 6 }}" class="px-4 py-8 text-center text-ink-faint">No payments recorded yet.</td>
+                                <td colspan="{{ $canManageFinance ? 7 : 6 }}"><x-empty-state title="No payments recorded yet." /></td>
                             </tr>
                         @endforelse
                     </tbody>
@@ -165,11 +160,11 @@
                         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 items-end">
                             <div id="amount-field">
                                 <label for="amount" class="block text-xs font-semibold text-ink-muted mb-1">Amount Collected (KES)</label>
-                                <input type="number" min="1" step="1" id="amount" name="amount" required class="w-full rounded-lg border border-border text-sm px-3 py-2">
+                                <input type="number" min="1" step="1" id="amount" name="amount" required class="field-control">
                             </div>
                             <div id="gross-amount-field" class="hidden">
                                 <label for="gross_amount" class="block text-xs font-semibold text-ink-muted mb-1">Gross Sale Value (KES)</label>
-                                <input type="number" min="1" step="1" id="gross_amount" name="gross_amount" disabled class="w-full rounded-lg border border-border text-sm px-3 py-2">
+                                <input type="number" min="1" step="1" id="gross_amount" name="gross_amount" disabled class="field-control">
                                 <p class="text-xs text-ink-faint mt-1">Westport's contractual commission (Tender TNT/KEPDA/011/2026-2027) is calculated automatically once submitted.</p>
                             </div>
                             <div>
@@ -177,13 +172,13 @@
                                 <input type="date" id="collected_at" name="collected_at" value="{{ now()->toDateString() }}" required class="w-full rounded-lg border border-border text-sm px-3 py-2">
                             </div>
                             <div>
-                                <button type="submit" class="w-full inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-brand-700 text-white text-sm font-semibold hover:bg-brand-800 transition-colors">
+                                <button type="submit" class="btn btn-primary w-full">
                                     Record Payment
                                 </button>
                             </div>
                             <div class="sm:col-span-3">
                                 <label for="notes" class="block text-xs font-semibold text-ink-muted mb-1">Notes</label>
-                                <input type="text" id="notes" name="notes" class="w-full rounded-lg border border-border text-sm px-3 py-2" placeholder="Optional">
+                                <input type="text" id="notes" name="notes" class="field-control" placeholder="Optional">
                             </div>
                         </div>
                     </form>

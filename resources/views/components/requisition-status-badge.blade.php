@@ -1,18 +1,18 @@
 @props(['status'])
 
 @php
+    // Icon + text, so status never depends on colour alone.
     $styles = [
-        'pending' => 'bg-gold-50 text-gold-800',
-        'approved' => 'bg-brand-50 text-brand-800',
-        'declined' => 'bg-red-100 text-danger',
+        'pending' => ['badge-warning', 'clock', 'Pending'],
+        'approved' => ['badge-success', 'check', 'Approved'],
+        'declined' => ['badge-danger', 'x', 'Declined'],
     ];
-    $labels = [
-        'pending' => 'Pending',
-        'approved' => 'Approved',
-        'declined' => 'Declined',
-    ];
+    [$class, $icon, $label] = $styles[$status] ?? ['badge-neutral', null, ucfirst((string) $status)];
 @endphp
 
-<span class="inline-flex px-2 py-0.5 rounded-full text-xs font-medium whitespace-nowrap {{ $styles[$status] ?? 'bg-panel-high text-ink-faint' }}">
-    {{ $labels[$status] ?? ucfirst($status) }}
+<span class="badge {{ $class }}">
+    @if ($icon)
+        <x-icon :name="$icon" size="11" />
+    @endif
+    {{ $label }}
 </span>

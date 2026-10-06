@@ -6,11 +6,6 @@
         back-label="Back to admin"
     />
 
-    @if (session('status'))
-        <div class="mb-6 rounded-lg bg-brand-50 border border-brand-600/30 text-brand-800 text-sm px-4 py-3">
-            {{ session('status') }}
-        </div>
-    @endif
 
     @if ($errors->any())
         <div class="mb-6 rounded-lg bg-red-50 border border-red-300 text-red-800 text-sm px-4 py-3">
@@ -28,7 +23,7 @@
     </div>
 
     <div class="bg-panel border border-border rounded-xl overflow-hidden shadow-sm overflow-x-auto">
-        <table class="w-full text-sm">
+        <table data-stack class="w-full text-sm">
             <thead class="bg-brand-50 text-left text-ink-faint">
                 <tr>
                     <th class="px-4 py-2 font-medium">Date</th>
@@ -84,7 +79,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="8" class="px-4 py-8 text-center text-ink-faint">No {{ $status }} Lot 2 collections.</td>
+                        <td colspan="8"><x-empty-state title="No {{ $status }} Lot 2 collections." /></td>
                     </tr>
                 @endforelse
             </tbody>

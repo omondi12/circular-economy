@@ -6,11 +6,6 @@
             back-label="Back"
         />
 
-        @if (session('status'))
-            <div class="mb-6 rounded-lg bg-brand-50 border border-brand-600/30 text-brand-800 text-sm px-4 py-3">
-                {{ session('status') }}
-            </div>
-        @endif
 
         <div class="bg-panel border border-border rounded-xl shadow-sm p-6 max-w-lg">
             <div class="flex items-center gap-5 mb-6">
@@ -39,7 +34,7 @@
                 @enderror
                 <p class="text-xs text-ink-faint">JPG, PNG or WEBP, up to 2MB.</p>
 
-                <button type="submit" class="px-5 py-2.5 rounded-lg bg-brand-700 hover:bg-brand-800 text-white text-sm font-semibold transition-colors shadow-sm">
+                <button type="submit" class="btn btn-primary">
                     Save Photo
                 </button>
             </form>
@@ -73,7 +68,7 @@
                     <p class="text-xs text-danger">{{ $message }}</p>
                 @enderror
 
-                <button type="submit" class="px-5 py-2.5 rounded-lg bg-brand-700 hover:bg-brand-800 text-white text-sm font-semibold transition-colors shadow-sm">
+                <button type="submit" class="btn btn-primary">
                     Save Phone Number
                 </button>
             </form>
@@ -89,7 +84,7 @@
                     <label for="current_password" class="block text-sm font-medium text-ink-muted mb-1">Current password</label>
                     <input
                         type="password" id="current_password" name="current_password" required
-                        class="w-full rounded-lg border border-border px-3 py-2.5 text-sm text-ink focus:outline-none focus:ring-2 focus:ring-brand-600/30 focus:border-brand-600"
+                        class="field-control"
                     >
                     @error('current_password')
                         <p class="text-xs text-danger mt-1">{{ $message }}</p>
@@ -100,7 +95,7 @@
                     <label for="password" class="block text-sm font-medium text-ink-muted mb-1">New password</label>
                     <input
                         type="password" id="password" name="password" required minlength="8"
-                        class="w-full rounded-lg border border-border px-3 py-2.5 text-sm text-ink focus:outline-none focus:ring-2 focus:ring-brand-600/30 focus:border-brand-600"
+                        class="field-control"
                     >
                     @error('password')
                         <p class="text-xs text-danger mt-1">{{ $message }}</p>
@@ -111,11 +106,11 @@
                     <label for="password_confirmation" class="block text-sm font-medium text-ink-muted mb-1">Confirm new password</label>
                     <input
                         type="password" id="password_confirmation" name="password_confirmation" required minlength="8"
-                        class="w-full rounded-lg border border-border px-3 py-2.5 text-sm text-ink focus:outline-none focus:ring-2 focus:ring-brand-600/30 focus:border-brand-600"
+                        class="field-control"
                     >
                 </div>
 
-                <button type="submit" class="px-5 py-2.5 rounded-lg bg-brand-700 hover:bg-brand-800 text-white text-sm font-semibold transition-colors shadow-sm">
+                <button type="submit" class="btn btn-primary">
                     Update Password
                 </button>
             </form>

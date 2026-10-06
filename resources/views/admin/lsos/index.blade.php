@@ -6,11 +6,6 @@
         back-label="Back to admin"
     />
 
-    @if (session('status'))
-        <div class="mb-6 rounded-lg bg-brand-50 border border-brand-600/30 text-brand-800 text-sm px-4 py-3">
-            {{ session('status') }}
-        </div>
-    @endif
 
     <div class="grid grid-cols-1 sm:grid-cols-4 gap-4 mb-6">
         <x-stat-tile label="Total LSO Value" :value="'KES '.number_format($stats['totalOriginalMinor'] / 100)" hint="Value awarded, not collected" icon="scale" tone="gold" />
@@ -57,17 +52,17 @@
         </div>
 
         <div class="flex gap-2">
-            <button type="submit" class="px-4 py-2 rounded-md bg-brand-700 hover:bg-brand-800 text-white text-sm font-medium transition-colors shadow-sm shadow-brand-900/20">
+            <button type="submit" class="btn btn-primary">
                 Filter
             </button>
-            <a href="{{ route('admin.lsos.index') }}" class="px-4 py-2 rounded-md border border-border text-sm hover:bg-panel-muted transition-colors">
+            <a href="{{ route('admin.lsos.index') }}" class="btn btn-secondary">
                 Reset
             </a>
         </div>
     </form>
 
     <div class="bg-panel border border-border rounded-xl overflow-hidden shadow-sm overflow-x-auto">
-        <table class="w-full text-sm">
+        <table data-stack class="w-full text-sm">
             <thead class="bg-brand-50 text-left text-ink-faint">
                 <tr>
                     <th class="px-4 py-2 font-medium">Reference</th>
@@ -100,7 +95,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="9" class="px-4 py-8 text-center text-ink-faint">No LSOs recorded yet.</td>
+                        <td colspan="9"><x-empty-state title="No LSOs recorded yet." /></td>
                     </tr>
                 @endforelse
             </tbody>

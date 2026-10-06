@@ -4,43 +4,40 @@
             $actionMessage = $errors->any() ? implode(' ', $errors->all()) : (session('warning') ?? session('status'));
         @endphp
         <div data-requisition-feedback role="status" aria-live="polite" tabindex="-1"
-             @class(['fixed bottom-6 left-1/2 -translate-x-1/2 z-50 w-[calc(100%-2rem)] max-w-xl rounded-xl border bg-white p-4 text-sm shadow-lg', 'hidden' => ! $actionMessage])>
-            <p data-action-message>{{ $actionMessage }}</p>
-            <div class="mt-2 flex gap-4">
-                <button type="button" data-requisition-refresh class="font-medium text-brand-700 underline">Refresh status</button>
-                <button type="button" data-dismiss-feedback class="text-ink-muted underline">Dismiss</button>
+             @class(['toast-enter fixed bottom-4 sm:bottom-6 inset-x-4 sm:inset-x-auto sm:right-6 z-50 sm:w-[28rem] overflow-hidden rounded-xl border border-border-strong bg-white pl-5 pr-4 py-3.5 text-sm text-ink shadow-lg shadow-ink/10 focus:outline-none', 'hidden' => ! $actionMessage])>
+            <span class="absolute inset-y-0 left-0 w-1 bg-brand-600" aria-hidden="true"></span>
+            <p data-action-message class="break-words">{{ $actionMessage }}</p>
+            <div class="mt-2.5 flex gap-2">
+                <button type="button" data-requisition-refresh class="btn btn-sm btn-secondary"><x-icon name="refresh" size="13" />Refresh status</button>
+                <button type="button" data-dismiss-feedback class="btn btn-sm btn-ghost">Dismiss</button>
             </div>
         </div>
         <div data-requisition-content>
-        <div class="flex items-start justify-between gap-4 mb-6">
-            <x-page-header
-                title="Requisitions"
-                subtitle="Admins, supervisors and office admins can review approvals. Only office admins can make payments."
-                :back="route('admin.dashboard')"
-                back-label="Back to admin"
-            />
-            <div class="flex shrink-0 flex-wrap justify-end gap-2">
+        <x-page-header
+            title="Requisitions"
+            subtitle="Admins, supervisors and office admins can review approvals. Only office admins can make payments."
+            :back="route('admin.dashboard')"
+            back-label="Back to admin"
+        >
+            <x-slot:actions>
                 @if (auth()->user()->isAdmin() || auth()->user()->isOfficeAdmin())
-                    <a
-                        href="{{ route('admin.nawiri-treasury.edit') }}"
-                        class="inline-flex items-center justify-center gap-1.5 rounded-lg border border-border bg-white px-4 py-2.5 text-sm font-medium text-ink transition-colors hover:bg-panel-muted"
-                    >
+                    <a href="{{ route('admin.nawiri-treasury.edit') }}" class="btn btn-secondary">
                         <x-icon name="building-bank" size="16" />
                         Nawiri Treasury
                     </a>
                 @endif
                 <a
                     href="{{ route('admin.requisitions.export', array_filter(['requester_id' => $filters['requester_id']])) }}"
-                    class="inline-flex items-center justify-center gap-1.5 rounded-lg border border-border bg-white px-4 py-2.5 text-sm font-medium text-ink transition-colors hover:bg-panel-muted"
+                    class="btn btn-secondary"
                     title="Download every approved transport/airtime request as a spreadsheet, for the boss or finance"
                 >
-                    <x-icon name="file-text" size="16" />
+                    <x-icon name="download" size="16" />
                     Export Approved
                 </a>
-            </div>
-        </div>
+            </x-slot:actions>
+        </x-page-header>
 
-        <div class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 mb-6">
+        <div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-3 sm:gap-4 mb-6 [&>*:last-child]:col-span-2 md:[&>*:last-child]:col-span-1">
             <x-stat-tile label="Total Requests" :value="number_format($stats['totalCount'])" icon="calendar" tone="teal" />
             <x-requisition-summary-tile
                 label="Total Requested" :amount="$stats['totalRequested']"
@@ -58,10 +55,10 @@
             // isToday() check, so they can never say different things.
             $daySuffix = $workingDate->isToday() ? 'Today' : $workingDate->format('d M');
         @endphp
-        <h2 class="text-xs font-semibold uppercase tracking-wide text-ink-faint mb-3">
+        <h2 class="section-title">
             {{ $workingDate->isToday() ? 'Today' : 'Selected Day' }} ({{ $workingDate->format('D, d M Y') }})
         </h2>
-        <div class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 mb-6">
+        <div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-3 sm:gap-4 mb-6 [&>*:last-child]:col-span-2 md:[&>*:last-child]:col-span-1">
             <x-stat-tile :label="'Requests '.$daySuffix" :value="number_format($todayStats['totalCount'])" icon="calendar" tone="teal" />
             <x-requisition-summary-tile
                 :label="'Requested '.$daySuffix" :amount="$todayStats['totalRequested']"
@@ -72,7 +69,7 @@
             <x-stat-tile :label="'Outstanding '.$daySuffix" :value="'KES '.number_format($todayStats['totalBalance'], 0)" hint="Approved but not yet paid" icon="alert-triangle" tone="rose" />
         </div>
 
-        <div class="bg-panel border border-border rounded-xl p-4 shadow-sm mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+        <div class="card p-4 mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
             <div>
                 <p class="text-xs text-ink-faint uppercase tracking-wide mb-1">Public page PIN</p>
                 @if ($pin)
@@ -84,47 +81,72 @@
             @if (auth()->user()->isAdmin())
                 <form method="POST" action="{{ route('admin.requisitions.pin.regenerate') }}" onsubmit="return confirm('This invalidates the current PIN - anyone using it will need the new one. Continue?')">
                     @csrf
-                    <button type="submit" class="px-4 py-2 rounded-lg border border-border text-sm font-medium hover:bg-panel-muted transition-colors">
+                    <button type="submit" class="btn btn-secondary">
+                        <x-icon name="refresh" size="15" />
                         {{ $pin ? 'Regenerate PIN' : 'Generate PIN' }}
                     </button>
                 </form>
             @endif
         </div>
 
-        <form method="GET" class="mb-4 flex flex-wrap gap-2 items-center">
-            <select name="status" onchange="this.form.submit()" class="rounded-lg border border-border bg-white px-3 py-2 text-sm text-ink focus:outline-none focus:ring-2 focus:ring-brand-600/30 focus:border-brand-600">
-                <option value="">All statuses</option>
-                <option value="pending" @selected($filters['status'] === 'pending')>Pending only</option>
-            </select>
-            <select name="requester_id" onchange="this.form.submit()" class="rounded-lg border border-border bg-white px-3 py-2 text-sm text-ink focus:outline-none focus:ring-2 focus:ring-brand-600/30 focus:border-brand-600">
-                <option value="">All requesters</option>
-                @foreach ($requesters as $r)
-                    <option value="{{ $r->id }}" @selected((string) $filters['requester_id'] === (string) $r->id)>{{ $r->name }}</option>
-                @endforeach
-            </select>
-            <label class="flex items-center gap-1.5 text-sm text-ink-muted">
-                Working Date
-                <input
-                    type="date" name="date" value="{{ $filters['date'] ?? '' }}"
-                    class="rounded-lg border border-border bg-white px-3 py-2 text-sm text-ink focus:outline-none focus:ring-2 focus:ring-brand-600/30 focus:border-brand-600"
-                >
-            </label>
-            <button type="submit" class="px-4 py-2 rounded-lg bg-brand-700 hover:bg-brand-800 text-white text-sm font-medium transition-colors">
-                Apply
-            </button>
-            @if ($filters['date'])
-                <a href="{{ route('admin.requisitions.index', array_filter(['status' => $filters['status'], 'requester_id' => $filters['requester_id']])) }}" class="text-xs text-ink-faint hover:text-ink-muted">
-                    Clear date
-                </a>
-            @endif
-            @if ($filters['status'] || $filters['requester_id'] || $filters['date'])
-                <a href="{{ route('admin.requisitions.index') }}" class="text-xs text-ink-faint hover:text-ink-muted">Clear filters</a>
+        @php
+            $activeFilterCount = collect([$filters['status'], $filters['requester_id'], $filters['date']])->filter()->count();
+        @endphp
+        <form method="GET" class="card p-4 mb-4" aria-label="Filter requisitions">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-[repeat(3,minmax(0,14rem))_auto] gap-3 lg:items-end">
+                <div>
+                    <label for="filter-status" class="field-label">Status</label>
+                    <select id="filter-status" name="status" onchange="this.form.submit()" class="field-control">
+                        <option value="">All statuses</option>
+                        <option value="pending" @selected($filters['status'] === 'pending')>Pending only</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="filter-requester" class="field-label">Requester</label>
+                    <select id="filter-requester" name="requester_id" onchange="this.form.submit()" class="field-control">
+                        <option value="">All requesters</option>
+                        @foreach ($requesters as $r)
+                            <option value="{{ $r->id }}" @selected((string) $filters['requester_id'] === (string) $r->id)>{{ $r->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div>
+                    <label for="filter-date" class="field-label">Working date</label>
+                    <input id="filter-date" type="date" name="date" value="{{ $filters['date'] ?? '' }}" class="field-control">
+                </div>
+                <div class="flex flex-wrap items-center gap-2">
+                    <button type="submit" class="btn btn-primary">
+                        <x-icon name="filter" size="15" />
+                        Apply
+                    </button>
+                    @if ($activeFilterCount > 0)
+                        <a href="{{ route('admin.requisitions.index') }}" class="btn btn-ghost">Clear filters</a>
+                    @endif
+                </div>
+            </div>
+            @if ($activeFilterCount > 0)
+                <div class="mt-3 pt-3 border-t border-border flex flex-wrap items-center gap-2 text-xs">
+                    <span class="text-ink-faint">Showing:</span>
+                    @if ($filters['status'])
+                        <span class="badge badge-info">Pending only</span>
+                    @endif
+                    @if ($filters['requester_id'])
+                        <span class="badge badge-info">{{ $requesters->firstWhere('id', (int) $filters['requester_id'])?->name ?? 'Selected requester' }}</span>
+                    @endif
+                    @if ($filters['date'])
+                        <a href="{{ route('admin.requisitions.index', array_filter(['status' => $filters['status'], 'requester_id' => $filters['requester_id']])) }}" class="badge badge-info hover:bg-info/15" title="Clear date">
+                            {{ $workingDate->format('D, d M Y') }}
+                            <x-icon name="x" size="11" />
+                            <span class="sr-only">Clear date</span>
+                        </a>
+                    @endif
+                </div>
             @endif
         </form>
 
         <div data-requisition-table class="bg-panel border border-border rounded-xl overflow-hidden shadow-sm overflow-x-auto">
-            <table class="w-full text-sm">
-                <thead class="bg-brand-50 text-left text-ink-faint">
+            <table data-stack class="w-full text-sm">
+                <thead class="bg-brand-50 text-left text-ink-muted text-xs">
                     <tr>
                         <th class="px-3 py-2 font-medium whitespace-nowrap">Name</th>
                         <th class="px-3 py-2 font-medium">Institution</th>
@@ -180,14 +202,14 @@
                                 <x-requisition-status-badge :status="$req->transport_status" />
                                 @if ($req->transport_status === 'pending')
                                     @if ($canApprove)
-                                        <div class="flex items-center gap-1 mt-2">
+                                        <div class="flex flex-wrap items-center gap-1.5 mt-2">
                                             <form method="POST" action="{{ route('admin.requisitions.transport.approve', $req) }}">
                                                 @csrf
-                                                <button type="submit" class="px-2 py-1 rounded-md bg-brand-700 hover:bg-brand-800 text-white text-xs font-medium">Approve</button>
+                                                <button type="submit" class="btn btn-sm btn-primary"><x-icon name="check" size="13" />Approve</button>
                                             </form>
                                             <form method="POST" action="{{ route('admin.requisitions.transport.decline', $req) }}" onsubmit="return confirm('Decline this transport request?')">
                                                 @csrf
-                                                <button type="submit" class="px-2 py-1 rounded-md border border-border text-xs font-medium hover:bg-panel-muted">Decline</button>
+                                                <button type="submit" class="btn btn-sm btn-danger">Decline</button>
                                             </form>
                                         </div>
                                     @else
@@ -211,7 +233,7 @@
                                     @elseif ($req->transport_status === 'approved' && $transportPayable !== [] && $canPay)
 										<form method="POST" action="{{ route('admin.requisitions.transport.pay', $req) }}" class="flex flex-wrap items-center gap-1 mt-2">
                                             @csrf
-                                            <button type="submit" class="px-2 py-1 rounded-md border border-gold-700 bg-gold-600 hover:bg-gold-700 text-white text-xs font-medium">
+                                            <button type="submit" class="btn btn-sm btn-pay whitespace-normal text-left">
                                                 Pay {{ count($transportPayable) }} recipient{{ count($transportPayable) === 1 ? '' : 's' }} · KES {{ number_format(array_sum($transportPayable), 0) }}
                                             </button>
                                         </form>
@@ -231,14 +253,14 @@
                                 <x-requisition-status-badge :status="$req->airtime_status" />
                                 @if ($req->airtime_status === 'pending')
                                     @if ($canApprove)
-                                        <div class="flex items-center gap-1 mt-2">
+                                        <div class="flex flex-wrap items-center gap-1.5 mt-2">
                                             <form method="POST" action="{{ route('admin.requisitions.airtime.approve', $req) }}">
                                                 @csrf
-                                                <button type="submit" class="px-2 py-1 rounded-md bg-brand-700 hover:bg-brand-800 text-white text-xs font-medium">Approve</button>
+                                                <button type="submit" class="btn btn-sm btn-primary"><x-icon name="check" size="13" />Approve</button>
                                             </form>
                                             <form method="POST" action="{{ route('admin.requisitions.airtime.decline', $req) }}" onsubmit="return confirm('Decline this airtime request?')">
                                                 @csrf
-                                                <button type="submit" class="px-2 py-1 rounded-md border border-border text-xs font-medium hover:bg-panel-muted">Decline</button>
+                                                <button type="submit" class="btn btn-sm btn-danger">Decline</button>
                                             </form>
                                         </div>
                                     @else
@@ -262,7 +284,7 @@
                                     @elseif ($req->airtime_status === 'approved' && $airtimePayable !== [] && $canPay)
 										<form method="POST" action="{{ route('admin.requisitions.airtime.pay', $req) }}" class="flex flex-wrap items-center gap-1 mt-2">
                                             @csrf
-                                            <button type="submit" class="px-2 py-1 rounded-md border border-gold-700 bg-gold-600 hover:bg-gold-700 text-white text-xs font-medium">
+                                            <button type="submit" class="btn btn-sm btn-pay whitespace-normal text-left">
                                                 Pay {{ count($airtimePayable) }} recipient{{ count($airtimePayable) === 1 ? '' : 's' }} · KES {{ number_format(array_sum($airtimePayable), 0) }}
                                             </button>
                                         </form>
@@ -277,7 +299,15 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="10" class="px-4 py-8 text-center text-ink-faint">No requisitions logged yet.</td>
+                            <td colspan="10">
+                                @if ($activeFilterCount > 0)
+                                    <x-empty-state title="No requisitions match these filters." message="Try another date or requester, or clear the filters.">
+                                        <a href="{{ route('admin.requisitions.index') }}" class="btn btn-secondary btn-sm">Clear filters</a>
+                                    </x-empty-state>
+                                @else
+                                    <x-empty-state title="No requisitions logged yet." message="Requests submitted by RMs and staff appear here for approval." />
+                                @endif
+                            </td>
                         </tr>
                     @endforelse
                 </tbody>

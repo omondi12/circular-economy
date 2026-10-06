@@ -17,32 +17,34 @@
 
                 @if (auth()->user()->isAdmin())
                     <div class="px-4 py-3 border-t border-border">
-                        <label class="block text-sm font-medium text-ink-muted mb-2">Role</label>
-                        <div class="flex gap-4">
-                            <label class="inline-flex items-center gap-2 text-sm">
+                        <fieldset>
+                        <legend class="block text-sm font-medium text-ink-muted mb-2">Role</legend>
+                        <div class="flex flex-wrap gap-x-5 gap-y-1">
+                            <label class="inline-flex items-center gap-2 text-sm min-h-10 cursor-pointer">
                                 <input type="radio" name="role" value="rm" checked class="text-brand-700 focus:ring-brand-600">
                                 Relationship Manager
                             </label>
-                            <label class="inline-flex items-center gap-2 text-sm">
+                            <label class="inline-flex items-center gap-2 text-sm min-h-10 cursor-pointer">
                                 <input type="radio" name="role" value="supervisor" class="text-brand-700 focus:ring-brand-600">
                                 Supervisor
                             </label>
-                            <label class="inline-flex items-center gap-2 text-sm">
+                            <label class="inline-flex items-center gap-2 text-sm min-h-10 cursor-pointer">
                                 <input type="radio" name="role" value="office_admin" class="text-brand-700 focus:ring-brand-600">
                                 Office Admin
                             </label>
-                            <label class="inline-flex items-center gap-2 text-sm">
+                            <label class="inline-flex items-center gap-2 text-sm min-h-10 cursor-pointer">
                                 <input type="radio" name="role" value="operations" class="text-brand-700 focus:ring-brand-600">
                                 Operations
                             </label>
                         </div>
+                        </fieldset>
                     </div>
 
                     <div class="px-4 py-3 border-t border-border">
                         <label for="supervisor_id" class="block text-sm font-medium text-ink-muted mb-2">Supervisor (if creating an RM)</label>
                         <select
                             id="supervisor_id" name="supervisor_id"
-                            class="w-full rounded-lg border border-border bg-white px-3 py-2.5 text-sm text-ink focus:outline-none focus:ring-2 focus:ring-brand-600/30 focus:border-brand-600"
+                            class="field-control"
                         >
                             <option value="">— Unassigned —</option>
                             @foreach ($supervisors as $supervisor)
@@ -54,7 +56,7 @@
             </div>
 
             <div class="flex justify-end">
-                <button type="submit" class="px-6 py-3 rounded-md bg-brand-700 hover:bg-brand-800 text-white text-sm font-semibold transition-colors shadow-sm shadow-brand-900/20">
+                <button type="submit" class="btn btn-primary">
                     Create Account
                 </button>
             </div>

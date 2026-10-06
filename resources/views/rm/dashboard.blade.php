@@ -1,45 +1,34 @@
 <x-layout title="My Dashboard">
-        @if (session('status'))
-            <div class="mb-6 rounded-lg bg-brand-50 border border-brand-600/30 text-brand-800 text-sm px-4 py-3">
-                {{ session('status') }}
-            </div>
-        @endif
 
         <header class="relative mb-8 rounded-2xl bg-gradient-to-br from-brand-700 via-brand-800 to-brand-900 shadow-xl shadow-brand-900/10 px-6 py-7 sm:px-8 sm:py-8 overflow-hidden">
             <div class="absolute -top-16 -right-10 w-64 h-64 rounded-full bg-white/10 blur-2xl"></div>
 
-            <div class="relative flex flex-col sm:flex-row items-center gap-6">
-                <div class="flex-1 text-center sm:text-left">
+            <div class="relative flex flex-col lg:flex-row lg:items-center gap-5">
+                <div class="flex-1 text-center lg:text-left">
                     <p class="text-white/70 text-xs uppercase tracking-wide">Relationship Manager</p>
                     <h1 class="text-xl sm:text-2xl font-semibold text-white">{{ auth()->user()->name }}</h1>
                     <p class="text-sm text-white/80 mt-1">Your submissions, at a glance.</p>
                 </div>
 
-                <div class="shrink-0 flex items-center gap-2">
-                    <a href="{{ route('rm.collections.create') }}" class="inline-flex items-center gap-2 px-5 py-3 rounded-lg bg-white text-brand-800 text-sm font-semibold hover:bg-white/90 transition-colors shadow-sm">
+                <div class="grid grid-cols-1 min-[400px]:grid-cols-2 sm:flex sm:flex-wrap sm:justify-center lg:justify-end gap-2 min-[400px]:[&>*:last-child]:col-span-2">
+                    <a href="{{ route('rm.collections.create') }}" class="min-[400px]:col-span-2 btn bg-white text-brand-800 hover:bg-white/90 shadow-sm min-h-11">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                         </svg>
                         Record a Collection
                     </a>
-                    <a href="{{ route('rm.clients.index') }}" class="inline-flex items-center gap-2 px-5 py-3 rounded-lg bg-white/15 ring-1 ring-white/25 text-white text-sm font-semibold hover:bg-white/25 transition-colors">
-                        <x-icon name="document" size="16" />
+                    <a href="{{ route('rm.clients.index') }}" class="btn bg-white/15 ring-1 ring-white/25 text-white hover:bg-white/25 min-h-11">
+                        <x-icon name="file-text" size="16" />
                         Log a Report
                     </a>
-                    <a href="{{ route('requisitions.mine') }}" class="inline-flex items-center gap-2 px-5 py-3 rounded-lg bg-white/15 ring-1 ring-white/25 text-white text-sm font-semibold hover:bg-white/25 transition-colors">
+                    <a href="{{ route('requisitions.mine') }}" class="btn bg-white/15 ring-1 ring-white/25 text-white hover:bg-white/25 min-h-11">
                         <x-icon name="calendar" size="16" />
                         My Requisitions
                     </a>
-                    <a href="{{ route('account.profile.edit') }}" class="inline-flex items-center gap-2 px-5 py-3 rounded-lg bg-white/15 ring-1 ring-white/25 text-white text-sm font-semibold hover:bg-white/25 transition-colors">
+                    <a href="{{ route('account.profile.edit') }}" class="btn bg-white/15 ring-1 ring-white/25 text-white hover:bg-white/25 min-h-11">
                         <x-icon name="user" size="16" />
                         My Profile
                     </a>
-                    <form method="POST" action="{{ route('logout') }}">
-                        @csrf
-                        <button type="submit" class="px-4 py-3 rounded-lg bg-white/15 ring-1 ring-white/25 text-white text-sm font-medium hover:bg-white/25 transition-colors">
-                            Log Out
-                        </button>
-                    </form>
                 </div>
             </div>
         </header>
@@ -67,7 +56,7 @@
             </div>
         @endif
 
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4 mb-6 [&>*:last-child]:col-span-2 sm:[&>*:last-child]:col-span-1">
             <x-stat-tile label="My Submissions" :value="number_format($totalSubmissions)" icon="document" tone="green" />
             <x-stat-tile label="My Commission Earned" :value="'KES '.number_format($myCommissionMinor / 100)" hint="10% of Westport's confirmed revenue, Lot 1 + Lot 2" icon="stamp" tone="violet" />
             <x-stat-tile label="Total Quantity Recorded" :value="number_format($totalQuantity, 1)" hint="Mixed units - see submissions below" icon="scale" tone="gold" />
@@ -80,7 +69,7 @@
             <div class="px-5 py-4 border-b border-border">
                 <h2 class="text-sm font-semibold uppercase tracking-wide text-ink-muted">My Submissions</h2>
             </div>
-            <table class="w-full text-sm">
+            <table data-stack class="w-full text-sm">
                 <thead class="bg-brand-50 text-left text-ink-faint">
                     <tr>
                         <th class="px-4 py-2 font-medium">Entity</th>
@@ -126,7 +115,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5" class="px-4 py-8 text-center text-ink-faint">You haven't recorded any collections yet.</td>
+                            <td colspan="5"><x-empty-state title="You haven't recorded any collections yet." /></td>
                         </tr>
                     @endforelse
                 </tbody>

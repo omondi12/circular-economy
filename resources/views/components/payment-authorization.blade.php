@@ -19,7 +19,7 @@
                 <input id="payment-otp-{{ $payment->id }}" type="text" name="otp" inputmode="numeric" autocomplete="one-time-code"
                        pattern="[0-9]{6}" minlength="6" maxlength="6" required
                        class="w-full rounded-md border border-border bg-white px-3 py-2 text-ink" placeholder="Six-digit code">
-                <button type="submit" class="rounded-md bg-brand-700 px-3 py-2 font-medium text-white hover:bg-brand-800">Authorize payment</button>
+                <button type="submit" class="btn btn-primary">Authorize payment</button>
             </form>
             <form method="POST" action="{{ route('admin.requisition-payments.otp', $payment) }}">
                 @csrf

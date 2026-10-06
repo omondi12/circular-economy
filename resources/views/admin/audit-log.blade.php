@@ -29,17 +29,17 @@
             </div>
 
             <div class="flex gap-2">
-                <button type="submit" class="px-4 py-2 rounded-md bg-brand-700 hover:bg-brand-800 text-white text-sm font-medium transition-colors shadow-sm shadow-brand-900/20">
+                <button type="submit" class="btn btn-primary">
                     Filter
                 </button>
-                <a href="{{ route('admin.audit-log') }}" class="px-4 py-2 rounded-md border border-border text-sm hover:bg-panel-muted transition-colors">
+                <a href="{{ route('admin.audit-log') }}" class="btn btn-secondary">
                     Reset
                 </a>
             </div>
         </form>
 
         <div class="bg-panel border border-border rounded-xl overflow-hidden shadow-sm overflow-x-auto">
-            <table class="w-full text-sm">
+            <table data-stack class="w-full text-sm">
                 <thead class="bg-brand-50 text-left text-ink-faint">
                     <tr>
                         <th class="px-4 py-2 font-medium">Who</th>
@@ -64,7 +64,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="4" class="px-4 py-8 text-center text-ink-faint">No activity matches these filters.</td>
+                            <td colspan="4"><x-empty-state title="No activity matches these filters." /></td>
                         </tr>
                     @endforelse
                 </tbody>

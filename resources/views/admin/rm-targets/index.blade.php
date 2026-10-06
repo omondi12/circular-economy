@@ -6,11 +6,6 @@
         back-label="Back to admin"
     />
 
-    @if (session('status'))
-        <div class="mb-6 rounded-lg bg-brand-50 border border-brand-600/30 text-brand-800 text-sm px-4 py-3">
-            {{ session('status') }}
-        </div>
-    @endif
 
     @if ($errors->any())
         <div class="mb-6 rounded-lg bg-red-50 border border-red-300 text-red-800 text-sm px-4 py-3">
@@ -27,7 +22,7 @@
                 @csrf
                 <div>
                     <label for="user_id" class="block text-xs font-semibold text-ink-muted mb-1">RM</label>
-                    <select id="user_id" name="user_id" required class="w-full rounded-lg border border-border text-sm px-3 py-2">
+                    <select id="user_id" name="user_id" required class="field-control">
                         @foreach ($rms as $rm)
                             <option value="{{ $rm->id }}">{{ $rm->name }}</option>
                         @endforeach
@@ -35,29 +30,29 @@
                 </div>
                 <div>
                     <label for="type" class="block text-xs font-semibold text-ink-muted mb-1">Target Type</label>
-                    <select id="type" name="type" x-model="type" class="w-full rounded-lg border border-border text-sm px-3 py-2">
+                    <select id="type" name="type" x-model="type" class="field-control">
                         <option value="monetary">Monetary (KES)</option>
                         <option value="count">Count (fully paid LSOs)</option>
                     </select>
                 </div>
                 <div x-show="type === 'monetary'">
                     <label for="target_amount" class="block text-xs font-semibold text-ink-muted mb-1">Target Amount (KES)</label>
-                    <input type="number" min="1" step="1" id="target_amount" name="target_amount" class="w-full rounded-lg border border-border text-sm px-3 py-2">
+                    <input type="number" min="1" step="1" id="target_amount" name="target_amount" class="field-control">
                 </div>
                 <div x-show="type === 'count'" x-cloak>
                     <label for="target_count" class="block text-xs font-semibold text-ink-muted mb-1">Target Count</label>
-                    <input type="number" min="1" step="1" id="target_count" name="target_count" class="w-full rounded-lg border border-border text-sm px-3 py-2">
+                    <input type="number" min="1" step="1" id="target_count" name="target_count" class="field-control">
                 </div>
                 <div>
                     <label for="period_start" class="block text-xs font-semibold text-ink-muted mb-1">Period Start</label>
-                    <input type="date" id="period_start" name="period_start" required class="w-full rounded-lg border border-border text-sm px-3 py-2">
+                    <input type="date" id="period_start" name="period_start" required class="field-control">
                 </div>
                 <div>
                     <label for="period_end" class="block text-xs font-semibold text-ink-muted mb-1">Period End</label>
-                    <input type="date" id="period_end" name="period_end" required class="w-full rounded-lg border border-border text-sm px-3 py-2">
+                    <input type="date" id="period_end" name="period_end" required class="field-control">
                 </div>
                 <div>
-                    <button type="submit" class="w-full inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-brand-700 text-white text-sm font-semibold hover:bg-brand-800 transition-colors">
+                    <button type="submit" class="btn btn-primary w-full">
                         Set Target
                     </button>
                 </div>
@@ -66,7 +61,7 @@
     @endif
 
     <div class="bg-panel border border-border rounded-xl overflow-hidden shadow-sm overflow-x-auto">
-        <table class="w-full text-sm">
+        <table data-stack class="w-full text-sm">
             <thead class="bg-brand-50 text-left text-ink-faint">
                 <tr>
                     <th class="px-4 py-2 font-medium">RM</th>
@@ -93,7 +88,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="6" class="px-4 py-8 text-center text-ink-faint">No targets set yet.</td>
+                        <td colspan="6"><x-empty-state title="No targets set yet." /></td>
                     </tr>
                 @endforelse
             </tbody>

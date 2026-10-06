@@ -19,7 +19,7 @@
         'user' => 'user',
         'building-community' => 'building-community',
         'stamp' => 'stamp',
-    ][$icon] ?? 'circle';
+    ][$icon] ?? $icon;
 
     $numericValue = str_replace(',', '', (string) $value);
     $isAnimatable = $numericValue !== '' && ctype_digit($numericValue);
@@ -30,7 +30,7 @@
 <{{ $tag }}
     @if ($href) href="{{ $href }}" @endif
     @class([
-        'group relative block overflow-hidden rounded-2xl p-5 bg-gradient-to-br shadow-lg transition-all duration-200',
+        'group relative block overflow-hidden rounded-2xl p-4 sm:p-5 bg-gradient-to-br shadow-lg transition-all duration-200',
         $style['grad'],
         'hover:-translate-y-1 hover:shadow-xl' => $href,
     ])
@@ -38,29 +38,29 @@
     @if ($isAnimatable) x-data="{ shown: 0, target: {{ (int) $numericValue }} }" x-init="let start=null; const dur=900; function step(ts){ if(!start) start=ts; const p=Math.min((ts-start)/dur,1); shown=Math.round((1-Math.pow(1-p,3))*target); if(p<1) requestAnimationFrame(step);} requestAnimationFrame(step);" @endif
 >
     {{-- Stamp-ring watermark, the "official register" motif --}}
-    <svg class="absolute -bottom-6 -right-6 w-32 h-32 opacity-[0.12] rotate-[-12deg]" viewBox="0 0 100 100">
+    <svg aria-hidden="true" class="absolute -bottom-6 -right-6 w-32 h-32 opacity-[0.12] rotate-[-12deg]" viewBox="0 0 100 100">
         <circle cx="50" cy="50" r="46" fill="none" stroke="white" stroke-width="1.5" stroke-dasharray="3 3"/>
         <circle cx="50" cy="50" r="38" fill="none" stroke="white" stroke-width="1"/>
     </svg>
     <div class="absolute -top-8 -right-8 w-28 h-28 rounded-full bg-white/10 blur-2xl"></div>
 
-    <div class="relative flex items-center justify-between">
-        <div class="flex items-center gap-3 min-w-0">
-            <div class="shrink-0 w-10 h-10 rounded-full bg-white/15 ring-1 ring-white/30 backdrop-blur-sm flex items-center justify-center">
+    <div class="relative flex items-start justify-between gap-2">
+        <div class="flex items-center gap-2.5 sm:gap-3 min-w-0">
+            <div class="shrink-0 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white/15 ring-1 ring-white/30 backdrop-blur-sm flex items-center justify-center">
                 <x-icon :name="$iconName" size="17" class="text-white" />
             </div>
-            <p class="text-white/85 text-sm truncate">{{ $label }}</p>
+            <p class="text-white/90 text-xs sm:text-sm font-medium leading-snug line-clamp-2">{{ $label }}</p>
         </div>
         @if ($href)
             <x-icon name="arrow-right" size="18" class="text-white/50 group-hover:text-white/90 group-hover:translate-x-0.5 transition-all shrink-0" />
         @endif
     </div>
     @if ($isAnimatable)
-        <p class="relative mt-3 font-display text-3xl text-white tabular-nums" x-text="shown.toLocaleString()"></p>
+        <p class="relative mt-3 font-display text-2xl sm:text-3xl leading-tight text-white tabular-nums break-words" x-text="shown.toLocaleString()"></p>
     @else
-        <p class="relative mt-3 font-display text-3xl text-white tabular-nums">{{ $value }}</p>
+        <p class="relative mt-3 font-display text-2xl sm:text-3xl leading-tight text-white tabular-nums break-words">{{ $value }}</p>
     @endif
     @if ($hint)
-        <p class="relative mt-1 text-xs text-white/60">{{ $hint }}</p>
+        <p class="relative mt-1 text-xs text-white/75">{{ $hint }}</p>
     @endif
 </{{ $tag }}>

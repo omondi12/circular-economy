@@ -5,7 +5,7 @@
         />
 
         <div class="flex flex-col sm:flex-row sm:items-center gap-3 mb-4">
-            <div class="inline-flex rounded-lg border border-border bg-white p-1 text-sm">
+            <div class="inline-flex self-start rounded-lg border border-border bg-white p-1 text-sm" role="group" aria-label="Phase">
                 @foreach ([null => 'All', 1 => 'Phase 1', 2 => 'Phase 2'] as $value => $label)
                     <a
                         href="{{ route('state-corporations.index', array_filter(['phase' => $value, 'q' => $filters['q'], 'classification' => $filters['classification'], 'rm' => $filters['rm']])) }}"
@@ -22,13 +22,13 @@
                 @endforeach
             </div>
 
-            <form method="GET" class="flex flex-1 gap-2">
+            <form method="GET" class="grid grid-cols-1 sm:grid-cols-2 lg:flex lg:flex-1 gap-2 min-w-0" aria-label="Filter clients">
                 @if ($filters['phase'])
                     <input type="hidden" name="phase" value="{{ $filters['phase'] }}">
                 @endif
                 <select
                     name="classification" onchange="this.form.submit()"
-                    class="rounded-lg border border-border bg-white px-3 py-2.5 text-sm text-ink focus:outline-none focus:ring-2 focus:ring-brand-600/30 focus:border-brand-600"
+                    class="field-control w-auto"
                 >
                     <option value="">All classifications</option>
                     @foreach ($classifications as $c)
@@ -37,7 +37,7 @@
                 </select>
                 <select
                     name="rm" onchange="this.form.submit()"
-                    class="rounded-lg border border-border bg-white px-3 py-2.5 text-sm text-ink focus:outline-none focus:ring-2 focus:ring-brand-600/30 focus:border-brand-600"
+                    class="field-control w-auto"
                 >
                     <option value="">All RMs</option>
                     <option value="assigned" @selected($filters['rm'] === 'assigned')>Assigned (has an RM)</option>
@@ -46,13 +46,13 @@
                         <option value="{{ $rm->id }}" @selected((string) $filters['rm'] === (string) $rm->id)>{{ $rm->name }}</option>
                     @endforeach
                 </select>
-                <div class="relative flex-1 max-w-md">
+                <div class="relative sm:col-span-2 lg:flex-1 lg:max-w-md">
                     <input
                         type="text" name="q" value="{{ $filters['q'] }}"
-                        placeholder="Search by name…"
-                        class="w-full rounded-lg border border-border bg-white pl-4 pr-24 py-2.5 text-sm text-ink placeholder:text-ink-faint focus:outline-none focus:ring-2 focus:ring-brand-600/30 focus:border-brand-600"
+                        aria-label="Search by name" placeholder="Search by name…"
+                        class="field-control pl-4 pr-24"
                     >
-                    <button type="submit" class="absolute right-1.5 top-1/2 -translate-y-1/2 px-3 py-1.5 rounded-md bg-brand-700 text-white text-xs font-medium hover:bg-brand-800 transition-colors">
+                    <button type="submit" class="btn btn-primary btn-sm absolute right-1.5 top-1/2 -translate-y-1/2">
                         Search
                     </button>
                 </div>
@@ -60,7 +60,7 @@
 
             <a
                 href="{{ route('state-corporations.export', array_filter($filters)) }}"
-                class="inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-lg border border-border bg-white text-sm font-medium text-ink hover:bg-panel-muted transition-colors shrink-0"
+                class="btn btn-secondary shrink-0"
                 title="Download the clients shown below (with any filters applied) as a spreadsheet"
             >
                 <x-icon name="file-text" size="16" />
@@ -69,7 +69,7 @@
         </div>
 
         <div class="bg-panel border border-border rounded-xl overflow-hidden shadow-sm overflow-x-auto">
-            <table class="w-full text-sm">
+            <table data-stack class="w-full text-sm">
                 <thead class="bg-gold-50 text-left text-ink-muted">
                     <tr>
                         <th class="px-4 py-2 font-medium">Name</th>
@@ -137,7 +137,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="11" class="px-4 py-8 text-center text-ink-faint">No clients match this filter.</td>
+                            <td colspan="11"><x-empty-state title="No clients match this filter." /></td>
                         </tr>
                     @endforelse
                 </tbody>

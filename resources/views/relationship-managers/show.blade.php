@@ -104,7 +104,7 @@
                 </a>
             </div>
             <div class="overflow-x-auto">
-                <table class="w-full text-sm">
+                <table data-stack class="w-full text-sm">
                     <thead class="bg-brand-50 text-left text-ink-faint">
                         <tr>
                             <th class="px-4 py-2 font-medium">Entity</th>
@@ -130,7 +130,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="4" class="px-4 py-8 text-center text-ink-faint">No collections recorded yet.</td>
+                                <td colspan="4"><x-empty-state title="No collections recorded yet." /></td>
                             </tr>
                         @endforelse
                     </tbody>
@@ -155,7 +155,7 @@
                 </p>
             @else
                 <div class="overflow-x-auto">
-                    <table class="w-full text-sm">
+                    <table data-stack class="w-full text-sm">
                         <thead class="bg-brand-50 text-left text-ink-faint">
                             <tr>
                                 <th class="px-4 py-2 font-medium">Working Day</th>
@@ -182,7 +182,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="5" class="px-4 py-8 text-center text-ink-faint">No facilitation requests yet.</td>
+                                    <td colspan="5"><x-empty-state title="No facilitation requests yet." /></td>
                                 </tr>
                             @endforelse
                         </tbody>

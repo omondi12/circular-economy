@@ -161,7 +161,7 @@
                 </div>
 
                 <div class="px-4 py-4 flex justify-end border-t border-border">
-                    <button type="submit" class="px-6 py-2.5 rounded-md bg-brand-700 hover:bg-brand-800 text-white text-sm font-semibold transition-colors shadow-sm shadow-brand-900/20">
+                    <button type="submit" class="btn btn-primary">
                         Log Report
                     </button>
                 </div>
@@ -170,7 +170,7 @@
 
         {{-- Report history --}}
         <div class="bg-panel border border-border rounded-xl overflow-hidden shadow-sm overflow-x-auto">
-            <table class="w-full text-sm">
+            <table data-stack class="w-full text-sm">
                 <thead class="bg-brand-50 text-left text-ink-faint">
                     <tr>
                         <th class="px-4 py-2 font-medium">Date</th>
@@ -203,7 +203,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="8" class="px-4 py-8 text-center text-ink-faint">No reports logged for this client yet.</td>
+                            <td colspan="8"><x-empty-state title="No reports logged for this client yet." /></td>
                         </tr>
                     @endforelse
                 </tbody>
