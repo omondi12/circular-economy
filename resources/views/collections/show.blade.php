@@ -70,7 +70,7 @@
                 <h2 class="text-sm font-semibold uppercase tracking-wide mt-5 mb-4 border-l-4 border-brand-600 pl-3 text-ink-muted mx-5">
                     Materials Collected
                 </h2>
-                <table class="w-full text-sm">
+                <table data-stack class="w-full text-sm">
                     <thead class="bg-gold-50 text-left text-ink-muted">
                         <tr>
                             <th class="px-5 py-2 font-medium">Material</th>

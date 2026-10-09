@@ -16,7 +16,7 @@
                     class="w-full text-center tracking-[0.5em] text-2xl rounded-lg border-border py-3 focus:border-brand-600 focus:ring-brand-600"
                     maxlength="6"
                 >
-                <button type="submit" class="w-full mt-4 px-4 py-3 rounded-lg bg-brand-700 hover:bg-brand-800 text-white text-sm font-semibold transition-colors shadow-sm">
+                <button type="submit" class="btn btn-primary w-full mt-4">
                     Unlock
                 </button>
             </form>

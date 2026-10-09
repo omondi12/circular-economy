@@ -290,9 +290,10 @@ class User extends Authenticatable
      * approving their own - same as everywhere else in the app.
      * Supervisors and Office Admins can approve anyone's request except
      * their own - except an Office Admin's or an Operations account's
-     * request, which needs a full Admin specifically (not a Supervisor,
-     * not another Office Admin), since neither has oversight authority
-     * over the other and a Supervisor doesn't oversee them either.
+     * request, which needs a full Admin or an Office Admin (2026-10-05,
+     * so Office Admins can approve each other's and Operations' requests
+     * - still never their own). A Supervisor doesn't oversee either role,
+     * so stays excluded.
      */
     public function canApproveRequisition(Requisition $requisition): bool
     {
@@ -309,7 +310,7 @@ class User extends Authenticatable
         }
 
         if ($requisition->requester?->isOfficeAdmin() || $requisition->requester?->isOperations()) {
-            return false;
+            return $this->isOfficeAdmin();
         }
 
         return true;

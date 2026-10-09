@@ -1,25 +1,19 @@
 <x-layout title="My Requisitions">
-        @if (session('status'))
-            <div class="mb-6 rounded-lg bg-brand-50 border border-brand-600/30 text-brand-800 text-sm px-4 py-3">
-                {{ session('status') }}
-            </div>
-        @endif
 
-        <div class="flex items-center justify-between mb-6">
-            <x-page-header
-                title="My Requisitions"
-                subtitle="Daily transport and airtime requests. Admins, supervisors and office admins handle approvals; office admins handle payments."
-            />
-            <button
-                type="button" x-data @click="$dispatch('open-new-requisition')"
-                class="shrink-0 inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-brand-700 hover:bg-brand-800 text-white text-sm font-semibold transition-colors shadow-sm shadow-brand-900/20 -mt-10"
-            >
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-                </svg>
-                New Request
-            </button>
-        </div>
+        <x-page-header
+            title="My Requisitions"
+            subtitle="Daily transport and airtime requests. Admins, supervisors and office admins handle approvals; office admins handle payments."
+        >
+            <x-slot:actions>
+                <button
+                    type="button" x-data @click="$dispatch('open-new-requisition')"
+                    class="btn btn-primary"
+                >
+                    <x-icon name="plus" size="16" />
+                    New Request
+                </button>
+            </x-slot:actions>
+        </x-page-header>
 
         <div
             x-data="{ open: false }"
@@ -156,7 +150,7 @@
                 </div>
 
                 <div class="px-4 py-4 flex justify-end border-t border-border">
-                    <button type="submit" class="px-6 py-2.5 rounded-md bg-brand-700 hover:bg-brand-800 text-white text-sm font-semibold transition-colors shadow-sm shadow-brand-900/20">
+                    <button type="submit" class="btn btn-primary">
                         Submit Request
                     </button>
                 </div>
@@ -164,7 +158,7 @@
         </div>
 
         <div class="bg-panel border border-border rounded-xl overflow-hidden shadow-sm overflow-x-auto">
-            <table class="w-full text-sm">
+            <table data-stack class="w-full text-sm">
                 <thead class="bg-brand-50 text-left text-ink-faint">
                     <tr>
                         <th class="px-4 py-2 font-medium">Working Day</th>
@@ -210,7 +204,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5" class="px-4 py-8 text-center text-ink-faint">No requests yet - use "New Request" above.</td>
+                            <td colspan="5"><x-empty-state title="No requests yet." message="Use “New Request” above to ask for transport or airtime for a working day." /></td>
                         </tr>
                     @endforelse
                 </tbody>

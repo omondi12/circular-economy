@@ -450,6 +450,10 @@ class AdminController extends Controller
                 'clients' => $clients,
                 'search' => $search,
                 'status' => $status,
+                'stateDepartmentOptions' => GovernmentEntity::where('level', GovernmentEntity::LEVEL_STATE_DEPARTMENT)
+                    ->visibleTo($viewer)
+                    ->orderBy('name')
+                    ->get(['id', 'name']),
             ]);
         }
 
@@ -597,6 +601,87 @@ class AdminController extends Controller
      * Secretaries per state department, not institution CEOs), so this is
      * plain manual entry, filled in over time.
      */
+    /**
+     * There was previously no way to add a client to the register at all -
+     * the 900+ existing rows all came from a one-off data import (see
+     * ImportStateCorporations), never from the app itself. Admin-only,
+     * same tier as updateClientCeo()/distributeClients() - this mutates
+     * the shared master register, not just "who covers this client" (which
+     * supervisors already do via assignClientRm()).
+     */
+    public function storeClient(Request $request): RedirectResponse
+    {
+        abort_unless(auth()->user()->isAdmin(), 403);
+
+        $data = $request->validate([
+            'name' => ['required', 'string', 'max:255', 'unique:state_corporations,name'],
+            'classification' => ['required', 'string', Rule::in([
+                'State Corporation', 'TVET Institution', 'Public University', 'County Government',
+                'Government Department', 'Constitutional Commission', 'Independent Office',
+                'Judiciary', 'Legislature', 'Private Company',
+            ])],
+            'ministry_id' => ['nullable', 'integer', 'exists:government_entities,id'],
+            'assigned_rm_id' => ['nullable', 'integer', 'exists:users,id'],
+            'ceo_name' => ['nullable', 'string', 'max:255'],
+        ]);
+
+        $viewer = auth()->user();
+        $requestedRmId = $data['assigned_rm_id'] ?? null;
+        $rm = $requestedRmId ? User::visibleRmsFor($viewer)->find($requestedRmId) : null;
+        abort_if($requestedRmId && ! $rm, 403);
+
+        $client = StateCorporation::create([
+            'name' => $data['name'],
+            'classification' => $data['classification'],
+            'ministry_id' => $data['ministry_id'] ?? null,
+            'assigned_rm_id' => $rm?->id,
+            'ceo_name' => $data['ceo_name'] ?? null,
+            // Phase 1 is specifically the original pilot-client cohort
+            // named in the boss's screenshot (see ImportStateCorporations'
+            // docblock) - any client added here afterward is, by
+            // definition, not one of those, so Phase 2 ("everything else")
+            // is the only correct default, not an arbitrary one.
+            'phase' => StateCorporation::PHASE_TWO,
+        ]);
+
+        AuditLog::record('client.created', $client, [
+            'client' => $client->name,
+            'classification' => $client->classification,
+            'assigned_rm' => $rm?->name,
+        ]);
+
+        return redirect()->route('admin.assign-rms', ['view' => 'clients'])
+            ->with('status', "{$client->name} added".($rm ? " and assigned to {$rm->name}." : '.'));
+    }
+
+    /**
+     * Admin-only, and refuses to delete a client with any real activity
+     * against it (collections, LSOs, or engagement reports) - a wrong/
+     * duplicate client added by mistake should be removable, but silently
+     * cascading away historical financial/engagement records (or orphaning
+     * them, depending on the relation) is never acceptable. There is no
+     * override for this - the fix for "this client has real history but is
+     * still wrong" is correcting its name/fields, not deleting it.
+     */
+    public function destroyClient(StateCorporation $stateCorporation): RedirectResponse
+    {
+        abort_unless(auth()->user()->isAdmin(), 403);
+
+        $activityCount = $stateCorporation->collections()->count()
+            + $stateCorporation->lsos()->count()
+            + $stateCorporation->reports()->count();
+
+        if ($activityCount > 0) {
+            return back()->with('error', "{$stateCorporation->name} has recorded activity (collections, LSOs, or reports) and cannot be deleted. Correct its details instead, or contact the boss if it genuinely needs removing.");
+        }
+
+        $name = $stateCorporation->name;
+        AuditLog::record('client.deleted', null, ['client' => $name]);
+        $stateCorporation->delete();
+
+        return redirect()->route('admin.assign-rms', ['view' => 'clients'])->with('status', "{$name} deleted.");
+    }
+
     public function updateClientCeo(Request $request, StateCorporation $stateCorporation): RedirectResponse
     {
         abort_unless(auth()->user()->isAdmin(), 403);

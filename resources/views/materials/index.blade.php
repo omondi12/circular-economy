@@ -18,7 +18,7 @@
     </div>
 
     <div class="bg-panel border border-border rounded-xl overflow-hidden shadow-sm overflow-x-auto">
-        <table class="w-full text-sm">
+        <table data-stack class="w-full text-sm">
             <thead class="bg-gold-50 text-left text-ink-muted text-[11px] font-mono uppercase tracking-wider">
                 <tr>
                     <th class="px-4 py-2.5 font-medium">{{ __('Category') }}</th>

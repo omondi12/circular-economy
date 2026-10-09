@@ -18,27 +18,27 @@
         'landmark' => 'building-bank',
         'user' => 'user',
         'building-community' => 'building-community',
-    ][$icon] ?? 'scale';
+    ][$icon] ?? $icon;
 @endphp
 
 <div
-    class="group relative block overflow-hidden rounded-2xl p-5 bg-gradient-to-br shadow-lg {{ $style['grad'] }}"
+    class="group relative block overflow-hidden rounded-2xl p-4 sm:p-5 bg-gradient-to-br shadow-lg {{ $style['grad'] }}"
     style="box-shadow: 0 16px 32px -14px {{ $style['glow'] }}"
 >
-    <svg class="absolute -bottom-6 -right-6 w-32 h-32 opacity-[0.12] rotate-[-12deg]" viewBox="0 0 100 100">
+    <svg aria-hidden="true" class="absolute -bottom-6 -right-6 w-32 h-32 opacity-[0.12] rotate-[-12deg]" viewBox="0 0 100 100">
         <circle cx="50" cy="50" r="46" fill="none" stroke="white" stroke-width="1.5" stroke-dasharray="3 3"/>
         <circle cx="50" cy="50" r="38" fill="none" stroke="white" stroke-width="1"/>
     </svg>
     <div class="absolute -top-8 -right-8 w-28 h-28 rounded-full bg-white/10 blur-2xl"></div>
 
-    <div class="relative flex items-center gap-3">
-        <div class="shrink-0 w-10 h-10 rounded-full bg-white/15 ring-1 ring-white/30 backdrop-blur-sm flex items-center justify-center">
+    <div class="relative flex items-center gap-2.5 sm:gap-3">
+        <div class="shrink-0 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white/15 ring-1 ring-white/30 backdrop-blur-sm flex items-center justify-center">
             <x-icon :name="$iconName" size="17" class="text-white" />
         </div>
-        <p class="text-white/85 text-sm truncate">{{ $label }}</p>
+        <p class="text-white/90 text-xs sm:text-sm font-medium leading-snug line-clamp-2">{{ $label }}</p>
     </div>
 
-    <p class="relative mt-3 font-display text-3xl text-white tabular-nums">KES {{ number_format($amount, 0) }}</p>
+    <p class="relative mt-3 font-display text-2xl sm:text-3xl leading-tight text-white tabular-nums break-words">KES {{ number_format($amount, 0) }}</p>
 
     <div class="relative mt-3 pt-3 border-t border-white/20 flex flex-wrap items-center gap-2">
         <div class="inline-flex items-center gap-1.5 rounded-lg bg-white/10 px-2.5 py-1.5">

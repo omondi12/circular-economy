@@ -1,9 +1,4 @@
 <x-layout title="Admin">
-        @if (session('status'))
-            <div class="mb-6 rounded-lg bg-brand-50 border border-brand-600/30 text-brand-800 text-sm px-4 py-3">
-                {{ session('status') }}
-            </div>
-        @endif
 
         <header class="relative mb-8 rounded-2xl bg-gradient-to-br from-brand-700 via-brand-800 to-brand-900 shadow-xl shadow-brand-900/10 px-6 py-7 sm:px-8 sm:py-8 overflow-hidden">
             <div class="absolute -top-16 -right-10 w-64 h-64 rounded-full bg-white/10 blur-2xl"></div>
@@ -16,23 +11,17 @@
                 </div>
 
                 <div class="shrink-0 flex items-center gap-2">
-                    <a href="{{ route('account.profile.edit') }}" class="inline-flex items-center gap-2 px-4 py-3 rounded-lg bg-white/15 ring-1 ring-white/25 text-white text-sm font-medium hover:bg-white/25 transition-colors">
+                    <a href="{{ route('account.profile.edit') }}" class="inline-flex items-center gap-2 px-4 min-h-10 rounded-lg bg-white/15 ring-1 ring-white/25 text-white text-sm font-medium hover:bg-white/25 transition-colors">
                         <x-icon name="user" size="16" />
                         My Profile
                     </a>
-                    <form method="POST" action="{{ route('logout') }}">
-                        @csrf
-                        <button type="submit" class="px-4 py-3 rounded-lg bg-white/15 ring-1 ring-white/25 text-white text-sm font-medium hover:bg-white/25 transition-colors">
-                            Log Out
-                        </button>
-                    </form>
                 </div>
             </div>
         </header>
 
         {{-- People & RM Operations: who's operating, and how much ground is covered. --}}
-        <h2 class="text-sm font-semibold uppercase tracking-wide text-ink-muted mb-3">People &amp; RM Operations</h2>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-3">
+        <h2 class="section-title">People &amp; RM Operations</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
             <x-stat-tile
                 :label="$isSupervisor ? 'My Relationship Managers' : 'Relationship Managers'"
                 :value="number_format($userCount)" hint="Tap to manage accounts" icon="building" tone="teal"
@@ -57,8 +46,6 @@
                 icon="building-community" tone="gold"
                 :href="route('admin.assign-rms')"
             />
-        </div>
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
             <x-stat-tile label="Total Submissions" :value="number_format($submissionCount)" hint="Across all RMs and legacy data" icon="document" tone="gold" :href="route('dashboard')" />
             @unless ($isSupervisor)
                 <x-stat-tile label="Client Reports" :value="number_format($reportCount)" hint="Daily engagement reports logged" icon="calendar" tone="violet" :href="route('reports.index')" />
@@ -66,7 +53,7 @@
         </div>
 
         {{-- LSO Activity & Revenue: the core business activity - what's happening and what it's worth. --}}
-        <h2 class="text-sm font-semibold uppercase tracking-wide text-ink-muted mb-3">LSO Activity &amp; Revenue</h2>
+        <h2 class="section-title">LSO Activity &amp; Revenue</h2>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
             <x-stat-tile
                 label="LSOs" :value="number_format($lsoCount)"
@@ -82,9 +69,10 @@
             />
         </div>
 
-        {{-- Performance & Reporting: how the operation is doing against expectations. --}}
-        <h2 class="text-sm font-semibold uppercase tracking-wide text-ink-muted mb-3">Performance &amp; Reporting</h2>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+        {{-- Performance & Approvals: how the operation is doing, and the
+             requisitions (a separate transport/airtime workflow) waiting on action. --}}
+        <h2 class="section-title">Performance &amp; Approvals</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
             <x-stat-tile
                 label="Target Achievement"
                 :value="$targetAchievementAverage !== null ? number_format($targetAchievementAverage, 1).'%' : 'No active targets'"
@@ -92,38 +80,33 @@
                 icon="scale" tone="violet" :href="route('admin.rm-targets.index')"
             />
             <x-stat-tile label="RM Performance" value="View" :hint="$isSupervisor ? 'Ministries and activity per RM on your team' : 'Ministries and activity per RM'" icon="landmark" tone="rose" :href="route('admin.rm-performance')" />
-        </div>
-
-        {{-- Requisitions: a separate operational workflow (transport/airtime), not LSO/client business. --}}
-        <h2 class="text-sm font-semibold uppercase tracking-wide text-ink-muted mb-3">Requisitions</h2>
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
             <x-stat-tile
                 label="Requisitions" :value="number_format($requisitionPendingCount)"
                 :hint="($isSupervisor || $isOperations) ? 'My pending transport/airtime requests' : 'Pending transport/airtime requests to approve'"
-                icon="calendar" tone="rose"
+                icon="calendar" tone="teal"
                 :href="($isSupervisor || $isOperations) ? route('requisitions.mine') : route('admin.requisitions.index')"
             />
         </div>
 
         {{-- Plain navigation/actions - deliberately not stat cards, since they're not statistics. --}}
-        <h2 class="text-sm font-semibold uppercase tracking-wide text-ink-muted mb-3">Quick Actions</h2>
+        <h2 class="section-title">Quick Actions</h2>
         <div class="flex flex-wrap gap-2 mb-8">
-            <a href="{{ route('admin.assign-rms') }}" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg border border-border text-sm font-medium text-ink-muted hover:bg-panel-muted hover:text-ink transition-colors">
+            <a href="{{ route('admin.assign-rms') }}" class="btn btn-secondary">
                 <x-icon name="user" size="15" /> Assign RMs
             </a>
-            <a href="{{ route('admin.assign-rms', ['view' => 'clients']) }}" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg border border-border text-sm font-medium text-ink-muted hover:bg-panel-muted hover:text-ink transition-colors">
+            <a href="{{ route('admin.assign-rms', ['view' => 'clients']) }}" class="btn btn-secondary">
                 <x-icon name="building-community" size="15" /> Clients &amp; Reports
             </a>
             @unless ($isSupervisor)
-                <a href="{{ route('state-corporations.export') }}" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg border border-border text-sm font-medium text-ink-muted hover:bg-panel-muted hover:text-ink transition-colors">
+                <a href="{{ route('state-corporations.export') }}" class="btn btn-secondary">
                     <x-icon name="file-text" size="15" /> Download Clients
                 </a>
             @endunless
-            <a href="{{ route('admin.audit-log') }}" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg border border-border text-sm font-medium text-ink-muted hover:bg-panel-muted hover:text-ink transition-colors">
+            <a href="{{ route('admin.audit-log') }}" class="btn btn-secondary">
                 <x-icon name="scale" size="15" /> Audit Log
             </a>
             @unless ($isSupervisor || $isOperations)
-                <a href="{{ route('admin.nawiri-treasury.edit') }}" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg border border-border text-sm font-medium text-ink-muted hover:bg-panel-muted hover:text-ink transition-colors">
+                <a href="{{ route('admin.nawiri-treasury.edit') }}" class="btn btn-secondary">
                     <x-icon name="building-bank" size="15" /> Nawiri Treasury
                 </a>
             @endunless
@@ -134,7 +117,7 @@
                 <h2 class="text-sm font-semibold uppercase tracking-wide text-ink-muted">Recent Activity{{ $isSupervisor ? ' - Your Team' : '' }}</h2>
                 <a href="{{ route('admin.audit-log') }}" class="text-sm text-brand-700 hover:text-brand-800 font-medium">View full log →</a>
             </div>
-            <table class="w-full text-sm">
+            <table data-stack class="w-full text-sm">
                 <thead class="bg-brand-50 text-left text-ink-faint">
                     <tr>
                         <th class="px-4 py-2 font-medium">Who</th>
@@ -151,7 +134,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="3" class="px-4 py-8 text-center text-ink-faint">No activity recorded yet.</td>
+                            <td colspan="3"><x-empty-state title="No activity recorded yet." /></td>
                         </tr>
                     @endforelse
                 </tbody>

@@ -143,6 +143,11 @@ class StateCorporation extends Model
         return $this->hasMany(Collection::class);
     }
 
+    public function lsos(): HasMany
+    {
+        return $this->hasMany(Lso::class);
+    }
+
     public function reports(): HasMany
     {
         return $this->hasMany(ClientReport::class);

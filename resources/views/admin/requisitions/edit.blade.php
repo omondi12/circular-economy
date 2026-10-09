@@ -161,10 +161,10 @@
                 </div>
 
                 <div class="px-4 py-4 flex justify-end gap-2 border-t border-border">
-                    <a href="{{ route('admin.requisitions.index') }}" class="px-6 py-2.5 rounded-md border border-border text-sm font-medium hover:bg-panel-muted transition-colors">
+                    <a href="{{ route('admin.requisitions.index') }}" class="btn btn-secondary">
                         Cancel
                     </a>
-                    <button type="submit" class="px-6 py-2.5 rounded-md bg-brand-700 hover:bg-brand-800 text-white text-sm font-semibold transition-colors shadow-sm shadow-brand-900/20">
+                    <button type="submit" class="btn btn-primary">
                         Save Changes
                     </button>
                 </div>

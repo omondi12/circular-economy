@@ -6,11 +6,6 @@
         back-label="Back to requisitions"
     />
 
-    @if (session('status'))
-        <div class="mb-6 rounded-lg border border-brand-600/30 bg-brand-50 px-4 py-3 text-sm text-brand-800">
-            {{ session('status') }}
-        </div>
-    @endif
 
     <div class="mb-6 rounded-xl border border-border bg-panel p-5 shadow-sm">
         <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
@@ -103,7 +98,7 @@
         </div>
 
         <div class="flex justify-end">
-            <button type="submit" class="rounded-md bg-brand-700 px-6 py-3 text-sm font-semibold text-white shadow-sm shadow-brand-900/20 transition-colors hover:bg-brand-800">
+            <button type="submit" class="btn btn-primary">
                 Verify and save treasury account
             </button>
         </div>

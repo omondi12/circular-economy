@@ -1,9 +1,4 @@
 <x-layout title="Assign RMs">
-        @if (session('error'))
-            <div class="mb-6 rounded-lg bg-red-50 border border-danger/30 text-danger text-sm px-4 py-3">
-                {{ session('error') }}
-            </div>
-        @endif
 
         <x-page-header
             title="Assign RMs"
@@ -36,7 +31,7 @@
                         onsubmit="return confirm('This recomputes every ministry\'s assignment from scratch (2 named exceptions + round-robin), overwriting any manual assignments made above. Continue?')"
                     >
                         @csrf
-                        <button type="submit" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-gold-600 hover:bg-gold-700 text-white text-sm font-semibold transition-colors shadow-sm">
+                        <button type="submit" class="btn btn-pay">
                             Distribute Automatically
                         </button>
                     </form>
@@ -44,7 +39,7 @@
             </div>
 
             <div class="bg-panel border border-border rounded-xl overflow-hidden shadow-sm overflow-x-auto">
-                <table class="w-full text-sm">
+                <table data-stack class="w-full text-sm">
                     <thead class="bg-brand-50 text-left text-ink-faint">
                         <tr>
                             <th class="px-4 py-2 font-medium">Ministry</th>
@@ -66,7 +61,7 @@
                                         @csrf
                                         <select
                                             name="assigned_rm_id" onchange="this.form.submit()"
-                                            class="rounded-lg border border-border bg-white px-3 py-1.5 text-sm text-ink focus:outline-none focus:ring-2 focus:ring-brand-600/30 focus:border-brand-600"
+                                            class="field-control w-auto"
                                         >
                                             <option value="">— Unassigned —</option>
                                             @foreach ($rms as $rm)
@@ -89,7 +84,7 @@
             </p>
 
             <div class="bg-panel border border-border rounded-xl overflow-hidden shadow-sm overflow-x-auto">
-                <table class="w-full text-sm">
+                <table data-stack class="w-full text-sm">
                     <thead class="bg-brand-50 text-left text-ink-faint">
                         <tr>
                             <th class="px-4 py-2 font-medium">State Department</th>
@@ -137,7 +132,7 @@
                                         @csrf
                                         <select
                                             name="assigned_rm_id" onchange="this.form.submit()"
-                                            class="rounded-lg border border-border bg-white px-3 py-1.5 text-sm text-ink focus:outline-none focus:ring-2 focus:ring-brand-600/30 focus:border-brand-600"
+                                            class="field-control w-auto"
                                         >
                                             <option value="">— Unassigned —</option>
                                             @foreach ($rms as $rm)
@@ -149,7 +144,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="5" class="px-4 py-8 text-center text-ink-faint">No state departments visible to you.</td>
+                                <td colspan="5"><x-empty-state title="No state departments visible to you." /></td>
                             </tr>
                         @endforelse
                     </tbody>
@@ -160,23 +155,76 @@
                 Clients get their RM from their state department now - assign one there instead of here for a whole portfolio at once. Use the dropdown below only for a one-off exception.
             </p>
 
+            @if (auth()->user()->isAdmin())
+                <details class="mb-6 bg-panel border border-border rounded-xl shadow-sm">
+                    <summary class="px-5 py-3 text-sm font-semibold text-ink-muted cursor-pointer select-none">+ Add Client</summary>
+                    <form method="POST" action="{{ route('admin.assign-rms.clients.store') }}" class="p-5 pt-0 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        @csrf
+                        <div>
+                            <label for="new_client_name" class="block text-xs font-semibold text-ink-muted mb-1">Client Name *</label>
+                            <input type="text" id="new_client_name" name="name" required value="{{ old('name') }}"
+                                class="field-control">
+                        </div>
+                        <div>
+                            <label for="new_client_classification" class="block text-xs font-semibold text-ink-muted mb-1">Classification *</label>
+                            <select id="new_client_classification" name="classification" required
+                                class="field-control">
+                                @foreach (['State Corporation', 'TVET Institution', 'Public University', 'County Government', 'Government Department', 'Constitutional Commission', 'Independent Office', 'Judiciary', 'Legislature', 'Private Company'] as $classification)
+                                    <option value="{{ $classification }}" @selected(old('classification') === $classification)>{{ $classification }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div>
+                            <label for="new_client_ministry" class="block text-xs font-semibold text-ink-muted mb-1">State Department</label>
+                            <select id="new_client_ministry" name="ministry_id"
+                                class="field-control">
+                                <option value="">— None —</option>
+                                @foreach ($stateDepartmentOptions as $department)
+                                    <option value="{{ $department->id }}" @selected((string) old('ministry_id') === (string) $department->id)>{{ $department->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div>
+                            <label for="new_client_rm" class="block text-xs font-semibold text-ink-muted mb-1">Assign To</label>
+                            <select id="new_client_rm" name="assigned_rm_id"
+                                class="field-control">
+                                <option value="">— Unassigned —</option>
+                                @foreach ($rms as $rm)
+                                    <option value="{{ $rm->id }}" @selected((string) old('assigned_rm_id') === (string) $rm->id)>{{ $rm->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="sm:col-span-2">
+                            <label for="new_client_ceo" class="block text-xs font-semibold text-ink-muted mb-1">CEO Name</label>
+                            <input type="text" id="new_client_ceo" name="ceo_name" value="{{ old('ceo_name') }}"
+                                class="field-control" placeholder="Optional">
+                        </div>
+                        <div class="sm:col-span-2">
+                            <button type="submit" class="btn btn-primary">
+                                Add Client
+                            </button>
+                        </div>
+                    </form>
+                </details>
+            @endif
+
             <form method="GET" class="mb-4">
                 <input type="hidden" name="view" value="clients">
                 <div class="flex flex-wrap items-center gap-3">
                     <div class="relative max-w-md flex-1 min-w-[220px]">
                         <input
                             type="text" name="q" value="{{ $search }}"
-                            placeholder="Search clients by name…"
-                            class="w-full rounded-lg border border-border bg-white pl-4 pr-24 py-2.5 text-sm text-ink placeholder:text-ink-faint focus:outline-none focus:ring-2 focus:ring-brand-600/30 focus:border-brand-600"
+                            aria-label="Search clients by name" placeholder="Search clients by name…"
+                            class="field-control pl-4 pr-24"
                         >
-                        <button type="submit" class="absolute right-1.5 top-1/2 -translate-y-1/2 px-3 py-1.5 rounded-md bg-brand-700 text-white text-xs font-medium hover:bg-brand-800 transition-colors">
+                        <button type="submit" class="btn btn-primary btn-sm absolute right-1.5 top-1/2 -translate-y-1/2">
                             Search
                         </button>
                     </div>
 
                     <select
                         name="status" onchange="this.form.submit()"
-                        class="rounded-lg border border-border bg-white px-3 py-2.5 text-sm text-ink focus:outline-none focus:ring-2 focus:ring-brand-600/30 focus:border-brand-600"
+                        class="field-control w-auto"
                     >
                         <option value="" @selected(! $status)>All clients</option>
                         <option value="assigned" @selected($status === 'assigned')>Assigned only</option>
@@ -193,10 +241,10 @@
             </form>
 
             <div class="bg-panel border border-border rounded-xl overflow-hidden shadow-sm overflow-x-auto">
-                <table class="w-full text-sm">
+                <table data-stack class="w-full text-sm">
                     <thead class="bg-brand-50 text-left text-ink-faint">
                         <tr>
-                            <th class="px-4 py-2 font-medium">Client</th>
+                            <th class="px-4 py-2 font-medium min-w-[260px]">Client</th>
                             <th class="px-4 py-2 font-medium">CEO</th>
                             <th class="px-4 py-2 font-medium">Ministry</th>
                             <th class="px-4 py-2 font-medium">State Department</th>
@@ -208,8 +256,8 @@
                     <tbody class="divide-y divide-border">
                         @forelse ($clients as $client)
                             <tr class="hover:bg-panel-muted transition-colors align-top">
-                                <td class="px-4 py-3 font-medium max-w-md">
-                                    <div class="line-clamp-2">{{ $client->name }}</div>
+                                <td class="px-4 py-3 font-medium min-w-[260px] max-w-md">
+                                    <div class="line-clamp-3" title="{{ $client->name }}">{{ $client->name }}</div>
                                 </td>
                                 <td class="px-4 py-3 min-w-[180px]">
                                     @if (auth()->user()->isAdmin())
@@ -243,7 +291,7 @@
                                         @csrf
                                         <select
                                             name="assigned_rm_id" onchange="this.form.submit()"
-                                            class="rounded-lg border border-border bg-white px-3 py-1.5 text-sm text-ink focus:outline-none focus:ring-2 focus:ring-brand-600/30 focus:border-brand-600"
+                                            class="field-control w-auto"
                                         >
                                             <option value="">— No override (follow department) —</option>
                                             @foreach ($rms as $rm)
@@ -256,11 +304,21 @@
                                     <a href="{{ route('admin.clients.reports.index', $client) }}" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-md bg-gold-50 text-gold-700 text-xs font-medium hover:bg-gold-100 transition-colors">
                                         Report
                                     </a>
+                                    @if (auth()->user()->isAdmin())
+                                        <form method="POST" action="{{ route('admin.assign-rms.clients.destroy', $client) }}" class="inline"
+                                            onsubmit="return confirm('Delete ' + @js($client->name) + '? This only works if it has no recorded collections, LSOs, or reports.')">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-md bg-red-50 text-red-700 text-xs font-medium hover:bg-red-100 transition-colors">
+                                                Delete
+                                            </button>
+                                        </form>
+                                    @endif
                                 </td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="7" class="px-4 py-8 text-center text-ink-faint">No clients match this filter.</td>
+                                <td colspan="7"><x-empty-state title="No clients match this filter." /></td>
                             </tr>
                         @endforelse
                     </tbody>
@@ -271,7 +329,7 @@
             <p class="text-sm text-ink-faint mb-4">{{ $allRms->count() }} RM(s). Moves an RM to a different supervisor's team - use this to sort out RMs that existed before their supervisor did.</p>
 
             <div class="bg-panel border border-border rounded-xl overflow-hidden shadow-sm overflow-x-auto">
-                <table class="w-full text-sm">
+                <table data-stack class="w-full text-sm">
                     <thead class="bg-brand-50 text-left text-ink-faint">
                         <tr>
                             <th class="px-4 py-2 font-medium">RM</th>
@@ -289,7 +347,7 @@
                                         @csrf
                                         <select
                                             name="supervisor_id" onchange="this.form.submit()"
-                                            class="rounded-lg border border-border bg-white px-3 py-1.5 text-sm text-ink focus:outline-none focus:ring-2 focus:ring-brand-600/30 focus:border-brand-600"
+                                            class="field-control w-auto"
                                         >
                                             <option value="">— Unassigned —</option>
                                             @foreach ($supervisors as $supervisor)
@@ -301,7 +359,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="3" class="px-4 py-8 text-center text-ink-faint">No RMs yet.</td>
+                                <td colspan="3"><x-empty-state title="No RMs yet." /></td>
                             </tr>
                         @endforelse
                     </tbody>
