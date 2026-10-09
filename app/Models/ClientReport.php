@@ -44,4 +44,17 @@ class ClientReport extends Model
     {
         return $this->belongsTo(User::class, 'created_by');
     }
+
+    /**
+     * Whether an RM can still self-edit this report - 24 hours from when
+     * they logged it, not from report_date (a business-meaningful date
+     * they can backdate), so the window can't be extended by picking an
+     * old report_date (2026-10-09, per the boss). Admin/supervisor edit
+     * access is unaffected by this - see ClientReportController's
+     * authorizeReportEdit() vs authorizeRmReportEdit().
+     */
+    public function isWithinRmEditWindow(): bool
+    {
+        return $this->created_at->copy()->addHours(24)->isFuture();
+    }
 }

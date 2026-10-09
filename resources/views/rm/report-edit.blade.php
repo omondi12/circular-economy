@@ -1,20 +1,20 @@
-<x-layout title="{{ $client->name }} - Report">
+<x-layout title="Edit Report">
         <x-page-header
-            :title="$client->name"
-            :subtitle="'Your engagement reports. '.number_format($reports->total()).' logged so far.'"
-            :back="route('rm.clients.index')"
-            back-label="Back to My Clients"
+            title="Edit Report"
+            :subtitle="'For '.($report->client->name ?? 'an unknown client').' - logged '.$report->report_date->format('d M Y').'.'"
+            :back="route('rm.clients.reports.index', $report->state_corporation_id)"
+            back-label="Back to Reports"
         />
 
-        {{-- New report form --}}
-        <div class="bg-panel border border-border rounded-xl overflow-hidden shadow-sm mb-8">
-            <div class="bg-gradient-to-r from-brand-700 to-brand-500 px-4 py-2.5">
-                <h2 class="text-sm font-semibold text-white uppercase tracking-wide">Log a Report</h2>
-            </div>
+        <div class="mb-4 rounded-lg bg-gold-50 border border-gold-200 text-gold-800 text-sm px-4 py-3">
+            You can edit a report for 24 hours after logging it. This one can be edited until {{ $report->created_at->copy()->addHours(24)->format('d M Y, g:i A') }}.
+        </div>
 
-            <form method="POST" action="{{ route('rm.clients.reports.store', $client) }}">
-                @csrf
+        <form method="POST" action="{{ route('rm.reports.update', $report) }}" class="space-y-6">
+            @csrf
+            @method('PUT')
 
+            <div class="bg-panel border border-border rounded-xl overflow-hidden shadow-sm">
                 <div class="grid grid-cols-1 sm:grid-cols-[220px_1fr] border-b border-border">
                     <label for="report_date" class="bg-gold-50 px-4 py-3 text-sm font-semibold text-ink-muted flex items-center">
                         Report Date <span class="text-danger ml-1">*</span>
@@ -22,7 +22,7 @@
                     <div class="px-4 py-2 flex flex-col justify-center">
                         <input
                             type="date" id="report_date" name="report_date" required
-                            value="{{ old('report_date', now()->toDateString()) }}"
+                            value="{{ old('report_date', $report->report_date->toDateString()) }}"
                             class="w-full border-0 focus:ring-0 text-sm py-1.5 px-0 text-ink"
                         >
                         @error('report_date')
@@ -39,7 +39,7 @@
                         <select id="engagement_type" name="engagement_type" required class="w-full border-0 focus:ring-0 text-sm py-1.5 px-0 text-ink">
                             <option value="">Select…</option>
                             @foreach ($engagementTypes as $type)
-                                <option value="{{ $type }}" @selected(old('engagement_type') === $type)>{{ $type }}</option>
+                                <option value="{{ $type }}" @selected(old('engagement_type', $report->engagement_type) === $type)>{{ $type }}</option>
                             @endforeach
                         </select>
                         @error('engagement_type')
@@ -54,7 +54,7 @@
                     </label>
                     <div class="px-4 py-2 flex flex-col justify-center">
                         <input
-                            type="text" id="contact_person" name="contact_person" value="{{ old('contact_person') }}"
+                            type="text" id="contact_person" name="contact_person" value="{{ old('contact_person', $report->contact_person) }}"
                             placeholder="e.g. Jane Doe, Procurement Manager"
                             class="w-full border-0 focus:ring-0 text-sm py-1.5 px-0 text-ink placeholder:text-ink-faint"
                         >
@@ -70,7 +70,7 @@
                     </label>
                     <div class="px-4 py-2 flex flex-col justify-center">
                         <input
-                            type="text" id="contact_person_phone" name="contact_person_phone" value="{{ old('contact_person_phone') }}"
+                            type="text" id="contact_person_phone" name="contact_person_phone" value="{{ old('contact_person_phone', $report->contact_person_phone) }}"
                             placeholder="e.g. 0712 345 678"
                             class="w-full border-0 focus:ring-0 text-sm py-1.5 px-0 text-ink placeholder:text-ink-faint"
                         >
@@ -89,7 +89,7 @@
                             id="outcome" name="outcome" required rows="3"
                             placeholder="What happened during the engagement?"
                             class="w-full border-0 focus:ring-0 text-sm py-1.5 px-0 text-ink placeholder:text-ink-faint"
-                        >{{ old('outcome') }}</textarea>
+                        >{{ old('outcome', $report->outcome) }}</textarea>
                         @error('outcome')
                             <p class="text-xs text-danger mt-1">{{ $message }}</p>
                         @enderror
@@ -104,7 +104,7 @@
                         <select id="current_stage" name="current_stage" required class="w-full border-0 focus:ring-0 text-sm py-1.5 px-0 text-ink">
                             <option value="">Select…</option>
                             @foreach ($stages as $stage)
-                                <option value="{{ $stage }}" @selected(old('current_stage') === $stage)>{{ $stage }}</option>
+                                <option value="{{ $stage }}" @selected(old('current_stage', $report->current_stage) === $stage)>{{ $stage }}</option>
                             @endforeach
                         </select>
                         @error('current_stage')
@@ -119,7 +119,7 @@
                     </label>
                     <div class="px-4 py-2 flex flex-col justify-center">
                         <input
-                            type="text" id="next_action" name="next_action" value="{{ old('next_action') }}"
+                            type="text" id="next_action" name="next_action" value="{{ old('next_action', $report->next_action) }}"
                             placeholder="e.g. Send programme information"
                             class="w-full border-0 focus:ring-0 text-sm py-1.5 px-0 text-ink placeholder:text-ink-faint"
                         >
@@ -135,7 +135,7 @@
                     </label>
                     <div class="px-4 py-2 flex flex-col justify-center">
                         <input
-                            type="date" id="follow_up_date" name="follow_up_date" value="{{ old('follow_up_date') }}"
+                            type="date" id="follow_up_date" name="follow_up_date" value="{{ old('follow_up_date', $report->follow_up_date?->toDateString()) }}"
                             class="w-full border-0 focus:ring-0 text-sm py-1.5 px-0 text-ink"
                         >
                         @error('follow_up_date')
@@ -153,72 +153,18 @@
                             id="comments" name="comments" rows="2"
                             placeholder="Challenges, support needed, anything else"
                             class="w-full border-0 focus:ring-0 text-sm py-1.5 px-0 text-ink placeholder:text-ink-faint"
-                        >{{ old('comments') }}</textarea>
+                        >{{ old('comments', $report->comments) }}</textarea>
                         @error('comments')
                             <p class="text-xs text-danger mt-1">{{ $message }}</p>
                         @enderror
                     </div>
                 </div>
+            </div>
 
-                <div class="px-4 py-4 flex justify-end border-t border-border">
-                    <button type="submit" class="px-6 py-2.5 rounded-md bg-brand-700 hover:bg-brand-800 text-white text-sm font-semibold transition-colors shadow-sm shadow-brand-900/20">
-                        Log Report
-                    </button>
-                </div>
-            </form>
-        </div>
-
-        {{-- Report history --}}
-        <div class="bg-panel border border-border rounded-xl overflow-hidden shadow-sm overflow-x-auto">
-            <table class="w-full text-sm">
-                <thead class="bg-brand-50 text-left text-ink-faint">
-                    <tr>
-                        <th class="px-4 py-2 font-medium">Date</th>
-                        <th class="px-4 py-2 font-medium">RM</th>
-                        <th class="px-4 py-2 font-medium">Type</th>
-                        <th class="px-4 py-2 font-medium">Contact Person</th>
-                        <th class="px-4 py-2 font-medium">Number</th>
-                        <th class="px-4 py-2 font-medium">Stage</th>
-                        <th class="px-4 py-2 font-medium">Outcome</th>
-                        <th class="px-4 py-2 font-medium">Follow-up</th>
-                        <th class="px-4 py-2 font-medium"></th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-border">
-                    @forelse ($reports as $report)
-                        <tr class="hover:bg-panel-muted transition-colors align-top">
-                            <td class="px-4 py-3 whitespace-nowrap text-ink-muted">{{ $report->report_date->format('d M Y') }}</td>
-                            <td class="px-4 py-3 whitespace-nowrap">{{ $report->rm->name ?? '—' }}</td>
-                            <td class="px-4 py-3 whitespace-nowrap text-ink-muted">{{ $report->engagement_type }}</td>
-                            <td class="px-4 py-3 whitespace-nowrap text-ink-muted">{{ $report->contact_person ?? '—' }}</td>
-                            <td class="px-4 py-3 whitespace-nowrap text-ink-muted">{{ $report->contact_person_phone ?? '—' }}</td>
-                            <td class="px-4 py-3">
-                                <span class="inline-flex px-2 py-0.5 rounded-full bg-brand-50 text-brand-800 text-xs font-medium">{{ $report->current_stage }}</span>
-                            </td>
-                            <td class="px-4 py-3 max-w-xs">
-                                <div class="line-clamp-3 text-ink-muted">{{ $report->outcome }}</div>
-                            </td>
-                            <td class="px-4 py-3 whitespace-nowrap text-ink-muted">
-                                {{ $report->follow_up_date?->format('d M Y') ?? '—' }}
-                            </td>
-                            <td class="px-4 py-3 whitespace-nowrap">
-                                @if ($report->created_by === auth()->id() && $report->isWithinRmEditWindow())
-                                    <a href="{{ route('rm.reports.edit', $report) }}" class="text-brand-700 hover:text-brand-800 font-medium text-xs">
-                                        Edit
-                                    </a>
-                                @endif
-                            </td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="9" class="px-4 py-8 text-center text-ink-faint">No reports logged for this client yet.</td>
-                        </tr>
-                    @endforelse
-                </tbody>
-            </table>
-        </div>
-
-        <div class="mt-4">
-            {{ $reports->links() }}
-        </div>
+            <div class="flex justify-end">
+                <button type="submit" class="px-6 py-3 rounded-md bg-brand-700 hover:bg-brand-800 text-white text-sm font-semibold transition-colors shadow-sm shadow-brand-900/20">
+                    Save Changes
+                </button>
+            </div>
+        </form>
 </x-layout>

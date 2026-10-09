@@ -208,6 +208,56 @@ class ClientReportController extends Controller
             ->with('status', "Report logged for {$client->name}.");
     }
 
+    /**
+     * An RM self-correcting a report they logged themselves - distinct
+     * from editReport()/updateReport() above (admin/supervisor, no time
+     * limit): here the RM can only edit their own report, and only within
+     * 24 hours of logging it (2026-10-09, per the boss - RMs previously
+     * had no self-service correction at all). An admin can also reach
+     * this one (same "land here too, to help/test" allowance as
+     * rmClients()), unrestricted by the window.
+     */
+    public function rmEditReport(ClientReport $report): View
+    {
+        $this->authorizeRmReportEdit($report);
+
+        return view('rm.report-edit', [
+            'report' => $report->load('client'),
+            'engagementTypes' => ClientReportOptions::ENGAGEMENT_TYPES,
+            'stages' => ClientReportOptions::STAGES,
+        ]);
+    }
+
+    public function rmUpdateReport(Request $request, ClientReport $report): RedirectResponse
+    {
+        $this->authorizeRmReportEdit($report);
+
+        $data = $request->validate($this->reportRules());
+        // The RM edit form has no RM picker (it's always them, same as
+        // rmStore()) - drop the key entirely rather than let the absent
+        // field's null wipe out the rm_id set at creation.
+        unset($data['rm_id']);
+
+        $report->update($data);
+
+        AuditLog::record('client.report_updated', $report, [
+            'client' => $report->client?->name,
+            'report_date' => $data['report_date'],
+            'current_stage' => $data['current_stage'],
+        ]);
+
+        return redirect()->route('rm.clients.reports.index', $report->state_corporation_id)
+            ->with('status', 'Report updated.');
+    }
+
+    private function authorizeRmReportEdit(ClientReport $report): void
+    {
+        $viewer = Auth::user();
+
+        abort_unless($viewer->isAdmin() || $report->created_by === $viewer->id, 403);
+        abort_unless($viewer->isAdmin() || $report->isWithinRmEditWindow(), 403);
+    }
+
     private function authorizeOwnClient(StateCorporation $client): void
     {
         $user = Auth::user();
