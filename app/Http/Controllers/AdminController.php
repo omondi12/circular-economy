@@ -447,6 +447,17 @@ class AdminController extends Controller
             return view('admin.assign-rms', [
                 'view' => $view,
                 'rms' => $rms,
+                // A client can now be assigned directly to a supervisor,
+                // not just an RM (2026-10-23, emergency request) - for
+                // cases where a supervisor personally manages a client
+                // rather than delegating it through their RM team.
+                // Unscoped to the viewer (every active supervisor is
+                // listed), matching how the standalone Supervisors tab
+                // already lists them.
+                'assignableSupervisors' => User::where('role', User::ROLE_SUPERVISOR)
+                    ->where('is_active', true)
+                    ->orderBy('name')
+                    ->get(),
                 'clients' => $clients,
                 'search' => $search,
                 'status' => $status,
@@ -705,6 +716,16 @@ class AdminController extends Controller
      * (state corporations, counties, polytechnics, etc.) - the boss
      * specifically asked for clients to be assignable "directly" here,
      * distinct from the ministries' bulk auto-distribute below.
+     *
+     * Also accepts a supervisor as the direct assignee (2026-10-23,
+     * emergency request) - for a client a supervisor personally manages
+     * rather than delegating to their RM team. Tries the existing
+     * viewer-scoped RM lookup first; a supervisor id is checked second,
+     * unscoped to the viewer (same as how the Supervisors tab already
+     * lists every active supervisor without team-restricting them).
+     * assigned_rm_id's own meaning doesn't change - it's still just "who
+     * is directly assigned to this client," which effectiveAssignedRm()
+     * already resolves regardless of the assignee's role.
      */
     public function assignClientRm(Request $request, StateCorporation $stateCorporation): RedirectResponse
     {
@@ -716,8 +737,12 @@ class AdminController extends Controller
         ]);
 
         $previousRm = $stateCorporation->assignedRm?->name;
-        $newRm = $data['assigned_rm_id'] ? User::visibleRmsFor($viewer)->find($data['assigned_rm_id']) : null;
-        abort_if($data['assigned_rm_id'] && ! $newRm, 403);
+        $requestedId = $data['assigned_rm_id'] ?? null;
+        $newRm = $requestedId
+            ? User::visibleRmsFor($viewer)->find($requestedId)
+                ?? User::where('role', User::ROLE_SUPERVISOR)->where('is_active', true)->find($requestedId)
+            : null;
+        abort_if($requestedId && ! $newRm, 403);
 
         $stateCorporation->update(['assigned_rm_id' => $newRm?->id]);
 

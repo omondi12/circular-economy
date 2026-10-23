@@ -294,9 +294,16 @@
                                             class="field-control w-auto"
                                         >
                                             <option value="">— No override (follow department) —</option>
-                                            @foreach ($rms as $rm)
-                                                <option value="{{ $rm->id }}" @selected($client->assigned_rm_id === $rm->id)>{{ $rm->name }}</option>
-                                            @endforeach
+                                            <optgroup label="Relationship Managers">
+                                                @foreach ($rms as $rm)
+                                                    <option value="{{ $rm->id }}" @selected($client->assigned_rm_id === $rm->id)>{{ $rm->name }}</option>
+                                                @endforeach
+                                            </optgroup>
+                                            <optgroup label="Supervisors">
+                                                @foreach ($assignableSupervisors as $supervisor)
+                                                    <option value="{{ $supervisor->id }}" @selected($client->assigned_rm_id === $supervisor->id)>{{ $supervisor->name }}</option>
+                                                @endforeach
+                                            </optgroup>
                                         </select>
                                     </form>
                                 </td>
