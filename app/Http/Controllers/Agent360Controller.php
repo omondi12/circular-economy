@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\Agent360Records;
 use App\Services\Agent360Service;
 use App\Support\PhoneNumber;
 use Illuminate\Http\JsonResponse;
@@ -23,6 +24,17 @@ class Agent360Controller extends Controller
     public function metrics(): JsonResponse
     {
         return response()->json(['data' => $this->agents->metrics(), 'generated_at' => now()->toIso8601String()]);
+    }
+
+    /**
+     * Every record of a type (reports, lsos, payments, collections, clients), with its RM and best-known county.
+     */
+    public function records(Request $request, Agent360Records $records): JsonResponse
+    {
+        $type = (string) $request->query('type');
+        abort_unless(in_array($type, Agent360Records::TYPES, true), 422, 'type must be one of: '.implode(', ', Agent360Records::TYPES));
+
+        return response()->json(['type' => $type, 'data' => $records->records($type), 'generated_at' => now()->toIso8601String()]);
     }
 
     public function store(Request $request): JsonResponse

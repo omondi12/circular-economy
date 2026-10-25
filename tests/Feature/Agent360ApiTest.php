@@ -105,4 +105,28 @@ class Agent360ApiTest extends TestCase
         $this->postJson("/api/agent360/v1/agents/{$admin->id}/deactivate", [], $this->headers)->assertNotFound();
         $this->assertTrue((bool) $admin->fresh()->is_active);
     }
+
+    public function test_it_lists_the_records_behind_the_figures_with_the_best_known_county(): void
+    {
+        $rm = $this->makeRm();
+        $nakuru = StateCorporation::create(['name' => 'County Government of Nakuru', 'classification' => 'County Government', 'phase' => StateCorporation::PHASE_TWO, 'assigned_rm_id' => $rm->id]);
+        $kenGen = StateCorporation::create(['name' => 'KenGen', 'classification' => 'State Corporation', 'phase' => StateCorporation::PHASE_TWO, 'assigned_rm_id' => $rm->id]);
+        ClientReport::create(['state_corporation_id' => $nakuru->id, 'rm_id' => $rm->id, 'report_date' => today(), 'engagement_type' => 'visit', 'outcome' => 'Met the CEO', 'current_stage' => 'engaged', 'contact_person' => 'Jane Doe']);
+        ClientReport::create(['state_corporation_id' => $kenGen->id, 'rm_id' => $rm->id, 'report_date' => today(), 'engagement_type' => 'call', 'outcome' => 'Follow up', 'current_stage' => 'engaged']);
+
+        $reports = $this->getJson('/api/agent360/v1/agents/records?type=reports', $this->headers)->assertOk()->json('data');
+
+        $this->assertCount(2, $reports);
+        $this->assertSame(['County Government of Nakuru', 'Nakuru', (string) $rm->id], [$reports[0]['title'], $reports[0]['county'], $reports[0]['agent_id']]);
+        $this->assertSame('Jane Doe', collect($reports[0]['fields'])->firstWhere('key', 'contact')['value']);
+        $this->assertNull($reports[1]['county']);
+
+        $clients = $this->getJson('/api/agent360/v1/agents/records?type=clients', $this->headers)->assertOk()->json('data');
+        $this->assertSame(['County Government of Nakuru', 'KenGen'], array_column($clients, 'title'));
+
+        foreach (['lsos', 'payments', 'collections'] as $type) {
+            $this->getJson('/api/agent360/v1/agents/records?type='.$type, $this->headers)->assertOk()->assertJsonCount(0, 'data');
+        }
+        $this->getJson('/api/agent360/v1/agents/records?type=other', $this->headers)->assertStatus(422);
+    }
 }
