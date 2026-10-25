@@ -39,6 +39,11 @@ return [
         'key' => env('PUBLIC_DASHBOARD_KEY'),
     ],
 
+    // Agent 360 (RM register shared with Adam AHB Souq): key it sends to /api/agent360/v1. Empty = the API is off.
+    'agent360' => [
+        'key' => env('AGENT360_API_KEY'),
+    ],
+
     'nawiri_payroll' => [
         'base_url' => rtrim((string) env('NAWIRI_PAYROLL_BASE_URL', 'https://nawiri-server-production.up.railway.app'), '/'),
         'timeout' => (int) env('NAWIRI_PAYROLL_TIMEOUT', 35),
