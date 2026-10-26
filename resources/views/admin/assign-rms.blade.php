@@ -135,9 +135,16 @@
                                             class="field-control w-auto"
                                         >
                                             <option value="">— Unassigned —</option>
-                                            @foreach ($rms as $rm)
-                                                <option value="{{ $rm->id }}" @selected($department->assigned_rm_id === $rm->id)>{{ $rm->name }}</option>
-                                            @endforeach
+                                            <optgroup label="Relationship Managers">
+                                                @foreach ($rms as $rm)
+                                                    <option value="{{ $rm->id }}" @selected($department->assigned_rm_id === $rm->id)>{{ $rm->name }}</option>
+                                                @endforeach
+                                            </optgroup>
+                                            <optgroup label="Supervisors">
+                                                @foreach ($assignableSupervisors as $supervisor)
+                                                    <option value="{{ $supervisor->id }}" @selected($department->assigned_rm_id === $supervisor->id)>{{ $supervisor->name }}</option>
+                                                @endforeach
+                                            </optgroup>
                                         </select>
                                     </form>
                                 </td>

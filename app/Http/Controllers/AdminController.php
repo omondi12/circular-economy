@@ -479,6 +479,13 @@ class AdminController extends Controller
                 'view' => $view,
                 'rms' => $rms,
                 'stateDepartments' => $stateDepartments,
+                // Same direct-to-supervisor option as the Clients tab
+                // (2026-10-26) - a supervisor's own department, not just
+                // a one-off client.
+                'assignableSupervisors' => User::where('role', User::ROLE_SUPERVISOR)
+                    ->where('is_active', true)
+                    ->orderBy('name')
+                    ->get(),
             ]);
         }
 
@@ -539,6 +546,11 @@ class AdminController extends Controller
      * StateCorporation::effectiveAssignedRm(); nothing is written onto
      * the client rows themselves, so a later reassignment here instantly
      * moves them all again with nothing to fall out of sync.
+     *
+     * Also accepts a supervisor as the department's direct assignee
+     * (2026-10-26, same reasoning as assignClientRm()) - a supervisor can
+     * now own a whole state department's portfolio personally, not just
+     * a one-off client.
      */
     public function assignStateDepartmentRm(Request $request, GovernmentEntity $stateDepartment): RedirectResponse
     {
@@ -552,8 +564,12 @@ class AdminController extends Controller
         ]);
 
         $previousRm = $stateDepartment->assignedRm?->name;
-        $newRm = $data['assigned_rm_id'] ? User::visibleRmsFor($viewer)->find($data['assigned_rm_id']) : null;
-        abort_if($data['assigned_rm_id'] && ! $newRm, 403);
+        $requestedId = $data['assigned_rm_id'] ?? null;
+        $newRm = $requestedId
+            ? User::visibleRmsFor($viewer)->find($requestedId)
+                ?? User::where('role', User::ROLE_SUPERVISOR)->where('is_active', true)->find($requestedId)
+            : null;
+        abort_if($requestedId && ! $newRm, 403);
 
         $stateDepartment->update(['assigned_rm_id' => $newRm?->id]);
 
