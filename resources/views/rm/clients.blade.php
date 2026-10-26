@@ -2,7 +2,7 @@
         <x-page-header
             title="My Clients"
             subtitle="Every client assigned to you, their CEO and state department contact, and where to log an engagement report."
-            :back="route('rm.dashboard')"
+            :back="route($routePrefix === 'rm' ? 'rm.dashboard' : 'admin.dashboard')"
             back-label="Back to my dashboard"
         />
 
@@ -18,7 +18,7 @@
                 </button>
             </div>
             @if ($search)
-                <a href="{{ route('rm.clients.index') }}" class="inline-block mt-2 text-xs text-ink-faint hover:text-ink-muted">
+                <a href="{{ route($routePrefix.'.clients.index') }}" class="inline-block mt-2 text-xs text-ink-faint hover:text-ink-muted">
                     Clear search ({{ $clients->count() }} match{{ $clients->count() === 1 ? '' : 'es' }})
                 </a>
             @endif
@@ -58,7 +58,7 @@
                             </td>
                             <td class="px-4 py-3 tabular-nums text-ink-muted">{{ number_format($client->reports_count) }}</td>
                             <td class="px-4 py-3 text-right">
-                                <a href="{{ route('rm.clients.reports.index', $client) }}" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-md bg-gold-50 text-gold-700 text-xs font-medium hover:bg-gold-100 transition-colors">
+                                <a href="{{ route($routePrefix.'.clients.reports.index', $client) }}" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-md bg-gold-50 text-gold-700 text-xs font-medium hover:bg-gold-100 transition-colors">
                                     Log Report
                                 </a>
                             </td>

@@ -2,7 +2,7 @@
         <x-page-header
             :title="$client->name"
             :subtitle="'Your engagement reports. '.number_format($reports->total()).' logged so far.'"
-            :back="route('rm.clients.index')"
+            :back="route($routePrefix.'.clients.index')"
             back-label="Back to My Clients"
         />
 
@@ -12,7 +12,7 @@
                 <h2 class="text-sm font-semibold text-white uppercase tracking-wide">Log a Report</h2>
             </div>
 
-            <form method="POST" action="{{ route('rm.clients.reports.store', $client) }}">
+            <form method="POST" action="{{ route($routePrefix.'.clients.reports.store', $client) }}">
                 @csrf
 
                 <div class="grid grid-cols-1 sm:grid-cols-[220px_1fr] border-b border-border">
@@ -203,7 +203,7 @@
                             </td>
                             <td class="px-4 py-3 whitespace-nowrap">
                                 @if ($report->created_by === auth()->id() && $report->isWithinRmEditWindow())
-                                    <a href="{{ route('rm.reports.edit', $report) }}" class="text-brand-700 hover:text-brand-800 font-medium text-xs">
+                                    <a href="{{ route($routePrefix.'.reports.edit', $report) }}" class="text-brand-700 hover:text-brand-800 font-medium text-xs">
                                         Edit
                                     </a>
                                 @endif

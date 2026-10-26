@@ -408,7 +408,22 @@ class User extends Authenticatable
                 ['label' => 'My Clients', 'route' => 'rm.clients.index', 'pattern' => 'rm.clients.*'],
                 ['label' => 'My Requisitions', 'route' => 'requisitions.mine', 'pattern' => 'requisitions.mine'],
             ],
-            $this->isSupervisor() || $this->isOperations() => [
+            // Supervisors only (not operations) get "My Clients" - a
+            // supervisor can now have a client assigned directly to them
+            // (2026-10-26), same as an RM, so they need the same
+            // self-service entry point to log a report against it.
+            $this->isSupervisor() => [
+                ['label' => 'My Clients', 'route' => 'supervisor.clients.index', 'pattern' => 'supervisor.clients.*'],
+                ['label' => 'Team Accounts', 'route' => 'admin.users', 'pattern' => 'admin.users*'],
+                ['label' => 'Assign RMs', 'route' => 'admin.assign-rms', 'pattern' => 'admin.assign-rms*'],
+                ['label' => 'RM Performance', 'route' => 'admin.rm-performance', 'pattern' => 'admin.rm-performance'],
+                ['label' => 'LSOs', 'route' => 'admin.lsos.index', 'pattern' => 'admin.lsos.*'],
+                ['label' => 'Lot 2 Revenue', 'route' => 'admin.lso-lots.index', 'pattern' => 'admin.lso-lots.*'],
+                ['label' => 'RM Targets', 'route' => 'admin.rm-targets.index', 'pattern' => 'admin.rm-targets.*'],
+                ['label' => 'Audit Log', 'route' => 'admin.audit-log', 'pattern' => 'admin.audit-log'],
+                ['label' => 'My Requisitions', 'route' => 'requisitions.mine', 'pattern' => 'requisitions.mine'],
+            ],
+            $this->isOperations() => [
                 ['label' => 'Team Accounts', 'route' => 'admin.users', 'pattern' => 'admin.users*'],
                 ['label' => 'Assign RMs', 'route' => 'admin.assign-rms', 'pattern' => 'admin.assign-rms*'],
                 ['label' => 'RM Performance', 'route' => 'admin.rm-performance', 'pattern' => 'admin.rm-performance'],

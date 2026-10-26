@@ -159,6 +159,7 @@ class ClientReportController extends Controller
         return view('rm.clients', [
             'clients' => $clients,
             'search' => $search,
+            'routePrefix' => $this->routePrefix(),
         ]);
     }
 
@@ -182,6 +183,7 @@ class ClientReportController extends Controller
             'reports' => $reports,
             'engagementTypes' => ClientReportOptions::ENGAGEMENT_TYPES,
             'stages' => ClientReportOptions::STAGES,
+            'routePrefix' => $this->routePrefix(),
         ]);
     }
 
@@ -204,7 +206,7 @@ class ClientReportController extends Controller
             'current_stage' => $data['current_stage'],
         ]);
 
-        return redirect()->route('rm.clients.reports.index', $client)
+        return redirect()->route($this->routePrefix().'.clients.reports.index', $client)
             ->with('status', "Report logged for {$client->name}.");
     }
 
@@ -225,6 +227,7 @@ class ClientReportController extends Controller
             'report' => $report->load('client'),
             'engagementTypes' => ClientReportOptions::ENGAGEMENT_TYPES,
             'stages' => ClientReportOptions::STAGES,
+            'routePrefix' => $this->routePrefix(),
         ]);
     }
 
@@ -246,8 +249,25 @@ class ClientReportController extends Controller
             'current_stage' => $data['current_stage'],
         ]);
 
-        return redirect()->route('rm.clients.reports.index', $report->state_corporation_id)
+        return redirect()->route($this->routePrefix().'.clients.reports.index', $report->state_corporation_id)
             ->with('status', 'Report updated.');
+    }
+
+    /**
+     * This shared RM self-service surface (My Clients, log/edit a report)
+     * is now also reachable by a supervisor for a client assigned
+     * directly to them (2026-10-26, per the boss - "we had put
+     * supervisor to have clients, we need to enable them to log a
+     * report"). Every underlying query here was already role-agnostic
+     * (effectiveStateCorporations()/authorizeOwnClient() match by user
+     * id, not role), so the only thing that needed role-awareness is
+     * which route group's names to build - rm.* or supervisor.*, same
+     * controller actions either way. Defaults to 'rm' for an admin
+     * landing here too (unchanged "land here to help/test" allowance).
+     */
+    private function routePrefix(): string
+    {
+        return Auth::user()->isSupervisor() ? 'supervisor' : 'rm';
     }
 
     private function authorizeRmReportEdit(ClientReport $report): void

@@ -2,7 +2,7 @@
         <x-page-header
             title="Edit Report"
             :subtitle="'For '.($report->client->name ?? 'an unknown client').' - logged '.$report->report_date->format('d M Y').'.'"
-            :back="route('rm.clients.reports.index', $report->state_corporation_id)"
+            :back="route($routePrefix.'.clients.reports.index', $report->state_corporation_id)"
             back-label="Back to Reports"
         />
 
@@ -10,7 +10,7 @@
             You can edit a report for 24 hours after logging it. This one can be edited until {{ $report->created_at->copy()->addHours(24)->format('d M Y, g:i A') }}.
         </div>
 
-        <form method="POST" action="{{ route('rm.reports.update', $report) }}" class="space-y-6">
+        <form method="POST" action="{{ route($routePrefix.'.reports.update', $report) }}" class="space-y-6">
             @csrf
             @method('PUT')
 

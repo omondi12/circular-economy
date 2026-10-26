@@ -103,6 +103,24 @@ Route::prefix('rm')->name('rm.')->middleware(['auth', 'role:rm,admin'])->group(f
     Route::post('/lsos/{lso}/payments', [LsoController::class, 'storePayment'])->name('lsos.payments.store');
 });
 
+// A supervisor's own version of the RM client/report routes above, for a
+// client assigned directly to them rather than delegated to their RM
+// team (2026-10-26, per the boss - "we had put supervisor to have
+// clients, we need to enable them to log a report"). Same controller
+// actions as the rm.* routes - every query inside them already matched
+// by user id, not role - just reachable at a path a supervisor's role
+// is actually allowed into. No collections/LSO routes here: this is
+// specifically about a supervisor logging a report, not taking on an
+// RM's full data-entry workflow.
+Route::prefix('supervisor')->name('supervisor.')->middleware(['auth', 'role:supervisor,admin'])->group(function () {
+    Route::get('/clients', [ClientReportController::class, 'rmClients'])->name('clients.index');
+    Route::get('/clients/{client}/reports', [ClientReportController::class, 'rmShow'])->name('clients.reports.index');
+    Route::post('/clients/{client}/reports', [ClientReportController::class, 'rmStore'])->name('clients.reports.store');
+
+    Route::get('/reports/{report}/edit', [ClientReportController::class, 'rmEditReport'])->name('reports.edit');
+    Route::put('/reports/{report}', [ClientReportController::class, 'rmUpdateReport'])->name('reports.update');
+});
+
 // A requester's own facilitation (transport/airtime) requests - RMs,
 // Supervisors, Office Admins and Operations all request for themselves
 // (2026-09-28); admins can reach it too (harmless, they just won't have
