@@ -62,6 +62,8 @@ Route::post('/facilitation/unlock', [RequisitionController::class, 'unlockPublic
 
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login')->middleware('guest');
 Route::post('/login', [AuthController::class, 'login'])->middleware('guest');
+// RMs arriving from Agent 360 with a signed one-time pass (no CSRF: the signature is the check)
+Route::post('/sso/agent360', [AuthController::class, 'agent360'])->middleware('throttle:30,1')->name('sso.agent360');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
 
 // Streams a private LSO document (financial evidence) through PHP from

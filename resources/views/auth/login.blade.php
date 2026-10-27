@@ -52,6 +52,12 @@
                 <h2 class="font-display italic text-2xl text-ink">{{ __('Log in') }}</h2>
                 <p class="text-sm text-ink-muted mt-1 mb-6">{{ __('Enter your Relationship Manager or Admin credentials.') }}</p>
 
+                @if (\App\Services\Agent360SsoService::enabled())
+                    <a href="{{ config('services.agent360.sso_login_url') }}" class="mb-5 flex items-center justify-between rounded-lg border border-ink/10 bg-paper px-4 py-3 text-sm font-medium text-ink hover:border-ink/30">
+                        {{ __('RM? Sign in through Agent 360') }} <span aria-hidden="true">&rarr;</span>
+                    </a>
+                @endif
+
                 @if ($errors->any())
                     <div class="mb-5 rounded-lg bg-danger-bg border border-danger/20 text-danger text-sm px-4 py-3 flex items-center gap-2">
                         <x-icon name="alert-triangle" />
