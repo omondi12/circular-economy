@@ -83,4 +83,22 @@ class Agent360SsoTest extends TestCase
         $this->post('/login', ['email' => 'admin@example.com', 'password' => 'AdminPass123'])->assertRedirect(route('admin.dashboard'));
         $this->assertAuthenticatedAs($admin);
     }
+
+    public function test_an_rm_signed_in_before_the_switch_is_signed_out_and_sent_to_agent_360(): void
+    {
+        config(['services.agent360.sso_only' => true, 'services.agent360.sso_login_url' => 'https://agent360.test/rm/login']);
+
+        // Signed in before the switch (or kept by "remember me")
+        $this->actingAs($this->rm)->get(route('rm.dashboard'))->assertRedirect('https://agent360.test/rm/login');
+        $this->assertGuest();
+
+        // Through Agent 360 they stay in
+        $this->post('/sso/agent360', ['pass' => $this->pass()])->assertRedirect(route('rm.dashboard'));
+        $this->get(route('rm.dashboard'))->assertOk();
+
+        // Other staff are not affected
+        auth()->logout();
+        $admin = User::factory()->create(['role' => User::ROLE_ADMIN, 'phone_number' => '254700000403', 'email' => 'admin2@example.com']);
+        $this->actingAs($admin)->get(route('admin.dashboard'))->assertOk();
+    }
 }
