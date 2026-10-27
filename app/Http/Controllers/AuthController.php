@@ -65,6 +65,7 @@ class AuthController extends Controller
 
         Auth::login($user);
         $request->session()->regenerate();
+        $request->session()->put(Agent360SsoService::SESSION_KEY, $user->id);
         AuditLog::record('agent360.sso_login', $user, ['name' => $user->name]);
 
         return redirect()->route($user->homeRouteName());

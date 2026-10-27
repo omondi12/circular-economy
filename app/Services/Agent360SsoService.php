@@ -12,6 +12,9 @@ use Illuminate\Support\Facades\Cache;
  */
 class Agent360SsoService
 {
+    /** Session key marking a sign-in that came through Agent 360 (EnsureRmCameThroughAgent360) */
+    public const SESSION_KEY = 'agent360.sso';
+
     private const CLOCK_SKEW = 30;
 
     /**
