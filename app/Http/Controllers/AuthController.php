@@ -33,8 +33,8 @@ class AuthController extends Controller
                 ->withErrors(['email' => 'This account has been deactivated. Contact an administrator.']);
         }
 
-        // RMs sign in only through Agent 360 once its single sign-in is switched on (Agent360SsoService)
-        if ($user?->role === User::ROLE_RM && Agent360SsoService::enabled()) {
+        // RMs sign in only through Agent 360 once that is switched on (AGENT360_SSO_ONLY)
+        if ($user?->role === User::ROLE_RM && Agent360SsoService::only()) {
             return back()
                 ->withInput($request->only('email'))
                 ->withErrors(['email' => 'RMs sign in through Agent 360: '.config('services.agent360.sso_login_url')]);

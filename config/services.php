@@ -42,8 +42,10 @@ return [
     // Agent 360 (RM register shared with Adam AHB Souq): key it sends to /api/agent360/v1. Empty = the API is off.
     'agent360' => [
         'key' => env('AGENT360_API_KEY'),
-        // RM single sign-in: Agent 360's public key (base64). Set = RMs sign in only through Agent 360.
+        // RM single sign-in: Agent 360's public key (base64). Set = RMs can open Westport from Agent 360.
         'sso_public_key' => env('AGENT360_SSO_PUBLIC_KEY'),
+        // true = RMs may ONLY sign in through Agent 360 (switch on once every RM has an Agent 360 password)
+        'sso_only' => (bool) env('AGENT360_SSO_ONLY', false),
         'sso_login_url' => env('AGENT360_LOGIN_URL', 'https://agent360.co.ke/rm/login'),
     ],
 

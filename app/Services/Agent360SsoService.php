@@ -14,9 +14,20 @@ class Agent360SsoService
 {
     private const CLOCK_SKEW = 30;
 
+    /**
+     * RMs can open Westport from their Agent 360 launchpad.
+     */
     public static function enabled(): bool
     {
         return (string) config('services.agent360.sso_public_key') !== '';
+    }
+
+    /**
+     * RMs may only sign in through Agent 360 (the sign-in page refuses them).
+     */
+    public static function only(): bool
+    {
+        return self::enabled() && (bool) config('services.agent360.sso_only');
     }
 
     public function userFromPass(string $pass): ?User

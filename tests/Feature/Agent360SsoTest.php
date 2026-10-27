@@ -65,9 +65,15 @@ class Agent360SsoTest extends TestCase
         $this->assertGuest();
     }
 
-    public function test_rms_are_sent_to_agent_360_from_the_westport_sign_in_while_staff_sign_in_as_before(): void
+    public function test_rms_are_sent_to_agent_360_from_the_westport_sign_in_once_only_agent_360_is_on(): void
     {
         $this->get('/login')->assertSee('RM? Sign in through Agent 360');
+
+        // Testing period (key only): RMs can still sign in here
+        $this->post('/login', ['email' => 'grace@example.com', 'password' => 'WicPass123'])->assertRedirect(route('rm.dashboard'));
+        auth()->logout();
+
+        config(['services.agent360.sso_only' => true]);
 
         $this->from('/login')->post('/login', ['email' => 'grace@example.com', 'password' => 'WicPass123'])
             ->assertRedirect('/login')->assertSessionHasErrors('email');
