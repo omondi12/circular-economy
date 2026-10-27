@@ -6,6 +6,58 @@
             back-label="Back to dashboard"
         />
 
+        {{-- When each RM last logged a report: never / longest first --}}
+        @php
+            $quiet = $lastByRm->where('quiet', true)->count();
+        @endphp
+        <section x-data="{ open: {{ $quiet ? 'true' : 'false' }} }" class="mb-6 bg-panel border border-border rounded-xl shadow-sm">
+            <button type="button" x-on:click="open = ! open" class="w-full flex flex-wrap items-center justify-between gap-3 px-4 py-3 text-left">
+                <span>
+                    <span class="font-medium text-ink">Last report by RM</span>
+                    <span class="block text-xs text-ink-faint">
+                        {{ $lastByRm->count() }} RMs ·
+                        <span class="{{ $quiet ? 'text-danger' : '' }}">{{ $quiet }} with no report in the last {{ \App\Services\ReportActivity::QUIET_AFTER_DAYS }} days</span>
+                    </span>
+                </span>
+                <span class="text-xs text-ink-faint" x-text="open ? 'Hide' : 'Show'"></span>
+            </button>
+            <div x-show="open" x-cloak class="border-t border-border overflow-x-auto">
+                <table data-stack class="w-full text-sm">
+                    <thead class="bg-brand-50 text-left text-ink-faint">
+                        <tr>
+                            <th class="px-4 py-2 font-medium">RM</th>
+                            <th class="px-4 py-2 font-medium">Last report</th>
+                            <th class="px-4 py-2 font-medium text-right">Last 7 days</th>
+                            <th class="px-4 py-2 font-medium text-right">Last 30 days</th>
+                            <th class="px-4 py-2 font-medium text-right">All time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($lastByRm as $row)
+                            <tr class="border-t border-border">
+                                <td class="px-4 py-2" data-label="RM">
+                                    <a href="{{ route('reports.index', ['rm_id' => $row['rm']->id]) }}" class="text-brand-700 hover:underline">{{ $row['rm']->name }}</a>
+                                </td>
+                                <td class="px-4 py-2" data-label="Last report">
+                                    @if ($row['last'] === null)
+                                        <span class="inline-flex rounded-full bg-danger-bg px-2 py-0.5 text-xs font-medium text-danger">Never</span>
+                                    @else
+                                        {{ $row['last']->format('j M Y') }}
+                                        <span class="ml-1 inline-flex rounded-full px-2 py-0.5 text-xs font-medium {{ $row['days'] <= 2 ? 'bg-success-bg text-success' : ($row['quiet'] ? 'bg-danger-bg text-danger' : 'bg-gold-50 text-gold-700') }}">
+                                            {{ $row['days'] === 0 ? 'today' : ($row['days'] === 1 ? 'yesterday' : $row['days'].' days ago') }}
+                                        </span>
+                                    @endif
+                                </td>
+                                <td class="px-4 py-2 text-right tabular-nums" data-label="Last 7 days">{{ $row['week'] }}</td>
+                                <td class="px-4 py-2 text-right tabular-nums" data-label="Last 30 days">{{ $row['month'] }}</td>
+                                <td class="px-4 py-2 text-right tabular-nums" data-label="All time">{{ $row['total'] }}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
         {{-- Filters --}}
         <form method="GET" action="{{ route('reports.index') }}" class="mb-6 bg-panel border border-border rounded-xl p-4 shadow-sm flex flex-wrap gap-3 items-end">
             <div class="flex flex-col gap-1 flex-1 min-w-[200px]">
