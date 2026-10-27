@@ -65,3 +65,12 @@ client reports, LSOs, LSO payments, collections, and the clients assigned to eac
 Westport has no regions, so `county` is the best that is known: a collection's own county, or the county of a
 County Government client ("County Government of Nakuru" → Nakuru); null for national bodies. Agent 360 maps
 counties to regions. Contact persons' names are included; their phone numbers are not.
+
+## RM single sign-in: POST /sso/agent360
+
+RMs sign in only at Agent 360 (phone, password and an authenticator code); its launchpad posts a signed one-time pass
+(field `pass`) here and the RM lands on their RM dashboard. On when `AGENT360_SSO_PUBLIC_KEY` is set (Agent 360's
+ed25519 public key); empty = off. The pass is checked for signature, `iss` agent360, `aud` WESTPORT, expiry, one-time
+`jti` and an active user with role `rm` (`App\Services\Agent360SsoService`); any failure answers 403 with a link back.
+With the key set, an RM signing in with email and password here is sent to Agent 360; staff sign in as before.
+No CSRF token on the route (the signature is the check); throttled.

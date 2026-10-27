@@ -15,6 +15,9 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        // Agent 360 posts RMs' signed sign-in passes here (Agent360SsoService checks the signature)
+        $middleware->validateCsrfTokens(except: ['sso/agent360']);
+
         $middleware->alias([
             'role' => EnsureRole::class,
             'dashboard.key' => EnsurePublicDashboardKey::class,

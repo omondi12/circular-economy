@@ -42,6 +42,9 @@ return [
     // Agent 360 (RM register shared with Adam AHB Souq): key it sends to /api/agent360/v1. Empty = the API is off.
     'agent360' => [
         'key' => env('AGENT360_API_KEY'),
+        // RM single sign-in: Agent 360's public key (base64). Set = RMs sign in only through Agent 360.
+        'sso_public_key' => env('AGENT360_SSO_PUBLIC_KEY'),
+        'sso_login_url' => env('AGENT360_LOGIN_URL', 'https://agent360.co.ke/rm/login'),
     ],
 
     'nawiri_payroll' => [
