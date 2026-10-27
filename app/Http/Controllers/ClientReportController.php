@@ -6,6 +6,7 @@ use App\Models\AuditLog;
 use App\Models\ClientReport;
 use App\Models\StateCorporation;
 use App\Models\User;
+use App\Services\ReportActivity;
 use App\Support\ClientReportOptions;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -55,6 +56,7 @@ class ClientReportController extends Controller
             'rms' => User::assignableRms()->orderBy('name')->get(),
             'stages' => ClientReportOptions::STAGES,
             'totalReports' => ClientReport::count(),
+            'lastByRm' => app(ReportActivity::class)->lastByRm(),
         ]);
     }
 
