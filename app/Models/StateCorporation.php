@@ -67,9 +67,20 @@ class StateCorporation extends Model
     /**
      * Every client effectively covered by $rmId - a direct (manual
      * override) match, or one whose state department is assigned to
-     * $rmId. The query-level counterpart to effectiveAssignedRmId(), for
+     * $rmId AND which has no override of its own pointing elsewhere.
+     * The query-level counterpart to effectiveAssignedRmId(), for
      * anywhere that needs to list/count/filter rather than check one
-     * client at a time.
+     * client at a time - must stay in lockstep with that method's own
+     * override-first precedence (`assigned_rm_id ?? department's RM`).
+     *
+     * Bug fixed 2026-10-29: the department-match branches had no
+     * whereNull('assigned_rm_id') guard, so a client overridden to RM A
+     * still matched RM B's list whenever B happened to be assigned the
+     * client's department - it showed on B's "My Clients" (this scope)
+     * but then 403'd the moment B tried to open it (authorizeOwnClient()
+     * correctly uses effectiveAssignedRmId(), which always honours A's
+     * override) - see ClientReportController::authorizeOwnClient() and
+     * the 403s this caused for real RMs in production.
      *
      * @param  int|array<int>  $rmIds  One RM id, or several (e.g. a
      *                                 supervisor's whole team) - matches
@@ -81,15 +92,19 @@ class StateCorporation extends Model
 
         return $query->where(function ($q) use ($rmIds) {
             $q->whereIn('assigned_rm_id', $rmIds)
-                ->orWhereHas('ministry', function ($q2) use ($rmIds) {
-                    $q2->where('level', GovernmentEntity::LEVEL_STATE_DEPARTMENT)
-                        ->whereIn('assigned_rm_id', $rmIds);
-                })
-                ->orWhereHas('ministry', function ($q2) use ($rmIds) {
-                    $q2->where('level', GovernmentEntity::LEVEL_INSTITUTION)
-                        ->whereHas('parent', function ($q3) use ($rmIds) {
-                            $q3->where('level', GovernmentEntity::LEVEL_STATE_DEPARTMENT)
-                                ->whereIn('assigned_rm_id', $rmIds);
+                ->orWhere(function ($q2) use ($rmIds) {
+                    $q2->whereNull('assigned_rm_id')
+                        ->where(function ($q3) use ($rmIds) {
+                            $q3->whereHas('ministry', function ($q4) use ($rmIds) {
+                                $q4->where('level', GovernmentEntity::LEVEL_STATE_DEPARTMENT)
+                                    ->whereIn('assigned_rm_id', $rmIds);
+                            })->orWhereHas('ministry', function ($q4) use ($rmIds) {
+                                $q4->where('level', GovernmentEntity::LEVEL_INSTITUTION)
+                                    ->whereHas('parent', function ($q5) use ($rmIds) {
+                                        $q5->where('level', GovernmentEntity::LEVEL_STATE_DEPARTMENT)
+                                            ->whereIn('assigned_rm_id', $rmIds);
+                                    });
+                            });
                         });
                 });
         });
