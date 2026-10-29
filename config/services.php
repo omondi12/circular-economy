@@ -47,6 +47,8 @@ return [
         // true = RMs may ONLY sign in through Agent 360 (switch on once every RM has an Agent 360 password)
         'sso_only' => (bool) env('AGENT360_SSO_ONLY', false),
         'sso_login_url' => env('AGENT360_LOGIN_URL', 'https://agent360.co.ke/rm/login'),
+        // true = RMs are paid from Agent 360 (requisitions and commissions); Westport's own Pay is switched off
+        'payments' => (bool) env('AGENT360_PAYMENTS', false),
     ],
 
     'nawiri_payroll' => [
