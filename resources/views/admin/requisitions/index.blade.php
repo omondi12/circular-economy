@@ -37,6 +37,12 @@
             </x-slot:actions>
         </x-page-header>
 
+        @if (config('services.agent360.payments'))
+            <div class="mb-6 rounded-xl border border-brand-200 bg-brand-50 px-4 py-3 text-sm text-ink" role="status">
+                Approved requisitions are now paid from <a href="https://agent360.co.ke/payments" class="font-medium underline">Agent 360 &rarr; Payments</a>. Approve them here as before; once Agent 360 pays, the amount shows as paid here.
+            </div>
+        @endif
+
         <div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-3 sm:gap-4 mb-6 [&>*:last-child]:col-span-2 md:[&>*:last-child]:col-span-1">
             <x-stat-tile label="Total Requests" :value="number_format($stats['totalCount'])" icon="calendar" tone="teal" />
             <x-requisition-summary-tile

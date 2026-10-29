@@ -1,6 +1,7 @@
 @props(['payment'])
 
-@if ($payment->isActive() && auth()->user()->canPayRequisition($payment->requisition))
+{{-- Payments already started here can still be authorized and checked after the switch to Agent 360 --}}
+@if ($payment->isActive() && auth()->user()->canPayRequisitions() && $payment->requisition->requester_id !== auth()->id())
     <div class="mt-2 space-y-2 text-xs" data-payment-poll
          data-url="{{ route('admin.requisition-payments.reconcile', $payment) }}"
          data-state="{{ json_encode($payment->pollingState()) }}">

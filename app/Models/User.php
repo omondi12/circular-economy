@@ -222,7 +222,8 @@ class User extends Authenticatable
      */
     public function canPayRequisition(Requisition $requisition): bool
     {
-        if (! $this->canPayRequisitions()) {
+        // RMs are paid from Agent 360 once that is switched on (AGENT360_PAYMENTS)
+        if (! $this->canPayRequisitions() || config('services.agent360.payments')) {
             return false;
         }
 

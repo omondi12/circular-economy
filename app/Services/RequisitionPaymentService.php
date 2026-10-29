@@ -106,6 +106,73 @@ class RequisitionPaymentService
         return $this->applyResponse($payment, $response);
     }
 
+    /**
+     * Records a payment Agent 360 made from its own Nawiri treasury (Agent 360 pays RMs, docs/agent360-api.md), so the
+     * requisition's balance counts it and it is never paid again here. Idempotent: the same Agent 360 payment returns
+     * the payment already recorded.
+     *
+     * @throws ValidationException when the requisition no longer owes this recipient that amount
+     */
+    public function recordAgent360Payment(Requisition $requisition, string $category, string $phoneNumber, int $amountMinor, string $agent360PaymentKey, string $reference): RequisitionPayment
+    {
+        $this->assertCategory($category);
+        $key = 'agent360-'.$agent360PaymentKey;
+
+        return DB::transaction(function () use ($requisition, $category, $phoneNumber, $amountMinor, $key, $reference) {
+            $locked = Requisition::query()->with(['requester', 'payments'])->lockForUpdate()->findOrFail($requisition->id);
+
+            if ($existing = RequisitionPayment::query()->where('idempotency_key', $key)->lockForUpdate()->first()) {
+                return $existing;
+            }
+
+            if ($amountMinor <= 0 || $amountMinor % 100 !== 0) {
+                throw ValidationException::withMessages(['amount_minor' => 'Payments are whole-KES amounts.']);
+            }
+            if (! in_array($phoneNumber, $locked->recipientPhoneNumbers(), true)) {
+                throw ValidationException::withMessages(['phone' => 'That number is not a recipient of this requisition.']);
+            }
+            if ($locked->activePayment($category, $phoneNumber)) {
+                throw ValidationException::withMessages(['payment' => 'Westport has a wallet payment to this recipient awaiting confirmation.']);
+            }
+            $this->assertPayable($locked, $category, $amountMinor, $phoneNumber);
+
+            $payment = RequisitionPayment::create([
+                'requisition_id' => $locked->id,
+                'initiated_by_id' => null,
+                'category' => $category,
+                'amount_minor' => $amountMinor,
+                'phone_number' => $phoneNumber,
+                'provider' => 'AGENT360',
+                'status' => RequisitionPayment::STATUS_COMPLETED,
+                'idempotency_key' => $key,
+                'provider_reference' => mb_substr($reference, 0, 150),
+                'completed_at' => now(),
+            ]);
+            $this->creditCompletedPayment($payment, $locked);
+
+            return $payment;
+        });
+    }
+
+    /**
+     * Nawiri reversed a payment Agent 360 had made: the requisition owes the recipient again.
+     */
+    public function reverseAgent360Payment(string $agent360PaymentKey, string $reason): ?RequisitionPayment
+    {
+        return DB::transaction(function () use ($agent360PaymentKey, $reason) {
+            $payment = RequisitionPayment::query()->where('idempotency_key', 'agent360-'.$agent360PaymentKey)->lockForUpdate()->first();
+            if ($payment === null || $payment->status !== RequisitionPayment::STATUS_COMPLETED) {
+                return $payment;
+            }
+
+            $requisition = Requisition::query()->lockForUpdate()->findOrFail($payment->requisition_id);
+            $payment->update(['status' => RequisitionPayment::STATUS_FAILED, 'failure_reason' => mb_substr($reason, 0, 1000), 'completed_at' => null]);
+            $this->reverseCompletedPayment($payment, $requisition);
+
+            return $payment->fresh();
+        });
+    }
+
     private function submitExisting(RequisitionPayment $payment): RequisitionPayment
     {
         try {

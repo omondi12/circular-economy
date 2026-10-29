@@ -66,6 +66,24 @@ Westport has no regions, so `county` is the best that is known: a collection's o
 County Government client ("County Government of Nakuru" → Nakuru); null for national bodies. Agent 360 maps
 counties to regions. Contact persons' names are included; their phone numbers are not.
 
+## Payments: GET /payables, POST /requisitions/{id}/payments, POST /requisitions/payments/{key}/reverse
+
+Agent 360 pays RMs from its own Nawiri treasury (`App\Services\Agent360Payables`). Amounts are minor units (cents).
+
+- `GET /payables`: `requisitions` = each approved transport/airtime amount still owed to a recipient
+  (`{key, requisition_id, category, phone, amount_minor, requester_id, requester, working_day, institution,
+  approved_at, approved_by, busy}`; `busy` = a Westport wallet payment to that recipient is still being confirmed, so
+  it must not be paid), and `commissions` = the RM's 10% of each confirmed LSO payment
+  (`{key, lso_payment_id, agent_id, amount_minor, westport_earned_minor, lso, customer, collected_on}`).
+- `POST /requisitions/{id}/payments` `{category, phone, amount_minor, payment_key, reference}`: after Nawiri reports
+  the transfer COMPLETED, Agent 360 records it here; it is saved as a completed payment (provider `AGENT360`) and
+  counts against the balance. Idempotent on `payment_key` (201 first time, 200 after). 409 when that amount is no
+  longer owed (then nothing is recorded).
+- `POST /requisitions/payments/{key}/reverse` `{reason}`: Nawiri reversed it; the recipient is owed again.
+
+`AGENT360_PAYMENTS=true` switches off Westport's own Pay button (payments already started here can still be
+authorized and checked). Requisitions are still raised and approved here.
+
 ## RM single sign-in: POST /sso/agent360
 
 RMs sign in only at Agent 360 (phone, password and an authenticator code); its launchpad posts a signed one-time pass
