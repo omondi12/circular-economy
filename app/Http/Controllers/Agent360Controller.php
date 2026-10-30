@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Requisition;
+use App\Models\User;
 use App\Services\Agent360Payables;
 use App\Services\Agent360Records;
 use App\Services\Agent360Service;
@@ -86,6 +87,22 @@ class Agent360Controller extends Controller
         abort_if($payment === null, 404);
 
         return response()->json(['data' => ['id' => $payment->id, 'status' => $payment->status]]);
+    }
+
+    /**
+     * The user with exactly this email (any role), so Agent 360 can link a staff member to their own login here.
+     * One exact match only: nothing is listed. data is null when there is none.
+     */
+    public function lookupUser(Request $request): JsonResponse
+    {
+        $email = mb_strtolower(trim((string) $request->query('email')));
+        abort_unless(filter_var($email, FILTER_VALIDATE_EMAIL), 422, 'email is required');
+
+        $user = User::query()->whereRaw('lower(email) = ?', [$email])->first();
+
+        return response()->json(['data' => $user ? [
+            'id' => $user->id, 'name' => $user->name, 'email' => $user->email, 'role' => $user->role, 'active' => (bool) $user->is_active,
+        ] : null]);
     }
 
     public function store(Request $request): JsonResponse

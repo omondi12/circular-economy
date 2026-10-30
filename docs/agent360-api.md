@@ -84,6 +84,11 @@ Agent 360 pays RMs from its own Nawiri treasury (`App\Services\Agent360Payables`
 `AGENT360_PAYMENTS=true` switches off Westport's own Pay button (payments already started here can still be
 authorized and checked). Requisitions are still raised and approved here.
 
+## GET /users/lookup?email=
+
+The user with exactly that email (case-insensitive), of any role: `{data: {id, name, email, role, active}}`, or
+`{data: null}`. Agent 360 uses it to link a staff member to their own login here (My systems). Nothing is listed.
+
 ## RM single sign-in: POST /sso/agent360
 
 RMs sign in only at Agent 360 (phone, password and an authenticator code); its launchpad posts a signed one-time pass
