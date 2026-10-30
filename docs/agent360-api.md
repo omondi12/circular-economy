@@ -89,7 +89,8 @@ authorized and checked). Requisitions are still raised and approved here.
 RMs sign in only at Agent 360 (phone, password and an authenticator code); its launchpad posts a signed one-time pass
 (field `pass`) here and the RM lands on their RM dashboard. On when `AGENT360_SSO_PUBLIC_KEY` is set (Agent 360's
 ed25519 public key); empty = off. The pass is checked for signature, `iss` agent360, `aud` WESTPORT, expiry, one-time
-`jti` and an active user with role `rm` (`App\Services\Agent360SsoService`); any failure answers 403 with a link back.
+`jti` and an active user of any role (`App\Services\Agent360SsoService`), who lands on their own home page (RM dashboard,
+admin dashboard, requisitions …); any failure answers 403 with a link back.
 Two switches: the key lets RMs open Westport from Agent 360 (they can still sign in here); `AGENT360_SSO_ONLY=true`
 then sends RMs who sign in here to Agent 360. Staff sign in as before.
 No CSRF token on the route (the signature is the check); throttled.

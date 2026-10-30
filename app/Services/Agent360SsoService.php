@@ -6,8 +6,9 @@ use App\Models\User;
 use Illuminate\Support\Facades\Cache;
 
 /**
- * Agent 360 single sign-in for RMs (docs/agent360-api.md): RMs sign in only at Agent 360 (phone, password and an
- * authenticator code), whose launchpad posts a one-time pass here. The pass is ed25519-signed by Agent 360; Westport
+ * Agent 360 single sign-in (docs/agent360-api.md): people sign in at Agent 360 (phone, password and an authenticator
+ * code), whose launchpad posts a one-time pass here; any active Westport user (RM, supervisor, admin …) is signed in
+ * and lands on their own home page. The pass is ed25519-signed by Agent 360; Westport
  * holds only the public key (services.agent360.sso_public_key). Any failure returns null, with no reason given.
  */
 class Agent360SsoService
@@ -67,7 +68,7 @@ class Agent360SsoService
 
         $user = User::query()->whereKey((int) $claims['sub'])->first();
 
-        return $user && $user->is_active && $user->role === User::ROLE_RM ? $user : null;
+        return $user && $user->is_active ? $user : null;
     }
 
     private function base64url(string $part): ?string
