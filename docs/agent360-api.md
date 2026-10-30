@@ -84,12 +84,18 @@ Agent 360 pays RMs from its own Nawiri treasury (`App\Services\Agent360Payables`
 `AGENT360_PAYMENTS=true` switches off Westport's own Pay button (payments already started here can still be
 authorized and checked). Requisitions are still raised and approved here.
 
+## GET /users/lookup?email=
+
+The user with exactly that email (case-insensitive), of any role: `{data: {id, name, email, role, active}}`, or
+`{data: null}`. Agent 360 uses it to link a staff member to their own login here (My systems). Nothing is listed.
+
 ## RM single sign-in: POST /sso/agent360
 
 RMs sign in only at Agent 360 (phone, password and an authenticator code); its launchpad posts a signed one-time pass
 (field `pass`) here and the RM lands on their RM dashboard. On when `AGENT360_SSO_PUBLIC_KEY` is set (Agent 360's
 ed25519 public key); empty = off. The pass is checked for signature, `iss` agent360, `aud` WESTPORT, expiry, one-time
-`jti` and an active user with role `rm` (`App\Services\Agent360SsoService`); any failure answers 403 with a link back.
+`jti` and an active user of any role (`App\Services\Agent360SsoService`), who lands on their own home page (RM dashboard,
+admin dashboard, requisitions …); any failure answers 403 with a link back.
 Two switches: the key lets RMs open Westport from Agent 360 (they can still sign in here); `AGENT360_SSO_ONLY=true`
 then sends RMs who sign in here to Agent 360. Staff sign in as before.
 No CSRF token on the route (the signature is the check); throttled.

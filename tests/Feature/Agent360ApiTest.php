@@ -129,4 +129,15 @@ class Agent360ApiTest extends TestCase
         }
         $this->getJson('/api/agent360/v1/agents/records?type=other', $this->headers)->assertStatus(422);
     }
+
+    public function test_it_finds_one_user_by_exact_email_for_agent_360_staff_links(): void
+    {
+        $admin = User::factory()->create(['role' => User::ROLE_ADMIN, 'phone_number' => '254700000302', 'email' => 'Nancy@WIC.test', 'is_active' => true]);
+
+        $this->getJson('/api/agent360/v1/users/lookup?email=nancy@wic.test', $this->headers)->assertOk()
+            ->assertJson(['data' => ['id' => $admin->id, 'email' => 'Nancy@WIC.test', 'role' => 'admin', 'active' => true]]);
+        $this->getJson('/api/agent360/v1/users/lookup?email=nobody@wic.test', $this->headers)->assertOk()->assertJson(['data' => null]);
+        $this->getJson('/api/agent360/v1/users/lookup?email=nancy', $this->headers)->assertStatus(422);
+        $this->getJson('/api/agent360/v1/users/lookup?email=nancy@wic.test', ['Authorization' => 'Bearer wrong'])->assertUnauthorized();
+    }
 }

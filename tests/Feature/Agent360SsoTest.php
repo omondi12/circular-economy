@@ -44,15 +44,31 @@ class Agent360SsoTest extends TestCase
         $this->assertAuthenticatedAs($this->rm);
     }
 
-    public function test_forged_expired_reused_or_non_rm_passes_are_refused(): void
+    public function test_supervisors_and_admins_from_agent_360_land_on_their_own_home_page(): void
     {
-        $admin = User::factory()->create(['role' => User::ROLE_ADMIN, 'phone_number' => '254700000401']);
+        foreach ([
+            [User::ROLE_SUPERVISOR, 'admin.dashboard'],
+            [User::ROLE_ADMIN, 'admin.dashboard'],
+            [User::ROLE_OPERATIONS, 'admin.dashboard'],
+            [User::ROLE_OFFICE_ADMIN, 'admin.requisitions.index'],
+        ] as $i => [$role, $home]) {
+            $user = User::factory()->create(['role' => $role, 'phone_number' => '25470000041'.$i, 'is_active' => true]);
+            $this->post('/sso/agent360', ['pass' => $this->pass(['sub' => (string) $user->id])])->assertRedirect(route($home));
+            $this->assertAuthenticatedAs($user);
+            auth()->logout();
+        }
+    }
+
+    public function test_forged_expired_reused_or_inactive_passes_are_refused(): void
+    {
+        $inactive = User::factory()->create(['role' => User::ROLE_SUPERVISOR, 'phone_number' => '254700000401', 'is_active' => false]);
 
         foreach ([
             $this->pass([], sodium_crypto_sign_secretkey(sodium_crypto_sign_keypair())),
             $this->pass(['aud' => 'AHB']),
             $this->pass(['exp' => time() - 120]),
-            $this->pass(['sub' => (string) $admin->id]),
+            $this->pass(['sub' => (string) $inactive->id]),
+            $this->pass(['sub' => '999999']),
             'not-a-pass',
         ] as $pass) {
             $this->post('/sso/agent360', ['pass' => $pass])->assertForbidden();

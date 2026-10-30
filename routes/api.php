@@ -13,6 +13,7 @@ Route::prefix('agent360/v1')->middleware([EnsureAgent360Key::class, 'throttle:60
     Route::get('agents/records', [Agent360Controller::class, 'records'])->name('agents.records');
     Route::post('agents', [Agent360Controller::class, 'store'])->name('agents.store');
     Route::get('payables', [Agent360Controller::class, 'payables'])->name('payables');
+    Route::get('users/lookup', [Agent360Controller::class, 'lookupUser'])->name('users.lookup');
     Route::post('requisitions/{id}/payments', [Agent360Controller::class, 'recordRequisitionPayment'])->whereNumber('id')->name('requisitions.payments.store');
     Route::post('requisitions/payments/{key}/reverse', [Agent360Controller::class, 'reverseRequisitionPayment'])->name('requisitions.payments.reverse');
     Route::post('agents/{id}/deactivate', [Agent360Controller::class, 'deactivate'])->whereNumber('id')->name('agents.deactivate');
