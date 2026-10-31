@@ -6,9 +6,7 @@ use App\Models\ClientReport;
 use App\Models\Collection as WasteCollection;
 use App\Models\GovernmentEntity;
 use App\Models\Lso;
-use App\Models\LsoLot;
 use App\Models\LsoPayment;
-use App\Models\ServiceOrder;
 use App\Models\StateCorporation;
 use InvalidArgumentException;
 
@@ -109,67 +107,29 @@ class Agent360Records
      */
     private function orders(): array
     {
-        $sales = Lso::query()->with(['stateCorporation', 'institution', 'ministry', 'payments'])->orderBy('id')->get()->map(function (Lso $lso) {
-            $client = $lso->stateCorporation;
-            $confirmed = $lso->payments->where('status', LsoPayment::STATUS_CONFIRMED);
-
-            return $this->record(
-                id: 'lso-'.$lso->id,
-                agentId: $lso->user_id,
-                date: $lso->issue_date?->toDateString(),
-                title: $lso->reference_number,
-                status: $lso->status,
-                amount: self::kes($lso->original_amount_minor),
-                county: self::countyOf($client),
-                fields: [
-                    $this->field('kind', 'Order type', 'Sale (Lot 1 LSO)'),
-                    $this->field('customer', 'Customer', $lso->customer_name),
-                    $this->field('client', 'Client', $client?->name ?? $lso->institution?->name ?? $lso->ministry?->name),
-                    $this->field('value', 'Order value', self::kes($lso->original_amount_minor), 'money'),
-                    $this->field('received', 'Collected (confirmed)', self::kes((int) $confirmed->sum(fn ($p) => $p->gross_amount_minor ?? $p->amount_minor)), 'money'),
-                    $this->field('earned', 'Westport earned', self::kes((int) $confirmed->sum('amount_minor')), 'money'),
-                    $this->field('items', 'Payments confirmed', $confirmed->count(), 'count'),
-                    $this->field('description', 'Description', $lso->description),
-                ],
-            );
-        });
-
-        $disposals = ServiceOrder::query()->with(['collections.lsoLot', 'collections.stateCorporation'])->orderBy('id')->get()->map(function (ServiceOrder $order) {
-            $lots = $order->collections->map->lsoLot->filter();
-            $expected = (int) $lots->sum('expected_revenue_minor');
-            $confirmed = (int) $lots->where('status', LsoLot::STATUS_CONFIRMED)->sum('confirmed_revenue_minor');
-            $status = match (true) {
-                $lots->isNotEmpty() && $lots->every(fn ($l) => $l->status === LsoLot::STATUS_CONFIRMED) => 'confirmed',
-                $lots->contains(fn ($l) => $l->status === LsoLot::STATUS_CONFIRMED) => 'partly_confirmed',
-                $lots->isNotEmpty() && $lots->every(fn ($l) => $l->status === LsoLot::STATUS_REJECTED) => 'rejected',
-                default => 'pending',
-            };
-            $first = $order->collections->first();
-
-            return $this->record(
-                id: 'so-'.$order->id,
-                agentId: $order->user_id,
-                date: $order->order_date?->toDateString() ?? $order->created_at?->toDateString(),
-                title: $order->reference_number,
-                status: $status,
-                amount: self::kes($order->amount_minor ?? $expected),
-                county: self::countyOf($first?->stateCorporation),
-                fields: [
-                    $this->field('kind', 'Order type', 'Disposal (Lot 2 service order)'),
-                    $this->field('customer', 'Customer', $order->customer_name),
-                    $this->field('client', 'Client', $first?->stateCorporation?->name ?? $first?->entity_name),
-                    $this->field('value', 'Order value', self::kes($order->amount_minor ?? $expected), 'money'),
-                    $this->field('expected', 'Contract-rate revenue', self::kes($expected), 'money'),
-                    $this->field('received', 'Confirmed revenue', self::kes($confirmed), 'money'),
-                    $this->field('earned', 'Westport earned', self::kes($confirmed), 'money'),
-                    $this->field('outstanding', 'Not yet confirmed', self::kes(max(0, $expected - $confirmed)), 'money'),
-                    $this->field('items', 'Collections', $order->collections->count(), 'count'),
-                    $this->field('quantity', 'Quantity', number_format((float) $order->collections->sum('quantity')).' '.($first?->unit ?? '')),
-                ],
-            );
-        });
-
-        return $sales->concat($disposals)->values()->all();
+        // The same rows as WIC's own Orders dashboard (OrderBook), so Agent 360 always shows what WIC shows
+        return app(OrderBook::class)->rows()->sortBy('key')->map(fn (array $o) => $this->record(
+            id: $o['key'],
+            agentId: $o['rm_id'],
+            date: $o['date']?->toDateString(),
+            title: $o['reference'],
+            status: $o['status'],
+            amount: self::kes($o['value']),
+            county: self::countyOf($o['client_record']),
+            fields: [
+                $this->field('kind', 'Order type', $o['kind_label']),
+                $this->field('customer', 'Customer', $o['customer']),
+                $this->field('client', 'Client', $o['client']),
+                $this->field('value', 'Order value', self::kes($o['value']), 'money'),
+                $this->field('expected', 'Contract-rate revenue', $o['expected'] !== null ? self::kes($o['expected']) : null, 'money'),
+                $this->field('received', $o['kind'] === OrderBook::SALE ? 'Collected (confirmed)' : 'Confirmed revenue', self::kes($o['received']), 'money'),
+                $this->field('earned', 'Westport earned', self::kes($o['earned']), 'money'),
+                $this->field('outstanding', 'Not yet confirmed', $o['outstanding'] !== null ? self::kes($o['outstanding']) : null, 'money'),
+                $this->field('items', $o['kind'] === OrderBook::SALE ? 'Payments confirmed' : 'Collections', $o['items'], 'count'),
+                $this->field('quantity', 'Quantity', $o['quantity']),
+                $this->field('description', $o['kind'] === OrderBook::SALE ? 'Description' : 'Notes', $o['description']),
+            ],
+        ))->values()->all();
     }
 
     /**

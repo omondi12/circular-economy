@@ -418,6 +418,7 @@ class User extends Authenticatable
                 ['label' => 'Team Accounts', 'route' => 'admin.users', 'pattern' => 'admin.users*'],
                 ['label' => 'Assign RMs', 'route' => 'admin.assign-rms', 'pattern' => 'admin.assign-rms*'],
                 ['label' => 'RM Performance', 'route' => 'admin.rm-performance', 'pattern' => 'admin.rm-performance'],
+                ['label' => 'Orders', 'route' => 'orders.index', 'pattern' => 'orders.*'],
                 ['label' => 'LSOs', 'route' => 'admin.lsos.index', 'pattern' => 'admin.lsos.*'],
                 ['label' => 'Lot 2 Revenue', 'route' => 'admin.lso-lots.index', 'pattern' => 'admin.lso-lots.*'],
                 ['label' => 'RM Targets', 'route' => 'admin.rm-targets.index', 'pattern' => 'admin.rm-targets.*'],
@@ -428,6 +429,7 @@ class User extends Authenticatable
                 ['label' => 'Team Accounts', 'route' => 'admin.users', 'pattern' => 'admin.users*'],
                 ['label' => 'Assign RMs', 'route' => 'admin.assign-rms', 'pattern' => 'admin.assign-rms*'],
                 ['label' => 'RM Performance', 'route' => 'admin.rm-performance', 'pattern' => 'admin.rm-performance'],
+                ['label' => 'Orders', 'route' => 'orders.index', 'pattern' => 'orders.*'],
                 ['label' => 'LSOs', 'route' => 'admin.lsos.index', 'pattern' => 'admin.lsos.*'],
                 ['label' => 'Lot 2 Revenue', 'route' => 'admin.lso-lots.index', 'pattern' => 'admin.lso-lots.*'],
                 ['label' => 'RM Targets', 'route' => 'admin.rm-targets.index', 'pattern' => 'admin.rm-targets.*'],
@@ -436,6 +438,7 @@ class User extends Authenticatable
             ],
             $this->isOfficeAdmin() || $this->isAdmin() => [
                 ['label' => 'Requisitions', 'route' => 'admin.requisitions.index', 'pattern' => 'admin.requisitions.*'],
+                ['label' => 'Orders', 'route' => 'orders.index', 'pattern' => 'orders.*'],
                 ['label' => 'LSOs', 'route' => 'admin.lsos.index', 'pattern' => 'admin.lsos.*'],
                 ['label' => 'Lot 2 Revenue', 'route' => 'admin.lso-lots.index', 'pattern' => 'admin.lso-lots.*'],
                 ['label' => 'RM Targets', 'route' => 'admin.rm-targets.index', 'pattern' => 'admin.rm-targets.*'],

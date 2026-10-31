@@ -58,12 +58,18 @@
         />
     </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-10">
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-10">
         <x-stat-tile
             label="Relationship Managers" icon="building" tone="teal"
             :value="number_format($rmCount)"
             hint="Active RM accounts"
             :href="route('relationship-managers.index')"
+        />
+        <x-stat-tile
+            label="Orders" icon="document" tone="violet"
+            :value="number_format($orderCount)"
+            hint="Sale LSOs and disposal service orders, with what is received or confirmed"
+            :href="route('orders.index')"
         />
         <x-stat-tile
             label="Facilitation" icon="calendar" tone="gold"
