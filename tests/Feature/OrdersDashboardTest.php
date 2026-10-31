@@ -81,7 +81,8 @@ class OrdersDashboardTest extends TestCase
 
         $summary = app(OrderBook::class)->summary(app(OrderBook::class)->rows());
         $this->assertSame(1_645_130_000 + 140_400_000, $summary['outstanding']);
-        $this->get('/orders?key=boss-key')->assertSee('Not yet received / confirmed')->assertSee('KES 17.86M');
+        $this->get('/orders?key=boss-key')->assertSee('Lot 1')->assertSee('Sale orders (LSOs)')->assertSee('Not yet collected')->assertSee('KES 16.45M')
+            ->assertSee('Lot 2')->assertSee('Disposal orders (service orders)')->assertSee('Not yet confirmed')->assertSee('KES 1,404,000');
 
         $sale = collect($this->getJson('/api/agent360/v1/agents/records?type=orders', ['Authorization' => 'Bearer test-key-123'])->json('data'))->firstWhere('title', 'AHB/DISPOSAL/001/2026-2027');
         $this->assertSame('16451300.00', collect($sale['fields'])->firstWhere('key', 'outstanding')['value']);

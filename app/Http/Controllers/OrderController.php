@@ -26,6 +26,8 @@ class OrderController extends Controller
 
         return view('orders.index', [
             'summary' => $book->summary($rows),
+            // The headline, one row per lot: Lot 1 sale orders, Lot 2 disposal orders
+            'lots' => collect(OrderBook::KINDS)->map(fn ($label, $kind) => $book->summary($rows->where('kind', $kind)->values())),
             'orders' => new LengthAwarePaginator($rows->forPage($page, 25)->values(), $rows->count(), 25, $page, ['path' => $request->url(), 'query' => $request->query()]),
             'filters' => $filters,
             'rms' => User::assignableRms()->orderBy('name')->pluck('name', 'id'),
