@@ -8,6 +8,7 @@ use App\Http\Controllers\CollectionController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LsoController;
 use App\Http\Controllers\NawiriTreasuryController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\RequisitionController;
 use App\Http\Controllers\RmDashboardController;
 use App\Http\Controllers\RmTargetController;
@@ -39,6 +40,8 @@ Route::middleware('dashboard.key')->group(function () {
     Route::get('/material-items', [DashboardController::class, 'materialItemsIndex'])->name('material-items.index');
     Route::get('/feasibility-study', [DashboardController::class, 'feasibilityStudyIndex'])->name('feasibility-study.index');
     Route::get('/reports', [ClientReportController::class, 'all'])->name('reports.index');
+    Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
+    Route::get('/orders/export', [OrderController::class, 'export'])->name('orders.export');
 
     Route::prefix('collections')->name('collections.')->group(function () {
         Route::get('/', [CollectionController::class, 'index'])->name('index');

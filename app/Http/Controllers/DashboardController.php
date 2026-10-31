@@ -5,12 +5,15 @@ namespace App\Http\Controllers;
 use App\Models\ClientReport;
 use App\Models\Collection;
 use App\Models\GovernmentEntity;
+use App\Models\Lso;
 use App\Models\Requisition;
+use App\Models\ServiceOrder;
 use App\Models\StateCorporation;
 use App\Models\User;
 use App\Support\WasteCategories;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class DashboardController extends Controller
 {
@@ -66,6 +69,7 @@ class DashboardController extends Controller
         $materialItemCount = collect(WasteCategories::lots())->sum(fn (array $lot) => count($lot['categories']));
 
         $reportCount = ClientReport::count();
+        $orderCount = Lso::count() + ServiceOrder::count();
 
         $recent = Collection::query()
             ->orderByDesc('collection_date')
@@ -88,6 +92,7 @@ class DashboardController extends Controller
             'stateDepartmentHandledCount' => $stateDepartmentHandledCount,
             'materialItemCount' => $materialItemCount,
             'reportCount' => $reportCount,
+            'orderCount' => $orderCount,
             'recent' => $recent,
         ]);
     }
@@ -383,7 +388,7 @@ class DashboardController extends Controller
      * opens in Excel, not a real .xlsx, since nothing in this app needs a
      * spreadsheet library beyond that.
      */
-    public function stateCorporationsExport(Request $request): \Symfony\Component\HttpFoundation\StreamedResponse
+    public function stateCorporationsExport(Request $request): StreamedResponse
     {
         $corporations = $this->stateCorporationsQuery($request)
             ->get();
