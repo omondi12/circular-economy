@@ -95,4 +95,26 @@ class ServiceOrderTest extends TestCase
         // RMs cannot attach orders
         $this->actingAs($this->grace)->get(route('admin.service-orders.create'))->assertForbidden();
     }
+
+    public function test_agent_360_reads_every_order_sale_and_disposal_through_the_api(): void
+    {
+        config(['services.agent360.key' => 'test-key-123']);
+        $first = $this->collect($this->grace, 3460);
+        $this->actingAs($this->admin)->post(route('admin.service-orders.store'), [
+            'rm_id' => $this->grace->id, 'reference_number' => '0044', 'customer_name' => 'Mwai Kibaki Referral Hospital', 'order_date' => '2026-09-30',
+            'amount' => 692000, 'document' => UploadedFile::fake()->create('lso.pdf', 50, 'application/pdf'), 'collection_ids' => [$first->id],
+        ]);
+
+        $orders = collect($this->getJson('/api/agent360/v1/agents/records?type=orders', ['Authorization' => 'Bearer test-key-123'])->assertOk()->json('data'));
+        $order = $orders->firstWhere('title', '0044');
+        $fields = collect($order['fields'])->pluck('value', 'key');
+
+        $this->assertSame('so-'.ServiceOrder::sole()->id, $order['id']);
+        $this->assertSame((string) $this->grace->id, $order['agent_id']);
+        $this->assertSame('Pending', $order['status']);
+        $this->assertSame('692000.00', $order['amount']);
+        $this->assertSame('Disposal (Lot 2 service order)', $fields['kind']);
+        $this->assertSame('692000.00', $fields['outstanding']);
+        $this->assertSame('0.00', $fields['received']);
+    }
 }
