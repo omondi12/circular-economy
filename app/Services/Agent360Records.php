@@ -124,7 +124,7 @@ class Agent360Records
                 $this->field('expected', 'Contract-rate revenue', $o['expected'] !== null ? self::kes($o['expected']) : null, 'money'),
                 $this->field('received', $o['kind'] === OrderBook::SALE ? 'Collected (confirmed)' : 'Confirmed revenue', self::kes($o['received']), 'money'),
                 $this->field('earned', 'Westport earned', self::kes($o['earned']), 'money'),
-                $this->field('outstanding', 'Not yet confirmed', $o['outstanding'] !== null ? self::kes($o['outstanding']) : null, 'money'),
+                $this->field('outstanding', $o['kind'] === OrderBook::SALE ? 'Not yet collected' : 'Not yet confirmed', self::kes((int) $o['outstanding']), 'money'),
                 $this->field('items', $o['kind'] === OrderBook::SALE ? 'Payments confirmed' : 'Collections', $o['items'], 'count'),
                 $this->field('quantity', 'Quantity', $o['quantity']),
                 $this->field('description', $o['kind'] === OrderBook::SALE ? 'Description' : 'Notes', $o['description']),

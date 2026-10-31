@@ -41,7 +41,7 @@ class OrderController extends Controller
         return response()->streamDownload(function () use ($rows) {
             $out = fopen('php://output', 'w');
             fwrite($out, "\xEF\xBB\xBF");
-            fputcsv($out, ['Date', 'Order', 'Type', 'Customer', 'Client', 'RM', 'Status', 'Order value (KES)', 'Received / confirmed (KES)', 'Westport earned (KES)', 'Not yet confirmed (KES)'], escape: '');
+            fputcsv($out, ['Date', 'Order', 'Type', 'Customer', 'Client', 'RM', 'Status', 'Order value (KES)', 'Received / confirmed (KES)', 'Westport earned (KES)', 'Not yet received / confirmed (KES)'], escape: '');
             foreach ($rows as $o) {
                 fputcsv($out, array_map(fn ($v) => is_string($v) && preg_match('/^[=+\-@]/', $v) ? "'".$v : $v, [
                     $o['date']?->toDateString(), $o['reference'], $o['kind_label'], $o['customer'], $o['client'], $o['rm']?->name, OrderBook::statusLabel($o['status']),
