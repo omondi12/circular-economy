@@ -25,13 +25,25 @@
         </x-slot:actions>
     </x-page-header>
 
-    {{-- Headline --}}
-    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 mb-6">
-        <x-stat-tile label="Orders" icon="document" tone="violet" :value="number_format($s['count'])" :hint="$s['kinds']->map(fn ($k) => $k['count'].' '.strtolower(explode(' (', $k['label'])[0]))->implode(' · ') ?: 'None yet'" />
-        <x-stat-tile label="Order value" icon="scale" tone="green" :value="$kes($s['value'])" hint="Worth of sale orders and disposal orders" />
-        <x-stat-tile label="Received / confirmed" icon="calendar" tone="teal" :value="$kes($s['received'])" hint="Collected on sale orders, confirmed by Finance on disposal orders" />
-        <x-stat-tile label="Not yet received / confirmed" icon="building" tone="gold" :value="$kes($s['outstanding'])" :hint="'Not yet collected on sale orders or confirmed on disposal orders. Westport earned so far '.$kes($s['earned'])" />
-    </div>
+    {{-- Headline: one row per lot --}}
+    @foreach ([
+        \App\Services\OrderBook::SALE => ['Lot 1', 'Sale orders (LSOs)', 'Collected', 'collected on the sale orders', 'Not yet collected', 'of the order value'],
+        \App\Services\OrderBook::DISPOSAL => ['Lot 2', 'Disposal orders (service orders)', 'Confirmed', 'confirmed by Finance at the contract rates', 'Not yet confirmed', 'of the contract-rate revenue'],
+    ] as $kind => [$lot, $title, $receivedLabel, $receivedHint, $outstandingLabel, $outstandingHint])
+        @php $l = $lots[$kind]; @endphp
+        <section class="mb-6" aria-label="{{ $lot }}: {{ $title }}">
+            <h2 class="mb-3 flex items-baseline gap-2">
+                <span class="rounded-md bg-brand-700 px-2 py-0.5 text-xs font-semibold uppercase tracking-wide text-white">{{ $lot }}</span>
+                <span class="font-medium text-ink">{{ $title }}</span>
+            </h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+                <x-stat-tile label="Orders" icon="document" tone="violet" :value="number_format($l['count'])" :hint="$l['count'] ? $lot.' orders recorded in WIC' : 'None recorded yet'" :href="$link(['kind' => $kind, 'page' => null])" />
+                <x-stat-tile label="Order value" icon="scale" tone="green" :value="$kes($l['value'])" :hint="$kind === 'sale' ? 'Stated on the LSOs (KES 0 until an auction sets it)' : 'Stated on the service orders'" />
+                <x-stat-tile :label="$receivedLabel" icon="calendar" tone="teal" :value="$kes($l['received'])" :hint="ucfirst($receivedHint).'. Westport earned '.$kes($l['earned'])" />
+                <x-stat-tile :label="$outstandingLabel" icon="building" tone="gold" :value="$kes($l['outstanding'])" :hint="ucfirst($outstandingHint)" />
+            </div>
+        </section>
+    @endforeach
 
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
         {{-- By month --}}
