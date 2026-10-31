@@ -4,7 +4,17 @@
         subtitle="Waste disposal collections - confirm Westport's contract-priced revenue before RM commission can be earned on it."
         :back="route('admin.dashboard')"
         back-label="Back to admin"
-    />
+    >
+        @if ($canManageFinance)
+            <x-slot:actions>
+                <a href="{{ route('admin.service-orders.create') }}" class="btn btn-secondary">Attach a service order</a>
+            </x-slot:actions>
+        @endif
+    </x-page-header>
+
+    @if (session('status'))
+        <div class="mb-6 rounded-lg border border-brand-200 bg-brand-50 px-4 py-3 text-sm text-ink" role="status">{{ session('status') }}</div>
+    @endif
 
 
     @if ($errors->any())
@@ -31,6 +41,7 @@
                     <th class="px-4 py-2 font-medium">Entity</th>
                     <th class="px-4 py-2 font-medium">Category</th>
                     <th class="px-4 py-2 font-medium text-right">Quantity</th>
+                    <th class="px-4 py-2 font-medium">Service order</th>
                     <th class="px-4 py-2 font-medium text-right">Expected Revenue</th>
                     @if ($status !== \App\Models\LsoLot::STATUS_PENDING)
                         <th class="px-4 py-2 font-medium text-right">{{ $status === \App\Models\LsoLot::STATUS_CONFIRMED ? 'Confirmed Revenue' : 'Reviewed By' }}</th>
@@ -46,6 +57,14 @@
                         <td class="px-4 py-3 max-w-xs"><div class="line-clamp-2">{{ $lot->collection?->entity_name }}</div></td>
                         <td class="px-4 py-3">{{ $lot->collection?->categoryLabel() }}</td>
                         <td class="px-4 py-3 text-right tabular-nums whitespace-nowrap">{{ number_format($lot->collection?->quantity ?? 0, 1) }} {{ $lot->collection?->unitLabel() }}</td>
+                        <td class="px-4 py-3 whitespace-nowrap">
+                            @if ($order = $lot->collection?->serviceOrder)
+                                <a href="{{ route('service-orders.document', $order) }}" target="_blank" class="text-brand-700 hover:underline font-medium">{{ $order->reference_number }}</a>
+                                <span class="block text-xs text-ink-faint">{{ $order->customer_name }}</span>
+                            @else
+                                <span class="text-ink-faint">—</span>
+                            @endif
+                        </td>
                         <td class="px-4 py-3 text-right tabular-nums">
                             @if ($lot->expected_revenue_minor !== null)
                                 KES {{ number_format($lot->expected_revenue_minor / 100) }}
@@ -79,7 +98,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="8"><x-empty-state title="No {{ $status }} Lot 2 collections." /></td>
+                        <td colspan="9"><x-empty-state title="No {{ $status }} Lot 2 collections." /></td>
                     </tr>
                 @endforelse
             </tbody>

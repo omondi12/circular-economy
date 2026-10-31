@@ -288,7 +288,7 @@ class LsoController extends Controller
         $lots = LsoLot::query()
             ->whereHas('collection', fn ($q) => $q->whereIn('user_id', $visibleRmIds)->where('lot', WasteCategories::LOT_DISPOSAL))
             ->where('status', $status)
-            ->with(['collection.user', 'confirmedBy'])
+            ->with(['collection.user', 'collection.serviceOrder', 'confirmedBy'])
             ->orderByDesc('id')
             ->paginate(30)
             ->withQueryString();
