@@ -54,7 +54,8 @@ class OrderBook
                 'received' => (int) $confirmed->sum(fn ($p) => $p->gross_amount_minor ?? $p->amount_minor),
                 'earned' => (int) $confirmed->sum('amount_minor'),
                 'expected' => null,
-                'outstanding' => null,
+                // Not yet collected on the order's value (nothing is settled until it is collected)
+                'outstanding' => max(0, (int) $lso->original_amount_minor - (int) $confirmed->sum(fn ($p) => $p->gross_amount_minor ?? $p->amount_minor)),
                 'items' => $confirmed->count(),
                 'quantity' => null,
                 'description' => $lso->description,

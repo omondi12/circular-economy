@@ -30,7 +30,7 @@
         <x-stat-tile label="Orders" icon="document" tone="violet" :value="number_format($s['count'])" :hint="$s['kinds']->map(fn ($k) => $k['count'].' '.strtolower(explode(' (', $k['label'])[0]))->implode(' · ') ?: 'None yet'" />
         <x-stat-tile label="Order value" icon="scale" tone="green" :value="$kes($s['value'])" hint="Worth of sale orders and disposal orders" />
         <x-stat-tile label="Received / confirmed" icon="calendar" tone="teal" :value="$kes($s['received'])" hint="Collected on sale orders, confirmed by Finance on disposal orders" />
-        <x-stat-tile label="Not yet confirmed" icon="building" tone="gold" :value="$kes($s['outstanding'])" :hint="'Westport earned so far '.$kes($s['earned'])" />
+        <x-stat-tile label="Not yet received / confirmed" icon="building" tone="gold" :value="$kes($s['outstanding'])" :hint="'Not yet collected on sale orders or confirmed on disposal orders. Westport earned so far '.$kes($s['earned'])" />
     </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
@@ -123,7 +123,7 @@
                     <th class="px-4 py-2 font-medium">Status</th>
                     <th class="px-4 py-2 font-medium text-right">Value</th>
                     <th class="px-4 py-2 font-medium text-right">Received / confirmed</th>
-                    <th class="px-4 py-2 font-medium text-right">Not yet confirmed</th>
+                    <th class="px-4 py-2 font-medium text-right">Not yet received / confirmed</th>
                 </tr>
             </thead>
             <tbody class="divide-y divide-border">

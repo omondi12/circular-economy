@@ -4,7 +4,9 @@ namespace Tests\Feature;
 
 use App\Models\Collection;
 use App\Models\GovernmentEntity;
+use App\Models\Lso;
 use App\Models\User;
+use App\Services\OrderBook;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
@@ -67,5 +69,21 @@ class OrdersDashboardTest extends TestCase
         $api = collect($this->getJson('/api/agent360/v1/agents/records?type=orders', ['Authorization' => 'Bearer test-key-123'])->json('data'));
         $this->assertSame(['0044'], $api->pluck('title')->all());
         $this->assertSame('1404000.00', $api->first()['amount']);
+    }
+
+    public function test_a_sale_order_with_nothing_collected_counts_as_not_yet_received(): void
+    {
+        Lso::create([
+            'reference_number' => 'AHB/DISPOSAL/001/2026-2027', 'user_id' => $this->grace->id, 'customer_name' => 'Affordable Housing Board',
+            'original_amount_minor' => 1_645_130_000, 'issue_date' => '2026-10-29', 'document_path' => 'lso-documents/x.png',
+            'document_original_filename' => 'x.png', 'created_by' => $this->admin->id,
+        ]);
+
+        $summary = app(OrderBook::class)->summary(app(OrderBook::class)->rows());
+        $this->assertSame(1_645_130_000 + 140_400_000, $summary['outstanding']);
+        $this->get('/orders?key=boss-key')->assertSee('Not yet received / confirmed')->assertSee('KES 17.86M');
+
+        $sale = collect($this->getJson('/api/agent360/v1/agents/records?type=orders', ['Authorization' => 'Bearer test-key-123'])->json('data'))->firstWhere('title', 'AHB/DISPOSAL/001/2026-2027');
+        $this->assertSame('16451300.00', collect($sale['fields'])->firstWhere('key', 'outstanding')['value']);
     }
 }
