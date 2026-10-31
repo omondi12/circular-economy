@@ -34,6 +34,7 @@ class Collection extends Model
         'institution_id',
         'state_corporation_id',
         'lso_id',
+        'service_order_id',
         'relationship_manager',
         'state_department',
         'department_agency',
@@ -103,6 +104,14 @@ class Collection extends Model
      * The pricing overlay for this Collection when it's a lot recorded
      * under a financial LSO - see LsoLot's docblock.
      */
+    /**
+     * Lot 2: the client's service order (and its document) this collection was done under.
+     */
+    public function serviceOrder(): BelongsTo
+    {
+        return $this->belongsTo(ServiceOrder::class);
+    }
+
     public function lsoLot(): HasOne
     {
         return $this->hasOne(LsoLot::class);

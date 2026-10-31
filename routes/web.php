@@ -11,6 +11,7 @@ use App\Http\Controllers\NawiriTreasuryController;
 use App\Http\Controllers\RequisitionController;
 use App\Http\Controllers\RmDashboardController;
 use App\Http\Controllers\RmTargetController;
+use App\Http\Controllers\ServiceOrderController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 
@@ -71,6 +72,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middl
 // above. Any authenticated user can hit this URL; LsoController::document()
 // does the real authorization via Lso::scopeVisibleTo().
 Route::get('/lso/{lso}/document', [LsoController::class, 'document'])->middleware('auth')->name('lso.document.show');
+Route::get('/service-orders/{serviceOrder}/document', [ServiceOrderController::class, 'document'])->middleware('auth')->name('service-orders.document');
 
 // Every logged-in account's own small profile page (photo upload, own
 // Nawiri phone number) - available to any role, not just RMs.
@@ -174,6 +176,10 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin,supervis
     Route::get('/lsos/{lso}', [LsoController::class, 'show'])->name('lsos.show');
 
     Route::get('/lso-lots', [LsoController::class, 'lsoLotsIndex'])->name('lso-lots.index');
+
+    // Lot 2 service orders (the client's order and its scanned document); attaching is checked in the controller
+    Route::get('/service-orders/create', [ServiceOrderController::class, 'create'])->name('service-orders.create');
+    Route::post('/service-orders', [ServiceOrderController::class, 'store'])->name('service-orders.store');
 
     Route::get('/rm-targets', [RmTargetController::class, 'index'])->name('rm-targets.index');
     Route::post('/rm-targets', [RmTargetController::class, 'store'])->name('rm-targets.store');
