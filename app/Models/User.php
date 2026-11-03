@@ -271,6 +271,15 @@ class User extends Authenticatable
     }
 
     /**
+     * Who can allocate RMs (2026-11-03): supervisor areas, the allocation rules check, balancing a team and moving
+     * RMs between supervisors. Operations included - the operator does the allocating herself.
+     */
+    public function canAllocateRms(): bool
+    {
+        return in_array($this->role, [self::ROLE_ADMIN, self::ROLE_OFFICE_ADMIN, self::ROLE_OPERATIONS], true);
+    }
+
+    /**
      * Who can set a state department's contact person (name + phone) on
      * Assign RMs -> State Departments - widened from admin-only
      * (2026-09-28, per the boss) to Office Admin and Operations too.

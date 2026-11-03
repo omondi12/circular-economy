@@ -8,9 +8,9 @@
         />
 
         <div class="inline-flex flex-wrap rounded-lg border border-border bg-white p-1 text-sm mb-6">
-            @foreach ((auth()->user()->isAdmin() ? ['ministries' => 'Ministries', 'state-departments' => 'State Departments', 'clients' => 'Clients', 'supervisors' => 'Supervisors'] : ['ministries' => 'Ministries', 'state-departments' => 'State Departments', 'clients' => 'Clients']) as $key => $label)
+            @foreach ((auth()->user()->isAdmin() || auth()->user()->canAllocateRms() ? ['ministries' => 'Ministries', 'state-departments' => 'State Departments', 'clients' => 'Clients', 'supervisors' => 'Supervisors', 'allocation' => 'Areas & rules'] : ['ministries' => 'Ministries', 'state-departments' => 'State Departments', 'clients' => 'Clients']) as $key => $label)
                 <a
-                    href="{{ route('admin.assign-rms', ['view' => $key]) }}"
+                    href="{{ $key === 'allocation' ? route('admin.allocation.index') : route('admin.assign-rms', ['view' => $key]) }}"
                     @class([
                         'px-3 py-1.5 rounded-md font-medium transition-colors whitespace-nowrap',
                         'bg-brand-700 text-white' => $view === $key,
