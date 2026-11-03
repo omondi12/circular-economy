@@ -10,6 +10,7 @@ use App\Http\Controllers\LsoController;
 use App\Http\Controllers\NawiriTreasuryController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\RequisitionController;
+use App\Http\Controllers\RmAllocationController;
 use App\Http\Controllers\RmDashboardController;
 use App\Http\Controllers\RmTargetController;
 use App\Http\Controllers\ServiceOrderController;
@@ -180,6 +181,11 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin,supervis
     Route::get('/lsos/{lso}', [LsoController::class, 'show'])->name('lsos.show');
 
     Route::get('/lso-lots', [LsoController::class, 'lsoLotsIndex'])->name('lso-lots.index');
+
+    Route::get('/allocation', [RmAllocationController::class, 'index'])->name('allocation.index');
+    Route::post('/allocation/areas', [RmAllocationController::class, 'saveAreas'])->name('allocation.areas');
+    Route::get('/allocation/balance/{supervisor}', [RmAllocationController::class, 'balance'])->name('allocation.balance');
+    Route::post('/allocation/balance/{supervisor}', [RmAllocationController::class, 'applyBalance'])->name('allocation.balance.apply');
 
     // Lot 2 service orders (the client's order and its scanned document); attaching is checked in the controller
     Route::get('/service-orders/create', [ServiceOrderController::class, 'create'])->name('service-orders.create');

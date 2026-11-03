@@ -406,7 +406,7 @@ class AdminController extends Controller
     {
         $viewer = auth()->user();
 
-        $validViews = $viewer->isAdmin()
+        $validViews = $viewer->isAdmin() || $viewer->canAllocateRms()
             ? ['ministries', 'state-departments', 'clients', 'supervisors']
             : ['ministries', 'state-departments', 'clients'];
         $view = $request->string('view')->toString();
@@ -830,7 +830,8 @@ class AdminController extends Controller
      */
     public function assignRmSupervisor(Request $request, User $user): RedirectResponse
     {
-        abort_unless(auth()->user()->isAdmin(), 403);
+        // Admins, and whoever allocates RMs (2026-11-03: the operator puts RMs in the supervisors' teams)
+        abort_unless(auth()->user()->isAdmin() || auth()->user()->canAllocateRms(), 403);
         abort_unless($user->isRm(), 404);
 
         $data = $request->validate([
