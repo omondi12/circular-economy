@@ -4,7 +4,11 @@
             :subtitle="number_format($totalReports).' daily engagement report(s) logged across all clients.'"
             :back="route('dashboard')"
             back-label="Back to dashboard"
-        />
+        >
+            <x-slot:actions>
+                <a href="{{ route('reports.analysis') }}" class="btn btn-primary">Report analysis</a>
+            </x-slot:actions>
+        </x-page-header>
 
         {{-- When each RM last logged a report: never / longest first --}}
         @php

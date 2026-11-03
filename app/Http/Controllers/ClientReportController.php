@@ -7,6 +7,7 @@ use App\Models\ClientReport;
 use App\Models\StateCorporation;
 use App\Models\User;
 use App\Services\ReportActivity;
+use App\Services\ReportAnalysis;
 use App\Support\ClientReportOptions;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -58,6 +59,15 @@ class ClientReportController extends Controller
             'totalReports' => ClientReport::count(),
             'lastByRm' => app(ReportActivity::class)->lastByRm(),
         ]);
+    }
+
+    /**
+     * The analysis of the RMs' reports: clients from the most critical to the least, the most-reported clients, the
+     * pipeline, and which RMs report well, are new or are not active (ReportAnalysis). On the boss's dashboard link.
+     */
+    public function analysis(): View
+    {
+        return view('reports.analysis', app(ReportAnalysis::class)->build());
     }
 
     /**
