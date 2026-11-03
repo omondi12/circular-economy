@@ -6,6 +6,7 @@ use App\Models\AuditLog;
 use App\Models\ClientReport;
 use App\Models\GovernmentEntity;
 use App\Models\StateCorporation;
+use App\Models\SupervisorCounty;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
@@ -128,6 +129,27 @@ class Agent360ApiTest extends TestCase
             $this->getJson('/api/agent360/v1/agents/records?type='.$type, $this->headers)->assertOk()->assertJsonCount(0, 'data');
         }
         $this->getJson('/api/agent360/v1/agents/records?type=other', $this->headers)->assertStatus(422);
+    }
+
+    public function test_it_lists_each_supervisor_with_their_area_and_team_by_the_allocation_rules(): void
+    {
+        $supervisor = User::factory()->create(['role' => User::ROLE_SUPERVISOR, 'name' => 'Milicent Morgan', 'phone_number' => '254700000390', 'email' => 'milicent@wic.test', 'is_active' => true]);
+        $rm = $this->makeRm();
+        $rm->update(['supervisor_id' => $supervisor->id]);
+        foreach (range(1, 9) as $i) {
+            StateCorporation::create(['name' => "Parastatal {$i}", 'classification' => 'State Corporation', 'phase' => StateCorporation::PHASE_TWO, 'assigned_rm_id' => $rm->id]);
+        }
+        foreach (['Nakuru', 'Baringo', 'Laikipia', 'Samburu'] as $name) {
+            $county = StateCorporation::create(['name' => "County Government of {$name}", 'classification' => 'County Government', 'phase' => StateCorporation::PHASE_TWO]);
+            SupervisorCounty::create(['supervisor_id' => $supervisor->id, 'state_corporation_id' => $county->id]);
+        }
+
+        $records = $this->getJson('/api/agent360/v1/agents/records?type=supervisors', $this->headers)->assertOk()->json('data');
+
+        $this->assertCount(1, $records);
+        $fields = collect($records[0]['fields'])->pluck('value', 'key');
+        $this->assertSame(['Milicent Morgan', 'Area within the rules', null], [$records[0]['title'], $records[0]['status'], $records[0]['agent_id']]);
+        $this->assertSame([4, 'Baringo, Laikipia, Nakuru, Samburu', 1, 9, 1, '254700000390'], [$fields['counties'], $fields['area'], $fields['rms'], $fields['accounts'], $fields['rms_over'], $fields['phone']]);
     }
 
     public function test_it_finds_one_user_by_exact_email_for_agent_360_staff_links(): void
