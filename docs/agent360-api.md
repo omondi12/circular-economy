@@ -56,7 +56,7 @@ Agent 360). If a user already has that email or phone: **200** with `created: fa
 Blocks / unblocks the login (`is_active`). Blocking also signs them out (remember token rotated, database sessions
 removed). Only RMs and supervisors: any other user id answers 404. Returns the agent as in `GET /agents`.
 
-## GET /agents/records?type=reports|lsos|payments|collections|clients|orders
+## GET /agents/records?type=reports|lsos|payments|collections|clients|orders|supervisors
 
 Every record behind the figures, for Agent 360's records pages and regions (`App\Services\Agent360Records`):
 client reports, LSOs, LSO payments, collections, and the clients assigned to each RM. Each record:
@@ -69,6 +69,10 @@ counties to regions. Contact persons' names are included; their phone numbers ar
 `type=orders` is every order clients have given Westport, for Agent 360's orders dashboard (read only there): sale
 orders (Lot 1 LSOs, ids `lso-…`) and disposal orders (Lot 2 service orders, ids `so-…`), each with `kind`, `customer`,
 `client`, `value`, `received`, `earned`, `items` and, for disposal orders, `expected` and `outstanding`.
+
+`type=supervisors` is each active supervisor by the allocation rules (no RM above 7 accounts, 4-5 counties per
+supervisor): ids `sup-…`, `agent_id` null (match by `phone` or `email`), status "Area within the rules" or "Area outside
+the rules", fields `counties`, `area`, `rms`, `accounts`, `rms_over`, `rms_empty`, `area_elsewhere`, `outside_area`.
 
 ## Payments: GET /payables, POST /requisitions/{id}/payments, POST /requisitions/payments/{key}/reverse
 

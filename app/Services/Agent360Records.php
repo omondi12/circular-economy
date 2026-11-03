@@ -22,7 +22,7 @@ use InvalidArgumentException;
  */
 class Agent360Records
 {
-    public const TYPES = ['reports', 'lsos', 'payments', 'collections', 'clients', 'orders'];
+    public const TYPES = ['reports', 'lsos', 'payments', 'collections', 'clients', 'orders', 'supervisors'];
 
     /**
      * @return list<array<string, mixed>>
@@ -38,6 +38,7 @@ class Agent360Records
             'collections' => $this->collections(),
             'clients' => $this->clients(),
             'orders' => $this->orders(),
+            'supervisors' => $this->supervisors(),
             default => throw new InvalidArgumentException("Unknown record type [{$type}]."),
         };
     }
@@ -222,6 +223,46 @@ class Agent360Records
             ));
 
         return $corporations->concat($entities)->values()->all();
+    }
+
+    /**
+     * Each active supervisor with their area and team, by the boss's allocation rules (RmAllocation): the area's
+     * counties (4 or 5), the team's RMs and accounts, and the RMs above 7 accounts. Not an RM's record (agent_id null);
+     * Agent 360 matches the supervisor by phone or email.
+     *
+     * @return list<array<string, mixed>>
+     */
+    private function supervisors(): array
+    {
+        $allocation = app(RmAllocation::class);
+        $check = $allocation->check();
+
+        return $check['supervisors']->map(function (array $s) use ($check) {
+            $team = $check['rms']->filter(fn ($r) => $r['rm']->supervisor_id === $s['supervisor']->id);
+            $counties = $s['area']->map(fn (string $name) => self::cleanCounty(preg_replace('/^(the\s+)?county\s+government\s+of\s+/i', '', $name)));
+
+            return $this->record(
+                id: 'sup-'.$s['supervisor']->id,
+                agentId: null,
+                date: null,
+                title: $s['supervisor']->name,
+                status: $s['area_ok'] ? 'Area within the rules' : 'Area outside the rules',
+                amount: null,
+                county: null,
+                fields: [
+                    $this->field('phone', 'Phone', $s['supervisor']->phone_number),
+                    $this->field('email', 'Email', $s['supervisor']->email),
+                    $this->field('counties', 'Counties in the area', $s['area']->count(), 'count'),
+                    $this->field('area', 'Area', $counties->implode(', ')),
+                    $this->field('rms', 'RMs in the team', $s['rms'], 'count'),
+                    $this->field('accounts', 'Accounts held by the team', $s['accounts'], 'count'),
+                    $this->field('rms_over', 'RMs over '.RmAllocation::MAX_ACCOUNTS.' accounts', $s['over'], 'count'),
+                    $this->field('rms_empty', 'RMs with no accounts', $team->where('accounts', 0)->count(), 'count'),
+                    $this->field('area_elsewhere', 'Area counties held outside the team', $s['area_elsewhere']->implode(', ')),
+                    $this->field('outside_area', 'Counties the team holds outside its area', $s['outside_area']->implode(', ')),
+                ],
+            );
+        })->values()->all();
     }
 
     /**
