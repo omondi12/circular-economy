@@ -40,6 +40,7 @@ Route::middleware('dashboard.key')->group(function () {
     Route::get('/material-items', [DashboardController::class, 'materialItemsIndex'])->name('material-items.index');
     Route::get('/feasibility-study', [DashboardController::class, 'feasibilityStudyIndex'])->name('feasibility-study.index');
     Route::get('/reports', [ClientReportController::class, 'all'])->name('reports.index');
+    Route::get('/reports/analysis', [ClientReportController::class, 'analysis'])->name('reports.analysis');
     Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
     Route::get('/orders/export', [OrderController::class, 'export'])->name('orders.export');
 
