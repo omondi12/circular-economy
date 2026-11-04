@@ -107,3 +107,13 @@ admin dashboard, requisitions …); any failure answers 403 with a link back.
 Two switches: the key lets RMs open Westport from Agent 360 (they can still sign in here); `AGENT360_SSO_ONLY=true`
 then sends RMs who sign in here to Agent 360. Staff sign in as before.
 No CSRF token on the route (the signature is the check); throttled.
+
+## POST /agents/{id}/supervisor
+
+Agent 360 manages the teams: body `{supervisor_id}` (a WIC supervisor's user id, or null for no team). Only an RM goes
+in a team (422 otherwise); the supervisor must be an active supervisor (422). Returns the agent.
+
+## POST /agents/{id}/make-supervisor
+
+Agent 360 made the RM a supervisor: their role becomes supervisor and they leave any team; the clients assigned to them
+stay. Returns the agent.

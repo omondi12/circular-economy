@@ -121,6 +121,19 @@ class Agent360Controller extends Controller
         return response()->json(['data' => $result['agent'], 'created' => $result['created'], 'temporary_password' => $result['temporary_password']], $result['created'] ? 201 : 200);
     }
 
+    public function setSupervisor(Request $request, string $id): JsonResponse
+    {
+        $data = $request->validate(['supervisor_id' => ['nullable', 'integer']]);
+        $supervisor = isset($data['supervisor_id']) ? ($this->agents->find((string) $data['supervisor_id']) ?? abort(422, 'No such supervisor.')) : null;
+
+        return response()->json(['data' => $this->agents->setSupervisor($this->agents->find($id) ?? abort(404), $supervisor)]);
+    }
+
+    public function makeSupervisor(string $id): JsonResponse
+    {
+        return response()->json(['data' => $this->agents->makeSupervisor($this->agents->find($id) ?? abort(404))]);
+    }
+
     public function deactivate(string $id): JsonResponse
     {
         return response()->json(['data' => $this->agents->setActive($this->agents->find($id) ?? abort(404), false)]);
