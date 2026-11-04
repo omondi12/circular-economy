@@ -63,14 +63,18 @@ class Agent360ApiTest extends TestCase
 
         $ministry = GovernmentEntity::create(['name' => 'Ministry of Testing', 'level' => GovernmentEntity::LEVEL_MINISTRY, 'type' => 'ministry', 'assigned_rm_id' => $rm->id]);
         GovernmentEntity::create(['name' => 'State Dept A', 'level' => GovernmentEntity::LEVEL_STATE_DEPARTMENT, 'type' => 'state_department', 'parent_id' => $ministry->id, 'assigned_rm_id' => $rm->id]);
-        GovernmentEntity::create(['name' => 'State Dept B', 'level' => GovernmentEntity::LEVEL_STATE_DEPARTMENT, 'type' => 'state_department', 'parent_id' => $ministry->id, 'assigned_rm_id' => $other->id]);
+        $deptB = GovernmentEntity::create(['name' => 'State Dept B', 'level' => GovernmentEntity::LEVEL_STATE_DEPARTMENT, 'type' => 'state_department', 'parent_id' => $ministry->id, 'assigned_rm_id' => $other->id]);
+        // No RM of its own: covered by its state department's RM, as WIC's own pages count it
+        StateCorporation::create(['name' => 'Under Dept B', 'classification' => 'State Corporation', 'phase' => StateCorporation::PHASE_TWO, 'ministry_id' => $deptB->id]);
         foreach (['Kenya Power', 'KenGen', 'KPLC'] as $name) {
             StateCorporation::create(['name' => $name, 'classification' => 'State Corporation', 'phase' => StateCorporation::PHASE_TWO, 'assigned_rm_id' => $rm->id]);
         }
         $client = StateCorporation::first();
         ClientReport::create(['state_corporation_id' => $client->id, 'rm_id' => $rm->id, 'report_date' => today(), 'engagement_type' => 'visit', 'outcome' => 'Met the CEO', 'current_stage' => 'engaged']);
 
-        $figures = $this->getJson('/api/agent360/v1/agents/metrics', $this->headers)->assertOk()->json('data.'.$rm->id);
+        $all = $this->getJson('/api/agent360/v1/agents/metrics', $this->headers)->assertOk()->json('data');
+        $figures = $all[$rm->id];
+        $this->assertSame(1, collect($all[$other->id]['breakdown'])->firstWhere('key', 'state_corporations')['value']);
 
         $this->assertSame(5, $figures['clients']);
         $this->assertSame(['state_corporations' => 3, 'ministries' => 1, 'state_departments' => 1, 'institutions' => 0], collect($figures['breakdown'])->pluck('value', 'key')->all());
