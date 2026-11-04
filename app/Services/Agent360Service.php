@@ -46,7 +46,9 @@ class Agent360Service
         $count = fn (Builder $query, string $column) => $query->whereNotNull($column)
             ->select($column, DB::raw('count(*) as total'))->groupBy($column)->pluck('total', $column);
 
-        $corporations = $count(StateCorporation::query(), 'assigned_rm_id');
+        // Each client under whoever covers it: its own RM, else its state department's (as WIC's own pages count)
+        $corporations = StateCorporation::query()->with('ministry.parent')->get()
+            ->map(fn (StateCorporation $client) => $client->effectiveAssignedRmId())->filter()->countBy();
         $entities = GovernmentEntity::query()->whereNotNull('assigned_rm_id')
             ->select('assigned_rm_id', 'level', DB::raw('count(*) as total'))->groupBy('assigned_rm_id', 'level')->get()
             ->groupBy('assigned_rm_id');
