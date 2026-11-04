@@ -152,6 +152,25 @@ class Agent360ApiTest extends TestCase
         $this->assertSame([4, 'Baringo, Laikipia, Nakuru, Samburu', 1, 9, 1, '254700000390'], [$fields['counties'], $fields['area'], $fields['rms'], $fields['accounts'], $fields['rms_over'], $fields['phone']]);
     }
 
+    public function test_agent_360_sets_an_rms_supervisor_and_makes_an_rm_a_supervisor(): void
+    {
+        $rm = $this->makeRm();
+        $peris = User::factory()->create(['role' => User::ROLE_RM, 'name' => 'Peris Nduta', 'phone_number' => '254700000391', 'is_active' => true]);
+
+        // Not a supervisor yet
+        $this->postJson("/api/agent360/v1/agents/{$rm->id}/supervisor", ['supervisor_id' => $peris->id], $this->headers)->assertStatus(422);
+
+        $this->postJson("/api/agent360/v1/agents/{$peris->id}/make-supervisor", [], $this->headers)->assertOk()->assertJsonPath('data.role', User::ROLE_SUPERVISOR);
+        $this->postJson("/api/agent360/v1/agents/{$rm->id}/supervisor", ['supervisor_id' => $peris->id], $this->headers)->assertOk()->assertJsonPath('data.supervisor_id', (string) $peris->id);
+        $this->assertSame($peris->id, $rm->fresh()->supervisor_id);
+        $this->assertTrue(AuditLog::where('action', 'agent360.rm_made_supervisor')->exists());
+
+        $this->postJson("/api/agent360/v1/agents/{$rm->id}/supervisor", ['supervisor_id' => null], $this->headers)->assertOk();
+        $this->assertNull($rm->fresh()->supervisor_id);
+        // Only an RM goes in a team
+        $this->postJson("/api/agent360/v1/agents/{$peris->id}/supervisor", ['supervisor_id' => null], $this->headers)->assertStatus(422);
+    }
+
     public function test_it_finds_one_user_by_exact_email_for_agent_360_staff_links(): void
     {
         $admin = User::factory()->create(['role' => User::ROLE_ADMIN, 'phone_number' => '254700000302', 'email' => 'Nancy@WIC.test', 'is_active' => true]);

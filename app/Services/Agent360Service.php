@@ -15,6 +15,7 @@ use App\Support\PhoneNumber;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
 
 /**
  * What Agent 360 (the RM register shared with Adam AHB Souq) sees of Westport, through /api/agent360/v1:
@@ -145,6 +146,45 @@ class Agent360Service
         }
 
         AuditLog::record($active ? 'agent360.rm_activated' : 'agent360.rm_deactivated', $user, ['name' => $user->name]);
+
+        return $this->present($user);
+    }
+
+    /**
+     * Agent 360 manages the teams (2026-11-04): the RM now reports to this supervisor, or to none.
+     *
+     * @return array<string, mixed>
+     *
+     * @throws ValidationException when the user is not an RM or the supervisor is not an active supervisor
+     */
+    public function setSupervisor(User $rm, ?User $supervisor): array
+    {
+        if (! $rm->isRm()) {
+            throw ValidationException::withMessages(['id' => 'Only an RM is put in a supervisor\'s team.']);
+        }
+        if ($supervisor && (! $supervisor->isSupervisor() || ! $supervisor->is_active)) {
+            throw ValidationException::withMessages(['supervisor_id' => 'That user is not an active supervisor.']);
+        }
+
+        $previous = $rm->supervisor?->name;
+        $rm->forceFill(['supervisor_id' => $supervisor?->id])->save();
+        AuditLog::record('user.supervisor_assigned', $rm, ['rm' => $rm->name, 'previous_supervisor' => $previous, 'new_supervisor' => $supervisor?->name, 'via' => 'Agent 360']);
+
+        return $this->present($rm);
+    }
+
+    /**
+     * Agent 360 made this RM a supervisor (2026-11-04): they leave any team, keep the clients assigned to them, and
+     * their team is the RMs put under them.
+     *
+     * @return array<string, mixed>
+     */
+    public function makeSupervisor(User $user): array
+    {
+        if (! $user->isSupervisor()) {
+            $user->forceFill(['role' => User::ROLE_SUPERVISOR, 'supervisor_id' => null])->save();
+            AuditLog::record('agent360.rm_made_supervisor', $user, ['name' => $user->name]);
+        }
 
         return $this->present($user);
     }

@@ -16,6 +16,8 @@ Route::prefix('agent360/v1')->middleware([EnsureAgent360Key::class, 'throttle:60
     Route::get('users/lookup', [Agent360Controller::class, 'lookupUser'])->name('users.lookup');
     Route::post('requisitions/{id}/payments', [Agent360Controller::class, 'recordRequisitionPayment'])->whereNumber('id')->name('requisitions.payments.store');
     Route::post('requisitions/payments/{key}/reverse', [Agent360Controller::class, 'reverseRequisitionPayment'])->name('requisitions.payments.reverse');
+    Route::post('agents/{id}/supervisor', [Agent360Controller::class, 'setSupervisor'])->whereNumber('id')->name('agents.supervisor');
+    Route::post('agents/{id}/make-supervisor', [Agent360Controller::class, 'makeSupervisor'])->whereNumber('id')->name('agents.make-supervisor');
     Route::post('agents/{id}/deactivate', [Agent360Controller::class, 'deactivate'])->whereNumber('id')->name('agents.deactivate');
     Route::post('agents/{id}/activate', [Agent360Controller::class, 'activate'])->whereNumber('id')->name('agents.activate');
 });
