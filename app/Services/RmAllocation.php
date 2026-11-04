@@ -247,13 +247,20 @@ class RmAllocation
     }
 
     /**
-     * Who covers each client now (the direct assignment, else its state department's RM).
+     * Who covers each client now (the direct assignment, else its state department's RM); null when nobody active does.
      *
      * @return Collection<int, ?int> client id => RM id
      */
     public function holdings(): Collection
     {
+        // A blocked or removed RM covers nobody: their clients count as not assigned until someone takes them
+        $active = User::query()->where('is_active', true)->pluck('id')->flip();
+
         return StateCorporation::query()->with('ministry.parent')->get()
-            ->mapWithKeys(fn (StateCorporation $c) => [$c->id => $c->effectiveAssignedRmId()]);
+            ->mapWithKeys(function (StateCorporation $c) use ($active) {
+                $rmId = $c->effectiveAssignedRmId();
+
+                return [$c->id => $rmId !== null && $active->has($rmId) ? $rmId : null];
+            });
     }
 }

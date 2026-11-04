@@ -120,4 +120,15 @@ class RmAllocationTest extends TestCase
 
         $this->actingAs($this->milicent)->get(route('admin.allocation.index'))->assertForbidden();
     }
+
+    public function test_clients_of_a_blocked_rm_count_as_covered_by_nobody(): void
+    {
+        $gone = $this->user('Blocked RM', User::ROLE_RM);
+        $gone->update(['is_active' => false]);
+        $this->client('Kenya Ports Authority', $gone);
+
+        $check = app(RmAllocation::class)->check();
+
+        $this->assertContains('Kenya Ports Authority', $check['unassigned']->all());
+    }
 }
