@@ -86,7 +86,9 @@ class Agent360Service
             ];
 
             return [(string) $id => [
-                'clients' => array_sum(array_column($breakdown, 'value')),
+                // Their clients: the client list (state corporations, counties, universities …). The ministries, state
+                // departments and institutions they cover are in the breakdown but are not clients (2026-11-05)
+                'clients' => (int) ($corporations[$id] ?? 0),
                 'breakdown' => $breakdown,
                 'activity' => [
                     ['key' => 'reports', 'label' => 'Client reports', 'value' => (int) ($reports[$id] ?? 0), 'format' => 'count'],
