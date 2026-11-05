@@ -76,7 +76,8 @@ class Agent360ApiTest extends TestCase
         $figures = $all[$rm->id];
         $this->assertSame(1, collect($all[$other->id]['breakdown'])->firstWhere('key', 'state_corporations')['value']);
 
-        $this->assertSame(5, $figures['clients']);
+        // Clients are the client list only: the ministry and state department it covers are in the breakdown
+        $this->assertSame(3, $figures['clients']);
         $this->assertSame(['state_corporations' => 3, 'ministries' => 1, 'state_departments' => 1, 'institutions' => 0], collect($figures['breakdown'])->pluck('value', 'key')->all());
         $this->assertSame(1, collect($figures['activity'])->firstWhere('key', 'reports')['value']);
         $this->assertSame('0.00', collect($figures['activity'])->firstWhere('key', 'rm_commission')['value']);
