@@ -126,8 +126,14 @@ class Agent360ApiTest extends TestCase
         $this->assertSame('Jane Doe', collect($reports[0]['fields'])->firstWhere('key', 'contact')['value']);
         $this->assertNull($reports[1]['county']);
 
+        // Every client, with whether its RM is active, inactive or missing
+        $blocked = $this->makeRm(['phone_number' => '254700000309', 'is_active' => false]);
+        StateCorporation::create(['name' => 'Held By Blocked', 'classification' => 'State Corporation', 'phase' => StateCorporation::PHASE_TWO, 'assigned_rm_id' => $blocked->id]);
+        StateCorporation::create(['name' => 'Nobody', 'classification' => 'State Corporation', 'phase' => StateCorporation::PHASE_TWO]);
+
         $clients = $this->getJson('/api/agent360/v1/agents/records?type=clients', $this->headers)->assertOk()->json('data');
-        $this->assertSame(['County Government of Nakuru', 'KenGen'], array_column($clients, 'title'));
+        $this->assertSame(['County Government of Nakuru', 'KenGen', 'Held By Blocked', 'Nobody'], array_column($clients, 'title'));
+        $this->assertSame(['Active RM', 'Active RM', 'Inactive RM', 'No RM'], array_map(fn ($c) => collect($c['fields'])->firstWhere('key', 'rm_status')['value'], $clients));
 
         foreach (['lsos', 'payments', 'collections'] as $type) {
             $this->getJson('/api/agent360/v1/agents/records?type='.$type, $this->headers)->assertOk()->assertJsonCount(0, 'data');

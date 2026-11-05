@@ -8,6 +8,7 @@ use App\Models\GovernmentEntity;
 use App\Models\Lso;
 use App\Models\LsoPayment;
 use App\Models\StateCorporation;
+use App\Models\User;
 use InvalidArgumentException;
 
 /**
@@ -188,10 +189,13 @@ class Agent360Records
      */
     private function clients(): array
     {
-        $corporations = StateCorporation::query()->whereNotNull('assigned_rm_id')->with('ministry')->orderBy('id')->get()
+        // Every client (2026-11-05, the boss: "let all the 676 show"), under whoever covers it, with whether that RM is
+        // active, inactive (blocked) or there is none
+        $active = User::query()->where('is_active', true)->pluck('id')->flip();
+        $corporations = StateCorporation::query()->with('ministry.parent')->orderBy('id')->get()
             ->map(fn (StateCorporation $client) => $this->record(
                 id: 'sc-'.$client->id,
-                agentId: $client->assigned_rm_id,
+                agentId: $rm = $client->effectiveAssignedRmId(),
                 date: null,
                 title: $client->name,
                 status: $client->classification ?? 'State corporation',
@@ -202,6 +206,7 @@ class Agent360Records
                     $this->field('ministry', 'Ministry / department', $client->ministry?->name),
                     $this->field('ceo', 'CEO', $client->ceo_name),
                     $this->field('phase', 'Phase', $client->phase ? 'Phase '.$client->phase : null),
+                    $this->field('rm_status', 'RM', $rm === null ? 'No RM' : ($active->has($rm) ? 'Active RM' : 'Inactive RM')),
                 ],
             ));
 
