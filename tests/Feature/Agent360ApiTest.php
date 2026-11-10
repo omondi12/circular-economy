@@ -182,6 +182,35 @@ class Agent360ApiTest extends TestCase
         $this->postJson("/api/agent360/v1/agents/{$peris->id}/supervisor", ['supervisor_id' => null], $this->headers)->assertStatus(422);
     }
 
+    public function test_agent_360_gives_a_client_to_another_rm(): void
+    {
+        $grace = $this->makeRm(['name' => 'Grace Wambui']);
+        $felix = User::factory()->create(['role' => User::ROLE_RM, 'name' => 'Felix Letia', 'phone_number' => '254700000392', 'is_active' => true]);
+        $blocked = User::factory()->create(['role' => User::ROLE_RM, 'name' => 'Blocked', 'phone_number' => '254700000393', 'is_active' => false]);
+        $department = GovernmentEntity::create(['name' => 'State Department for Housing', 'level' => GovernmentEntity::LEVEL_STATE_DEPARTMENT, 'type' => 'state_department', 'assigned_rm_id' => $grace->id]);
+        $client = StateCorporation::create(['name' => 'Kenya Power', 'classification' => 'State Corporation', 'phase' => StateCorporation::PHASE_TWO, 'ministry_id' => $department->id]);
+
+        // The client follows its state department (Grace) until it gets an RM of its own
+        $this->postJson("/api/agent360/v1/clients/sc-{$client->id}/agent", ['agent_id' => $felix->id], $this->headers)->assertOk()
+            ->assertJson(['data' => ['id' => "sc-{$client->id}", 'agent_id' => (string) $felix->id, 'previous_agent_id' => (string) $grace->id]]);
+        $this->assertSame($felix->id, $client->fresh()->assigned_rm_id);
+        $this->assertTrue(AuditLog::where('action', 'agent360.client_reassigned')->exists());
+
+        // A state department moves with the clients under it
+        $this->postJson("/api/agent360/v1/clients/ge-{$department->id}/agent", ['agent_id' => $felix->id], $this->headers)->assertOk()
+            ->assertJsonPath('data.previous_agent_id', (string) $grace->id);
+        $this->assertSame($felix->id, $department->fresh()->assigned_rm_id);
+
+        $records = collect($this->getJson('/api/agent360/v1/agents/records?type=clients', $this->headers)->assertOk()->json('data'));
+        $this->assertSame((string) $felix->id, $records->firstWhere('id', "sc-{$client->id}")['agent_id']);
+
+        $this->postJson("/api/agent360/v1/clients/sc-{$client->id}/agent", ['agent_id' => $blocked->id], $this->headers)->assertStatus(422);
+        $this->postJson("/api/agent360/v1/clients/sc-{$client->id}/agent", ['agent_id' => 999999], $this->headers)->assertStatus(422);
+        $this->postJson('/api/agent360/v1/clients/sc-999999/agent', ['agent_id' => $felix->id], $this->headers)->assertNotFound();
+        $this->postJson("/api/agent360/v1/clients/x-{$client->id}/agent", ['agent_id' => $felix->id], $this->headers)->assertNotFound();
+        $this->assertSame($felix->id, $client->fresh()->assigned_rm_id);
+    }
+
     public function test_it_finds_one_user_by_exact_email_for_agent_360_staff_links(): void
     {
         $admin = User::factory()->create(['role' => User::ROLE_ADMIN, 'phone_number' => '254700000302', 'email' => 'Nancy@WIC.test', 'is_active' => true]);

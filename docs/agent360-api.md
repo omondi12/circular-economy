@@ -108,6 +108,15 @@ Two switches: the key lets RMs open Westport from Agent 360 (they can still sign
 then sends RMs who sign in here to Agent 360. Staff sign in as before.
 No CSRF token on the route (the signature is the check); throttled.
 
+## POST /clients/{id}/agent
+
+Agent 360 distributes clients between RMs (Operations and Admin there). `{id}` is a `clients` record id (`sc-…` a
+state corporation, `ge-…` a ministry, state department or institution); body `{agent_id}` (an active RM or
+supervisor; 422 otherwise, 404 for an unknown client). The client's `assigned_rm_id` becomes that user: a state
+corporation gets its own RM (overriding its state department's), a ministry or state department moves with every
+client under it that has no override. Returns `{data: {id, agent_id, previous_agent_id}}`; in the audit log as
+`agent360.client_reassigned`.
+
 ## POST /agents/{id}/supervisor
 
 Agent 360 manages the teams: body `{supervisor_id}` (a WIC supervisor's user id, or null for no team). Only an RM goes

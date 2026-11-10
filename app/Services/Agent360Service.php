@@ -194,6 +194,36 @@ class Agent360Service
     }
 
     /**
+     * Agent 360 distributes clients between RMs (2026-11-10): the client with this clients-record id (sc-… a state
+     * corporation, ge-… a government entity) is now assigned to this RM or supervisor, who must be active. A state
+     * corporation gets its own RM (an override of its state department's); a ministry or state department moves with
+     * every client under it that has no override, as WIC's own pages count.
+     *
+     * @return array{id: string, agent_id: string, previous_agent_id: ?string}
+     *
+     * @throws ValidationException when the user is blocked
+     */
+    public function assignClient(string $id, User $rm): array
+    {
+        $client = match (true) {
+            str_starts_with($id, 'sc-') => StateCorporation::query()->find((int) substr($id, 3)),
+            str_starts_with($id, 'ge-') => GovernmentEntity::query()->find((int) substr($id, 3)),
+            default => null,
+        };
+        abort_if($client === null, 404, 'No such client.');
+
+        if (! $rm->is_active) {
+            throw ValidationException::withMessages(['agent_id' => 'That RM is blocked.']);
+        }
+
+        $previous = $client instanceof StateCorporation ? $client->effectiveAssignedRmId() : $client->assigned_rm_id;
+        $client->update(['assigned_rm_id' => $rm->id]);
+        AuditLog::record('agent360.client_reassigned', $client, ['client' => $client->name, 'previous_rm_id' => $previous, 'new_rm' => $rm->name, 'via' => 'Agent 360']);
+
+        return ['id' => $id, 'agent_id' => (string) $rm->id, 'previous_agent_id' => $previous !== null ? (string) $previous : null];
+    }
+
+    /**
      * One RM or supervisor by id; any other user (admin, operations …) is not reachable through the API.
      */
     public function find(string $id): ?User

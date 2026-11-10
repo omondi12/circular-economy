@@ -129,6 +129,19 @@ class Agent360Controller extends Controller
         return response()->json(['data' => $this->agents->setSupervisor($this->agents->find($id) ?? abort(404), $supervisor)]);
     }
 
+    /**
+     * Agent 360 gives a client (a clients record: sc-… a state corporation, ge-… a ministry, state department or
+     * institution) to another RM. Body: agent_id. 404 for an unknown client; 422 for a user who is not an active RM or
+     * supervisor.
+     */
+    public function assignClient(Request $request, string $id): JsonResponse
+    {
+        $data = $request->validate(['agent_id' => ['required', 'integer']]);
+        $rm = $this->agents->find((string) $data['agent_id']) ?? abort(422, 'No such RM.');
+
+        return response()->json(['data' => $this->agents->assignClient($id, $rm)]);
+    }
+
     public function makeSupervisor(string $id): JsonResponse
     {
         return response()->json(['data' => $this->agents->makeSupervisor($this->agents->find($id) ?? abort(404))]);
